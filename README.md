@@ -1,9 +1,12 @@
-# Mongo Auth Mini
+# Auth Mini
 Topics:
   * Express Middleware 
+  * Sessions
+  * Passwords
+  * Authentication
 
 ## Description
- - The goal of this project is to write middleware for the Mongo-II that you completed last sprint.
+ - The goal of this project is to write middleware for the Mongo II: StackQuery project that you completed earlier.
 ## Running the Project
 - Run `npm install` to download the dependencies.
 - Run `npm test` to run the tests. If you'd like, you can run `npm run watch`
@@ -11,11 +14,4 @@ Topics:
 
 ## Instructions
 
-- Write a function called findPostMiddleware.
-  - This function will take in three arguments -
-    - req
-    - res
-    - next
-  - This function will take parts from routes `/accepted-answer/:soID` and `/top-answer/:soID`
-    - (You'll need to erase some parts of those routes and implement them inside the findPostMiddleware function)
-  - Implement this findPostMiddleware in the two routes you had to modify.
+The route handlers for `/accepted-answer/:soID` and `/top-answer/:soID` both find the post with the associated `soID`. They then go on to do different things with that post. To consolidate this logic, write a piece of local middleware that finds the post with the given `soID`, and makes it accessible to both these routes. The middleware should respond with an appropriate status code and error if no such post can be found. Run the tests to ensure your middleware works.
