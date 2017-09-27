@@ -28,7 +28,24 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
+const getPostMW = (req, res, next) => {
+  Post.findOne({ soID: req.params.soID })
+    .exec((err, post) => {
+      if (err || !post) return sendUserError('Could not find that post!', res);
+      req.post = post;
+      next();
+    });
+};
+server.get('/accepted-answer/:soID', getPostMW, (req, res) => {
+  const query = Post.findOne({ soID: req.post.acceptedAnswerID });
+  queryAndThen(query, res, (answer) => {
+    if (!answer) {
+      sendUserError('No accepted answer', res);
+    } else {
+      res.json(answer);
+    }
+  });
+  /*
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
@@ -44,9 +61,25 @@ server.get('/accepted-answer/:soID', (req, res) => {
       }
     });
   });
+  */
 });
 
-server.get('/top-answer/:soID', (req, res) => {
+server.get('/top-answer/:soID', getPostMW, (req, res) => {
+  const query = Post
+    .findOne({
+      soID: { $ne: req.post.acceptedAnswerID },
+      parentID: req.post.soID,
+    })
+    .sort({ score: 'desc' });
+
+  queryAndThen(query, res, (answer) => {
+    if (!answer) {
+      sendUserError('No top answer', res);
+    } else {
+      res.json(answer);
+    }
+  });
+  /*
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
@@ -68,6 +101,7 @@ server.get('/top-answer/:soID', (req, res) => {
       }
     });
   });
+  */
 });
 
 server.get('/popular-jquery-questions', (req, res) => {
