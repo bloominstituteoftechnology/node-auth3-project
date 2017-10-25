@@ -9,6 +9,7 @@ Topics:
  - The goal of this project is to write middleware for the Mongo II: StackQuery project that you completed earlier.
 ## Running the Project
 - Run `npm install` to download the dependencies.
+- Ensure that you have an instance of `mongod` running in another terminal.
 - Run `npm test` to run the tests. If you'd like, you can run `npm run watch`
   to automatically re-reun the tests when you make modifications.
 
