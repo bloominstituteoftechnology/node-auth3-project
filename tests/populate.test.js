@@ -17,5 +17,5 @@ describe('populatePosts()', () => {
       .then(post => expectPost(572897, post))
       .then(() => Post.count())
       .then(count => expect(count).to.equal(posts.length));
-  }).timeout(5000);
+  }).timeout(50000); // my laptop is insanely slowlololol
 });

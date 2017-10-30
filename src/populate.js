@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 const Post = require('./post.js');
 
 let savedPosts = null;
@@ -10,13 +9,14 @@ const readPosts = () => {
     const contents = fs.readFileSync('posts.json', 'utf8');
     savedPosts = JSON.parse(contents);
   }
-  return savedPosts;
+  return savedPosts || [];
 };
 
-const populatePosts = () => {
-  const posts = readPosts();
-  const promises = posts.map(p => new Post(p).save());
-  return Promise.all(promises);
+const populatePosts = async () => {
+  const postPromises = await readPosts().map((data) => {
+    return new Post(data).save();
+  });
+  return Promise.all(postPromises);
 };
 
 module.exports = { readPosts, populatePosts };
