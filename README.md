@@ -6,7 +6,7 @@ Topics:
   * Authentication
 
 ## Description
- - The goal of this project is to write middleware for the Mongo II: StackQuery project that you completed earlier.
+- The goal of this project is to write middleware for the Mongo II: StackQuery project that you completed earlier.
 ## Running the Project
 - Run `npm install` to download the dependencies.
 - Ensure that you have an instance of `mongod` running in another terminal.
