@@ -1,114 +1,109 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const session = require('express-session');
+const User = require('./user');
+const bcrypt = require('bcrypt');
+const middleWare = require('./middlewares');
+const cors = require('cors');
 
-const Post = require('./post.js');
+
 
 const STATUS_USER_ERROR = 422;
+const BCRYPT_COST = 11;
 
 const server = express();
 // to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
+server.use(
+  session({
+    secret: 'e5SPiqsEtjexkTj3Xqovsjzq8ovjfgVDFMfUzSmJO21dtXs4re',
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+server.use(cors());
+server.use(middleWare.restrictedPermissions);
 
-const sendUserError = (err, res) => {
-  res.status(STATUS_USER_ERROR);
-  if (typeof err === 'string') {
-    res.json({ error: err });
-  } else {
-    res.json(err);
+const corsOptions = {
+  'origin': 'http://localhost:3000',
+  'credentials': true
+};
+server.use(cors(corsOptions));
+
+/* ************ Routes ***************** */
+
+server.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (!username) {
+    middleWare.sendUserError('username undefined', res);
+    return;
   }
-};
-
-const queryAndThen = (query, res, cb) => {
-  query.exec((err, result) => {
-    if (err) {
-      sendUserError(err, res);
-    } else {
-      cb(result);
-    }
-  });
-};
-
-const findUsingID = (req, res, next) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
+  User.findOne({ username }, (err, user) => {
+    if (err || user === null) {
+      middleWare.sendUserError('No user found at that id', res);
       return;
     }
-    req.post = post;
-    next();
-  });
-};
 
-server.get('/accepted-answer/:soID', findUsingID, (req, res) => {
-  const post = req.post;
-  const query = Post.findOne({ soID: post.acceptedAnswerID });
-  queryAndThen(query, res, (answer) => {
-    if (!answer) {
-      sendUserError('No accepted answer', res);
-    } else {
-      res.json(answer);
-    }
-  });
-});
+    server.post('/logout', (req, res) => {
+      req.session.user = null;
+      res.status(200).json({ success: true });
+    });
 
-server.get('/top-answer/:soID', findUsingID, (req, res) => {
-  const post = req.post;
-  const query = Post.findOne({
-    soID: { $ne: post.acceptedAnswerID },
-    parentID: post.soID
-  }).sort({ score: 'desc' });
-
-  queryAndThen(query, res, (answer) => {
-    if (!answer) {
-      sendUserError('No top answer', res);
-    } else {
-      res.json(answer);
-    }
-  });
-});
-
-    const query = Post
-      .findOne({
-        soID: { $ne: post.acceptedAnswerID },
-        parentID: post.soID,
+    const hashedPw = user.passwordHash;
+    bcrypt
+      .compare(password, hashedPw)
+      .then((response) => {
+        if (!response) throw new Error();
+        req.session.username = username;
+        req.user = user;
       })
-      .sort({ score: 'desc' });
-
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No top answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch((error) => {
+        return middleWare.sendUserError('some message here', res);
+      });
   });
 });
 
-server.get('/popular-jquery-questions', (req, res) => {
-  const query = Post.find({
-    parentID: null,
-    tags: 'jquery',
-    $or: [
-      { score: { $gt: 5000 } },
-      { 'user.reputation': { $gt: 200000 } }
-    ]
-  });
+server.post('/users', middleWare.hashedPassword, (req, res) => {
+  const { username } = req.body;
+  const passwordHash = req.password;
+  const newUser = new User({ username, passwordHash });
+  newUser.save((err, savedUser) => {
+    if (err) {
+      res.status(422);
+      res.json({ 'Need both username/PW fields': err.message });
+      return;
+    }
 
-  queryAndThen(query, res, posts => res.json(posts));
+    res.json(savedUser);
+  });
 });
 
-server.get('/npm-answers', (req, res) => {
-  const query = Post.find({
-    parentID: null,
-    tags: 'npm'
-  });
+server.post('/logout', (req, res) => {
+  if (!req.session.username) {
+    middleWare.sendUserError('User is not logged in', res);
+    return;
+  }
+  req.session.username = null;
+  res.json(req.session);
+});
 
-  queryAndThen(query, res, (posts) => {
-    const answerQuery = Post.find({
-      parentID: { $in: posts.map(p => p.soID) }
-    });
-    queryAndThen(answerQuery, res, answers => res.json(answers));
+server.get('/restricted/users', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      middleWare.sendUserError('500', res);
+      return;
+    }
+    res.json(users);
   });
+});
+
+// TODO: add local middleware to this route to ensure the user is logged in
+server.get('/me', middleWare.loggedIn, (req, res) => {
+  // Do NOT modify this route handler in any way
+  res.send({ user: req.user, session: req.session });
 });
 
 module.exports = { server };
