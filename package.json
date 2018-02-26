@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "LambdaSchool Mongo II: StackQuery",
   "scripts": {
-    "test": "eslint tests/*.js && eslint src/*.js && mocha -R nyan tests",
+    "start": "nodemon src/app.js",
+    "test": "mocha -R nyan tests",
     "watch": "npm test -- --watch"
   },
   "license": "ISC",
