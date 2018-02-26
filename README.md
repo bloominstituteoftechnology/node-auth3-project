@@ -1,6 +1,6 @@
 # Auth Mini
 Topics:
-  * Express Middleware 
+  * Express Middleware
   * Sessions
   * Passwords
   * Authentication

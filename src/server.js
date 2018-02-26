@@ -9,6 +9,15 @@ const server = express();
 // to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
 
+const findPost = () => {
+ queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+    if (!post) {
+      sendUserError("Couldn't find post with given ID", res);
+      return;
+    }
+  };
+}
+
 const sendUserError = (err, res) => {
   res.status(STATUS_USER_ERROR);
   if (typeof err === 'string') {
@@ -28,13 +37,7 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
-
+server.get('/accepted-answer/:soID', findPost, (req, res) => {
     const query = Post.findOne({ soID: post.acceptedAnswerID });
     queryAndThen(query, res, (answer) => {
       if (!answer) {
@@ -44,15 +47,8 @@ server.get('/accepted-answer/:soID', (req, res) => {
       }
     });
   });
-});
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
-
+server.get('/top-answer/:soID', findPost, (req, res) => {
     const query = Post
       .findOne({
         soID: { $ne: post.acceptedAnswerID },
@@ -68,7 +64,6 @@ server.get('/top-answer/:soID', (req, res) => {
       }
     });
   });
-});
 
 server.get('/popular-jquery-questions', (req, res) => {
   const query = Post.find({
