@@ -28,8 +28,20 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+const findPost = (req, res, next) => {
+  const soID = req.params.soID;
+  if (!soID) {
+    res
+      .status(500)
+      .send({ errorMessage: 'You must supply an ID for the post.' });
+    return;
+  }
+  req.post = Post.findOne({ soID });
+  next();
+};
+
+server.get('/accepted-answer/:soID', findPost, (req, res) => {
+  queryAndThen(req.post, res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
       return;
@@ -46,8 +58,8 @@ server.get('/accepted-answer/:soID', (req, res) => {
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+server.get('/top-answer/:soID', findPost, (req, res) => {
+  queryAndThen(req.post, res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
       return;
