@@ -1,3 +1,4 @@
+/* disable eslint */
 const mongoose = require('mongoose');
 
 // Clear out mongoose's model cache to allow --watch to work for tests:
