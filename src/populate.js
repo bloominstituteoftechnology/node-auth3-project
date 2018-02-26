@@ -1,28 +1,22 @@
-const mongoose = require('mongoose');
-
-const savedPosts = null;
+const fs = require('fs');
 
 const Post = require('./post.js');
-const Data = require('../posts.json');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/so-posts');
-const populate = () => {
-  const populatePosts = () => {
-    const allData = Data;
-    const promises = allData.map(p => new Post(p).save());
-    return Promise.all(promises);
-  };
+let savedPosts = null;
 
-  return populatePosts()
-    .then(() => {
-      console.log('done');
-      mongoose.disconnect();
-    })
-    .catch((err) => {
-      console.log('ERROR', err);
-      throw new Error(err);
-    });
+const readPosts = () => {
+  // cache posts after reading them once
+  if (!savedPosts) {
+    const contents = fs.readFileSync('posts.json', 'utf8');
+    savedPosts = JSON.parse(contents);
+  }
+  return savedPosts;
 };
 
-populate();
+const populatePosts = () => {
+  const posts = readPosts();
+  const promises = posts.map(p => new Post(p).save());
+  return Promise.all(promises);
+};
+
+module.exports = { readPosts, populatePosts };
