@@ -33,7 +33,6 @@ const findSoId = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
-      return;
     }
     req.post = post;
     next();
