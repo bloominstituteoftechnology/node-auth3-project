@@ -8,15 +8,8 @@ const STATUS_USER_ERROR = 422;
 const server = express();
 // to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
-
-const findPost = () => {
- queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
-  };
-}
+// makes it useable everywhere... works with cors, helment, express-sessions
+// if cb === (req, res) its middleware
 
 const sendUserError = (err, res) => {
   res.status(STATUS_USER_ERROR);
@@ -37,42 +30,50 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', findPost, (req, res) => {
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No accepted answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+const findPost = (req, res, next) => {
+  queryAndThen(Post.findOne({ soID: req.params.soID }), res, post => {
+    if (!post) {
+      sendUserError("Couldn't find post with given ID", res);
+      return;
+    }
+    req.post = post;
+    next();
   });
+};
+
+server.get('/accepted-answer/:soID', findPost, (req, res) => {
+  const post = req.post;
+  const query = Post.findOne({ soID: post.acceptedAnswerID });
+  queryAndThen(query, res, answer => {
+    if (!answer) {
+      sendUserError('No accepted answer', res);
+    } else {
+      res.json(answer);
+    }
+  });
+});
 
 server.get('/top-answer/:soID', findPost, (req, res) => {
-    const query = Post
-      .findOne({
-        soID: { $ne: post.acceptedAnswerID },
-        parentID: post.soID,
-      })
-      .sort({ score: 'desc' });
-
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No top answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+  const post = req.post;
+  const query = Post.findOne({
+    soID: { $ne: post.acceptedAnswerID },
+    parentID: post.soID
+  }).sort({ score: 'desc' });
+  queryAndThen(query, res, answer => {
+    if (!answer) {
+      sendUserError('No top answer', res);
+    } else {
+      res.json(answer);
+    }
   });
+});
 
 server.get('/popular-jquery-questions', (req, res) => {
+  const post = req.post;
   const query = Post.find({
     parentID: null,
     tags: 'jquery',
-    $or: [
-      { score: { $gt: 5000 } },
-      { 'user.reputation': { $gt: 200000 } }
-    ]
+    $or: [{ score: { $gt: 5000 } }, { 'user.reputation': { $gt: 200000 } }]
   });
 
   queryAndThen(query, res, posts => res.json(posts));
@@ -84,7 +85,7 @@ server.get('/npm-answers', (req, res) => {
     tags: 'npm'
   });
 
-  queryAndThen(query, res, (posts) => {
+  queryAndThen(query, res, posts => {
     const answerQuery = Post.find({
       parentID: { $in: posts.map(p => p.soID) }
     });
