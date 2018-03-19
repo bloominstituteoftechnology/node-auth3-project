@@ -29,12 +29,6 @@ const queryAndThen = (query, res, cb) => {
 };
 
 const middleware = (req, res, next) => {
-  // const post = Post.findOne({ soId: req.params.soID });
-  // if (!post) {
-  //   sendUserError("Couldn't find post with given ID", res);
-  //   return;
-  // }
-
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
