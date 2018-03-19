@@ -28,6 +28,16 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
+const findPosts = (req, res, next) => {
+  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post => {
+    if (!post) { 
+      sendUserError('Could not find post with the given ID', res);
+    }
+  }))
+  next();
+};
+
+// I
 server.get('/accepted-answer/:soID', (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
@@ -46,6 +56,7 @@ server.get('/accepted-answer/:soID', (req, res) => {
   });
 });
 
+// II
 server.get('/top-answer/:soID', (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
