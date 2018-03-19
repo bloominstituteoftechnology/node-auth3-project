@@ -30,7 +30,6 @@ const queryAndThen = (query, res, cb) => {
 
 const findPost = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    console.log(post);
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
     } else {
