@@ -31,7 +31,7 @@ const queryAndThen = (query, res, cb) => {
 const findPostWsoID_MW = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
-      sendUserError(err, res);
+      sendUserError("soID doesn't exist!", res);
       return;
     }
     req.post = post;
@@ -39,21 +39,14 @@ const findPostWsoID_MW = (req, res, next) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
+server.get('/accepted-answer/:soID', findPostWsoID_MW, (req, res) => {
+  const post = req.post;
+  queryAndThen(Post.findOne({ soID: post.acceptedAnswerID }), res, (answer) => {
+    if (!answer) {
+      sendUserError("There is no accepted answer for that post.", res);
+    } else {
+      res.json(answer);
     }
-
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No accepted answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
   });
 });
 
