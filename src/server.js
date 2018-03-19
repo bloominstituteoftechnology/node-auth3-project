@@ -28,45 +28,41 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
+const findsoID = ((req, res, next) => {
+  const { soID } = req.params;
+  if (!soID) {
+    sendUserError("Couldn't find post with given ID", res);
+    return;
+  }
+  req.soID = soID;
+  next();
+});
 
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No accepted answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+server.get('/accepted-answer/:soID', findsoID, (req, res) => {
+  const query = Post.findOne({ soID: req.acceptedAnswerID });
+  queryAndThen(query, res, (answer) => {
+    if (!answer) {
+      sendUserError('No accepted answer', res);
+    } else {
+      res.json(answer);
+    }
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
-
-    const query = Post
+server.get('/top-answer/:soID', findsoID, (req, res) => {
+  const query = Post
       .findOne({
-        soID: { $ne: post.acceptedAnswerID },
-        parentID: post.soID,
+        soID: { $ne: req.acceptedAnswerID },
+        parentID: req.soID,
       })
       .sort({ score: 'desc' });
 
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No top answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+  queryAndThen(query, res, (answer) => {
+    if (!answer) {
+      sendUserError('No top answer', res);
+    } else {
+      res.json(answer);
+    }
   });
 });
 
