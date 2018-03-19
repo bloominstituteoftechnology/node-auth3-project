@@ -28,6 +28,17 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
+const findPostWsoID_MW = (req, res, next) => {
+  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+    if (!post) {
+      sendUserError(err, res);
+      return;
+    }
+    req.post = post;
+    next();
+  });
+};
+
 server.get('/accepted-answer/:soID', (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
