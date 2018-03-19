@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs');
 
 const Post = require('./post.js');
