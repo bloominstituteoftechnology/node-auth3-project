@@ -28,14 +28,19 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
+const findPost = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
-      return;
+    } else {
+      req.post = post;
     }
+    next();
+  });
+};
 
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
+server.get('/accepted-answer/:soID', findPost, (req, res) => {
+    const query = Post.findOne({ soID: req.post.acceptedAnswerID });
     queryAndThen(query, res, (answer) => {
       if (!answer) {
         sendUserError('No accepted answer', res);
@@ -43,20 +48,13 @@ server.get('/accepted-answer/:soID', (req, res) => {
         res.json(answer);
       }
     });
-  });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
-
+server.get('/top-answer/:soID', findPost, (req, res) => {
     const query = Post
       .findOne({
-        soID: { $ne: post.acceptedAnswerID },
-        parentID: post.soID,
+        soID: { $ne: req.post.acceptedAnswerID },
+        parentID: req.post.soID,
       })
       .sort({ score: 'desc' });
 
@@ -67,7 +65,6 @@ server.get('/top-answer/:soID', (req, res) => {
         res.json(answer);
       }
     });
-  });
 });
 
 server.get('/popular-jquery-questions', (req, res) => {
