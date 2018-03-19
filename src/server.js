@@ -28,6 +28,16 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
+const findPost = (req, res, next) => {
+  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+    if (!post) {
+      sendUserError("Couldn't find post with given ID", res);
+    }
+    res.post = post;
+    next();
+  });
+};
+
 server.get('/accepted-answer/:soID', (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
