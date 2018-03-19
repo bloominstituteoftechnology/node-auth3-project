@@ -1,5 +1,5 @@
-const bodyParser = require('body-parser');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const Post = require('./post.js');
 
