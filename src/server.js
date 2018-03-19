@@ -36,7 +36,7 @@ const findPost = (req, res, next) => {
       sendUserError("Couldn't find post with given ID", res);
       return;
     }
-    res.post = post;
+    req.post = post;
     next();
   });
 };
