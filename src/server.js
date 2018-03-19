@@ -18,6 +18,13 @@ const sendUserError = (err, res) => {
   }
 };
 
+const findSoId = (req, res, next) => {
+  console.log(req.params.soID)
+  req.soID = req.params.soID;
+  console.log("inside findsoID middleware: ",req.soID);
+  next();
+}
+// server.use(findSoId);
 const queryAndThen = (query, res, cb) => {
   query.exec((err, result) => {
     if (err) {
@@ -28,8 +35,9 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+server.get('/accepted-answer/:soID', findSoId, (req, res) => {
+  console.log(req.params.soID)
+  queryAndThen(Post.findOne({ soID: req.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
       return;
@@ -46,8 +54,8 @@ server.get('/accepted-answer/:soID', (req, res) => {
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+server.get('/top-answer/:soID', findSoId, (req, res) => {
+  queryAndThen(Post.findOne({ soID: req.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
       return;
