@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "LambdaSchool Mongo II: StackQuery",
   "scripts": {
+    "start": "nodemon src/server.js",
     "test": "eslint tests/*.js && eslint src/*.js && mocha -R nyan tests",
     "watch": "npm test -- --watch"
   },
@@ -17,6 +18,7 @@
     "eslint-plugin-import": "^2.2.0",
     "express": "^4.15.4",
     "mocha": "^3.5.0",
-    "mongoose": "^4.11.7"
+    "mongoose": "^4.11.7",
+    "nodemon": "^1.17.2"
   }
 }
