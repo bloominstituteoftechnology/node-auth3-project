@@ -10,6 +10,20 @@ const server = express();
 // to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
 
+const idMiddleware = (req, res, next) => {
+  const soId = req.query.soID;
+  if (!soId){
+    res.status(STATUS_USER_ERROR);
+    res.send(`There was an error`);
+    return;
+  } else {
+    Post.find({soID: soId})
+    .then(response => {
+      req.matchingPost = response;
+    }) 
+  }
+}
+
 const sendUserError = (err, res) => {
   res.status(STATUS_USER_ERROR);
   if (typeof err === 'string') {
@@ -29,7 +43,8 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
+server.get('/accepted-answer/:soID', idMiddleware, (req, res) => {
+  const matchingPost = req.matchingPost;
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
@@ -47,7 +62,8 @@ server.get('/accepted-answer/:soID', (req, res) => {
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
+server.get('/top-answer/:soID', idMiddleware, (req, res) => {
+  const matchingPost = req.matchingPost;
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
