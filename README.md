@@ -10,7 +10,7 @@ Topics:
 - Run `yarn install` to download the dependencies.
 - Ensure that you have an instance of `mongod` running in another terminal.
 - Run `yarn test` to run the tests. If you'd like, you can run `yarn run watch`
-  to automatically re-reun the tests when you make modifications.
+  to automatically re-run the tests when you make modifications.
 
 ## Instructions
 
