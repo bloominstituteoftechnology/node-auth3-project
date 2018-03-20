@@ -1,4 +1,13 @@
 .DS_Store
-.swp
 node_modules/
 tmp/
+
+### Vim ###
+# swap
+.sw[a-p]
+.*.sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
