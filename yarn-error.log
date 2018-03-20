@@ -2122,7 +2122,7 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 3
+  Exit code: 2
   Command: sh
   Arguments: -c eslint tests/*.js && eslint src/*.js && mocha -R nyan tests
   Directory: /Users/nikhil/lambdaschool/Auth-Mini
