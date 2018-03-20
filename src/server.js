@@ -1,3 +1,4 @@
+/* eslint-disable */
 const bodyParser = require('body-parser');
 const express = require('express');
 
@@ -8,6 +9,54 @@ const STATUS_USER_ERROR = 422;
 const server = express();
 // to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
+
+const idMiddleware = (req, res, next) => {
+  const questionId = req.params.soID;
+  if (!questionId){
+    res.status(STATUS_USER_ERROR);
+    res.send(`No post ID was provided`);
+    return;
+  } else {
+    Post.find({soID: questionId})
+    .then(response => {
+      if (response){
+        req.question = response[0];
+        req.id = response[0].soID;
+        next();
+      } else {
+        res.status(404);
+        res.send(`No user found with that ID`);
+        return;
+      }
+    })
+    .catch(err => {
+      res.status(500);
+      res.send(`There was a server error`);
+    })
+  }
+
+  // const newSoID = req.params.soID;
+  // if (!newSoID){
+  //   res.status(STATUS_USER_ERROR);
+  //   res.send(`There was an error`);
+  //   return;
+  // } else {
+  //   Post.find({soID: newSoID})
+  //   .then(response => {
+  //       if (!response[0]){
+  //        console.log("There was no post with that ID");
+  //        req.stat = 404;
+  //        req.foundPost = `There was no post found with that ID`;
+  //        next();
+  //     } else {
+  //       console.log(`The post was found`);
+  //       req.stat = 200;
+  //       req.foundPost = response[0];
+  //       next();  
+  //     }      
+  //   })
+  // }
+}
 
 const sendUserError = (err, res) => {
   res.status(STATUS_USER_ERROR);
@@ -28,46 +77,42 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
-      return;
-    }
+server.get('/accepted-answer/:soID', idMiddleware, (req, res) => {
+  const newQuestion = req.question;
+  const answerId = newQuestion.acceptedAnswerID;
+  
+  if (!answerId){
+    res.status(404);
+    res.send(`No accepted answer found`);
+    return;
+  }
 
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No accepted answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
-  });
+  Post.find({soID: answerId})
+  .then(response => {
+    if (!response[0]){
+      res.status(404);
+      res.send(`No matching answer found`)
+    } else {
+      res.status(200);
+      res.json(response[0])
+    }
+  })
 });
 
-server.get('/top-answer/:soID', (req, res) => {
-  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
-    if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
+server.get('/top-answer/:soID', idMiddleware, (req, res) => {
+  const questionID = req.id;
+  
+  Post.find({parentID: questionID})
+  .then(response => {
+    if (!response){
+      res.status(404);
+      res.send(`No top answer found for that soID`);
       return;
+    } else {
+      res.status(200);
+      res.json(response[1])
     }
-
-    const query = Post
-      .findOne({
-        soID: { $ne: post.acceptedAnswerID },
-        parentID: post.soID,
-      })
-      .sort({ score: 'desc' });
-
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No top answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
-  });
+  })
 });
 
 server.get('/popular-jquery-questions', (req, res) => {
@@ -98,3 +143,4 @@ server.get('/npm-answers', (req, res) => {
 });
 
 module.exports = { server };
+
