@@ -20,18 +20,18 @@ const idMiddleware = (req, res, next) => {
     Post.find({soID: questionId})
     .then(response => {
       if (response){
-        req.stat = 200;
         req.question = response[0];
+        req.id = response[0].soID;
         next();
       } else {
-        req.stat = 404;
-        req.question = "No post found with that ID";
+        res.status(404);
+        res.send(`No user found with that ID`);
+        return;
       }
     })
     .catch(err => {
-      req.stat = 500;
-      req.question = `There was a server error`;
-      next();
+      res.status(500);
+      res.send(`There was a server error`);
     })
   }
 
@@ -79,7 +79,6 @@ const queryAndThen = (query, res, cb) => {
 
 server.get('/accepted-answer/:soID', idMiddleware, (req, res) => {
   const newQuestion = req.question;
-  const newStatus = req.stat;
   const answerId = newQuestion.acceptedAnswerID;
   
   if (!answerId){
@@ -101,7 +100,19 @@ server.get('/accepted-answer/:soID', idMiddleware, (req, res) => {
 });
 
 server.get('/top-answer/:soID', idMiddleware, (req, res) => {
-
+  const questionID = req.id;
+  
+  Post.find({parentID: questionID})
+  .then(response => {
+    if (!response){
+      res.status(404);
+      res.send(`No top answer found for that soID`);
+      return;
+    } else {
+      res.status(200);
+      res.json(response[1])
+    }
+  })
 });
 
 server.get('/popular-jquery-questions', (req, res) => {
