@@ -67,6 +67,7 @@ server.get('/top-answer/:soID', findPosts, (req, res) => {
   });
 });
 
+// III
 server.get('/popular-jquery-questions', (req, res) => {
   const query = Post.find({
     parentID: null,
@@ -80,6 +81,7 @@ server.get('/popular-jquery-questions', (req, res) => {
   queryAndThen(query, res, posts => res.json(posts));
 });
 
+// IV
 server.get('/npm-answers', (req, res) => {
   const query = Post.find({
     parentID: null,
