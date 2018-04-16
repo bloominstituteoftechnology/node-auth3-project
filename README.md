@@ -1,6 +1,6 @@
-# Auth Mini
+# Auth Mini 
 Topics:
-  * Express Middleware 
+  * Express Middleware
   * Passwords
   * Authentication
 

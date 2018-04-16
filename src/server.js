@@ -1,12 +1,10 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-
 const Post = require('./post.js');
 
 const STATUS_USER_ERROR = 422;
 
 const server = express();
-// to enable parsing of json bodies for post requests
 server.use(bodyParser.json());
 
 const sendUserError = (err, res) => {
@@ -28,10 +26,21 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
+const postLocator = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
+      sendUserError("Couldn't locate a post with that ID", res);
+      return;
+    }
+    req.post = post;
+    next();
+  });
+};
+
+server.get('/accepted-answer/:soID', postLocator, (req, res) => {
+  queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
+    if (!post) {
+      sendUserError("Couldn't find post with the provided ID", res);
       return;
     }
 
@@ -46,10 +55,10 @@ server.get('/accepted-answer/:soID', (req, res) => {
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
+server.get('/top-answer/:soID', postLocator, (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
-      sendUserError("Couldn't find post with given ID", res);
+      sendUserError("Couldn't find post with the given ID", res);
       return;
     }
 
