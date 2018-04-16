@@ -5,27 +5,26 @@ const mongoose = require('mongoose');
 mongoose.models = {};
 mongoose.modelSchemas = {};
 
-mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/so-posts', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/so-posts');
 
 const PostSchema = new mongoose.Schema({
   soID: {
     type: Number,
-    required: true
+    required: true,
   },
   parentID: Number,
   url: {
     type: String,
-    required: true
+    required: true,
   },
   title: String,
   body: {
     type: String,
-    required: true
+    required: true,
   },
   score: {
     type: Number,
-    required: true
+    required: true,
   },
   tags: [String],
   acceptedAnswerID: Number,
@@ -33,7 +32,7 @@ const PostSchema = new mongoose.Schema({
     soUserID: Number,
     name: String,
     reputation: Number,
-  }
+  },
 });
 
 module.exports = mongoose.model('Posts', PostSchema);
