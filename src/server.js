@@ -28,25 +28,31 @@ const queryAndThen = (query, res, cb) => {
   });
 };
 
-server.get('/accepted-answer/:soID', (req, res) => {
+const middleWare = (req, res, next) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
       return;
     }
+    req.post = post;
+    next();
+  });
+};
 
-    const query = Post.findOne({ soID: post.acceptedAnswerID });
-    queryAndThen(query, res, (answer) => {
-      if (!answer) {
-        sendUserError('No accepted answer', res);
-      } else {
-        res.json(answer);
-      }
-    });
+server.get('/accepted-answer/:soID', middleWare, (req, res) => {
+  const post = req.post;
+  const query = Post.findOne({ soID: post.acceptedAnswerID });
+  queryAndThen(query, res, (answer) => {
+    if (!answer) {
+      sendUserError('No accepted answer', res);
+    } else {
+      res.json(answer);
+    }
   });
 });
 
-server.get('/top-answer/:soID', (req, res) => {
+
+server.get('/top-answer/:soID', middleWare, (req, res) => {
   queryAndThen(Post.findOne({ soID: req.params.soID }), res, (post) => {
     if (!post) {
       sendUserError("Couldn't find post with given ID", res);
