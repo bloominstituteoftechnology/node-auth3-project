@@ -16,9 +16,9 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 * Run `yarn install` to download the dependencies.
 * Ensure that you have an instance of `mongod` running in another terminal.
-* Run `yarn test` to run the tests. If you'd like, you can run `yarn run watch`
-  to automatically re-run the tests when you make modifications.
 
 ## Instructions
 
-The route handlers for `/accepted-answer/:soID` and `/top-answer/:soID` both find the post with the associated `soID`. They then go on to do different things with that post. To consolidate this logic, write a piece of local middleware that finds the post with the given `soID`, and makes it accessible to both these routes. The middleware should respond with an appropriate status code and error if no such post can be found. Run the tests to ensure your middleware works.
+* Implement authentication workflow using JSON Web Tokens.
+* Implement GET to `/api/users` that should return a list of users only if the user is logged in.
+* Implement a React client to test your API.
