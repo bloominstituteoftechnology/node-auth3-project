@@ -1,15 +1,22 @@
-# Auth Mini
+# JWT Authentication Mini
+
 Topics:
-  * Express Middleware 
-  * Passwords
-  * Authentication
+
+* Authentication
+* Express Middleware
+* Mongoose Middleware
+* Hashing Passwords
+* Using JSON Web Tokens (JWTs)
 
 ## Description
- - The goal of this project is to write middleware for the Mongo II: StackQuery project.
+
+In this project we'll implement a full authentication workflow (register/login/logout/restrict endpoint) using Node.js, Express, MongoDB and JSON Web Tokens on the server and a React Web Application for the client.
+
 ## Running the Project
-- Run `yarn install` to download the dependencies.
-- Ensure that you have an instance of `mongod` running in another terminal.
-- Run `yarn test` to run the tests. If you'd like, you can run `yarn run watch`
+
+* Run `yarn install` to download the dependencies.
+* Ensure that you have an instance of `mongod` running in another terminal.
+* Run `yarn test` to run the tests. If you'd like, you can run `yarn run watch`
   to automatically re-run the tests when you make modifications.
 
 ## Instructions
