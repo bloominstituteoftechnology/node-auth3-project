@@ -14,7 +14,7 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 ## Download and Run Starter Code
 
-- Fok and Clone this repository.
+- Fork and Clone this repository.
 - **CD into the server folder**.
 - type `yarn install` to download the server dependencies.
 - type `yarn start` to run the server, and leave it running.
@@ -39,3 +39,5 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 - add the code necessary so that when a client makes a `GET` request to `/api/users` the server only returns documents with the `same race` as the logged in user. For example if the logged in user is a _human_, then only users of the human race should be returned; if the logged in user is a _hobbit_ only the hobbits should be returned.
 - add any extra functionality to make the application more user friendly like showing a message and redirecting to `/signin` if an unauthenticated user tries to access the list of users in the `/users` route.
+
+* Govi, Xang, Chris , Braden
