@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
     if (!user)
       return res.status(404).json({ err: 'No user with that name' }); 
     
-    bcrypt.compare(password, user.password, (errm,bcRes) => { 
+    bcrypt.compare(password, user.password, (err,bcRes) => { 
       if (err)
         return res.status(500).json(err);
       
