@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const User = require('./User');
 
 router.get('/', (req, res) => {

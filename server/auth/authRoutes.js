@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const User = require('../users/User');
 
 router.post('/register', function(req, res) {
