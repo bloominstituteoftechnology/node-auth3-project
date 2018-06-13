@@ -9,9 +9,10 @@ function generateToken(user) {
   return jwt.sign(payload, secret)
 }
 
-router.post('/register', function(req, res) {
+router.post('/register', (req, res) => {
   User.create(req.body)
     .then(({ username, race }) => {
+      console.log(username);
       // we destructure the username and race to avoid returning the hashed password
       const token = generateToken({ username, race })
       // then we assemble a new object and return it
