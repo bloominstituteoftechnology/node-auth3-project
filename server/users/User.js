@@ -1,3 +1,5 @@
+// /users/User.js
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -13,12 +15,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 4, // make this at least 12 in production
   },
-  race: {
-    type: String,
-    required: true,
-    index: true,
-    minlength: 2,
-  },
+  // race: {
+  //   type: String,
+  //   required: true,
+  //   index: true,
+  //   minlength: 2,
+  // },
 });
 
 userSchema.pre('save', function(next) {
