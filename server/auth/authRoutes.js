@@ -15,29 +15,16 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-function restricted(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
-      if (err) {
-        return res
-          .status(401)
-          .json({
-            message: 'you shall not pass! not decoded'
-          });
-      }
-
-      next();
-    });
-  } else {
-    res.status(401).json({
-      message: 'you shall not pass! no token'
-    });
-  }
-}
-
+// router.get('/user', restricted, (req, res) => {
+//   User.find({})
+//     .select('username')
+//     .then(users => {
+//       res.status(200).json(users);
+//     })
+//     .catch(err => {
+//       return res.status(500).json(err);
+//     });
+// });
 
 router.post('/register', function (req, res) {
   User.create(req.body)
@@ -60,31 +47,8 @@ router.post('/register', function (req, res) {
     .catch(err => res.status(500).json(err));
 });
 
-router.get('/', (req, res) => {
-  User.find()
-    .select('-password')
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
-});
 
 const secret = "toss me, but don't tell the elf!";
-
-// router.post('/register', (req, res) => {
-//   User.create(req.body)
-//     .then(user => {
-//       const token = generateToken(user);
-
-//       res.status(201).json({
-//         username: user.username,
-//         token
-//       });
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
 
 router.post('/login', (req, res) => {
   const {
