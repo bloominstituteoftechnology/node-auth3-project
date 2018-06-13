@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const helpers = require('./helperFunctions');
+const helpers = require('../tools/helperFunctions');
 
 const User = require('../users/User');
 
