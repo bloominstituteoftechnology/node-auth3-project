@@ -13,16 +13,4 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/register', (req, res) => {
-  const { username, password, race } = req.body;
-  User.create({ username, password, race })
-    .then(response => {
-      res.status(200).json('You are know registered');
-    })
-    .catch(e => {
-      e.statusCode = 500;
-      next(e);
-    });
-});
-
 module.exports = router;

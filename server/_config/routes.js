@@ -1,5 +1,6 @@
 const userRoutes = require('../users/userRoutes');
 const authRoutes = require('../auth/authRoutes');
+const authLogin = require('../auth/loginRouter');
 
 module.exports = function(server) {
   // sanity check route
@@ -9,4 +10,5 @@ module.exports = function(server) {
 
   server.use('/api/users', userRoutes);
   server.use('/api/auth', authRoutes);
+  server.use('/api/auth', authLogin);
 };
