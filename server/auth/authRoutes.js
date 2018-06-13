@@ -1,9 +1,16 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 const secret = "toss me, but don't tell the elf!";
 
 const User = require('../users/User');
+
+function generateToken(user) {
+  const options = {
+    expiresIn: '1h',
+  };
+  const payload = { name: user.username };
+  return jwt.sign(payload, secret, options)
+}
 
 router.post('/register', function(req, res) {
   User.create(req.body)
@@ -27,6 +34,7 @@ router.post('/login', function(req, res) {
           .then(passwordsMatch => {
             if(passwordsMatch) {
               const token = generateToken(user);
+              req.header.authorization = token;
               res.status(200).json({ message: `welcome ${username}!`, token })
             } else {
               res.status(401).send("Invalid Credentials")
@@ -40,30 +48,9 @@ router.post('/login', function(req, res) {
       }
     })
     .catch(error => {
-      res.send(error)
+      res.status(500).error({ error: error.message })
     })
 })
 
-function generateToken(user) {
-  const options = {
-    expiresIn: '1h',
-  };
-  const payload = { name: user.username };
-  return jwt.sign(payload, secret, options)
-}
 
-function restricted(req, res, next) {
-  const token = req.headers.autherization;
-  if(token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
-      if(err) {
-        return res
-          .status(401)
-          .json({ message: 'you shall not pass! not decoded' })
-      }
-      next();
-    })
-  }
-}
 module.exports = router;
