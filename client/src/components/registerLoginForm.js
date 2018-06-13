@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class registerLoginForm extends Component {
     constructor(props) {
@@ -8,7 +10,8 @@ class registerLoginForm extends Component {
             username: '',
             password: '',
             race: '',
-            type: null
+            type: null,
+            submitted: false
         }
     }
 
@@ -19,6 +22,23 @@ class registerLoginForm extends Component {
         } else if (path === '/signin') {
             this.setState({ type: "Sign in" })
         }
+    }
+
+    createUser = (user) => {
+        let type = ''
+        if (this.state.type === "Sign up") {
+            type = 'register'
+        } else {
+            type = 'login'
+        }
+        axios.post(`http://localhost:5500/api/auth/${type}`, user)
+            .then( user => {
+                this.setState({ submitted: true })
+                console.log(user)
+            })
+            .catch( err => {
+                console.log(err)
+            })
     }
 
     handleChange = (e) => {
@@ -32,26 +52,30 @@ class registerLoginForm extends Component {
             password: this.state.password,
             race: this.state.race
         }
-        console.log(user)
+        this.createUser(user)
     }
 
     render() { 
         return (
-            <Form className="register-login" onSubmit={this.handleSubmit}>
-                <FormGroup>
-                    <Label for="username">Username</Label>
-                    <Input id="username" name="username" onChange={this.handleChange}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="password">Password</Label>
-                    <Input id="password" name="password" onChange={this.handleChange}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="race">Race</Label>
-                    <Input id="race" name="race" onChange={this.handleChange}/>
-                </FormGroup>
-                <Button>{this.state.type}</Button>
-            </Form>
+            this.state.submitted ? (
+                <Redirect to="/users"/>
+            ) : (
+                <Form className="register-login" onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                        <Label for="username">Username</Label>
+                        <Input id="username" name="username" onChange={this.handleChange}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="password">Password</Label>
+                        <Input id="password" name="password" onChange={this.handleChange}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="race">Race</Label>
+                        <Input id="race" name="race" onChange={this.handleChange}/>
+                    </FormGroup>
+                    <Button>{this.state.type}</Button>
+                </Form>
+            )   
         )
     }
 }
