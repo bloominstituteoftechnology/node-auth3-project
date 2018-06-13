@@ -10,7 +10,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
         </header>
-        <p className="App-intro">
+        <p className="App-intro text-white">
           Please implement the required code for the assignment.
         </p>
       </div>
