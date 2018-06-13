@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const jsw = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const User = require('../users/User')
 
 const secret = 'Speak "friend" and enter'
