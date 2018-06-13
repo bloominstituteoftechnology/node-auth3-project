@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const secret = "toss me, but don't tell the elf!!";
 
 const User = require('./User');
 
@@ -19,7 +20,7 @@ function restricted(req, res, next) {
 
   if(token){
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
+      // req.jwtPayload(decodedToken);
       if(err){
         return res.status(401).json({ message: "You shall not pass! Token not decoded" });
       }
