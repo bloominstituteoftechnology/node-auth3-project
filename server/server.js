@@ -9,6 +9,18 @@ const server = express();
 setupMiddleware(server);
 setupRoutes(server);
 
+//connecting to mongo
+// mongoose
+//   .connect('mongodb://localhost/auth-i')
+//   .then(mongo => {
+//     console.log('connected to database');
+//   })
+//   .catch(err => {
+//     console.log('Error connecting to database', err)
+//   });
+
+
+
 db.connectTo('authii')
   .then(() => {
     console.log('\n... API Connected to authii Database ...\n');
