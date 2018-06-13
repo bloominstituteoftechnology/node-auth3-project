@@ -3,30 +3,32 @@ const jwt = require('jsonwebtoken');
 const User = require('../users/User');
 const secret = 'braden govi xang chris';
 
-router.post('/register', function(req, res) {
-  User.create(req.body)
-    .then(({ username, race }) => {
-      // we destructure the username and race to avoid returning the hashed password
-
-      // then we assemble a new object and return it
-      res.status(201).json({ username, race });
-    })
-    .catch(err => res.status(500).json(err));
-});
-
 function generateToken(user) {
   const options = {
     expiresIn: '1hr',
   };
   const payload = {
-    name: user.username
+    name: user.username,
+    race: user.race,
   };
 
   return jwt.sign(payload, secret, options);
 }
 
+router.post('/register', function(req, res) {
+  User.create(req.body)
+    .then(({ username, race }) => {
+      // we destructure the username and race to avoid returning the hashed password
+      const token = generateToke({ username, race })
+      // then we assemble a new object and return it
+      res.status(201).json({ username, race, token });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, race,  password } = req.body;
   User
       .findOne({ username })
         .then(user => {
@@ -34,10 +36,14 @@ router.post('/login', (req, res) => {
             user.validatePassword(password)
               .then(passwordsMatch => {
                 if (passwordsMatch) {
-                  const token = generateToken(user);
+                  const { username, race } = user;
 
-                  res.status(200).json({ message: `Hello there ${username}`}, token)
+                  const token = generateToken({ username, race });
+
+                  res.status(200).json({ message: `Hello there ${username}`}, race, token)
+
                 } else {
+
                   res.status(401).send('Invalid credentials.');
                 }
               })
