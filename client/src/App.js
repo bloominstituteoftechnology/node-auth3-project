@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ring from './oneringGIF.gif';
 import './App.css';
 
 class App extends Component {
@@ -7,12 +7,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
+          <img src={ring} className="ring-logo" alt="logo" />
+          <h1 className="App-title">LOTR Database:</h1>
         </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
       </div>
     );
   }
