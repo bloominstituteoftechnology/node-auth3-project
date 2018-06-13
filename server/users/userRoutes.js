@@ -11,7 +11,7 @@ router.get('/', restricted, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
-      res.json(users);
+      res.json( users );
     })
     .catch(err => {
       res.status(500).json(err);
@@ -23,7 +23,7 @@ function restricted(req, res, next) {
 
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      // req.jwtPayload(decodedToken);
+      req.jwtPayload = decodedToken;
       if (err) {
         return res
           .status(401)
