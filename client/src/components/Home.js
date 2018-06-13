@@ -1,18 +1,22 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Login from './Login.js';
-import Register from './Register.js';
+import loginRegister from './loginRegister.js';
+import Userlist from '/Userlist.js';
 
 const Home = () => {
   return (
     <div>
       <h1>Authentication</h1>
       <div>
-	<Route path = "" component={ Login }>Already registered? Sign in!</Route>
+	<Route path = '/signin' component={ loginRegister }>Already registered? Sign in!</Route>
       </div>
       <div>
-	<Route path = "" component={ Register }>New users register here</Route>
+	<Route path = '/signup' component={ loginRegister }>New users register here</Route>
       </div>
+      <div>
+	<Route path = '/users' component={ Userlist }>User List</Route>
+      </div>
+      
     </div>
   );
 };

@@ -23,6 +23,7 @@ function restricted(req, res, next) {
 
 router.get('/', restricted, (req, res) => {
   User.find()
+    .where('race').equals(req.jwtPayload.race) //restricts results to race of authenticated user
     .select('-password')
     .then(users => {
       res.status(200).json(users);
