@@ -1,8 +1,9 @@
 .register-login {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background-color: yellow; */
+    padding: 30px;
     text-align: left;
     width: 60%;
+    background-color: white;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 5px 5px 8px 3px gray;
 }

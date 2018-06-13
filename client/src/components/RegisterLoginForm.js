@@ -35,8 +35,6 @@ class RegisterLoginForm extends Component {
             .then( user => {
                 this.setState({ submitted: true })
                 localStorage.setItem("authorization", user.data.token)
-                //console.log(user)
-                //console.log(localStorage)
             })
             .catch( err => {
                 console.log(err)
@@ -82,7 +80,7 @@ class RegisterLoginForm extends Component {
                             <Label for="race">Race</Label>
                             <Input id="race" name="race" onChange={this.handleChange}/>
                         </FormGroup>
-                        <Button>{this.state.type}</Button>
+                        <Button color="primary">{this.state.type}</Button>
                     </Form>
                 ) : (
                     <Form className="register-login" onSubmit={this.handleSubmit}>
@@ -94,7 +92,7 @@ class RegisterLoginForm extends Component {
                             <Label for="password">Password</Label>
                             <Input id="password" name="password" onChange={this.handleChange}/>
                         </FormGroup>
-                        <Button>{this.state.type}</Button>
+                        <Button color="primary">{this.state.type}</Button>
                     </Form>
                 )
             )   

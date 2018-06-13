@@ -10,24 +10,18 @@ class UserList extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.users)
-        const users = this.getUsers()
-        this.setState({ users })
+        this.getUsers()
     }
 
     getUsers = () => {
-        console.log("getting users...")
-        console.log(localStorage.authorization)
         const config = {
             headers: {
-                "authorization": 'Bearer ' + localStorage.authorization
+                "Authorization": localStorage.authorization
             }
         }
-        console.log(config)
-        axios.get('http://localhost:5500/users', config)
+        axios.get('http://localhost:5500/api/users', config)
             .then( users => {
-                console.log(users)
-                return users
+                this.setState({ users: users.data })
             })
             .catch( err => {
                 console.log(err)

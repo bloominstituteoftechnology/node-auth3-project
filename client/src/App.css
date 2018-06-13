@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgb(230, 230, 230);
+  min-height: 100vh;
 }
 
 .App-logo {
