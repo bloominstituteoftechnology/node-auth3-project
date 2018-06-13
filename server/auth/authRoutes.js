@@ -1,18 +1,15 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../users/User');
-const secret = 'braden govi xang chris';
+
+const secret = 'Not the beard!';
 
 function generateToken(user) {
-  const options = {
-    expiresIn: '1hr',
-  };
   const payload = {
     name: user.username,
     race: user.race,
-  };
-
-  return jwt.sign(payload, secret, options);
+  }
+  return jwt.sign(payload, secret);
 }
 
 router.post('/register', function(req, res) {
@@ -40,7 +37,7 @@ router.post('/login', (req, res) => {
 
                   const token = generateToken({ username, race });
 
-                  res.status(200).json({ message: `Hello there ${username}`}, race, token)
+                  res.status(200).json({ message: `Hello there ${username}`, race, token})
 
                 } else {
 
