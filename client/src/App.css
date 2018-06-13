@@ -1,5 +1,10 @@
+@import "./styles/registerLoginForm.css";
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -12,6 +17,7 @@
   height: 150px;
   padding: 20px;
   color: white;
+  width: 100vw;
 }
 
 .App-title {
