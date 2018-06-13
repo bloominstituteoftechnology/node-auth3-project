@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       username: '',
       password: '',
+      race: ''
     }
   }
 
@@ -17,11 +18,11 @@ class App extends Component {
   }
 
   addUser = () => {
-    const userInfo={ username: this.state.username, password: this.state.password}
+    const userInfo={ username: this.state.username, password: this.state.password, race: this.state.race }
     axios
         .post('http://localhost:5500/api/auth/register', userInfo)
         .then(response => {
-            this.setState({ username: '', password: ''})
+            this.setState({ username: '', password: '', race: '' })
         })
         .catch(error => {
             console.log(error)
@@ -49,6 +50,13 @@ class App extends Component {
               placeholder="Enter Password"
               name="password"
               value={this.state.password}
+          />
+          <input
+              className="race-input"
+              onChange={this.handleInputChange}
+              placeholder="Enter Race"
+              name="race"
+              value={this.state.race}
           />
         </form>
         <button 

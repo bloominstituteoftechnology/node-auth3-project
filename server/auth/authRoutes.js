@@ -5,6 +5,7 @@ const secret = "toss me, but don't tell the elf!";
 const User = require('../users/User');
 
 function generateToken(user) {
+  console.log(user)
   const options = {
     expiresIn: '1h',
   };
@@ -13,14 +14,23 @@ function generateToken(user) {
 }
 
 router.post('/register', function(req, res) {
-  User.create(req.body)
-    .then(({ username, race }) => {
+  const user = {
+    username: req.body.username,
+    race: req.body.race,
+    password: req.body.password
+  }
+  User.create(user)
+    .then(response => {
       // we destructure the username and race to avoid returning the hashed password
       const token = generateToken(user);
+      
       // then we assemble a new object and return it
-      res.status(201).json({ username, race });
+      res.status(201).json(response);
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      //console.log(err)
+      res.status(500).json(err)
+    });
 });
 
 router.post('/login', function(req, res) {
