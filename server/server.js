@@ -9,11 +9,12 @@ const server = express();
 setupMiddleware(server);
 setupRoutes(server);
 
-db.connectTo('authii')
+const port = process.env.PORT || 5500
+db.connect()
   .then(() => {
-    console.log('\n... API Connected to authii Database ...\n');
-    server.listen(5500, () =>
-      console.log('\n=== API running on port 5500 ===\n')
+    console.log('\n... API Connected to mLabs Mongo Database ...\n');
+    server.listen(port, () =>
+      console.log(`\n=== API running on port ${port} ===\n`)
     );
   })
   .catch(err => {
