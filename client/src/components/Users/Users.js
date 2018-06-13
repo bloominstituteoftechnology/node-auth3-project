@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import SignOut from '../SignOut/SignOut';
 
 class Users extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class Users extends Component {
   render() { 
     return (
       <div>
+        <SignOut history={this.props.history} />
         <h1>Users</h1>
         <ul>
           {this.state.users.map(user => {
