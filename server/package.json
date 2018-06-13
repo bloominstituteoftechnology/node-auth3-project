@@ -10,7 +10,7 @@
   "author": "Lambda School",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.17.4"
+    "nodemon": "^1.17.5"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
