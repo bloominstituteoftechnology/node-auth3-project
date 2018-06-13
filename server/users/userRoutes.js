@@ -1,10 +1,8 @@
 const router = require('express').Router();
 
 const User = require('./User');
-
 const jwt = require('jsonwebtoken');
 const secret = 'braden govi xang chris';
-
 //base prefix is '/api/users'
 
 function restricted(req, res, next) {
