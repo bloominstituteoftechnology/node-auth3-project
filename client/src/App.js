@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from 'react-router-dom';
+import registerLoginForm from './components/registerLoginForm';
 
 class App extends Component {
   render() {
@@ -13,6 +15,9 @@ class App extends Component {
         <p className="App-intro">
           Please implement the required code for the assignment.
         </p>
+        <Route path="/signin" component={registerLoginForm}/>
+        <Route path="/signup" component={registerLoginForm}/> 
+        {/* <Route path="/users" component={}/> */}
       </div>
     );
   }
