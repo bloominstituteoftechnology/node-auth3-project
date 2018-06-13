@@ -12,9 +12,7 @@ setupRoutes(server);
 db.connectTo('authii')
   .then(() => {
     console.log('\n... API Connected to authii Database ...\n');
-    server.listen(5500, () =>
-      console.log('\n=== API running on port 5500 ===\n')
-    );
+    server.listen(5500, () => console.log('\n=== API running on port 5500 ===\n'));
   })
   .catch(err => {
     console.log('\n*** ERROR Connecting to MongoDB, is it running? ***\n', err);
