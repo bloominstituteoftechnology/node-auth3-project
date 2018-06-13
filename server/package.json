@@ -1,7 +1,7 @@
 {
-  "name": "jwt-auth-mini",
+  "name": "auth-ii-server",
   "version": "1.0.0",
-  "description": "JWT Authentication Mini Project",
+  "description": "Authentication II Server",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"
