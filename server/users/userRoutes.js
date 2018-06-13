@@ -3,7 +3,8 @@ const User = require('./User');
 const authenticate = require('../_config/middleware').authenticate;
 
 router.get('/', authenticate, (req, res) => {
-  User.find()
+  const { race } = req.tokenPayload;
+  User.find({ race: race })
     .select('-password')
     .then(users => {
       res.json(users);
