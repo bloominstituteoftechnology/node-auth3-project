@@ -1,9 +1,10 @@
 const router = require('express').Router();
-
 const User = require('./User');
+const authenticate = require('../_config/middleware').authenticate;
 
-router.get('/', (req, res) => {
-  User.find()
+router.get('/', authenticate, (req, res) => {
+  const { race } = req.tokenPayload;
+  User.find({ race: race })
     .select('-password')
     .then(users => {
       res.json(users);
