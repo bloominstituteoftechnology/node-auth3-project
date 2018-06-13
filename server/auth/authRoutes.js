@@ -1,26 +1,10 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-// const session = require('express-session');
-// const express = require('express');
-
-// const sessionOptions = {
-//   secret: 'nobody tosses a dwarf!',
-//   cookie: {
-//     maxAge: 1000 * 60 * 60, // an hour
-//   },
-//   httpOnly: true,
-//   secure: false,
-//   resave: true,
-//   saveUninitialized: false,
-//   name: 'noname',
-// };
-// server.use(session(sessionOptions));
-// const server = express();
-
-const User = require('../users/User');
-
+const session = require('express-session');
 
 const secret = "toss me, but don't tell the elf!!";
+
+const User = require('../users/User');
 
 router.get('/logout', (req, res) => {
   console.log(req.session)
@@ -68,6 +52,8 @@ router.post('/login', function(req, res) {
           .catch(err => {
             res.status(500).json({ error: err.message })
           })
+      } else {
+        res.status(401).json({ error: "Invalid Credentials" })
       }
     })
     .catch(err => {
