@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from 'react-router-dom';
 
 import Signup from "./components/signup";
 
@@ -12,7 +13,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
         </header>
-        <Signup />
+        <Route exact path="/" component={ Signup }/>
       </div>
     );
   }
