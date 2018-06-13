@@ -11,13 +11,27 @@ class App extends Component {
     }
   }
   
-  componentDidMount = () => (
-    axios.interceptors.request.use((config)=>{  
-      const token = localStorage.getItem("token");
-      config.headers.Authorization = token;
-      return config;
-  }) 
-  )
+  componentDidMount = () => {
+      axios.interceptors.request.use((config)=>{  
+        const token = localStorage.getItem("token");
+        config.headers.Authorization = token;
+        return config;
+    }) 
+    this.fetch();
+  }
+
+  fetch = () => {
+    axios
+      .get('http://localhost:5500/api/users')
+        .then(response => {
+          console.log(response.data)
+          if(response.data){
+            this.setState({
+              isSignedIn: true
+            })
+          }
+        })
+  }
 
   loginHandler = (loginBool) =>{
     if(loginBool === 'Logged In'){
