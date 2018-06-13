@@ -1,9 +1,41 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+// const session = require('express-session');
+// const express = require('express');
+
+// const sessionOptions = {
+//   secret: 'nobody tosses a dwarf!',
+//   cookie: {
+//     maxAge: 1000 * 60 * 60, // an hour
+//   },
+//   httpOnly: true,
+//   secure: false,
+//   resave: true,
+//   saveUninitialized: false,
+//   name: 'noname',
+// };
+// server.use(session(sessionOptions));
+// const server = express();
 
 const User = require('../users/User');
 
+
 const secret = "toss me, but don't tell the elf!!";
+
+router.get('/logout', (req, res) => {
+  console.log(req.session)
+  if(req.session){
+    req.session.destroy(err => {
+      if(err){
+        res.status(400).json({ error: 'Error logging out' })
+      } else {
+        res.status(200).json({ message: `Goodbye!` })
+      }
+    })
+  } else {
+    res.status(401).json({ error: 'Error logging out' })
+  }
+})
 
 router.post('/register', function(req, res) {
   User.create(req.body)
