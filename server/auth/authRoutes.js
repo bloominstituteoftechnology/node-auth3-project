@@ -5,18 +5,18 @@ const User = require('../users/User');
 const jwt = require('jsonwebtoken');
 
 
-function generateToken(username) {
+function generateToken(username, race) {
   const options = {
     expiresIn: '1h',
   };
-  const payload = { username };
+  const payload = { username, race };
   return jwt.sign(payload, 'No word is true until it is eaten.', options);
 }
 
 router.post('/register', function(req, res) {
   User.create(req.body)
     .then(({ username, race }) => {
-      const token = generateToken(username);
+      const token = generateToken(username, race);
       res.status(201).json({ username, race, token });
     })
     .catch(err => res.status(500).json(err));
@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
           .validatePassword(password)
           .then(passwordsMatch => {
             if (passwordsMatch) {
-              const token = generateToken(user);
+              const token = generateToken(username, user.race);
               res.status(200).json({ message: `welcome ${username}!`, token });
             } else {
               res.status(401).send('invalid credentials');
