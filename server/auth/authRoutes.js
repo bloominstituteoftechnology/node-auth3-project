@@ -16,7 +16,7 @@ router.post('/register', function(req, res) {
     .catch(err => res.status(500).json(err));
 });
 
-router.post('/login', (req, res) => {
+router.post('/signin', (req, res) => {
   const {username, password} = req.body;
   User
     .findOne({username})
