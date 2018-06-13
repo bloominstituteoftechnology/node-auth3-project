@@ -54,11 +54,12 @@ class SignIn extends Component {
         password: this.state.pw,
       })
       .then(response => {
+        localStorage.setItem('token', response.data.token)
         this.props.loginHandler('Logged In')
         // document.window.sessionStorage.accessToken = response.body.access_token;
-        sessionStorage.setItem('token', response.data.token)
+        
 
-        // console.log(sessionStorage.getItem('token'))
+        console.log(sessionStorage.getItem('token'))
       })
       .catch(err => {
         console.log(err)

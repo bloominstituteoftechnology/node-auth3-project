@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
+import ListItemText from '@material-ui/core/ListItemText';
+
+axios.interceptors.request.use((config)=>{  
+  const token = localStorage.getItem("token");
+  config.headers.Authorization = token;
+  return config;
+})
 
 export default class LoggedIn extends Component {
   constructor(props){
@@ -9,22 +18,38 @@ export default class LoggedIn extends Component {
       users: []
     }
   }
+  
   componentDidMount(){
-    const token = sessionStorage.getItem('token')
-    const header = `${token}`;
-    console.log(header)
+            
     axios
       .get('http://localhost:5500/api/users')
         .then(response => {
-          console.log(response)
+          console.log(response.data)
+          this.setState({
+            users: response.data
+          })
         })
-    // console.log(axios.get('http://localhost:5500/api/users', { headers: { header } }))
+      
   }
 
   render() {
     return (
       <div>
         <h1>  LOGGED IN </h1>
+        <div>
+        <List component="nav"> 
+        {this.state.users.map(user => {
+          return (              
+           
+            <ListItem key={user._id} button>
+              <ListItemText primary={`user = ${user.username} and race = ${user.race}`} />  
+            </ListItem>    
+                
+            
+          )
+        })}
+        </List>
+        </div>
       </div>
     )
   }

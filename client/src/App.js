@@ -13,8 +13,8 @@ class App extends Component {
   
   componentDidMount = () => (
     axios.interceptors.request.use((config)=>{  
-      const token = sessionStorage.getItem("token");
-      config.headers.Authorization = `Bearer ${token}`;
+      const token = localStorage.getItem("token");
+      config.headers.Authorization = token;
       return config;
   }) 
   )
