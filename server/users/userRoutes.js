@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
 const User = require('./User');
-
-
+const jwt = require('jsonwebtoken');
+const secret = 'braden govi xang chris';
 //base prefix is '/api/users'
 
 function restricted (req, res, next) {
@@ -10,7 +10,7 @@ function restricted (req, res, next) {
 
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
+      req.jwtPayload = decodedToken;
         if (err) {
           return res
           .status(401)
