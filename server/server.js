@@ -9,9 +9,9 @@ const server = express();
 setupMiddleware(server);
 setupRoutes(server);
 
-db.connectTo('jwtauth')
+db.connectTo('authii')
   .then(() => {
-    console.log('\n... API Connected to jwtauth Database ...\n');
+    console.log('\n... API Connected to authii Database ...\n');
     server.listen(5500, () =>
       console.log('\n=== API running on port 5500 ===\n')
     );
