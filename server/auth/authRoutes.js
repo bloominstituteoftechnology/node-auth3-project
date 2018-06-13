@@ -8,21 +8,44 @@ function generateToken(user) {
   const options = {
     expiresIn: '1h',
   };
-  const payload = { name: user.username };
+  const payload = { name: user.username, race: user.race };
 
-  // sign the token
   return jwt.sign(payload, secret, options);
 }
 
 router.post('/register', function(req, res) {
   User.create(req.body)
-    .then((user) => {
+    .then(({ username, race}) => {
       // we destructure the username and race to avoid returning the hashed password
-      const token = generateToken(user);
+      const token = generateToken({ username, race });
       // then we assemble a new object and return it
-      res.status(201).json({ username, race });
+      res.status(201).json({ username, race, token });
     })
     .catch(err => res.status(500).json(err));
 });
+
+router.post('/login', (req, res) => {
+  const { username, race, password } = req.body
+  User.findOne({ username })
+    .then(user => {
+      if (user) {
+        user.validatePassword(password)
+          .then(isPasswordValid => {
+            if (isPasswordValid) {
+              const { username, race } = user
+              const token = generateToken(user)
+              res.status(200).json({ message: `welcome ${username}!`, token } )
+            } else {
+              res.status(401).json({ error: 'Invalid credentials, check your username or password!' })
+            }
+          })
+          .catch(err => {
+            res.status(500).json({ error: 'error processing information' })
+          })
+      } else {
+    res.status(401).json({ error: 'Invalid credentials, check your username or password!' })
+      }
+    })
+})
 
 module.exports = router;
