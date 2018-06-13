@@ -1,6 +1,6 @@
 const server = require('express')();
 const db = require('./_config/db');
-const setupMiddleware = require('./_config/middleware');
+const setupMiddleware = require('./_config/middleware').server;
 const setupRoutes = require('./_config/routes');
 
 setupMiddleware(server);
