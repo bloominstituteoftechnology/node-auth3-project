@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import SignIn from '../../Views/SignIn';
-import SignUp from '../../Views/SignUp';
-import Users from '../../Views/Users';
+import SignIn from '../../views/SignIn';
+import SignUp from '../../views/SignUp';
+import Users from '../../views/Users';
 
 const Routes = () => {
   return (
