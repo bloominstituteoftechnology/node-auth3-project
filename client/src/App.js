@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Link } from 'react-router-dom'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      username: '',
+      race: '',
+      password: ''
+    };
+
+  }
+  handlechange = (e) => {
+    return null
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        <h4>Please login or register</h4>
+        {/* <Route path="/signup" component={} /> */}
+        {/* <Route path="/login" component={} /> */}
       </div>
     );
   }
