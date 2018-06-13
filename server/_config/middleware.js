@@ -17,7 +17,7 @@ const authenticate = (req, res, next) => {
   const token = req.headers.authorization;
   jwt.verify(token, secret, (error, decodedToken) => {
     if(error){
-      return res.status(401).json({ error: 'Invalid token' });
+      return res.status(401).json({ error: 'Access denied. Invalid token.' });
     } else {
       req.tokenPayload = decodedToken;
       next();

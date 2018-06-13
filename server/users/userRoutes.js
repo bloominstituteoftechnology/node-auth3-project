@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const User = require('./User');
+const authenticate = require('../_config/middleware').authenticate;
 
-router.get('/', (req, res) => {
+router.get('/', authenticate, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
