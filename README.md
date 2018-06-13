@@ -1,4 +1,4 @@
-# JWT Authentication Mini
+# Authentication using JSON Web Tokens (JWTs)
 
 ## Topics
 
