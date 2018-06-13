@@ -13,4 +13,15 @@ router.get('/', (req, res) => {
     });
 });
 
+router.post('/', (req, res) => {
+  const newUser = { username, password, race } = req.body;
+  User.create(newUser)
+  .then(user => {
+    res.status(201).json(user);
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  })
+})
+
 module.exports = router;
