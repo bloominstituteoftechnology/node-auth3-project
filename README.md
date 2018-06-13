@@ -14,7 +14,7 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 ## Download and Run Starter Code
 
-- Fok and Clone this repository.
+- Fork and Clone this repository.
 - **CD into the server folder**.
 - type `yarn install` to download the server dependencies.
 - type `yarn start` to run the server, and leave it running.
