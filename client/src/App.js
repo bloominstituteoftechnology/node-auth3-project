@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import SignIn from './components/SignIn';
 import LoggedIn from './components/LoggedIn';
+import axios from 'axios';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,14 @@ class App extends Component {
       isSignedIn: false
     }
   }
+  
+  componentDidMount = () => (
+    axios.interceptors.request.use((config)=>{  
+      const token = localStorage.getItem("token");
+      config.headers.Authorization = token;
+      return config;
+  }) 
+  )
 
   loginHandler = (loginBool) =>{
     if(loginBool === 'Logged In'){
