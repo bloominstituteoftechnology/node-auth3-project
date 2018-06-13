@@ -11,7 +11,8 @@ class SignIn extends Component {
     super(props);
     this.state = {
       name: '',
-      pw: ''
+      pw: '',
+      race: '',
     }
   }
 
@@ -23,9 +24,10 @@ class SignIn extends Component {
     event.preventDefault();
 
     axios
-      .post('http://localhost:8000/api/register', {
+      .post('http://localhost:5500/api/auth/register', {
         username: this.state.name,
         password: this.state.pw,
+        race: this.state.race
       })
       .then(response => {
 
@@ -38,6 +40,7 @@ class SignIn extends Component {
       this.setState({
         name: '',
         pw: '',
+        race: ''
       })
 
   }
@@ -46,13 +49,16 @@ class SignIn extends Component {
     event.preventDefault();
 
     axios
-      .post('http://localhost:8000/api/login', {
+      .post('http://localhost:5500/api/auth/login', {
         username: this.state.name,
         password: this.state.pw,
       })
       .then(response => {
-        this.props.loginHandler(response.data)
-        console.log(response)
+        this.props.loginHandler('Logged In')
+        // document.window.sessionStorage.accessToken = response.body.access_token;
+        sessionStorage.setItem('token', response.data.token)
+
+        // console.log(sessionStorage.getItem('token'))
       })
       .catch(err => {
         console.log(err)
@@ -77,6 +83,10 @@ class SignIn extends Component {
         <FormControl >
           <InputLabel htmlFor="name-simple">Password</InputLabel>
           <Input id="name-simple2" name="pw" type="password" value={this.state.pw} onChange={this.handleChange} />
+        </FormControl>
+        <FormControl >
+          <InputLabel htmlFor="name-simple">Race</InputLabel>
+          <Input id="name-simple3" name="race"  value={this.state.race} onChange={this.handleChange} />
         </FormControl>
         <Button variant="contained" color="primary" onClick={this.handleReturningUser}>
             login
