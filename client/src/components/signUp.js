@@ -59,6 +59,7 @@ class SignUp extends Component {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: 'center',
+            textAlign: 'center'
           }}
         >
           
@@ -75,6 +76,9 @@ class SignUp extends Component {
           </Col>
           <Col sm="3">
             <Input
+             style={{
+                margin: '10px',
+            }}
               placeholder="password"
               type="password"
               onChange={this.handlePass}
@@ -83,6 +87,9 @@ class SignUp extends Component {
           </Col>
           <Col sm="3">
             <Input
+             style={{
+                margin: '10px',
+            }}
               placeholder="race"
               type="text"
               onChange={this.handleRace}
