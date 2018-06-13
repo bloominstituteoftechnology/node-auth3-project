@@ -2,13 +2,14 @@ const router = require('express').Router();
 const User = require('./User');
 const jwt = require('jsonwebtoken');
 
+const secret = 'hasta siempre Comandante';
 
 function restricted(req, res, next) {
   const token = req.headers.authorization;
 
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
+      // req.jwtPayload(decodedToken);
       if (err) {
         return res
           .status(401)
@@ -22,7 +23,7 @@ function restricted(req, res, next) {
   }
 }
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
@@ -32,5 +33,7 @@ router.get('/', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+
 
 module.exports = router;
