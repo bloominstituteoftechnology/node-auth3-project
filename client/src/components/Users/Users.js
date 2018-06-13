@@ -20,8 +20,8 @@ class Users extends Component {
         this.setState({ users: response.data });
       })
       .catch(error => {
-        // TO DO: Show error to user
-        console.log('Could not retrieve users', error);
+        // TO DO: On redirect to sign in page display message telling user they must log in before accessing content
+        this.props.history.push('/');
       });
   }
   render() { 
