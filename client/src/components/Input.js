@@ -29,7 +29,10 @@ class InputComponent extends React.Component {
                         password: this.state.password
                     }
                     this.props.login(user)
-                    this.props.fetch()
+                    setTimeout(() => {
+                        this.props.fetch()
+                    }, 300)
+
                 }} /></Link>
             </div>
         )
@@ -50,12 +53,15 @@ class InputComponent extends React.Component {
                         password: this.state.password
                     }
                     this.props.register(user)
-                    this.props.fetch()
+                    setTimeout(() => {
+                        this.props.fetch()
+                    }, 300)
                 }} /></Link>
             </div>
         );
     }
     render() {
+        console.log(this.props, this.state)
         return (
             <div>
                 {this.props.page === "signup" ? this.signUp() : this.logIn()}

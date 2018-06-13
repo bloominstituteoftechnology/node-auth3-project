@@ -5,16 +5,16 @@ const secret = "toss me, but don't tell the elf!";
 
 function protected(req, res, next) {
   const token = req.headers.authorization
-  token.replace(/[\"]/g, "");
+  console.log(token)
   if (token) {
-    console.log(token)
     jwt.verify(token, secret, ((err, decodedToken) => {
       if (err) {
-        console.log(err)
+
         return res
           .status(401)
           .json({ message: 'you shall not pass! not decoded' })
       }
+      req.decodedToken = decodedToken
       next()
     }))
   }
@@ -25,7 +25,8 @@ function protected(req, res, next) {
 
 
 router.get('/', protected, (req, res) => {
-  User.find()
+  console.log(req.decodedToken)
+  User.find({ race: req.decodedToken.race })
     .select('-password')
     .then(users => {
       res.json(users);
