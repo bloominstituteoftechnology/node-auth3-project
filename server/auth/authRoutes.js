@@ -1,14 +1,17 @@
 const router = require('express').Router();
 const User = require('../users/User');
+const generateToken = require('../_config/middleware').generateToken;
 
 router
   .post('/register', (req, res) => {
-    User.create(req.body)
+    const { username, password, race } = req.body;
+    User.create({ username, password, race })
       .then(({ username, race }) => {
-        // we destructure the username and race to avoid returning the hashed password
-
-        // then we assemble a new object and return it
-        res.status(201).json({ username, race });
+        const token = generateToken({
+          username: username,
+          race: race
+        });
+        res.status(201).json({ username: username, token });
       })
       .catch(err => res.status(500).json(err));
   })
