@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   return bcrypt
-    .hash(this.password, 10)
+    .hash(this.password, 10) // this time we'll use promises instead of a callback
     .then(hash => {
       this.password = hash;
 

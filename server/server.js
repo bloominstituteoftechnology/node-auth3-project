@@ -13,8 +13,8 @@ const server = express();
 const secret = "Stir it up.";
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
+  origin: 'http://localhost:3000', // allow only the React app to connect
+  credentials: true, // sets the Access-Control-Allow-Credentials CORS header
 };
 
 server.use(express.json());
@@ -71,13 +71,13 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-function restricted(res, req, next) {
+function restricted(req, res, next) {
   const token = req.headers.authorization;
 
   if(token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       req.jwtPayload(decodedToken);
-      if(err) {
+      if (err) {
         return res
           .status(401)
           .json({ message: 'Not decoded. You shall not pass!' });
@@ -89,7 +89,6 @@ function restricted(res, req, next) {
     res.status(401).json({ Message: 'No token. You shall not pass!' });
   }
 }
-
 
 server.get('/api/users', restricted, (req, res) => {
   User.find({})
