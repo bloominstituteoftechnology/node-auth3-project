@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class Signin extends Component {
+class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             username: '',
             password: '',
+            race: ''
          }
     }
 
@@ -19,13 +20,10 @@ class Signin extends Component {
         event.preventDefault();
 
         axios
-            .post('http://localhost:5500/api/auth/login', this.state)
+            .post('http://localhost:5500/api/auth/register', this.state)
             .then(response => {
-                // console.log("token", response.data.token);
-                // console.log('signin props', this.props);
-
-                localStorage.setItem('jwt', response.data.token);
-                this.props.history.push('/users');
+                console.log('response', response)
+                this.props.history.push('/signin');
             })
             .catch(err => {
                 console.error("There was an error logging in", err.message);
@@ -34,14 +32,14 @@ class Signin extends Component {
 
     render() { 
         return ( 
-            <form className="signin-form" onSubmit={this.submitHandler}>
+            <form className="signup-form" onSubmit={this.submitHandler}>
                 <div>
                     <label>Username: </label>
-                    <input  
+                    <input
                         value={this.state.username}
                         onChange={this.inputChangeHandler}
-                        name='username'
-                        type='text'
+                        name="username"
+                        type="text"
                     />
                 </div>
                 <div>
@@ -49,16 +47,25 @@ class Signin extends Component {
                     <input
                         value={this.state.password}
                         onChange={this.inputChangeHandler}
-                        name='password'
-                        type='password'
+                        name="password"
+                        type="password"
                     />
                 </div>
                 <div>
-                    <button type="submit">Signin</button>
+                    <label>Race: </label>
+                    <input
+                        value={this.state.race}
+                        onChange={this.inputChangeHandler}
+                        name="race"
+                        type="text"
+                    />
+                </div>
+                <div>
+                    <button type="submit">Sign up</button>
                 </div>
             </form>
-        );
+         )
     }
 }
  
-export default Signin;
+export default Signup;
