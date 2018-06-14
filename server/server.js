@@ -5,20 +5,22 @@ const jwt = require('jsonwebtoken');
 
 const User = require('./users/User.js');
 
-// const db = require('./_config/db');
-// const setupMiddleware = require('./_config/middleware');
-// const setupRoutes = require('./_config/routes');
+const db = require('./_config/db');
+const setupMiddleware = require('./_config/middleware');
+const setupRoutes = require('./_config/routes');
 
 const server = express();
-const secret = "Stir it up.";
+const secret = "toss me, but don't tell the elf!";
 
 const corsOptions = {
   origin: 'http://localhost:3000', // allow only the React app to connect
   credentials: true, // sets the Access-Control-Allow-Credentials CORS header
 };
 
-server.use(express.json());
+// server.use(express.json());
 server.use(cors(corsOptions));
+setupMiddleware(server);
+// setupRoutes(server);
 
 server.post('/api/register', (req, res) => {
   User.create(req.body)
@@ -65,6 +67,7 @@ function generateToken(user) {
   const options = {
     expiresIn: '1h',
   };
+  
   const payload = { name: user.username };
 
   // sign the token
@@ -76,11 +79,9 @@ function restricted(req, res, next) {
 
   if(token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken);
+      // req.jwtPayload(decodedToken);
       if (err) {
-        return res
-          .status(401)
-          .json({ message: 'Not decoded. You shall not pass!' });
+        res.status(401).json({ message: 'Not decoded. You shall not pass!' });
       }
 
       next();
@@ -101,7 +102,7 @@ server.get('/api/users', restricted, (req, res) => {
     });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5500;
 
 mongoose
   .connect('mongodb://localhost/auth-ii')
@@ -115,8 +116,8 @@ mongoose
     console.log('\n ===== Error connecting to MongoDB, is it running? ===== \n', err)
   );
 
-// setupMiddleware(server);
-// setupRoutes(server);
+  // setupMiddleware(server);
+  // setupRoutes(server);
 
 // db.connectTo('authii')
 //   .then(() => {
