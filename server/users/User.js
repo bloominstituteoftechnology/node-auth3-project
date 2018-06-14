@@ -1,5 +1,3 @@
-// /users/User.js
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -13,15 +11,24 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    // minlength: 4, // make this at least 12 in production
+    maxlength: 25,
+    validate: checkPasswordLength,
+    msg: 'Password is too weak',
   },
-  // race: {
-  //   type: String,
-  //   required: true,
-  //   index: true,
-  //   minlength: 2,
-  // },
+  race: {
+    type: String,
+    required: true,
+    validate: {
+      validator: /(founder|partner|member)/i,
+      msg: 'Invalid race',
+    },
+  },
 });
+
+function checkPasswordLength(password) {
+  return password.length > 12;
+}
 
 userSchema.pre('save', function(next) {
   return bcrypt
@@ -41,3 +48,4 @@ userSchema.methods.validatePassword = function(passwordGuess) {
 };
 
 module.exports = mongoose.model('User', userSchema, 'users');
+s
