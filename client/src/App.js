@@ -3,8 +3,9 @@ import { Route, withRouter } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
-import Signin from '../auth/Signin.js';
-import Users from '../users/Users.js'; 
+import Signin from './auth/Signin.js';
+import Signup from './auth/Signup.js';
+import Users from './users/Users.js'; 
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
           </div>
         </header>
 
+        <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
       </div>

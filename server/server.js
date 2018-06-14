@@ -21,6 +21,10 @@ server.use(cors(corsOptions));
 setupMiddleware(server);
 // setupRoutes(server);
 
+server.get('/', (req, res) => {
+  res.status(200).json({ api: 'runnning' }); 
+}); 
+
 server.post('/api/register', (req, res) => {
   User.create(req.body)
     .then(user => {
@@ -121,6 +125,7 @@ server.get('/api/users', restricted, (req, res) => {
       return res.status(500).json(err); 
     });
 });
+
 
 // const port = process.env.PORT || 5500; 
 

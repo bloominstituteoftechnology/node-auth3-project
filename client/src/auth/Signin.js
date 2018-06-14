@@ -1,16 +1,17 @@
 import React from 'react'; 
 import axios from 'axios'; 
+import './signin.css';
 
-class Signin extends React.component {
-    state={
-        username: 'sam',
-        password: 'shire'
+class Signin extends React.Component {
+    state = {
+        username: 'Galadriel',
+        password: 'silmaril',
     };
 
     render () {
         return (
-
-            <form onSubmit={this.submitHandler}>
+          <div className>
+            <form onSubmit={this.submitHandler} className="signinForm">
         
                 <div>
                     <label>Username</label>
@@ -34,6 +35,7 @@ class Signin extends React.component {
                     <button type="submit">Signin</button>
                 </div>
             </form>
+          </div>
         );
     }
 
@@ -48,7 +50,7 @@ class Signin extends React.component {
                 console.log('signing props', this.props);
                 this.props.history.push('/users');
             })
-            .catch(err => console.log('bad panda!'));
+            .catch(err => console.log('error signing in!'));
     };
 
     inputChangeHandler = event => {

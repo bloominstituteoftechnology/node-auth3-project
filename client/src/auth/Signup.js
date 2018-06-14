@@ -1,16 +1,18 @@
 import React from 'react'; 
 import axios from 'axios'; 
+import './signup.css';
 
-class Signin extends React.component {
-    state={
-        username: 'sam',
-        password: 'shire'
+class Signup extends React.Component {
+    state = {
+        username: '',
+        password: '',
+        race: ''
     };
 
     render () {
         return (
-
-            <form onSubmit={this.submitHandler}>
+          <div className>
+            <form onSubmit={this.submitHandler} className="signupForm">
         
                 <div>
                     <label>Username</label>
@@ -31,9 +33,19 @@ class Signin extends React.component {
                     />
                 </div>
                 <div>
-                    <button type="submit">Signin</button>
+                    <label>Race</label>
+                    <input 
+                        value={this.state.race}
+                        onChange={this.inputChangeHandler}
+                        name="password"
+                        type="text"
+                    />
+                </div>
+                <div>
+                    <button type="submit">Signup</button>
                 </div>
             </form>
+          </div>
         );
     }
 
@@ -41,14 +53,14 @@ class Signin extends React.component {
         event.preventDefault();
 
         axios  
-            .post('http://localhost:5500/api/login', this.state)
+            .post('http://localhost:5500/api/register', this.state)
             .then(response => {
                 localStorage.setItem('jwt', response.data.token); 
 
-                console.log('signing props', this.props);
+                console.log('signup props', this.props);
                 this.props.history.push('/users');
             })
-            .catch(err => console.log('bad panda!'));
+            .catch(err => console.log('error signing up!'));
     };
 
     inputChangeHandler = event => {
@@ -58,4 +70,4 @@ class Signin extends React.component {
     };
 }
 
-export default Signin; 
+export default Signup; 

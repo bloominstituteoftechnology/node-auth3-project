@@ -1,7 +1,7 @@
 import React from 'react'; 
 import axios from 'axios'; 
 
-class Users extends React.component {
+class Users extends React.Component {
     state = {
         users: [],
     };
