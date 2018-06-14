@@ -10,15 +10,12 @@ class Users extends Component {
     }
 
     componentDidMount() {
-
         const token = localStorage.getItem("jwt");
-
         const requestOptions = {
             headers: {
                 Authorization: token
             }
         }
-
         axios
             .get('http://localhost:5500/api/users', requestOptions)
             .then(response => {
@@ -28,14 +25,14 @@ class Users extends Component {
             .catch(error => {
                 console.log(error)
             })
-    }
+        }
 
     render() { 
         return ( 
-            <ul>
+            <ul className="user-list">
                 {this.state.users.map(user => {
                     return (
-                        <li key={user._id}>{user.username}</li>
+                        <li key={user._id} className="indv-usr">{user.username}</li>
                     )
                 })}
             </ul>

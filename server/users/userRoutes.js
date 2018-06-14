@@ -20,7 +20,6 @@ function restricted(req, res, next) {
 
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      // req.jwtPayload(decodedToken);
       if (err) {
         return res
           .status(401)

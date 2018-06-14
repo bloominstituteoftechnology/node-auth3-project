@@ -19,11 +19,9 @@ class SignIn extends Component {
     login = event => {
         event.preventDefault();
         const credentials={ username: this.state.username, password: this.state.password }
-        console.log("credentials:", credentials)
         axios
             .post('http://localhost:5500/api/auth/login', credentials)
             .then(response => {
-                console.log("response:", response.data)
                 localStorage.setItem('jwt', response.data.token);
                 this.setState({ username: '', password: '', responseMessage: response.data, loggedIn: true })
                 this.props.history.push('/users');
@@ -38,14 +36,14 @@ class SignIn extends Component {
             <div>
                 <form className="login-box">
                     <input 
-                        className="username-input"
+                        className="username-login"
                         onChange={this.handleInputChange}
                         placeholder="Enter Username"
                         name="username"
                         value={this.state.username}
                     />
                     <input
-                        className="password-input"
+                        className="password-login"
                         onChange={this.handleInputChange}
                         placeholder="Enter Password"
                         name="password"
