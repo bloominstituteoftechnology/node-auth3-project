@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 class Users extends React.Component {
     state = {
@@ -25,10 +27,29 @@ class Users extends React.Component {
 
     }
 
+    signout = () => {
+        if (localStorage.getItem('token')) {
+            localStorage.removeItem('token');
+            // this.props.history.push('/signin');
+        }
+    };
+
+    
+
     render() { 
-        return (<ul>
-            {this.state.users.map(user => <p key={user._id}>{user.username}</p>)}
-        </ul>)
+        return (
+            <div>
+                <ul>
+                    {this.state.users.map(user => <p key={user._id}>{user.username}</p>)}
+                </ul>
+                <Link to="/">
+                    <button className="home-button">
+                        Signout
+                    </button>
+                </Link>
+            </div>
+            )
+            
     }
 }
  
