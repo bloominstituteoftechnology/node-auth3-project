@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-class RegisterLoginForm extends Component {
+class RegisterandLoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,12 +41,12 @@ class RegisterLoginForm extends Component {
             })
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value })
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault()
+    handleSubmit = (event) => {
+        event.preventDefault()
         const user = {
             username: this.state.username,
             password: this.state.password,
@@ -69,15 +69,15 @@ class RegisterLoginForm extends Component {
                 this.state.type === "Sign up" ? (
                     <Form className="register-login" onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <Label for="username">Username</Label>
+                            <Label for="username">Username:</Label>
                             <Input id="username" name="username" onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="password">Password</Label>
-                            <Input id="password" name="password" onChange={this.handleChange}/>
+                            <Label for="password">Password:</Label>
+                            <Input id="password" type="password" name="password" onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="race">Race</Label>
+                            <Label for="race">Race:</Label>
                             <Input id="race" name="race" onChange={this.handleChange}/>
                         </FormGroup>
                         <Button color="primary">{this.state.type}</Button>
@@ -85,14 +85,14 @@ class RegisterLoginForm extends Component {
                 ) : (
                     <Form className="register-login" onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <Label for="username">Username</Label>
+                            <Label for="username">Username:</Label>
                             <Input id="username" name="username" onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="password">Password</Label>
-                            <Input id="password" name="password" onChange={this.handleChange}/>
+                            <Label for="password">Password:</Label>                           
+                            <Input id="password" type="password" name="password" onChange={this.handleChange}/>
                         </FormGroup>
-                        <Button color="primary">{this.state.type}</Button>
+                        <Button color="">{this.state.type}</Button>
                     </Form>
                 )
             )   
@@ -100,4 +100,4 @@ class RegisterLoginForm extends Component {
     }
 }
  
-export default RegisterLoginForm;
+export default RegisterandLoginForm;

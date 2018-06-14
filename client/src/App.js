@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route } from 'react-router-dom';
-import RegisterLoginForm from './components/RegisterLoginForm';
-import UserList from './components/UserList';
+import { Route, withRouter } from 'react-router-dom';
+import RegisterandLoginForm from './components/RegisterandLoginForm';
+import Users from './components/Users';
 
 class App extends Component {
+  constructor() {
+   super();
+    this.state = {
+      signin: false
+    }
+  }
+
+  takeToSignUP = () => {
+    this.props.history.push('/signup');
+    this.setState({
+      signin: true
+    })
+  }
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />          
-        </header>        
-        <Route path="/signin" component={RegisterLoginForm}/>
-        <Route path="/signup" component={RegisterLoginForm}/> 
-        <Route path="/users" component={UserList}/>
+        </header> 
+        <div>
+            { this.state.signin ? null:            
+              <button onClick={this.takeToSignUP}>push to signup</button>
+            }
+          </div>             
+        <Route path="/signin" component={RegisterandLoginForm}/>
+        <Route path="/signup" component={RegisterandLoginForm}/> 
+        <Route path="/users" component={Users}/>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
