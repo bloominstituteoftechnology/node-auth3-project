@@ -10,9 +10,9 @@ router.post('/login', (req, res, next) => {
     user
       .validatePassword(password)
       .then(matched => {
-        if (!matched) next(err);
+        if (!matched) return res.status(422).json('Bad credentials, please review you credentials and try again.');
         const jwt = helpers.generateToken(user);
-        res.status(200).json({ username, race, jwt });
+        res.status(200).json({ matched, username, race, jwt });
       })
       .catch(e => {
         console.log('error', e);
