@@ -1,18 +1,25 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Users from "./Users";
+
 
 class LoginForm extends React.Component {
 
-    state = {  
-        username: "",
-        password: ""
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        };
     }
 
     login = (event) => {
         axios.post("http://localhost:5500/api/auth/login", this.state).
             then(response => {
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('username', this.state.username);                
                 this.props.history.push('/users');
         })
             .catch(err => console.log(err));
