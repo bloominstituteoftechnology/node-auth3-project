@@ -1,25 +1,9 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const session = require('express-session');
 
 const secret = "toss me, but don't tell the elf!!";
 
 const User = require('../users/User');
-
-router.get('/logout', (req, res) => {
-  console.log(req.session)
-  if(req.session){
-    req.session.destroy(err => {
-      if(err){
-        res.status(400).json({ error: 'Error logging out' })
-      } else {
-        res.status(200).json({ message: `Goodbye!` })
-      }
-    })
-  } else {
-    res.status(401).json({ error: 'Error logging out' })
-  }
-})
 
 router.post('/register', function(req, res) {
   User.create(req.body)
