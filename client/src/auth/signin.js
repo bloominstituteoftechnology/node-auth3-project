@@ -1,9 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 
 class Signin extends React.Component {
     state = {
-        username: '',
-        password: ''
+        username: 'England',
+        password: 'France',
     };
 
     render() {
@@ -40,7 +41,9 @@ class Signin extends React.Component {
         axios
             .post('http://localhost:5000/api/login', this.state)
             .then(response => {
-                console.log('response', response.data);
+                localStorage.setItem('jwt', response.data.token);
+                console.log('response', this.props);
+                this.props.history.push('/users');
             })
             .catch(err => console.log('bad Panda'));
     };
