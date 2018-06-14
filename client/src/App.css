@@ -1,5 +1,13 @@
+@import "./styles/RegisterLoginForm.css";
+@import "./styles/UserList.css";
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(230, 230, 230);
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -12,6 +20,38 @@
   height: 150px;
   padding: 20px;
   color: white;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navlink {
+  width: 120px;
+  color: white;
+}
+
+.navlink:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.nav-btn {
+  width: 100%;
 }
 
 .App-title {
