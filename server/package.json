@@ -4,7 +4,7 @@
   "description": "Authentication II Server",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon"
   },
   "keywords": [],
   "author": "Lambda School",
