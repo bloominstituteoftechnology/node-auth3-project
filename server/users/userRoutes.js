@@ -17,7 +17,6 @@ router.get('/', restricted, (req, res) => {
 
 function restricted(req, res, next) {
   const token = req.headers.authorization;
-
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
@@ -25,7 +24,6 @@ function restricted(req, res, next) {
           .status(401)
           .json({ message: 'you shall not pass! not decoded' });
       }
-
       next();
     });
   } else {

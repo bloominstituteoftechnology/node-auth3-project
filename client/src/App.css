@@ -1,8 +1,11 @@
 .App {
   text-align: center;
   height: 800px;
-  background-color: rgb(78, 47, 47);
-  color: rgb(189, 170, 67);
+  color: white;
+  background:url("https://i.imgur.com/NrgFc4C.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   text-shadow: 1px 1px 5px black;
 }
 
@@ -28,7 +31,7 @@
 
 /* homepage buttons */
 .portal-box {
-  padding-top: 5px;
+  padding-top: 15px;
 }
 
 /* sign up */
@@ -39,6 +42,23 @@
 /* sign in */
 .login-box {
   padding-top: 100px;
+}
+
+/* user list */
+.user-list {
+  background:url("https://stmed.net/sites/default/files/the-lord-of-the-rings%3A-the-fellowship-of-the-ring-wallpapers-30068-6507881.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  text-shadow: 3px 3px 8px rgb(189, 170, 67);
+  color: black;
+  height: 400px;
+}
+
+.indv-usr {
+  padding: 5px;
 }
 
 @keyframes App-logo-spin {
