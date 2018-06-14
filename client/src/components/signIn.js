@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
-import { Input, InputGroup, Button, Col } from 'reactstrap';
-
+import { Input, InputGroup, Button, Col, Form } from 'reactstrap';
+import NavBar from './navBar'
 class SignIn extends Component {
     constructor() {
       super();
@@ -21,7 +21,8 @@ class SignIn extends Component {
       this.setState({ password: e.target.value });
     };
   
-    logInUser = e => {
+    logInUser = event => {
+      event.preventDefault();
       axios
         .post("http://localhost:5500/api/auth/login", {
           username: this.state.username,
@@ -30,10 +31,10 @@ class SignIn extends Component {
         .then(res => {
           console.log("res status", res.status)
           if (res.status === 200) {
+            localStorage.setItem("authorization", res.data.token)
             this.setState({ redirect: true })
           }
           console.log("success!, you have been logged in!", res);
-          localStorage.setItem("authorization", res.data.token)
         })
         .catch(error => {
           console.log("Error", error);
@@ -49,14 +50,17 @@ class SignIn extends Component {
       }
         return (
         <div>
+          <NavBar  />
+        <Form onSubmit={this.logInUser}>
           <InputGroup
+   
             style={{
               marginTop: "15px",
               display: "flex",
               justifyContent: "center"
             }}
           >
-            <Button color="danger" onClick={this.logInUser}>
+            <Button color="danger" type="submit">
               Submit
             </Button>
             <Col sm="3">
@@ -78,6 +82,7 @@ class SignIn extends Component {
             
            
           </InputGroup>
+          </Form>
           <br />
           <Link
               style={{ alignSelf: "center", textDecoration: "underline" }}

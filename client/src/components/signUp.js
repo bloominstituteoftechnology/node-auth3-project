@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { InputGroup, Input, Col, Button, Container } from "reactstrap";
 import axios from "axios";
+import NavBar from './navBar'
 
 class SignUp extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class SignUp extends Component {
     }
     return (
       <div>
+        <NavBar />
         <Container style={{ maxWidth: "1500px" }}>
           <InputGroup
             style={{

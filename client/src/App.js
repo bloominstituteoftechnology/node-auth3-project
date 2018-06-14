@@ -7,6 +7,7 @@ import Dashboard from './components/dashboard';
 import SignUp from './components/signUp';
 import NavBar from './components/navBar';
 import Users from './components/usersList'
+import { withRouter } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -15,8 +16,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <NavBar  />
+        </header> 
       <Route exact path="/" component={SignIn} />
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/signup" component={SignUp} />
@@ -26,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

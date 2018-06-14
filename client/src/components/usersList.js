@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 import { Col, Card, CardBody, CardColumns, Container } from "reactstrap";
-
+import NavBar from './navBar';
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,7 @@ class Users extends Component {
   componentDidMount() {
     this.getSession();
   }
+
   getSession = () => {
     const config = {
                  headers: {
@@ -33,15 +35,19 @@ class Users extends Component {
   render() {
     return (
       <div>
-        <Container style={{ display: "flex", justifyContent: 'center', marginLeft: '24.5%' }} >
+        <NavBar />
+        <h3>Welcome {this.state.wutizit.username}</h3>
+        <Container style={{ display: "flex", justifyContent: 'center' }} >
         <CardColumns>
           {this.state.wutizit.map(user => {
             return (
-            <Card key={user._id} style={{ margin: '20px', boxShadow: '2px 2px 6px black'}} >
+            <Card key={user._id} style={{ margin: '20px 0px 20px 0px', boxShadow: '2px 2px 6px black'}} >
            <CardBody>
                <h4>User:</h4>
             <p style={{ fontSize: '1.3rem'}}>{user.username}</p>
-            <a href="#">Profile</a>
+           <Link to="/dashboard">
+            <p>Profile</p>
+            </Link>
            </CardBody>
             </Card>
           )})}

@@ -41,7 +41,7 @@ router.post("/login", function(req, res) {
             }
           })
           .catch(err => {
-            res.send("error comparing passwords");
+            err.send("error comparing passwords");
           });
       } else {
         res.status(401).send("invalid creds");
