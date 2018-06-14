@@ -5,6 +5,8 @@ import { Route } from "react-router-dom";
 import { Link} from "react-router-dom";
 import SignupForm from './components/SignupForm';
 import Home from "./components/Home";
+import LoginForm from "./components/LoginForm";
+
 
 
 class App extends Component {
@@ -12,7 +14,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path='/' component={Home} />
-        {/* <Route path="/signin" component={SigninForm} /> */}
+        <Route path="/login" component={LoginForm} />
         <Route path="/register" component={SignupForm} />
       </div>
     );

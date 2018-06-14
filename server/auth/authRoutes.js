@@ -14,6 +14,11 @@ function generateToken(user) {
 }
 
 router.post('/register', function(req, res) {
+  const { username, password } = req.body;
+  if (!username || !password || !race) {
+    res.status(400).json({ error: "Can't submit empty field!" });
+    return;
+  }
   User.create(req.body)
     .then(({ username, race}) => {
       // we destructure the username and race to avoid returning the hashed password
