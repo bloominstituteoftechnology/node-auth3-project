@@ -35,20 +35,26 @@ class SignIn extends Component {
         return ( 
             <div>
                 <form className="login-box">
-                    <input 
-                        className="username-login"
-                        onChange={this.handleInputChange}
-                        placeholder="Enter Username"
-                        name="username"
-                        value={this.state.username}
-                    />
-                    <input
-                        className="password-login"
-                        onChange={this.handleInputChange}
-                        placeholder="Enter Password"
-                        name="password"
-                        value={this.state.password}
-                    />
+                    <div>
+                        <input 
+                            className="username-login"
+                            onChange={this.handleInputChange}
+                            placeholder="Enter Username"
+                            name="username"
+                            type="text"
+                            value={this.state.username}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            className="password-login"
+                            onChange={this.handleInputChange}
+                            placeholder="Enter Password"
+                            name="password"
+                            type="password"
+                            value={this.state.password}
+                        />    
+                    </div>
                 </form>
                 <button 
                     className="login-button"
