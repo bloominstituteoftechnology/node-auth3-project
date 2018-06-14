@@ -30,7 +30,7 @@ class App extends Component {
     if (localStorage.getItem('jwt')) {
       localStorage.getItem('jwt');
 
-      this.props.hostory.push('/signin')
+      this.props.history.push('/signin')
     }
   }
 }
