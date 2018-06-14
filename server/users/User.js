@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     index: true,
     minlength: 2,
+    validate: {
+      validator: /(human)/,
+      msg: 'invalid race'
+    }
   },
 });
 
