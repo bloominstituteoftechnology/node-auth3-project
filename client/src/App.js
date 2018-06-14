@@ -29,11 +29,12 @@ class App extends Component {
         localStorage.setItem('token', response.data.token)
         this.setState({ loggedin: true })
       })
-      .catch(err => console.log(err.message))
-    this.state.loggedin ?
-      this.props.history.push('/users') :
-      (this.props.history.push('/login'),
-        alert("Please provide correct credentials"))
+      .catch(err => {
+        this.props.history.push('/login')
+        alert("Please provide correct credentials")
+        console.log(err.message)
+      })
+    this.props.history.push('/users')
   }
   logOut = () => {
     localStorage.clear()
@@ -55,7 +56,7 @@ class App extends Component {
         {this.state.loggedin && <Link to='/login'><button type="button" onClick={this.logOut} >LogOut</button></Link>}
         <Route path="/signup" render={props => <InputComponent {...props} page="signup" register={this.register} fetch={this.fetchUsers} />} />
         <Route path="/login" render={props => <InputComponent {...props} login={this.login} fetch={this.fetchUsers} />} />
-        <Route path="/users" render={props => <UserList {...props} users={this.state.users} />} />
+        <Route path="/users" render={props => <UserList {...props} users={this.state.users} loggedin={this.state.loggedin} />} />
         {/* <Route exact path="/users" render={(props) => (
           this.state.loggedIn ? (
             <UserList {...props} users={this.state.users} />

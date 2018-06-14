@@ -18,6 +18,7 @@ class InputComponent extends React.Component {
     logIn = () => {
         return (
             <div className="form">
+                <h1>Please login to view registered Users</h1>
                 <label htmlFor="username">Username</label>
                 <input id="username" name="username" onChange={this.handleChange} value={this.state.username} />
                 <label htmlFor="password">Password</label>
