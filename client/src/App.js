@@ -1,34 +1,10 @@
 import React, { Component } from 'react';
 import ring from './oneringGIF.gif';
-import axios from 'axios';
 import './App.css';
+import { Route, Link } from 'react-router-dom';
+import { SignUp, SignIn } from './cmpnts'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      race: ''
-    }
-  }
-
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  addUser = () => {
-    const userInfo={ username: this.state.username, password: this.state.password, race: this.state.race }
-    axios
-        .post('http://localhost:5500/api/auth/register', userInfo)
-        .then(response => {
-            this.setState({ username: '', password: '', race: '' })
-        })
-        .catch(error => {
-            console.log(error)
-        })
-  }
-
   render() {
     return (
       <div className="App">
@@ -36,35 +12,17 @@ class App extends Component {
           <img src={ring} className="ring-logo" alt="logo" />
           <h1 className="App-title">LOTR Database:</h1>
         </header>
-        <form className="input">
-          <input 
-              className="username-input"
-              onChange={this.handleInputChange}
-              placeholder="Enter Username"
-              name="username"
-              value={this.state.username}
-          />
-          <input
-              className="password-input"
-              onChange={this.handleInputChange}
-              placeholder="Enter Password"
-              name="password"
-              value={this.state.password}
-          />
-          <input
-              className="race-input"
-              onChange={this.handleInputChange}
-              placeholder="Enter Race"
-              name="race"
-              value={this.state.race}
-          />
-        </form>
-        <button 
-          className="submit-button"
-          onClick={this.addUser}
-        >
-        Sign Up
-        </button>
+        <div className="portal-box">
+          <Link to="/signup">
+            <button>Sign Up</button>
+          </Link>
+          <Link to="/signin">
+            <button>Sign In</button>
+          </Link>
+          <button onClick={this.logout}>logout</button>
+        </div>
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
       </div>
     );
   }
