@@ -6,6 +6,7 @@ class Users extends Component {
     users: [],
   };
 
+//create users list
  render() {
     return (
       <ul>
@@ -14,6 +15,8 @@ class Users extends Component {
     );
  }
 
+  //make sure there is a token before displaying users
+  //first look for token, then when you get, check and make sure the token is valid
  componentDidMount() {
     const token = localStorage.getItem('jwt');
     const requestOptions = {

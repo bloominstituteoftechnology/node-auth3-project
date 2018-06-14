@@ -26,6 +26,8 @@ class App extends Component {
       </div>
     );
   }
+
+  //for signout, check for token and remove it before returning to signin
   signout = () => {
     if (localStorage.getItem('jwt')) {
       localStorage.removeItem('jwt');
