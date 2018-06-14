@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import NavBar from './NavBar'
+import { withRouter } from 'react-router'
 
 class UserList extends Component {
     constructor(props) {
@@ -11,7 +12,11 @@ class UserList extends Component {
     }
 
     componentDidMount() {
-        this.getUsers()
+        if (localStorage.getItem("authorization")) {
+            this.getUsers()
+        } else {
+            this.props.history.push('/signin')
+        }
     }
 
     getUsers = () => {
@@ -49,4 +54,4 @@ class UserList extends Component {
     }
 }
  
-export default UserList
+export default withRouter(UserList)
