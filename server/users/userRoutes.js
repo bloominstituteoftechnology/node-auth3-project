@@ -6,7 +6,7 @@ const secret = "toss me, but don't tell the elf!";
 
 router.get('/', restricted, (req, res) => {
   User.find({})
-    .select('-password')
+    .select('username')
     .then(users => {
       res.json(users);
     })

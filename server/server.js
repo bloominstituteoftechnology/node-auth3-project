@@ -8,6 +8,8 @@ const setupRoutes = require('./_config/routes');
 
 const server = express();
 
+server.use(cors({}));
+
 setupMiddleware(server);
 setupRoutes(server);
 

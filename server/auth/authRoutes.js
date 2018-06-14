@@ -6,8 +6,9 @@ const secret = "toss me, but don't tell the elf!";
 
 router.post('/register', function(req, res) {
   User.create(req.body)
-    .then(({ username, race }) => {
-      res.status(201).json({ username, race });
+    .then((user) => {
+      const token = generateToken(user);
+      res.status(201).json({ username: user.username, race: user.race, token });
     })
     .catch(err => res.status(500).json(err));
 });
