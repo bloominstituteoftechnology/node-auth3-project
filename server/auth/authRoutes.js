@@ -44,7 +44,9 @@ router.post ('/login', (req, res) => {
       .then(passwordsMatch => {
         if(passwordsMatch) {
           const token = generateToken(username, user.race)
-          res.send('have a cookie');
+          res.json({ token, message: "have a cookie" })
+         
+          
         }
         else {
           res.status(401)
