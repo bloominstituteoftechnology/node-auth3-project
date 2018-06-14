@@ -28,7 +28,7 @@ class Users extends React.Component {
             .get('http://localhost:5500/api/users', requestOptions)
             .then(response => {
                 console.log(response.data);
-                this.setState({ users: [{username: 'xang'}, {username: 'lavell'}] });
+                this.setState({ users: response.data });
                 console.log(response.data);
             })
             .catch(err => {
@@ -41,7 +41,9 @@ class Users extends React.Component {
             <div>
                 from users!
                 <ul>
-                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                    {this.state.users.map(user => {
+                        return <li key={user._id}>{user.username}</li>
+                    })}
                 </ul>
             </div>
         )

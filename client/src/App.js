@@ -13,6 +13,11 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
+          <div>
+            {localStorage.getItem('jwt') && (
+              <button onClick={this.signout}>Logout</button>
+          )}
+          </div>
         </header>
         <Route path="/signin" component={Signin}></Route>
         <Route path="/users" component={Users}></Route>
