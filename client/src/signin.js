@@ -4,7 +4,7 @@ import axios from 'axios';
 class Signin extends Component {
     state = {
         username: '',
-        password: ''
+        password: '',
     };
 
     render() {
@@ -33,7 +33,7 @@ class Signin extends Component {
                 />
                 </div>
                 <div>
-                <button type="submit">Signin</button>
+                <button type="submit">Sign In</button>
                 </div>
 
             </form>
