@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import Signin from './components/Signin';
 import Users from './components/Users';
 
@@ -12,12 +12,25 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
+          <div>
+            {localStorage.getItem('jwt') && (
+              <button onClick={this.signout}>Log Out</button>
+            )}
+          </div>
         </header>
        <Route path='/signin' component={Signin}/>
        <Route path='/users' component={Users} />
       </div>
     );
   }
+
+  signout = () => {
+    if(localStorage.getItem('jwt')) {
+      localStorage.removeItem('jwt');
+      this.props.history.push('/signin');
+    }
+  }
+
 }
 
-export default App;
+export default withRouter(App);

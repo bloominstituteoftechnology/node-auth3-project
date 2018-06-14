@@ -30,7 +30,7 @@ class Signin extends Component {
 
     render() {
         return (
-            <form> 
+            <form onSubmit={this.submitHandler}> 
                 <div>
                     <label>Username</label>
                     <input
