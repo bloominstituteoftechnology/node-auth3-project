@@ -16,9 +16,10 @@ const corsOptions = {
   credentials: true,
 }; 
 
+server.use(express.json());
 server.use(cors(corsOptions)); 
 setupMiddleware(server);
-setupRoutes(server);
+// setupRoutes(server);
 
 server.post('/api/register', (req, res) => {
   User.create(req.body)
@@ -73,11 +74,9 @@ function restricted(req, res, next) {
 
   if(token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload(decodedToken); 
+      // req.jwtPayload(decodedToken); 
       if(err) {
-        return res
-          .status(401)
-          .json({ message: 'you shall not pass! not decoded' });
+        res.status(401).json({ message: 'you shall not pass! not decoded' });
       }
 
       next();
@@ -86,6 +85,31 @@ function restricted(req, res, next) {
     res.status(401).json({ message: 'you shall not pass! no token' });
   }
 }
+
+// function verifyToken(token) {
+//   jwt.verify(token, secret, (err, decodedToken) => {
+//     if (err) {
+//       return false; 
+//     }
+//     return true; 
+//   });
+// }
+
+// function restricted(req, res, next) {
+//   const token = req.headers.authorization;
+
+//   if (token) {
+//     const isTokenValid = verifyToken(token);
+//     if (isTokenValid) {
+//       next ();       
+//     } else {
+//       res.status(401).json({ message: 'you shall not pass!' }); 
+//     }
+//   } else {
+//     res.status(401).json({ message: 'you shall not pass! no token' }); 
+//   }
+// }
+
 
 server.get('/api/users', restricted, (req, res) => {
   User.find({})
@@ -98,27 +122,27 @@ server.get('/api/users', restricted, (req, res) => {
     });
 });
 
-const port = process.env.PORT || 5500; 
+// const port = process.env.PORT || 5500; 
 
-mongoose
-  .connect('mongodb://localhost/authii')
-  .then(() => {
-    console.log('n=== Connected to MongoDB ===');
-    server.listen(port, (req, res) => {
-      console.log(`\n=== API up on port ${port} ===\n`);
-    });
-  })
-  .catch(err => 
-    console.log('\n=== Error connecting to MongoDB, is it running? ===\n', err)
-  );
-
-// db.connectTo('authii')
+// mongoose
+//   .connect('mongodb://localhost/authii')
 //   .then(() => {
-//     console.log('\n... API Connected to authii Database ...\n');
-//     server.listen(5500, () =>
-//       console.log('\n=== API running on port 5500 ===\n')
-//     );
+//     console.log('n=== Connected to MongoDB ===');
+//     server.listen(port, (req, res) => {
+//       console.log(`\n=== API up on port ${port} ===\n`);
+//     });
 //   })
-//   .catch(err => {
-//     console.log('\n*** ERROR Connecting to MongoDB, is it running? ***\n', err);
-//   });
+//   .catch(err => 
+//     console.log('\n=== Error connecting to MongoDB, is it running? ===\n', err)
+//   );
+
+db.connectTo('authii')
+  .then(() => {
+    console.log('\n... API Connected to authii Database ...\n');
+    server.listen(5500, () =>
+      console.log('\n=== API running on port 5500 ===\n')
+    );
+  })
+  .catch(err => {
+    console.log('\n*** ERROR Connecting to MongoDB, is it running? ***\n', err);
+  });
