@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const User = require('../users/User');
 
@@ -21,8 +22,8 @@ router.post('/register', function(req, res) {
 router.post('/login', (req, res) => {
   const { username, password, race } = req.body;
 
-  User.findOne()
-    .select( 'username race' )
+  User.findOne({username})
+    // .select( 'username race' )
     .where({ username })
     .exec((user, err) => {
     if (err)
@@ -31,19 +32,22 @@ router.post('/login', (req, res) => {
     if (!user)
       return res.status(404).json({ err: 'No user with that name' }); 
     
-    bcrypt.compare(password, user.password, (err,bcRes) => { 
+    bcrypt.compare(password, user.password, (err,res) => { 
       if (err)
         return res.status(500).json(err);
       
-      if (!bcRes)
+      if (!res)
         return res.status(401).json({ err: 'Wrong Password' });
       const payload = { username, race };
       const options = { expiresIn: '1h' };
       const token = jwt.sign(payload, secret, options);
 
-      res.json({ username: user.name, race: user.race, token });
+      res.status(200).json({ username: user.name, race: user.race, token });
 
     })
+    })
+    .catch(err => {
+    res.status(500).json({error: 'error with username entry'})
   })
 })
   

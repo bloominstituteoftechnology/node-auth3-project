@@ -1,10 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 
 const db = require('./_config/db');
 const setupMiddleware = require('./_config/middleware');
 const setupRoutes = require('./_config/routes');
 
 const server = express();
+
+server.use(
+  cors({
+    origin: "localhost://3000",
+    credentials:true  
+  })
+)  
 
 setupMiddleware(server);
 setupRoutes(server);

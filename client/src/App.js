@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        <Route path='register' component={MyComponent} />  
+        <Route path='/users' component={MyComponent} />
+        
+          
       </div>
     );
   }
 }
+
+
 
 export default App;
