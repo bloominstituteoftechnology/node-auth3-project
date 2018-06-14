@@ -13,6 +13,7 @@ const Login = (props) => {
           <h1>Let's Register</h1>
       }
       <LoginForm {...props} />
+      <br/>
       <Link to='/'>Go back.</Link>
     </div>
   );

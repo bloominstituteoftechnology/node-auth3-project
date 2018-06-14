@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
+import { loadToken, saveToken } from './utils/localStorage';
 // Pages
 import Login from './pages/Login';
 import Welcome from './pages/Welcome';
@@ -13,22 +14,29 @@ class App extends Component {
     }
   }
 
-  sendToken = token => {
+  componentDidMount = () => {
+    const token = loadToken();
     this.setState({ token });
   }
 
+  sendToken = token => {
+    saveToken(token);
+    this.setState({ token });
+  }
+
+  renderLogin = (props) => <Login {...props} send={this.sendToken} />;
+  renderUsers = (props) => <Users {...props} send={this.sendToken} token={this.state.token} />;
+  
   render() {
-    const renderLogin = (props) => <Login {...props} send={this.sendToken} />;
-    const renderUsers = (props) => <Users {...props} token={this.state.token} />;
 
     return (
-      <div className='App'>
-        <h1>Ron's Silly App</h1>
+      <div className='App mv3 mh4 tc'>
+        <h1 style={{"font-family":"'Corben', sans-serif","font-size":"4rem"}}>Ron's Silly App</h1>
         <Switch>
-          <Route exact path='/' component={Welcome} />
-          <Route path='/login' render={(props)=>renderLogin(props)} />
-          <Route path='/register' render={(props)=>renderLogin(props)} />
-          <Route path='/users' render={(props)=>renderUsers(props)} />
+          <Route exact path='/' render={(props)=><Welcome {...props} token={this.state.token}/>}/>
+          <Route path='/login' render={(props)=>this.renderLogin(props)} />
+          <Route path='/register' render={(props)=>this.renderLogin(props)} />
+          <Route path='/users' render={(props)=>this.renderUsers(props)} />
           <Route render={() => {
             return (
               <div>

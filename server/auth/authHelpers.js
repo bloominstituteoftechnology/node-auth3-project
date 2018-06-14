@@ -3,7 +3,8 @@ const mySecret = require('../settings').secret;
 
 const generateToken = user => {
   const payload = {
-    name: user.username
+    name: user.username,
+    race: user.race
   };
   const secret = mySecret;
   const options = {
@@ -19,7 +20,7 @@ const verifyToken = token => {
       console.log("@verifyToken - Error:",err);
       return false;
     }
-    return true;
+    return decodedToken;
   });
 }
 

@@ -8,10 +8,8 @@ const checkAuth = (req, res, next) => {
   const token = req.headers.authorization;
   const isTokenValid = verifyToken(token);
   // ***
-  console.log("req.headers:",req.headers);
-  console.log('verifyToken:',verifyToken);
-  console.log("token:",token,"isTokenValid:",isTokenValid);
   if (token && isTokenValid) {
+    req.plainToken = isTokenValid;
     next();
   } else {
     res.status(401).json({ "dude": "where's your login?"});
@@ -21,7 +19,10 @@ const checkAuth = (req, res, next) => {
 router.use('/', checkAuth);
 
 router.get('/', (req, res) => {
-  User.find()
+  console.log(req.plainToken);
+  const { race } = req.plainToken;
+  console.log("userRoutes.js race:",race);
+  User.find({ race })
     .select('-password')
     .then(users => {
       res.json(users);
