@@ -8,8 +8,14 @@ import Users from "./users/Users.js";
 import jwt_decode from "jwt-decode";
 
 class App extends Component {
+  handleSignout() {
+    localStorage.removeItem("jwt");
+  }
+
   render() {
-    let decodedToken = jwt_decode(localStorage.getItem("jwt"));
+    let decodedToken;
+    if (localStorage.getItem("jwt"))
+      decodedToken = jwt_decode(localStorage.getItem("jwt"));
     return (
       <div className="App">
         <header className="App-header">
@@ -25,14 +31,17 @@ class App extends Component {
           <Link to="/users">
             <button>Users</button>
           </Link>
+          <Link to="/">
+            <button onClick={this.handleSignout}>Sign Out</button>
+          </Link>
         </header>
         <Route
           exact
           path="/"
           render={() => {
-            if (decodedToken.username)
+            if (decodedToken)
               return "Welcome back, " + decodedToken.username + "!";
-            else return "Welcome, guest!";
+            else return "You are not signed in.";
           }}
         />
         <Route path="/signin" component={Signin} />

@@ -6,13 +6,17 @@ class Users extends React.Component {
     users: []
   };
   render() {
-    return (
-      <ul>
-        {this.state.users.map(user => (
-          <li>{"Username: " + user.username + " Race: " + user.race}</li>
-        ))}
-      </ul>
-    );
+    if (this.state.users.length > 0)
+      return (
+        <ul>
+          {this.state.users.map((user, index) => (
+            <li key={index}>
+              {"Username: " + user.username + " Race: " + user.race}
+            </li>
+          ))}
+        </ul>
+      );
+    else return "Forbidden!";
   }
 
   componentDidMount() {
