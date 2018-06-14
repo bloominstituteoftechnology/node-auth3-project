@@ -7,12 +7,12 @@ class Users extends React.Component {
         users: [],
     };
 
-    render() {
-        return
-        <ul>
-            {this.state.users.map(user => <li key={user.id}>{user.name}</li>)}
-        </ul>
-    }
+    // render() {
+    //     return
+    //     <ul>
+    //         {this.state.users.map(user => <li key={user.id}>{user.name}</li>)}
+    //     </ul>
+    // }
 
     componentDidMount() {
         // get token
@@ -25,14 +25,25 @@ class Users extends React.Component {
             },
         };
         axios
-            .get('http://localhost:5000/api/users', requestOptions)
+            .get('http://localhost:5500/api/users', requestOptions)
             .then(response => {
-                this.setState({ users: response.data });
+                console.log(response.data);
+                this.setState({ users: [{username: 'xang'}, {username: 'lavell'}] });
                 console.log(response.data);
             })
             .catch(err => {
-                console.error(err);
+                console.log('error from users');
             });
+    }
+    render() {
+        console.log(this.state.users);
+        return (
+            <div>
+                <ul>
+                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                </ul>
+            </div>
+        )
     }
 }
 

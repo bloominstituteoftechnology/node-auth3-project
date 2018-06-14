@@ -3,13 +3,13 @@ import axios from 'axios';
 
 class Signin extends React.Component {
     state = {
-        username: 'England',
-        password: 'France',
+        username: '',
+        password: '',
     };
 
     render() {
         return (
-            <form onSubmitHadler={this.submitHandler}>
+            <form onSubmit={this.submitHandler}>
                 <div>
                     {/* <label htmlForm="Username" /> */}
                     <label>Username</label>
@@ -24,8 +24,8 @@ class Signin extends React.Component {
                     <label>Password</label>
                     <input value={this.state.password}
                         onChange={this.inputChangeHandler}
-                        name="username"
-                        type="text"
+                        name="password"
+                        type="password"
                     />
                 </div>
                 <div>
@@ -39,8 +39,9 @@ class Signin extends React.Component {
     submitHandler = (event) => {
         event.preventDefault();
         axios
-            .post('http://localhost:5000/api/login', this.state)
+            .post('http://localhost:5500/api/auth/login', this.state)
             .then(response => {
+                console.log(response.data.token)
                 localStorage.setItem('jwt', response.data.token);
                 console.log('response', this.props);
                 this.props.history.push('/users');

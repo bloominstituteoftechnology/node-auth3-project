@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { Route, withRouter } from 'react-router-dom';
 import logo from './logo.svg';
-import { Route } from 'react-router-dom';
 import './App.css';
-import signin from "./auth/signin";
-import users from "./auth/users";
+import Signin from "./auth/Signin";
+import Users from "./users/Users";
 
 
 class App extends Component {
@@ -15,8 +14,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
         </header>
-        <Route path="/signin" component={signin}></Route>
-        <Route path="/users" component={users}></Route>
+        <Route path="/signin" component={Signin}></Route>
+        <Route path="/users" component={Users}></Route>
       </div>
     );
   }
