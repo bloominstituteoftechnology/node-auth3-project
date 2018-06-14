@@ -39,6 +39,7 @@ class Users extends React.Component {
         console.log(this.state.users);
         return (
             <div>
+                from users!
                 <ul>
                     {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
                 </ul>

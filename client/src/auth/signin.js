@@ -45,6 +45,8 @@ class Signin extends React.Component {
                 localStorage.setItem('jwt', response.data.token);
                 console.log('response', this.props);
                 this.props.history.push('/users');
+                axios
+                    .get
             })
             .catch(err => console.log('bad Panda'));
     };
