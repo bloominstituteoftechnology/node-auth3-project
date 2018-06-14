@@ -14,7 +14,8 @@ function restricted(req, res, next) {
           .status(401)
           .json({ message: 'you shall not pass! not decoded' });
       }
-
+      req.race = decodedToken.race;
+      console.log("in restricted",decodedToken)
       next();
     });
   } else {
@@ -22,10 +23,12 @@ function restricted(req, res, next) {
   }
 }
 
-router.get('/',restricted, (req, res) => {
-  User.find()
+router.get('/',restricted, (req, res) => {  
+  
+  User.find({race: req.race})
     .select('-password')
     .then(users => {
+      console.log(users)
       res.json(users);
     })
     .catch(err => {

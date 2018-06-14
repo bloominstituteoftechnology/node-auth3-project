@@ -9,7 +9,10 @@ function generateToken(user){
       expiresIn: '1h'
     }
 
-    const payload = {name: user.username}
+    const payload = {
+      name: user.username,
+      race: user.race,
+    }
 
     return jwt.sign(payload,secret,option)
 }
