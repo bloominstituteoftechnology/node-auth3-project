@@ -1,0 +1,16 @@
+.form{
+    display: flex;
+    justify-content: center;
+}
+
+.signup-form{
+    border: 1px solid black;
+    background-color: rgba(242, 243, 244, 0.7);
+    width: 250px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 250px;
+}

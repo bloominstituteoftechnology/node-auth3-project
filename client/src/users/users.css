@@ -1,0 +1,16 @@
+.users{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+}
+
+.user{
+    list-style: none;
+    border: 1px solid black;
+    width: 150px;
+    height: auto;
+    margin: 20px;
+    padding: 20px;
+    background-color: rgba(242, 243, 244, 0.7);
+}

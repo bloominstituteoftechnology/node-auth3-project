@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './signin.css';
 
 class Signin extends Component {
     constructor(props) {
@@ -34,29 +35,31 @@ class Signin extends Component {
 
     render() { 
         return ( 
-            <form className="signin-form" onSubmit={this.submitHandler}>
-                <div>
-                    <label>Username: </label>
-                    <input  
-                        value={this.state.username}
-                        onChange={this.inputChangeHandler}
-                        name='username'
-                        type='text'
-                    />
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input
-                        value={this.state.password}
-                        onChange={this.inputChangeHandler}
-                        name='password'
-                        type='password'
-                    />
-                </div>
-                <div>
-                    <button type="submit">Signin</button>
-                </div>
-            </form>
+            <div className="form">
+                <form className="signin-form" onSubmit={this.submitHandler}>
+                    <div>
+                        <label>Username: </label>
+                        <input  
+                            value={this.state.username}
+                            onChange={this.inputChangeHandler}
+                            name='username'
+                            type='text'
+                        />
+                    </div>
+                    <div>
+                        <label>Password: </label>
+                        <input
+                            value={this.state.password}
+                            onChange={this.inputChangeHandler}
+                            name='password'
+                            type='password'
+                        />
+                    </div>
+                    <div>
+                        <button type="submit">Signin</button>
+                    </div>
+                </form>
+            </div>
         );
     }
 }

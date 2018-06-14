@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './signup.css';
 
 class Signup extends Component {
     constructor(props) {
@@ -32,38 +33,40 @@ class Signup extends Component {
 
     render() { 
         return ( 
-            <form className="signup-form" onSubmit={this.submitHandler}>
-                <div>
-                    <label>Username: </label>
-                    <input
-                        value={this.state.username}
-                        onChange={this.inputChangeHandler}
-                        name="username"
-                        type="text"
-                    />
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input
-                        value={this.state.password}
-                        onChange={this.inputChangeHandler}
-                        name="password"
-                        type="password"
-                    />
-                </div>
-                <div>
-                    <label>Race: </label>
-                    <input
-                        value={this.state.race}
-                        onChange={this.inputChangeHandler}
-                        name="race"
-                        type="text"
-                    />
-                </div>
-                <div>
-                    <button type="submit">Sign up</button>
-                </div>
-            </form>
+            <div className="form">
+                <form className="signup-form" onSubmit={this.submitHandler}>
+                    <div>
+                        <label>Username: </label>
+                        <input
+                            value={this.state.username}
+                            onChange={this.inputChangeHandler}
+                            name="username"
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <label>Password: </label>
+                        <input
+                            value={this.state.password}
+                            onChange={this.inputChangeHandler}
+                            name="password"
+                            type="password"
+                        />
+                    </div>
+                    <div>
+                        <label>Race: </label>
+                        <input
+                            value={this.state.race}
+                            onChange={this.inputChangeHandler}
+                            name="race"
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <button type="submit">Sign up</button>
+                    </div>
+                </form>
+            </div>
          )
     }
 }
