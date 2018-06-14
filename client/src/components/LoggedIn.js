@@ -33,15 +33,12 @@ export default class LoggedIn extends Component {
         })
       
   }
-  signout = () => {
-    localStorage.removeItem('token');
-    this.props.stateOut();
-  }
+
 
   render() {
     return (
       <div>
-        <button onClick={this.signout}>SignOut</button>
+        
         <h1>  LOGGED IN </h1>
         <div>
         <List component="nav"> 

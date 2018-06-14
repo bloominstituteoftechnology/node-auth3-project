@@ -56,6 +56,7 @@ class SignIn extends Component {
       .then(response => {
         localStorage.setItem('token', response.data.token)
         this.props.loginHandler('Logged In')
+        this.props.history.push('/loggedin')
         // document.window.sessionStorage.accessToken = response.body.access_token;
         
 
@@ -73,6 +74,7 @@ class SignIn extends Component {
   }
 
   render() {
+    const locations = this.props.match.path
 
     return (
       <div className="containerM">
@@ -85,16 +87,30 @@ class SignIn extends Component {
           <InputLabel htmlFor="name-simple">Password</InputLabel>
           <Input id="name-simple2" name="pw" type="password" value={this.state.pw} onChange={this.handleChange} />
         </FormControl>
-        <FormControl >
+        {/* <FormControl >
           <InputLabel htmlFor="name-simple">Race</InputLabel>
           <Input id="name-simple3" name="race"  value={this.state.race} onChange={this.handleChange} />
-        </FormControl>
-        <Button variant="contained" color="primary" onClick={this.handleReturningUser}>
+        </FormControl> */}
+        {locations === '/login'
+        ? <Button variant="contained" color="primary" onClick={this.handleReturningUser}>
             login
-        </Button>
-        <Button variant="contained" color="primary" onClick={this.handNewUser}>
+          </Button>
+        : <div>
+            <FormControl >
+              <InputLabel htmlFor="name-simple">Race</InputLabel>
+              <Input id="name-simple3" name="race"  value={this.state.race} onChange={this.handleChange} />
+            </FormControl>
+            <Button variant="contained" color="primary" onClick={this.handNewUser}>
+              Sign-Up
+            </Button>
+          </div>
+        }
+        {/* <Button variant="contained" color="primary" onClick={this.handleReturningUser}>
+            login
+        </Button> */}
+        {/* <Button variant="contained" color="primary" onClick={this.handNewUser}>
             Sign-Up
-        </Button>
+        </Button> */}
       </div>
 
       </div>

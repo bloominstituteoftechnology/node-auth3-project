@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import SignIn from './components/SignIn';
 import LoggedIn from './components/LoggedIn';
+import Header from './components/Header';
+import { Route } from 'react-router-dom'
 import axios from 'axios';
+
 
 
 
@@ -60,15 +63,19 @@ class App extends Component {
 
     return (
       <div>
+        <Header />
+        <Route path="/login" render={(props) => <SignIn loginHandler={this.loginHandler} {...props}/>} />
+        <Route path="/register" render={(props) => <SignIn loginHandler={this.loginHandler} {...props}/>} />
+        <Route path="/loggedin" render={(props) => <LoggedIn stateOut={this.logOut} {...props}/>} />
         
-        {this.state.isSignedIn
+        {/* {this.state.isSignedIn
       ?
         <LoggedIn stateOut={this.logOut}/>
       :
         <div className="App">
           <SignIn loginHandler={this.loginHandler}/>        
         </div>   
-      }
+      } */}
       </div>
     )
 
