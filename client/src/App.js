@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import ring from './oneringGIF.gif';
 import './App.css';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import { SignUp, SignIn } from './cmpnts'
 
 class App extends Component {
+
+  // logout = () => {
+  //   if(localStorage.getItem("jwt")) {
+  //     localStorage.removeItem("jwt");
+  //     this.props.history.push('/signin')
+  //   }
+  // }
+
   render() {
     return (
       <div className="App">
@@ -19,8 +27,9 @@ class App extends Component {
           <Link to="/signin">
             <button>Sign In</button>
           </Link>
-          <button onClick={this.logout}>logout</button>
+          {/* <button onClick={this.logout}>Logout</button> */}
         </div>
+        <Route exact path ="/" />
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />
       </div>
@@ -28,4 +37,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

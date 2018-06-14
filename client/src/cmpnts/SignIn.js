@@ -16,37 +16,69 @@ class SignIn extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    login = () => {
+    login = event => {
+        event.preventDefault();
         const credentials={ username: this.state.username, password: this.state.password }
+        console.log("credentials:", credentials)
         axios
-            .post('http://localhost:5500/auth/login', credentials)
+            .post('http://localhost:5500/api/auth/login', credentials)
             .then(response => {
+                console.log("response:", response.data)
                 localStorage.setItem('jwt', response.data.token);
                 this.setState({ username: '', password: '', responseMessage: response.data, loggedIn: true })
             })
             .catch(error => {
-                console.log(error)
+                console.log("here:", error)
             })
     }
 
+    // logout = () => {
+    //     axios
+    //         .get('http://localhost:5500/logout')
+    //         .then(response => {
+    //             this.setState({ loggedIn: false, responseMessage: response.data })
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    // }
+
     render() { 
         return ( 
-            <form className="login-box">
-                <input 
-                    className="username-input"
-                    onChange={this.handleInputChange}
-                    placeholder="Enter Username"
-                    name="username"
-                    value={this.state.username}
-                />
-                <input
-                    className="password-input"
-                    onChange={this.handleInputChange}
-                    placeholder="Enter Password"
-                    name="password"
-                    value={this.state.password}
-                />
-            </form>
+            <div>
+                <form className="login-box">
+                    <input 
+                        className="username-input"
+                        onChange={this.handleInputChange}
+                        placeholder="Enter Username"
+                        name="username"
+                        value={this.state.username}
+                    />
+                    <input
+                        className="password-input"
+                        onChange={this.handleInputChange}
+                        placeholder="Enter Password"
+                        name="password"
+                        value={this.state.password}
+                    />
+                </form>
+                { this.state.loggedIn
+                ? 
+                <button
+                    className="logout-button"
+                    onClick={this.logout}
+                >
+                Log out
+                </button>
+                :            
+                <button 
+                    className="login-button"
+                    onClick={this.login}
+                >
+                Login
+                </button>
+                }
+            </div>
         )
     }
 }
