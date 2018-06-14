@@ -14,8 +14,13 @@ class Users extends Component {
     this.getSession();
   }
   getSession = () => {
+    const config = {
+                 headers: {
+                    "Authorization": localStorage.authorization
+                 }
+             }
     axios
-      .get(`http://localhost:5500/`)
+      .get(`http://localhost:5500/api/users`, config)
       .then(res => {
         console.log(res.data);
         this.setState({ wutizit: res.data });
@@ -28,7 +33,7 @@ class Users extends Component {
   render() {
     return (
       <div>
-        <Container style={{ display: "flex", justifyContent: 'center', }} >
+        <Container style={{ display: "flex", justifyContent: 'center', marginLeft: '24.5%' }} >
         <CardColumns>
           {this.state.wutizit.map(user => {
             return (

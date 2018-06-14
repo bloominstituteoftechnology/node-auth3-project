@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
-import { InputGroup, Input, Col, Button } from "reactstrap";
+import { Redirect } from "react-router-dom";
+import { InputGroup, Input, Col, Button, Container } from "reactstrap";
 import axios from "axios";
 
 class SignUp extends Component {
@@ -10,7 +10,7 @@ class SignUp extends Component {
       username: "",
       password: "",
       race: "",
-      redirect: false,
+      redirect: false
     };
   }
 
@@ -34,10 +34,10 @@ class SignUp extends Component {
         race: this.state.race
       })
       .then(res => {
-          if (res.status === 201) {
-              this.setState({ redirect: true })
-            }
-            console.log("success!, you have been registered!", res);
+        if (res.status === 201) {
+          this.setState({ redirect: true });
+        }
+        console.log("success!, you have been registered!", res);
       })
       .catch(error => {
         console.log("Error", error);
@@ -46,60 +46,71 @@ class SignUp extends Component {
   };
 
   render() {
-    const redirect = this.state.redirect
+    const redirect = this.state.redirect;
     if (redirect) {
-        return <Redirect to="/dashboard" />
+      return <Redirect to="/dashboard" />;
     }
     return (
       <div>
-        <InputGroup
-          style={{
-            marginTop: "15px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: 'center',
-            textAlign: 'center'
-          }}
-        >
-          
-          <Col sm="3">
-            <Input
+        <Container style={{ maxWidth: "1500px" }}>
+          <InputGroup
             style={{
-                margin: '10px',
+              marginTop: "15px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center"
             }}
-              placeholder="username"
-              type="text"
-              onChange={this.handleUsername}
-              value={this.state.username}
-            />
-          </Col>
-          <Col sm="3">
-            <Input
-             style={{
-                margin: '10px',
-            }}
-              placeholder="password"
-              type="password"
-              onChange={this.handlePass}
-              value={this.state.password}
-            />
-          </Col>
-          <Col sm="3">
-            <Input
-             style={{
-                margin: '10px',
-            }}
-              placeholder="race"
-              type="text"
-              onChange={this.handleRace}
-              value={this.state.race}
-            />
-          </Col>
-          <Button color="danger" onClick={this.registerUser} style={{ marginTop: '10px' }} >
-            Submit
-          </Button>
-        </InputGroup>
+          >
+            <Col sm="3">
+              <Input
+                style={{
+                  margin: "10px",
+                  boxShadow: "2px 2px 4px"
+                }}
+                placeholder="username"
+                type="text"
+                onChange={this.handleUsername}
+                value={this.state.username}
+              />
+            </Col>
+            <Col sm="3">
+              <Input
+                style={{
+                  margin: "10px",
+                  boxShadow: "2px 2px 4px"
+                }}
+                placeholder="password"
+                type="password"
+                onChange={this.handlePass}
+                value={this.state.password}
+              />
+            </Col>
+            <Col sm="3">
+              <Input
+                style={{
+                  margin: "10px",
+                  boxShadow: "2px 2px 4px"
+                }}
+                placeholder="race"
+                type="text"
+                onChange={this.handleRace}
+                value={this.state.race}
+              />
+            </Col>
+            <Button
+              color="danger"
+              onClick={this.registerUser}
+              style={{
+                marginTop: "10px",
+                boxShadow: "2px 2px 4px rgb(73, 80, 87)"
+              }}
+            >
+              Submit
+            </Button>
+          </InputGroup>
+        </Container>
       </div>
     );
   }

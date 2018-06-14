@@ -28,11 +28,12 @@ class SignIn extends Component {
           password: this.state.password
         })
         .then(res => {
-            console.log("res status", res.status)
-            if (res.status === 200) {
-                this.setState({ redirect: true })
-            }
-            console.log("success!, you have been logged in!", res);
+          console.log("res status", res.status)
+          if (res.status === 200) {
+            this.setState({ redirect: true })
+          }
+          console.log("success!, you have been logged in!", res);
+          localStorage.setItem("authorization", res.data.token)
         })
         .catch(error => {
           console.log("Error", error);
@@ -44,7 +45,7 @@ class SignIn extends Component {
     render() {
         const redirect = this.state.redirect
       if (redirect) {
-          return <Redirect to="/dashboard" />
+          return <Redirect to="/users" />
       }
         return (
         <div>
@@ -74,14 +75,16 @@ class SignIn extends Component {
                 value={this.state.password}
               />
             </Col>
-            <br />
-            <Link
+            
+           
+          </InputGroup>
+          <br />
+          <Link
               style={{ alignSelf: "center", textDecoration: "underline" }}
               to={"/signup"}
             >
               Don't have an account? Register Here{" "}
             </Link>
-          </InputGroup>
         </div>
       );
     }

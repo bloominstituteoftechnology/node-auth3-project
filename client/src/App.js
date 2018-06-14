@@ -6,7 +6,7 @@ import SignIn from './components/signIn';
 import Dashboard from './components/dashboard';
 import SignUp from './components/signUp';
 import NavBar from './components/navBar';
-
+import Users from './components/usersList'
 
 class App extends Component {
   render() {
@@ -20,6 +20,7 @@ class App extends Component {
       <Route exact path="/" component={SignIn} />
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/users" component={Users} />
       </div>
     );
   }
