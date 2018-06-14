@@ -10,7 +10,7 @@ router.post('/register', function(req, res) {
       
       const token = generateToken(username);
       // then we assemble a new object and return it
-      res.status(201).json({ username, race, token });
+      res.status(201).json({ message: `Welcome`, username, race, token });
     })
     .catch(err => res.status(500).json(err));
 });

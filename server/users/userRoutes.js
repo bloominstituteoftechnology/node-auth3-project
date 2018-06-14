@@ -1,6 +1,7 @@
 const router = require('express').Router();
-
+const jwt = require('jsonwebtoken');
 const User = require('./User');
+const secret = "toss me, but don't tell the elf!";
 
 router.get('/', restricted, (req, res) => {
   User.find()
@@ -13,12 +14,20 @@ router.get('/', restricted, (req, res) => {
     });
 });
 
+
+
 function restricted(req, res, next) {
   const token = req.headers.authorization;
   if(token) {
-    next();
-  }else{
-    res.status(401).json({ message: 'you shall not pass!'});
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if(err) {
+        res.status(401).json({ message: 'you shall not pass! not decoded'
+       });
+      }
+      next();
+    });
+  } else {
+    res.status(401).json({ message: 'you shall not pass! no token' });
   }
 }
 
