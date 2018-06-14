@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router';
+
+import Form from './components/misc/Form/Form';
+import Users from './components/Users/Users';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,9 +15,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
         </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+
+        <Route path='/register' component={ Form } />
+        <Route path='/users' component={ Users } />
+        <Route path='/user/:id' component={ Users } />
+                
       </div>
     );
   }
