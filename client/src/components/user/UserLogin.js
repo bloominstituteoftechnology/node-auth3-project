@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import axios from 'axios';
 import './User.css'
 
@@ -21,10 +22,13 @@ class UserLogin extends Component {
       .post('http://localhost:5500/api/auth/login', this.state)
       .then(response => {
         localStorage.setItem('jwt', response.data.token);
-          this.props.history.push('/users');
-        })
-        .catch(err => console.log(err));
-    this.setState({username: '', password: ''});
+        console.log(this.state.username)
+        this.props.onClickLogin( this.state.username )
+      })
+      .catch(err => {
+        this.setState({username: '', password: ''});
+        console.log(err)
+      });
   };
 
   handleRegister = () => {
