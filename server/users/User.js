@@ -11,17 +11,29 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    minlength: 4
+    // validate: {
+    //   validator: checkPasswordLength(),
+    //   msg: 'password is too weak'
+    // }
   },
   race: {
     type: String,
     required: true,
     index: true,
     minlength: 2,
+    validate: {
+      validator: /(hobbit|human|elf)/,
+      msg: 'invalid race'
+    }
   },
 });
 
-userSchema.pre('save', function(next) {
+// function checkPasswordLength(password) {
+//   return password.length >= 4 ? true : false
+// }
+
+userSchema.pre('save', function (next) {
   return bcrypt
     .hash(this.password, 10)
     .then(hash => {
@@ -34,7 +46,7 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.validatePassword = function(passwordGuess) {
+userSchema.methods.validatePassword = function (passwordGuess) {
   return bcrypt.compare(passwordGuess, this.password);
 };
 

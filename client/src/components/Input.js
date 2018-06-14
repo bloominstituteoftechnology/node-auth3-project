@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from './Button'
-import { Link } from 'react-router-dom'
 
 class InputComponent extends React.Component {
     constructor(props) {
@@ -23,7 +22,7 @@ class InputComponent extends React.Component {
                 <input id="username" name="username" onChange={this.handleChange} value={this.state.username} />
                 <label htmlFor="password">Password</label>
                 <input type="text" id="password" name="password" onChange={this.handleChange} value={this.state.password} />
-                <Link to="/users"><Button text="Login" function={() => {
+                <Button text="Login" function={() => {
                     let user = {
                         username: this.state.username,
                         password: this.state.password
@@ -32,8 +31,9 @@ class InputComponent extends React.Component {
                     setTimeout(() => {
                         this.props.fetch()
                     }, 300)
+                    this.props.history.push('/users')
 
-                }} /></Link>
+                }} />
             </div>
         )
     }
@@ -46,7 +46,7 @@ class InputComponent extends React.Component {
                 <input id="race" name="race" onChange={this.handleChange} value={this.state.race} />
                 <label htmlFor="password">Password</label>
                 <input type="text" id="password" name="password" onChange={this.handleChange} value={this.state.password} />
-                <Link to="/users"><Button text="Register" function={() => {
+                <Button text="Register" function={() => {
                     let user = {
                         username: this.state.username,
                         race: this.state.race,
@@ -56,12 +56,12 @@ class InputComponent extends React.Component {
                     setTimeout(() => {
                         this.props.fetch()
                     }, 300)
-                }} /></Link>
+                    this.props.history.push('/users')
+                }} />
             </div>
         );
     }
     render() {
-        console.log(this.props, this.state)
         return (
             <div>
                 {this.props.page === "signup" ? this.signUp() : this.logIn()}

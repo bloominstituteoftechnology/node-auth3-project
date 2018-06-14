@@ -5,7 +5,7 @@ export const UserList = (props) => {
         <div>
             {props.users.map((e) => {
                 return (
-                    <div>
+                    <div key={e.username}>
                         <h1>{e.username}</h1>
                         <h6>{e.race}</h6>
                     </div>
