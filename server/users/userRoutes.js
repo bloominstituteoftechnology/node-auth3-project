@@ -25,6 +25,7 @@ function restricted (req, res, next) {
 
 
 router.get('/', restricted, (req, res) => {
+  console.log(req.jwtPayload);
   User.find()
     .select('-password')
     .then(users => {

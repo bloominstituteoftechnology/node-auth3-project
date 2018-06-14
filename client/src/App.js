@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from 'react-router-dom';
+import Signin from './components/Signin';
+import Users from './components/Users';
 
 class App extends Component {
   render() {
@@ -10,9 +13,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
         </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+       <Route path='/signin' component={Signin}/>
+       <Route path='/users' component={Users} />
       </div>
     );
   }
