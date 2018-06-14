@@ -12,14 +12,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 4, // make this at least 12 in production
+    maxlength: 25,
+    validate: checkPasswordLength, 
+    msg: 'password is too weak'
   },
   race: {
     type: String,
     required: true,
-    index: true,
-    minlength: 2,
+    validate: {
+      validator: /(hobbit|human|elf|dwarf)/i,
+      msg: 'invalid race'
+    },   
   },
 });
+
+function checkPasswordLength(password) {
+  return password.length > 12; 
+}
 
 userSchema.pre('save', function(next) {
   return bcrypt
