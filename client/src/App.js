@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import { Link} from "react-router-dom";
 import SignupForm from './components/SignupForm';
 import Home from "./components/Home";
+import Users from "./components/Users";
 import LoginForm from "./components/LoginForm";
 
 
@@ -16,6 +17,7 @@ class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path="/login" component={LoginForm} />
         <Route path="/register" component={SignupForm} />
+        <Route path="/users" component={Users} />        
       </div>
     );
   }
