@@ -45,8 +45,13 @@
 }
 
 .home{
-  background-color: rgba(242, 243, 244, 0.7);
   padding: 5px;
+  background-color: rgba(242, 243, 244, 0.7);
+  transition: 0.25s all ease-in-out 0s;
+}
+
+.home:hover{
+  background-color: rgba(242, 243, 244, 1);
 }
 
 .links{
@@ -63,6 +68,11 @@
   width: 100px;
   padding: 10px;
   margin: 20px;
+  transition: 0.25s all ease-in-out 0s;
+}
+
+.link:hover {
+  background-color: rgba(242, 243, 244, 1);
 }
 
 .signout{

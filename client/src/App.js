@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 import Signin from './auth/Signin';
 import Users from './users/Users';
