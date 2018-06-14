@@ -14,7 +14,7 @@ function generateToken(user) {
 }
 
 router.post('/register', function(req, res) {
-  const { username, password } = req.body;
+  const { username, password, race } = req.body;
   if (!username || !password || !race) {
     res.status(400).json({ error: "Can't submit empty field!" });
     return;
@@ -52,5 +52,7 @@ router.post('/login', (req, res) => {
       }
     })
 })
+
+
 
 module.exports = router;

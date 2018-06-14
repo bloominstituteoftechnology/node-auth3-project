@@ -28,6 +28,7 @@ class SignupForm extends React.Component {
             race: this.state.race
         };
         axios.post("http://localhost:5500/api/auth/register", user).then(response => {
+            localStorage.setItem('token', response.data.token)
             this.props.history.push(`/`)
             // window.location.href = "/"
             this.setState({

@@ -7,7 +7,7 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('jwt');
+        const token = localStorage.getItem('token');
 
         const requestOptions = {
             headers: {
@@ -15,13 +15,20 @@ class Users extends React.Component {
             }
         }
 
-        axios.get('http://localhost:5500/api/users', requestOptions).then(response => {
-            console.log(response.data)
+        axios.get('http://localhost:5500/api/users', requestOptions)
+             .then(response => {
+                 this.setState({ users: response.data });
         })
+            .catch(err => {
+                console.error(err);
+            });
+
     }
 
     render() { 
-        return ( <div></div> )
+        return (<ul>
+            {this.state.users.map(user => <p key={user._id}>{user.username}</p>)}
+        </ul>)
     }
 }
  

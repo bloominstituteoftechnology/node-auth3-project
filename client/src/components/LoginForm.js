@@ -13,9 +13,9 @@ class LoginForm extends React.Component {
         axios.post("http://localhost:5500/api/auth/login", this.state).
             then(response => {
                 localStorage.setItem('token', response.data.token);
-                console.log('signing props', this.props)
-                
+                this.props.history.push('/users');
         })
+            .catch(err => console.log(err));
     }
 
     handleInputChange = e => {
