@@ -1,33 +1,50 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const User = require('./User');
+const User = require("./User");
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 function restricted(req, res, next) {
   const token = req.headers.authorization;
 
   if (token) {
-    jwt.verify(token, 'No word is true until it is eaten.', (err, decodedToken) => {
-      req.jwtPayload = decodedToken;
-      if (err) {
-        return res
-          .status(401)
-          .json({ message: 'you shall not pass! not decoded' });
-      }
+    jwt.verify(
+      token,
+      "No word is true until it is eaten.",
+      (err, decodedToken) => {
+        req.jwtPayload = decodedToken;
+        if (err) {
+          return res
+            .status(401)
+            .json({ message: "you shall not pass! not decoded" });
+        }
 
-      next();
-    });
+        next();
+      }
+    );
   } else {
-    res.status(401).json({ message: 'you shall not pass! no token' });
+    res.status(401).json({ message: "you shall not pass! no token" });
   }
 }
 
-
-router.get('/', restricted, (req, res) => {
+router.get("/", restricted, (req, res) => {
   User.find()
-    .where('race').equals(req.jwtPayload.race)
-    .select('-password')
+    .where("race")
+    .equals(req.jwtPayload.race)
+    .select("-password")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.get("/whoami", restricted, (req, res) => {
+  User.find()
+    .where("username")
+    .equals(req.jwtPayload.username)
+    .select("-password")
     .then(users => {
       res.json(users);
     })

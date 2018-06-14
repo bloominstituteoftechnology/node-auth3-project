@@ -41,7 +41,7 @@ class Signup extends React.Component {
         <div>
           <button type="submit">Signup</button>
         </div>
-        <div>{"Welcome, " + this.state.response + "!"}</div>
+        <div>{this.state.response}</div>
       </form>
     );
   }
@@ -52,7 +52,7 @@ class Signup extends React.Component {
       .post("http://localhost:5500/api/auth/register", this.state)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
-        this.setState({ response: response.data.username });
+        this.setState({ response: "Welcome, " + response.data.username + "!" });
       })
       .catch(err => console.log(err));
   };

@@ -11,10 +11,10 @@ class Signin extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label>race</label>
+          <label>username</label>
           <input
             value={this.state.race}
-            name="race"
+            name="username"
             onChange={this.handleInput}
             type="text"
           />
