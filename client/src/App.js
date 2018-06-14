@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import { Route, withRouter } from 'react-router'
 import './App.css';
+
+import Signin from './components/Signin'
+import Users from './components/Users'
+import Register from './components/Register'
 
 class App extends Component {
   render() {
@@ -8,14 +13,22 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+          <h1 className="App-title">Welcome to React</h1>
+          {localStorage.getItem('token') ? (
+            <button onClick={this.signout}> Sign out </button>
+          ) : <button onClick={() => this.props.history.push('/register')}> Register </button>}
+        </header>        
+        <Route path="/register" component={Register} />
+        <Route path="/signin" component={Signin} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
+  signout = () => {
+    localStorage.removeItem('token');
+    this.props.history.push('/signin')
+    }
 }
 
-export default App;
+
+export default withRouter(App)
