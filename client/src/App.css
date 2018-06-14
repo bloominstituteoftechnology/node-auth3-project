@@ -26,3 +26,36 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.signup-form {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.signup-button {
+  background: #2BC1C4;
+  color: white;
+  border-radius: 6%;
+  width: 100px
+}
+
+.home-button {
+  background: #2BC1C4;
+  color: white;
+  border-radius: 6%;
+  width: 100px
+}
+
+.signup-buts {
+  display: flex;
+  justify-content: space-around
+}
+
+.error {
+  color: red;
+  padding: 20px;
+}
+
+.hidden {
+  display: none;
+}
