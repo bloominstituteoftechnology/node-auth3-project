@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 
-class register extends Component {
+class Register extends Component {
     state = {
         username: '',
         password: '',
@@ -61,4 +61,4 @@ class register extends Component {
     }
 }
 
-export default register;
+export default Register;
