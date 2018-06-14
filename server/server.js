@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const db = require('./_config/db');
 const setupMiddleware = require('./_config/middleware');
@@ -6,8 +7,27 @@ const setupRoutes = require('./_config/routes');
 
 const server = express();
 
+server.use(
+  cors({
+    origin: "localhost://3000",
+    credentials:true  
+  })
+)  
+
 setupMiddleware(server);
 setupRoutes(server);
+
+//connecting to mongo
+// mongoose
+//   .connect('mongodb://localhost/auth-i')
+//   .then(mongo => {
+//     console.log('connected to database');
+//   })
+//   .catch(err => {
+//     console.log('Error connecting to database', err)
+//   });
+
+
 
 db.connectTo('authii')
   .then(() => {
