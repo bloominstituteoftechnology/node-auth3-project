@@ -20,7 +20,7 @@ function restricted(req, res, next) {
 
   if(token){
     jwt.verify(token, secret, (err, decodedToken) => {
-      // req.jwtPayload(decodedToken);
+      // req.jwtPayload(decodedToken); //Used in the stretch
       if(err){
         return res.status(401).json({ message: "You shall not pass! Token not decoded" });
       }
