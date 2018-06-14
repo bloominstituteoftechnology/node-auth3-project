@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
 
     state = {  
         username: "",
@@ -12,14 +12,16 @@ class LoginForm extends React.Component {
     login = (event) => {
         axios.post("http://localhost:5500/api/auth/login", this.state).
             then(response => {
-                localStorage.setItem('token', response.data.token);
-                console.log('signing props', this.props)
+                localStorage.getItem('token', response.data.token);
+                // console.log('signing props', this.props)
+                this.props.history.push(`/users`)
                 
         })
     }
 
     handleInputChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     };
 
     render() { 
