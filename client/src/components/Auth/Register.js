@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -9,6 +10,24 @@ class Register extends Component {
       password: '',
       race: '',
     };
+  }
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit} onChange={this.hanldeInput}>
+        <input placeholder="username" type="text" id="name" name="username" value={this.state.username} />
+        <br />
+        <input placeholder="race" type="text" id="race" name="race" value={this.state.race} />
+        <br />
+        <input placeholder="password" type="password" id="password" name="password" value={this.state.password} />
+        <br />
+        <button type="submit">Sigin</button>
+        <br />
+        <br />
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+      </form>
+    );
   }
 
   hanldeInput = e => {
@@ -28,22 +47,6 @@ class Register extends Component {
         console.log('error', e.message);
       });
   };
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit} onChange={this.hanldeInput}>
-        <label htmlFor="name">Username</label>
-        <input type="text" id="name" name="username" value={this.state.username} />
-        <br />
-        <label htmlFor="race">Race</label>
-        <input type="text" id="race" name="race" value={this.state.race} />
-        <br />
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" value={this.state.password} />
-        <br />
-        <button type="submit">Sigin</button>
-      </form>
-    );
-  }
 }
 
 export default Register;

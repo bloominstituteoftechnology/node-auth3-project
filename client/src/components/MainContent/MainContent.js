@@ -11,7 +11,7 @@ class MainContent extends Component {
   }
   componentDidMount() {
     const jwt = localStorage.getItem('jwt');
-    // !jwt && this.props.history.push('/register');
+    !jwt && this.props.history.push('/register');
     console.log(jwt);
 
     axios
@@ -26,10 +26,10 @@ class MainContent extends Component {
   }
 
   render() {
-    // const race = this.state.items[0].race;
+    const race = this.state.items.length > 0 && this.state.items[0].race;
     return (
       <React.Fragment>
-        <h1>Users</h1>
+        <h1>Race: {race}</h1>
         <ul>{this.state.items.map(item => <li id={Date.now}>Name: {item.username}</li>)}</ul>
       </React.Fragment>
     );
