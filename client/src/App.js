@@ -3,8 +3,8 @@ import { Route, withRouter } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
-import Signin from './auth/Signin.js';
-import Users from './users/Users.js'; 
+import Signin from '../auth/Signin.js';
+import Users from '../users/Users.js'; 
 
 class App extends Component {
   render() {
