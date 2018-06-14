@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    minlength: 4,
   },
   race: {
     type: String,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   return bcrypt
-    .hash(this.password, 10)
+    .hash(this.password, 12)
     .then(hash => {
       this.password = hash;
 

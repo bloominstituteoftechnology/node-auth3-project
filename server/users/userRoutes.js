@@ -21,7 +21,9 @@ function restricted(req, res, next) {
 }
 
 router.get('/', restricted, (req, res) => {
-  User.find()
+  const race = req.jwtPayload.race
+  console.log(race)
+  User.find({ "race" : { $eq: `${race}` }})
     .select('-password')
     .then(users => {
       res.json(users)
