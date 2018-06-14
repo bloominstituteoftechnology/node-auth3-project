@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from 'react-router-dom';
+import SignIn from './components/signIn';
+import Dashboard from './components/dashboard';
+import SignUp from './components/signUp';
+import NavBar from './components/navBar';
+import Users from './components/usersList'
+import { withRouter } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -9,13 +16,14 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        </header> 
+      <Route exact path="/" component={SignIn} />
+      <Route exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/users" component={Users} />
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
