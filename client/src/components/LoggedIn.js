@@ -5,11 +5,11 @@ import ListItem from '@material-ui/core/ListItem';
 
 import ListItemText from '@material-ui/core/ListItemText';
 
-axios.interceptors.request.use((config)=>{  
-  const token = localStorage.getItem("token");
-  config.headers.Authorization = token;
-  return config;
-})
+// axios.interceptors.request.use((config)=>{  
+//   const token = localStorage.getItem("token");
+//   config.headers.Authorization = token;
+//   return config;
+// })
 
 export default class LoggedIn extends Component {
   constructor(props){
@@ -22,19 +22,26 @@ export default class LoggedIn extends Component {
   componentDidMount(){
             
     axios
-      .get('http://localhost:5500/api/users')
+      .get('http://localhost:5500/api/users', {
+        headers: { "authorization": localStorage.getItem('token')}
+      })
         .then(response => {
-          console.log(response.data)
+          console.log(response)
           this.setState({
             users: response.data
           })
         })
       
   }
+  signout = () => {
+    localStorage.removeItem('token');
+    this.props.stateOut();
+  }
 
   render() {
     return (
       <div>
+        <button onClick={this.signout}>SignOut</button>
         <h1>  LOGGED IN </h1>
         <div>
         <List component="nav"> 
