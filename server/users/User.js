@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 12, // make this at least 12 in production
+    minlength: 4, // make this at least 12 in production
     maxlength: 25,
     validate: checkPasswordLength,
     msg: 'password is too weak',
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function (next) { // this hashes password before it saves to database
   return bcrypt
     .hash(this.password, 10)
     .then(hash => {
@@ -42,7 +42,7 @@ userSchema.pre('save', function (next) {
 });
 // methods
 function checkPasswordLength(password) {
-  return password.length > 12;
+  return password.length > 4; // should be set to 12 in production
 }
 
 userSchema.methods.validatePassword = function (passwordGuess) {

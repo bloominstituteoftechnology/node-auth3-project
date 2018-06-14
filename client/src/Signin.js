@@ -3,8 +3,9 @@ import axios from 'axios'
 
 class Signin extends React.Component {
   state = {
-    username: 'Jake',
-    password: 'melloncolli'
+    // sets default state to key props
+    username: 'somename',
+    password: '12345'
   }
 
   render () {
@@ -39,7 +40,7 @@ class Signin extends React.Component {
     event.preventDefault()
 
     axios
-      .post('http://localhost:3000/api/login', this.state)
+      .post('http://localhost:5500/api/login', this.state)
       .then(response => {
         localStorage.setItem('jwt', response.data.token)
 

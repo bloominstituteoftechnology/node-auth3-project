@@ -2,6 +2,8 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../users/User');
 
+const secret = "toss me, but don't tell the elf!";
+
 function generateToken(user) {
   const options = {
     expiresIn: '1h',
@@ -46,9 +48,6 @@ router.post('/register', function (req, res) {
     })
     .catch(err => res.status(500).json(err));
 });
-
-
-const secret = "toss me, but don't tell the elf!";
 
 router.post('/login', (req, res) => {
   const {
