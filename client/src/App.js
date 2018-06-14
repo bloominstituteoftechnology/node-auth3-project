@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Signin from "./auth/Signin";
 import Users from "./users/Users";
+import register from './register/register';
 
 
 class App extends Component {

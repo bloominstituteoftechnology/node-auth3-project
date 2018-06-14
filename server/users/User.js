@@ -18,12 +18,6 @@ const userSchema = new mongoose.Schema({
   race: {
     type: String,
     required: true,
-    index: true,
-    minlength: 2,
-  },
-  race: {
-    type: String,
-    required: true,
     validate: {
       validator: /(hobbit|human|elf)/,
       msg: 'invalid race'

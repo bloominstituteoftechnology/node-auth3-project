@@ -22,7 +22,8 @@ function restricted(req, res, next) {
   }
 }
 
-router.get('/', restricted, (req, res) => {
+router
+  .get('/', restricted, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
