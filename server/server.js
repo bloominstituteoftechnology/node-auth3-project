@@ -7,6 +7,7 @@ const setupRoutes = require('./_config/routes');
 const server = express();
 
 setupMiddleware(server);
+
 setupRoutes(server);
 
 db.connectTo('authii')
