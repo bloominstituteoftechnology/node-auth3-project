@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import axios from 'axios'
+import NavBar from './NavBar'
 
 class UserList extends Component {
     constructor(props) {
@@ -30,18 +31,22 @@ class UserList extends Component {
 
     render() { 
         return (
-            <div className="usersContainer">
-                {this.state.users.map( user => {
-                    return (
-                        <div className="userContainer" key={user.username}>
-                            <h3>{user.username}</h3>
-                            <p>{user.race}</p>
-                        </div>
-                    )
-                })}
-            </div>
+            <React.Fragment>
+                <NavBar />
+                <div className="usersContainer">
+                    <h1>Users: </h1>
+                    {this.state.users.map( user => {
+                        return (
+                            <div className="userContainer" key={user.username}>
+                                <h3>{user.username}</h3>
+                                <p>{user.race}</p>
+                            </div>
+                        )
+                    })}
+                </div>
+            </React.Fragment>
         )
     }
 }
  
-export default UserList;
+export default UserList
