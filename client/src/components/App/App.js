@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Route } from 'react-router-dom';
 import './App.css';
 import logo from '../../logo.svg';
 
@@ -23,7 +23,7 @@ class App extends Component {
               <Auth />
             </div>
             <div className="c-8">
-              <MainContent />
+              <Route path="/users" component={MainContent} />
             </div>
           </div>
         </div>

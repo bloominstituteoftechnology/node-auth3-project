@@ -7,7 +7,7 @@ const Auth = () => {
   return (
     <React.Fragment>
       {localStorage.getItem('jwt') && (
-        <Link to="/register">
+        <Link to="/login">
           <button onClick={logOut}>Log out</button>
         </Link>
       )}

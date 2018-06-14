@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     .where({ race })
     .select('-password')
     .then(users => {
-      res.json({ race, users });
+      res.json({ users });
     })
     .catch(err => {
       res.status(500).json(err);
