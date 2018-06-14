@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import './css/index.css';
+import 'typeface-roboto';
+import './css/index.css';
 import mainReducer from './reducers';
 import App from './components/App/App';
 

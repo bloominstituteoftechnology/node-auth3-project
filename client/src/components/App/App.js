@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 
 import './App.css';
 import logo from '../../logo.svg';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
 
 /**
  * IMPORT OCMPONENTS: App component is the Head of all others components.
  */
-// import Component_1 from '../SideBar_/SideBar_';
-// import Component_2 from '../Main_/Main_';
+import Auth from '../Auth/Auth';
+import MainContent from '../MainContent/MainContent';
 
 class App extends Component {
   render() {
@@ -20,11 +18,14 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="container custom-container">
-          {/* <div className="row"> */}
-          {/* ADD COMPONENTS HERE */}
-          {/* <Component_1 /> */}
-          {/* <Route component={Component_2} /> */}
-          {/* </div> */}
+          <div className="row">
+            <div className="c-4">
+              <Auth />
+            </div>
+            <div className="c-8">
+              <MainContent />
+            </div>
+          </div>
         </div>
       </div>
     );
