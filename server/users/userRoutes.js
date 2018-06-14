@@ -34,35 +34,4 @@ function restricted(req, res, next) {
   }
 }
 
-
-// function restricted(req, res, next) {
-//   const token = req.headers.authorization;
-//   console.log(token)
-//   if(token) {
-//     jwt.verify(token, secret, (err, decodedToken) => {
-//       req.jwtPayload(decodedToken);
-//       if(err) {
-//         return res
-//           .status(401)
-//           .json({ message: 'you shall not pass! not decoded' })
-//       }
-//       next();
-//     })
-//   } else {
-//     res.status(401).json({ message: 'you shall not pass! no token' })
-//   }
-// }
-
-// router.get('/logout', (req, res) =>{
-//   if (req.session) {
-//       req.session.destroy(error => {
-//           if(error){
-//               res.send('error logging out')  
-//           } else {
-//               res.status(200).send("Have a nice day!")
-//           }
-//       })
-//   }
-// })
-
 module.exports = router;

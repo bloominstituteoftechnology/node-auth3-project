@@ -30,7 +30,7 @@ class SignUp extends Component {
     render() { 
         return ( 
             <div>
-                <form className="input">
+                <form className="input-box">
                 <input 
                     className="username-input"
                     onChange={this.handleInputChange}

@@ -26,22 +26,12 @@ class SignIn extends Component {
                 console.log("response:", response.data)
                 localStorage.setItem('jwt', response.data.token);
                 this.setState({ username: '', password: '', responseMessage: response.data, loggedIn: true })
+                this.props.history.push('/users');
             })
             .catch(error => {
                 console.log("here:", error)
             })
     }
-
-    // logout = () => {
-    //     axios
-    //         .get('http://localhost:5500/logout')
-    //         .then(response => {
-    //             this.setState({ loggedIn: false, responseMessage: response.data })
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
 
     render() { 
         return ( 
@@ -62,22 +52,12 @@ class SignIn extends Component {
                         value={this.state.password}
                     />
                 </form>
-                { this.state.loggedIn
-                ? 
-                <button
-                    className="logout-button"
-                    onClick={this.logout}
-                >
-                Log out
-                </button>
-                :            
                 <button 
                     className="login-button"
                     onClick={this.login}
                 >
                 Login
                 </button>
-                }
             </div>
         )
     }

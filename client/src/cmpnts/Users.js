@@ -15,12 +15,12 @@ class Users extends Component {
 
         const requestOptions = {
             headers: {
-                Autherization: token
+                Authorization: token
             }
         }
 
         axios
-            .get('http://localhost:5500/api/auth/login', requestOptions)
+            .get('http://localhost:5500/api/users', requestOptions)
             .then(response => {
                 this.setState({ users: response.data })
                 console.log(response.data)
@@ -34,7 +34,9 @@ class Users extends Component {
         return ( 
             <ul>
                 {this.state.users.map(user => {
-                    <li key={user._id}>user.username</li>
+                    return (
+                        <li key={user._id}>{user.username}</li>
+                    )
                 })}
             </ul>
          )

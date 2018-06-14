@@ -23,12 +23,10 @@ router.post('/register', function(req, res) {
     .then(response => {
       // we destructure the username and race to avoid returning the hashed password
       const token = generateToken(user);
-      
       // then we assemble a new object and return it
       res.status(201).json(response);
     })
     .catch(err => {
-      //console.log(err)
       res.status(500).json(err)
     });
 });
@@ -61,6 +59,5 @@ router.post('/login', function(req, res) {
       res.status(500).error({ error: error.message })
     })
 })
-
 
 module.exports = router;
