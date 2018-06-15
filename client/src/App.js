@@ -3,7 +3,7 @@ import { Route, withRouter } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Signin from './auth/Signin';
-//import Users from './users/Users';
+import Users from './users/Users';
 
 class App extends Component {
   render() {
@@ -15,13 +15,13 @@ class App extends Component {
 
           <div>
             {localStorage.getItem('jwt') && (
-              <button onClick={this.singout}>Signout</button>
+              <button onClick={this.signout}>Signout</button>
             )}
           </div>
         </header>
         
         <Route path="/signin" component={Signin} />
-        
+        <Route path="/users" component={Users} />
        </div>
     );
   }

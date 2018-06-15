@@ -45,10 +45,10 @@ submitHandler = event => {
         .post('http://localhost:5500/api/auth/login', this.state)
         .then(response => {
             console.log('response', response.data)
-           // localStorage.setItem('jwt', response.data.token);
+            localStorage.setItem('jwt', response.data.token);
 
-            //console.log('signing props', this.props);
-           // this.props.history.push('/users');
+            console.log('signing props', this.props);
+            this.props.history.push('/users');
         })
         .catch(err => console.log('bad panda'));
     };

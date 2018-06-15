@@ -9,7 +9,7 @@ class Users extends React.Component {
 render() {
     return (
         <ul>
-            {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+            {this.state.users.map(user => <li key={user._id}>{user.username}</li>)}
         </ul>
     );
 }
@@ -37,4 +37,4 @@ render() {
     }
 
 
-//export default Users;
+export default Users;
