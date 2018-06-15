@@ -1,8 +1,23 @@
 const router = require('express').Router();
-const secret = "toss me, but don't tell the elf!";
 const jwt = require('jsonwebtoken');
 
 const User = require('./User');
+
+const secret = "toss me, but don't tell the elf!";
+
+function restricted(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({ message: 'YOU SHALL NOT PASS! -(Token Not Decoded)' });
+      }
+      next();
+    });
+  } else {
+    res.status(401).json({ message: 'YOU SHALL NOT PASS! -(There is No Token)' });
+  }
+};
 
 router.get('/', restricted, (req, res) => {
   User.find({})
@@ -10,25 +25,10 @@ router.get('/', restricted, (req, res) => {
     .then(users => {
       res.status(200).json(users);
     })
-    .catch(err => {
-      res.status(500).json(err);
+    .catch(error => {
+      res.status(500).json({ message: error.message });
     });
 });
 
-function restricted(req, res, next) {
-  const token = req.headers.authorization;
-  if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
-      if (err) {
-        return res
-          .status(401)
-          .json({ message: 'you shall not pass! not decoded' });
-      }
-      next();
-    });
-  } else {
-    res.status(401).json({ message: 'you shall not pass! no token' });
-  }
-}
 
 module.exports = router;

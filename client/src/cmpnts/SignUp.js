@@ -27,6 +27,14 @@ class SignUp extends Component {
             })
     }
 
+    enterPressed = event => {
+        event.preventDefault();
+        var code = event.keyCode || event.which;
+        if (code === 13) {
+            return this.addUser(event);
+        }
+    }
+
     render() { 
         return ( 
             <div>
@@ -34,6 +42,7 @@ class SignUp extends Component {
                 <input 
                     className="username-input"
                     onChange={this.handleInputChange}
+                    onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Username"
                     name="username"
                     value={this.state.username}
@@ -41,6 +50,7 @@ class SignUp extends Component {
                 <input
                     className="password-input"
                     onChange={this.handleInputChange}
+                    onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Password"
                     name="password"
                     value={this.state.password}
@@ -48,6 +58,7 @@ class SignUp extends Component {
                 <input
                     className="race-input"
                     onChange={this.handleInputChange}
+                    onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Race"
                     name="race"
                     value={this.state.race}

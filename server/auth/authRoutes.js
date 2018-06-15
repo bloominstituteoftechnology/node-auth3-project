@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const secret = "toss me, but don't tell the elf!";
 
 const User = require('../users/User');
+
+const secret = "toss me, but don't tell the elf!";
 
 function generateToken(user) {
   const options = {
@@ -15,16 +16,16 @@ function generateToken(user) {
 router.post('/register', function(req, res) {
   const user = {
     username: req.body.username,
+    password: req.body.password,
     race: req.body.race,
-    password: req.body.password
   }
   User.create(user)
     .then(response => {
       const token = generateToken(user);
       res.status(201).json(response);
     })
-    .catch(err => {
-      res.status(500).json(err)
+    .catch(error => {
+      res.status(500).json({ message: error.message })
     });
 });
 
@@ -46,7 +47,7 @@ router.post('/login', function(req, res) {
             }
           })
           .catch(error => {
-            res.status(500).json("error comparing passwords")
+            res.status(500).json("Error Comparing Passwords")
           })
       } else {
         res.status(401).send("Invalid Credentials")

@@ -27,8 +27,16 @@ class SignIn extends Component {
                 this.props.history.push('/users');
             })
             .catch(error => {
-                console.log("here:", error)
+                console.log(error)
             })
+    }
+
+    enterPressed = event => {
+        event.preventDefault();
+        var code = event.keyCode || event.which;
+        if (code === 13) {
+            return this.login(event);
+        }
     }
 
     render() { 
@@ -39,6 +47,7 @@ class SignIn extends Component {
                         <input 
                             className="username-login"
                             onChange={this.handleInputChange}
+                            onKeyUp={this.enterPressed.bind(this)}
                             placeholder="Enter Username"
                             name="username"
                             type="text"
@@ -49,6 +58,7 @@ class SignIn extends Component {
                         <input
                             className="password-login"
                             onChange={this.handleInputChange}
+                            onKeyUp={this.enterPressed.bind(this)}
                             placeholder="Enter Password"
                             name="password"
                             type="password"

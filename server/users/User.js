@@ -26,7 +26,6 @@ userSchema.pre('save', function(next) {
     .hash(this.password, 10)
     .then(hash => {
       this.password = hash;
-
       return next();
     })
     .catch(err => {
