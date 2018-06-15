@@ -8,14 +8,12 @@ class Register extends Component {
         password: '',
         race: '',
     }
-
-
     
-      inputChangeHandler = event => {
-        const { name, value } = event.target;
-    
-        this.setState({ [name]: value });
-      };
+    inputChangeHandler = event => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value });
+    };
 
     submitHandler = event => {
         event.preventDefault();
@@ -25,7 +23,7 @@ class Register extends Component {
           .then(response => {
             localStorage.setItem('jwt', response.data.token);
     
-            console.log('register props:', this.props);
+            console.log('register props: ', this.props);
             this.props.history.push('/users');
           })
           .catch(err => console.log('bad register panda!'));
@@ -35,7 +33,7 @@ class Register extends Component {
         return (
             <form onSubmit={this.submitHandler}> 
                 <div>
-                    <label>Username</label>
+                    <label>Username: </label>
                     <input
                     value={this.state.username}
                     onChange={this.inputChangeHandler}
@@ -44,7 +42,7 @@ class Register extends Component {
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>Password: </label>
                     <input
                     value={this.state.password}
                     onChange={this.inputChangeHandler}
@@ -53,7 +51,7 @@ class Register extends Component {
                     />
                 </div>
                 <div>
-                    <label>Race</label>
+                    <label>Race: </label>
                     <input
                     value={this.state.race}
                     onChange={this.inputChangeHandler}
