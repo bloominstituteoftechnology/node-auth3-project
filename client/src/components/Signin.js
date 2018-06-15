@@ -40,7 +40,7 @@ render() {
         axios.post('http://localhost:5500/api/auth/login', this.state)
             .then(response => {
                 localStorage.setItem('token', response.data.token) // setting the token as an item on the window's localStorage
-                // this.props.history.push('/users'); // using the redirection abilities of react-router to send user to the /users page
+                this.props.history.push('/users'); // using the redirection abilities of react-router to send user to the /users page
             }).catch( err => {
                 console.log('sad')
             })

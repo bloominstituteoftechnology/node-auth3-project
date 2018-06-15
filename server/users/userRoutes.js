@@ -8,7 +8,7 @@ function restricted (req, res, next) {
 console.log('Look at me, being all restricted')
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      req.jwtPayload = decodedToken;
+      req.jwtPayload = decodedToken
       console.log('decodedtoken', decodedToken)
       if (err) {
         return res.status(401).json({ message: 'You shall not pass!  Your decoder ring has failed thee!'})

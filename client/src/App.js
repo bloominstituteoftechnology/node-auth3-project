@@ -16,9 +16,9 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
           {localStorage.getItem('token') ? (
             <button onClick={this.signout}> Sign out </button>
-          ) : <button onClick={() => this.props.history.push('/register')}> Register </button>}
+          ) : <button onClick={() => this.props.history.push('/signup')}> Register </button>}
         </header>        
-        <Route path="/register" component={Register} />
+        <Route path="/signup" component={Register} />
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
       </div>
