@@ -16,7 +16,6 @@ function restricted(req, res, next) {
           .status(401)
           .json({ message: 'please sign in'})
       }
-
       next();
     })
   } else {
