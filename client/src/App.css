@@ -1,27 +1,112 @@
 .App {
   text-align: center;
+  height: 731px;
+  color: white;
+  background:url("https://i.imgur.com/NrgFc4C.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-shadow: 1px 1px 5px black;
 }
 
-.App-logo {
+.ring-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 350px;
+}
+.ring-background {
+  margin-top: 10px;
+  background-color:black;
+  opacity: 0.75;
+  height: 490px;
+  margin-right: 50px;
+  margin-left: 50px;
+  font-size:2em;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  /* height: 160px; */
+  height:60px;
   padding: 20px;
-  color: white;
+  color: rgb(189, 170, 67);
+  background: radial-gradient(rgba(38, 41, 51, 0.6), rgba(38, 41, 51, 0.6)), url("https://images-na.ssl-images-amazon.com/images/I/81%2B9QP8nLXL._SL1500_.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 2px 2px 8px black;
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 100%;
 }
 
 .App-title {
+  font-size: 2em;
+}
+
+.button-template {
+  height: 30px;
+  width: 70px;
+  background-color: rgba(92, 94, 117, 0.9);
+  border: 2px solid rgb(53, 53, 53);
+  border-radius: 5%;
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-top: 5px;
+  color: rgb(238, 210, 52);
+  text-shadow: 2px 2px 5px black;
+  font-size: 13px;
+
+}
+
+/* homepage buttons */
+.portal-box {
+  padding-top: 5px;
+}
+
+.input {
+  border: 1px solid rgb(63, 54, 0);
+  height: 20px;
+  width: 110px;
+  margin: 5px;
+  font-size: 12px;
+}
+
+/* sign up */
+.input-box {
+  padding-top: 130px;
+}
+
+/* sign in */
+.login-box {
+  padding-top: 50px;
+}
+
+/* user list */
+.user-list {
+  background:url("https://www.intofilm.org/intofilm-production/scaledcropped/1096x548https%3A/s3-eu-west-1.amazonaws.com/images.cdn.filmclub.org/film__3930-the-lord-of-the-rings-the-fellowship-of-the-ring--hi_res-a207bd11.jpg/film__3930-the-lord-of-the-rings-the-fellowship-of-the-ring--hi_res-a207bd11.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  color: rgb(226, 234, 255);
+  margin-right: 50px;
+  margin-left: 50px;
+  height: 477px;
+  opacity: 0.95;
+  border-radius: 3%;
+  justify-content: space-around;
   font-size: 1.5em;
+  flex-wrap: wrap;
 }
 
-.App-intro {
-  font-size: large;
+.indv-usr {
+  padding: 5px;
 }
 
+.movie-title {
+  padding-bottom: 150px;
+  color: rgb(243, 218, 76);
+  text-shadow: 2px 2px 5px black;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
