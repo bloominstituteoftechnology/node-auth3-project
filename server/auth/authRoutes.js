@@ -22,7 +22,7 @@ router.post('/register', function(req, res) {
 router.post('/login', (req, res) => {
   const { username, password, race } = req.body;
 
-  User.findOne({username})
+  User.findOne()
     // .select( 'username race' )
     .where({ username })
     .exec((user, err) => {
