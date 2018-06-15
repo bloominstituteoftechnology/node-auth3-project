@@ -9,7 +9,9 @@ class UserList extends React.Component {
     componentDidMount() {
         const token = localStorage.getItem('jwt');
         const requestOptions = {
-            Authorization: token
+            headers: {
+                Authorization: token
+            }
         };
         axios.get('http://localhost:5500/api/users', requestOptions)
             .then(response => this.setState({ users: response.data }))

@@ -17,7 +17,7 @@ class Login extends React.Component {
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
                 this.props.history.push('/users');
-            })
+           })
             .catch(err => console.log(err));
     }
 
@@ -29,7 +29,7 @@ class Login extends React.Component {
                     <h3>Sign In</h3>
                     <input type="text" name="username" value={username} placeholder="username" onChange={this.handleChange}/>
                     <input type="password" name="password" value={password} placeholder="password" onChange={this.handleChange}/>
-                    <button onClick={this.handleSubmit}>SignUp</button>
+                    <button onClick={this.handleSubmit}>Sign In</button>
                 </form>
             </div>
         );

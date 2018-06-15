@@ -31,7 +31,7 @@ class Register extends React.Component {
                     <input type="text" name="username" value={username} placeholder="username" onChange={this.handleChange}/>
                     <input type="text" name="race" value={race} placeholder="race" onChange={this.handleChange}/>
                     <input type="password" name="password" value={password} placeholder="password" onChange={this.handleChange}/>
-                    <button onClick={this.handleSubmit}>SignUp</button>
+                    <button onClick={this.handleSubmit}>Sign Up</button>
                 </form>
             </div>
         );
