@@ -12,7 +12,7 @@ class Signup extends Component {
         return (
             <form onSubmit={this.submitHandler}>
                 <div>
-                    <label>Username</label>
+                    <label>Username </label>
                     <input
                         value={this.state.username}
                         onChange={this.inputChangeHandler}
@@ -21,7 +21,7 @@ class Signup extends Component {
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>Password </label>
                     <input
                         value={this.state.password}
                         onChange={this.inputChangeHandler}
@@ -30,7 +30,7 @@ class Signup extends Component {
                     />
                 </div>
                 <div>
-                    <label>Position</label>
+                    <label>Position </label>
                     <input
                         value={this.state.position}
                         onChange={this.inputChangeHandler}
@@ -39,7 +39,7 @@ class Signup extends Component {
                     />
                 </div>
                 <div>
-                    <button type="submit">Signup</button>
+                    <button type="submit">Sign Up</button>
                 </div>
             </form>
         );
