@@ -7,6 +7,8 @@ const protectedPath = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
+      req.jwtPayload = decodedToken;
+      console.log(decodedToken);
       if (err) {
         return res.status(401).json({ err });
       }
@@ -18,7 +20,8 @@ const protectedPath = (req, res, next) => {
 }
 
 router.get('/', protectedPath, (req, res) => {
-  User.find()
+  const { race } = req.jwtPayload;
+  User.find({ race })
     .select('-password')
     .then(users => {
       res.json(users);
