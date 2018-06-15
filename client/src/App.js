@@ -17,7 +17,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={ring} className="ring-logo" alt="logo" />
           <div className="portal-box">
             <Link to="/">
               <button className="button-template">Home</button>
@@ -30,6 +29,7 @@ class App extends Component {
             </Link>
             <button className="button-template" onClick={this.logout}>Logout</button>
           </div>
+          <img src={ring} className="ring-logo" alt="logo" />
         </header>
         <Route exact path ="/" />
         <Route path="/signup" component={SignUp} />

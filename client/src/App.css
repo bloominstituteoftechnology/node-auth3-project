@@ -11,11 +11,11 @@
 
 .ring-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 130px;
 }
 
 .App-header {
-  height: 150px;
+  height: 160px;
   padding: 20px;
   color: rgb(189, 170, 67);
   background: radial-gradient(rgba(38, 41, 51, 0.6), rgba(38, 41, 51, 0.6)), url("https://images-na.ssl-images-amazon.com/images/I/81%2B9QP8nLXL._SL1500_.jpg");
@@ -37,18 +37,18 @@
   background-color: rgba(92, 94, 117, 0.9);
   border: 2px solid rgb(53, 53, 53);
   border-radius: 5%;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-right: 50px;
+  margin-left: 50px;
   margin-top: 5px;
   color: rgb(238, 210, 52);
   text-shadow: 2px 2px 5px black;
-  font-size: 14px;
+  font-size: 13px;
 
 }
 
 /* homepage buttons */
 .portal-box {
-  padding-top: 15px;
+  padding-top: 5px;
 }
 
 .input {
@@ -61,12 +61,12 @@
 
 /* sign up */
 .input-box {
-  padding-top: 100px;
+  padding-top: 130px;
 }
 
 /* sign in */
 .login-box {
-  padding-top: 100px;
+  padding-top: 50px;
 }
 
 /* user list */
