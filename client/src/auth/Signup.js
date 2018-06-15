@@ -53,7 +53,7 @@ class Signup extends Component {
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
 
-                console.log('signing props', this.props);
+                console.log('signup props', this.props);
                 this.props.history.push('/users')
             })
             .catch(err => console.log('Baaaaad to the bone!'));

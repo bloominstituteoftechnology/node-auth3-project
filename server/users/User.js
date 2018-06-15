@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     validate: checkPasswordLength,
     msg: 'Password is too weak',
   },
-  race: {
+  position: {
     type: String,
     required: true,
     validate: {
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
 });
 
 function checkPasswordLength(password) {
-  return password.length > 12;
+  return password.length > 10;
 }
 
 userSchema.pre('save', function(next) {
