@@ -26,7 +26,7 @@ class Users extends Component {
         };
 
         axios
-            .get('http://localhost:5000/api/users', requestOptions)
+            .get('http://localhost:5500/api/users', requestOptions)
             .then(response => {
                 this.setState({ users: response.data });
                 console.log(response.data);
