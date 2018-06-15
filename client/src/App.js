@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import ring from './oneringGIF.gif';
 import './App.css';
-import { Route, Link, withRouter } from 'react-router-dom';
-import { SignUp, SignIn, Users } from './cmpnts'
+import { Route, Link, withRouter, Switch } from 'react-router-dom';
+import { SignUp, SignIn, Users, Ring } from './cmpnts'
 
 class App extends Component {
 
@@ -29,12 +28,14 @@ class App extends Component {
             </Link>
             <button className="button-template" onClick={this.logout}>Logout</button>
           </div>
-          <img src={ring} className="ring-logo" alt="logo" />
         </header>
-        <Route exact path ="/" />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/users" component={Users} />
+        <Switch>
+          <Route exact path ="/" />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/users" component={Users} />
+          <Route component={Ring}/>
+        </Switch>
       </div>
     );
   }

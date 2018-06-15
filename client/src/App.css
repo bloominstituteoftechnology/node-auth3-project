@@ -11,11 +11,21 @@
 
 .ring-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 130px;
+  height: 350px;
+}
+.ring-background {
+  margin-top: 10px;
+  background-color:black;
+  opacity: 0.75;
+  height: 490px;
+  margin-right: 50px;
+  margin-left: 50px;
+  font-size:2em;
 }
 
 .App-header {
-  height: 160px;
+  /* height: 160px; */
+  height:60px;
   padding: 20px;
   color: rgb(189, 170, 67);
   background: radial-gradient(rgba(38, 41, 51, 0.6), rgba(38, 41, 51, 0.6)), url("https://images-na.ssl-images-amazon.com/images/I/81%2B9QP8nLXL._SL1500_.jpg");
