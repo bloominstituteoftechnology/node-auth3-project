@@ -40,7 +40,7 @@
   margin-right: 10px;
   margin-left: 10px;
   margin-top: 5px;
-  color: rgb(218, 196, 77);
+  color: rgb(238, 210, 52);
   text-shadow: 2px 2px 5px black;
   font-size: 14px;
 
@@ -94,7 +94,8 @@
 
 .movie-title {
   padding-bottom: 150px;
-  color: rgb(206, 187, 78);
+  color: rgb(243, 218, 76);
+  text-shadow: 2px 2px 5px black;
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
