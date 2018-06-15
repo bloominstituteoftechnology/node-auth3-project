@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import Signin from './auth/Signin.js';
 import Users from './users/Users.js';
@@ -12,8 +12,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          {/* <img src={logo} className="App-logo" alt="logo" /> */}
+          <h1 className="App-title">Y Combinator</h1>
         
         <div>
           {localStorage.getItem('jwt') && (
@@ -22,7 +22,7 @@ class App extends Component {
         </div>
         
         </header>
-
+        <br/><br/>
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
         <Route path="/signup" component={Signup} />

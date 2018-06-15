@@ -3,8 +3,8 @@ import axios from 'axios';
 
 class Signin extends Component {
     state = {
-        username: 'paul graham',
-        password: 'ycombinator'
+        username: '',
+        password: ''
     };
 
     render() {

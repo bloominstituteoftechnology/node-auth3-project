@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: /(founder|partner|member)/i,
-      msg: 'Invalid race',
+      msg: 'Invalid position',
     },
   },
 });
