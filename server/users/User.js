@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    minlength: 12, // make this at least 12 in production
   },
   race: {
     type: String,

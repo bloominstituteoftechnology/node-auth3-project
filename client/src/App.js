@@ -4,7 +4,7 @@ import './App.css';
 import { Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 // import Login from './components/Login/Login';
-// import Register from './components/Register/Register';
+import Register from './components/Register/Register';
 // import Users from './components/Users/Users';
 
 class App extends Component {
@@ -17,12 +17,12 @@ class App extends Component {
           <NavBar />
         </header>
         <div className="message">
-          <p>You must log in to view all of our users. If you do not have an account please feel free to click on the register button to sign up. Thank you!</p>
+          <h4>You must log in to your account to view all of our users. If you do not have an account please feel free to click on the register button to sign up. Thank you!</h4>
         </div>
 
-        {/* <Route exact path='/login' component={Login} />
+        {/* <Route exact path='/login' component={Login} /> */}
         <Route exact path='/register' component={Register} />
-        <Route exact path='/users' component={Users} /> */}
+        {/* <Route exact path='/users' component={Users} /> */}
       </div>
     );
   }
