@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class Signin extends Component {
+class Register extends Component {
 
     state = {
         username: '',
         password: '',
+        race: '',
     }
 
 
-    submitHandler = event => {
-        event.preventDefault();
-    
-        axios
-          .post('http://localhost:5500/api/auth/login', this.state)
-          .then(response => {
-            localStorage.setItem('jwt', response.data.token);
-    
-            console.log('signing props', this.props);
-            this.props.history.push('/users');
-          })
-          .catch(err => console.log('bad panda!'));
-      };
     
       inputChangeHandler = event => {
         const { name, value } = event.target;
     
         this.setState({ [name]: value });
+      };
+
+    submitHandler = event => {
+        event.preventDefault();
+    
+        axios
+          .post('http://localhost:5500/api/auth/register', this.state)
+          .then(response => {
+            localStorage.setItem('jwt', response.data.token);
+    
+            console.log('register props:', this.props);
+            this.props.history.push('/users');
+          })
+          .catch(err => console.log('bad register panda!'));
       };
 
     render() {
@@ -51,11 +53,20 @@ class Signin extends Component {
                     />
                 </div>
                 <div>
-                    <button type='submit'>Signin</button>
+                    <label>Race</label>
+                    <input
+                    value={this.state.race}
+                    onChange={this.inputChangeHandler}
+                    name='race'
+                    type='text'
+                    />
+                </div>
+                <div>
+                    <button type='submit'>Register</button>
                 </div>
             </form>
         );
     }
 }
 
-export default Signin;
+export default Register;
