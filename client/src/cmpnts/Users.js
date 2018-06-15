@@ -32,7 +32,7 @@ class Users extends Component {
             <ul className="user-list">
                 {this.state.users.map(user => {
                     return (
-                        <h3 key={user._id} className="indv-usr">{user.username}</h3>
+                        <p key={user._id} className="indv-usr">{user.username}</p>
                     )
                 })}
             </ul>

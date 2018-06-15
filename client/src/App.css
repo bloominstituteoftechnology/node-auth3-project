@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height: 800px;
+  height: 731px;
   color: white;
   background:url("https://i.imgur.com/NrgFc4C.jpg");
   background-repeat: no-repeat;
@@ -23,6 +23,8 @@
   background-position: center;
   background-size: cover;
   box-shadow: 2px 2px 8px black;
+  border-bottom-left-radius:5%;
+  border-bottom-right-radius:5%;
 }
 
 .App-title {
@@ -42,21 +44,26 @@
 /* sign in */
 .login-box {
   padding-top: 100px;
-  /* color: black;
-  text-shadow: 3px 3px 8px rgb(189, 170, 67); */
 }
 
 /* user list */
 .user-list {
-  background:url("https://stmed.net/sites/default/files/the-lord-of-the-rings%3A-the-fellowship-of-the-ring-wallpapers-30068-6507881.jpg");
+  background:url("https://www.intofilm.org/intofilm-production/scaledcropped/1096x548https%3A/s3-eu-west-1.amazonaws.com/images.cdn.filmclub.org/film__3930-the-lord-of-the-rings-the-fellowship-of-the-ring--hi_res-a207bd11.jpg/film__3930-the-lord-of-the-rings-the-fellowship-of-the-ring--hi_res-a207bd11.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   display: flex;
   justify-content: center;
-  text-shadow: 3px 3px 8px rgb(189, 170, 67);
-  color: black;
-  height: 500px;
+  /* text-shadow: 3px 3px 8px rgb(190, 199, 194); */
+  color: rgb(226, 234, 255);
+  margin-right: 50px;
+  margin-left: 50px;
+  height: 337px;
+  padding-top:120px;
+  opacity: 0.95;
+  border-radius: 3%;
+  justify-content: space-around;
+  font-size: 1.5em;
 }
 
 .indv-usr {
