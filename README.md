@@ -19,7 +19,7 @@ In this project we'll implement a full authentication workflow (register/login/l
 - type `yarn install` to download the server dependencies.
 - type `yarn start` to run the server, and leave it running.
 - **In a separate terminal window, CD into the client folder**.
-- type `yarn install` to download the server dependencies.
+- type `yarn install` to download the client dependencies.
 - type `yarn start` to execute the client application.
 - Ensure that you have an instance of `MongoDB` running.
 
