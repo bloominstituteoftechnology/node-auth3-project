@@ -48,4 +48,3 @@ userSchema.methods.validatePassword = function(passwordGuess) {
 };
 
 module.exports = mongoose.model('User', userSchema, 'users');
-s
