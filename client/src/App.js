@@ -18,7 +18,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ring} className="ring-logo" alt="logo" />
-          <h1 className="App-title">LOTR Database:</h1>
+          <h1 className="App-title">FELLOWSHIP OF THE RING DATABASE:</h1>
         </header>
         <div className="portal-box">
           <Link to="/">
