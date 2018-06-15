@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
 const User = require('./User');
+const jwt = require('jsonwebtoken');
 
-const secret = 'braden govi xang chris';
+const secret = 'Not the beard!';
 
 function restricted(req, res, next) {
   const token = req.headers.authorization;

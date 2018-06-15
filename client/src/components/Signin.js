@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
-class Signin extends React.Component {
+class Signin extends Component {
     state = {
         username: '',
         password: ''
-    };
+    }
+    
+    submitHandler = event => {
+
+            event.preventDefault();
+
+            axios
+                .post('http://localhost:5500/api/auth/login', this.state)
+                .then(response => {
+                    localStorage.setItem('jwt', response.data.token);
+                    this.props.history.push('/users');
+                    console.log('signing props', this.props)
+                })
+                .catch(error => console.log('grumpy goose'))
+        }
+    
+    inputChangeHandler = event => {
+        console.log('Change', event.target.name);
+        const { name, value } = event.target;
+    
+        this.setState({ [name]: value })
+    }
 
     render() {
         return (
@@ -33,24 +54,6 @@ class Signin extends React.Component {
         );
     }
 
-submitHandler = event => {
-        event.preventDefault();
-        console.log(this.state);
-        axios.post('http://localhost:5500/api/auth/login', this.state)
-            .then(response => {
-                localStorage.setItem('jwt', response.data.token);
-                this.props.history.push('/users');
-                console.log('signing props', this.props)
-            })
-            .catch(error => console.log('grumpy goose'))
-    }
-
-inputChangeHandler = event => {
-    console.log('Change', event.target.name);
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value })
-}
 
 }
 
