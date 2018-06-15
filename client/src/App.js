@@ -1,21 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Route, withRouter, Link } from "react-router-dom";
+import { Navigation, UserList, Login, Register } from "./components/index.js";
 
 class App extends Component {
+    state = {
+      loggedIn : false
+  }
+
+  signoutHandler = () => {
+      localStorage.removeItem('jwt');
+      this.props.history.push('/login');
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
-        </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        <div>
+          {localStorage.getItem('jwt') ? (
+            <div>
+              <Navigation/>
+              <button onClick={this.signoutHandler}>Sign Out</button>
+            </div>
+          ) : (
+            <Route exact path="/" render={() => <div><Link to="/login">Login</Link></div>}/>
+          ) }
+        </div>
+        <Route path="/register" component={Register}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/users" component={UserList}/>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
