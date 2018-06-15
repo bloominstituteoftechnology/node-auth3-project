@@ -65,10 +65,10 @@ class SignUp extends Component {
                 />
                 </form>
                 <button 
-                    className="submit-button"
+                    className="button-template"
                     onClick={this.addUser}
                 >
-                Sign Up
+                Join Us!
                 </button>
         </div>            
         )

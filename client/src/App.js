@@ -18,20 +18,19 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ring} className="ring-logo" alt="logo" />
-          <h1 className="App-title">FELLOWSHIP OF THE RING DATABASE:</h1>
+          <div className="portal-box">
+            <Link to="/">
+              <button className="button-template">Home</button>
+            </Link>
+            <Link to="/signup">
+              <button className="button-template">Sign Up</button>
+            </Link>
+            <Link to="/signin">
+              <button className="button-template">Sign In</button>
+            </Link>
+            <button className="button-template" onClick={this.logout}>Logout</button>
+          </div>
         </header>
-        <div className="portal-box">
-          <Link to="/">
-            <button>Home</button>
-          </Link>
-          <Link to="/signup">
-            <button>Sign Up</button>
-          </Link>
-          <Link to="/signin">
-            <button>Sign In</button>
-          </Link>
-          <button onClick={this.logout}>Logout</button>
-        </div>
         <Route exact path ="/" />
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />

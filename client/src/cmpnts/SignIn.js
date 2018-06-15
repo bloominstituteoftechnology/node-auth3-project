@@ -67,7 +67,7 @@ class SignIn extends Component {
                     </div>
                 </form>
                 <button 
-                    className="login-button"
+                    className="button-template"
                     onClick={this.login}
                 >
                 Login

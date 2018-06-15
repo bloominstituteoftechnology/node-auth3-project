@@ -27,13 +27,14 @@ class Users extends Component {
         }
 
     render() { 
-        return ( 
+        return (
             <ul className="user-list">
                 {this.state.users.map(user => {
                     return (
                         <h3 key={user._id} className="indv-usr">{user.username}</h3>
                     )
                 })}
+                <h1 className="movie-title">The Fellowship of the Ring</h1>
             </ul>
          )
     }
