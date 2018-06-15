@@ -23,8 +23,8 @@
   background-position: center;
   background-size: cover;
   box-shadow: 2px 2px 8px black;
-  border-bottom-left-radius:5%;
-  border-bottom-right-radius:5%;
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 100%;
 }
 
 .App-title {
@@ -34,20 +34,29 @@
 .button-template {
   height: 30px;
   width: 70px;
-  background-color: rgba(92, 94, 117, 0.849);
-  border: 2px solid rgb(77, 77, 77);
+  background-color: rgba(92, 94, 117, 0.9);
+  border: 2px solid rgb(53, 53, 53);
   border-radius: 5%;
   margin-right: 10px;
   margin-left: 10px;
   margin-top: 5px;
   color: rgb(218, 196, 77);
   text-shadow: 2px 2px 5px black;
+  font-size: 14px;
 
 }
 
 /* homepage buttons */
 .portal-box {
   padding-top: 15px;
+}
+
+.input {
+  border: 1px solid rgb(63, 54, 0);
+  height: 20px;
+  width: 110px;
+  margin: 5px;
+  font-size: 12px;
 }
 
 /* sign up */

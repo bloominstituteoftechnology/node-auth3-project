@@ -45,7 +45,7 @@ class SignIn extends Component {
                 <form className="login-box">
                     <div>
                         <input 
-                            className="username-login"
+                            className="input"
                             onChange={this.handleInputChange}
                             onKeyUp={this.enterPressed.bind(this)}
                             placeholder="Enter Username"
@@ -56,7 +56,7 @@ class SignIn extends Component {
                     </div>
                     <div>
                         <input
-                            className="password-login"
+                            className="input"
                             onChange={this.handleInputChange}
                             onKeyUp={this.enterPressed.bind(this)}
                             placeholder="Enter Password"

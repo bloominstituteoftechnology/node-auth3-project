@@ -40,7 +40,7 @@ class SignUp extends Component {
             <div>
                 <form className="input-box">
                 <input 
-                    className="username-input"
+                    className="input"
                     onChange={this.handleInputChange}
                     onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Username"
@@ -48,7 +48,7 @@ class SignUp extends Component {
                     value={this.state.username}
                 />
                 <input
-                    className="password-input"
+                    className="input"
                     onChange={this.handleInputChange}
                     onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Password"
@@ -56,7 +56,7 @@ class SignUp extends Component {
                     value={this.state.password}
                 />
                 <input
-                    className="race-input"
+                    className="input"
                     onChange={this.handleInputChange}
                     onKeyUp={this.enterPressed.bind(this)}
                     placeholder="Enter Race"
