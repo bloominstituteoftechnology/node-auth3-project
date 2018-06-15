@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    // minlength: 4, // make this at least 12 in production
     maxlength: 25,
     validate: checkPasswordLength, 
     msg: 'password is too weak'
@@ -20,14 +20,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: /(hobbit|human|elf|dwarf)/i,
+      validator: /(hobbits|humans|elves|dwarves)/i,
       msg: 'invalid race'
     },   
   },
 });
 
 function checkPasswordLength(password) {
-  return password.length > 12; 
+  return password.length > 4; 
 }
 
 userSchema.pre('save', function(next) {

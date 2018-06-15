@@ -4,15 +4,13 @@ import './signin.css';
 
 class Signin extends React.Component {
     state = {
-        username: 'Galadriel',
-        password: 'silmaril',
+        username: '',
+        password: '',
     };
 
     render () {
-        return (
-          <div className>
-            <form onSubmit={this.submitHandler} className="signinForm">
-        
+        return (          
+            <form onSubmit={this.submitHandler} className="signinForm">   
                 <div>
                     <label>Username</label>
                     <input 
@@ -32,10 +30,9 @@ class Signin extends React.Component {
                     />
                 </div>
                 <div>
-                    <button type="submit">Signin</button>
+                    <button type="submit">Sign In</button>
                 </div>
             </form>
-          </div>
         );
     }
 
@@ -54,7 +51,7 @@ class Signin extends React.Component {
     };
 
     inputChangeHandler = event => {
-        const { name, value } = event.trigger; 
+        const { name, value } = event.target; 
 
         this.setState({ [name]: value });
     };

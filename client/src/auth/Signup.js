@@ -10,16 +10,15 @@ class Signup extends React.Component {
     };
 
     render () {
-        return (
-          <div className>
-            <form onSubmit={this.submitHandler} className="signupForm">
-        
+        return (          
+            <form onSubmit={this.submitHandler} className="signupForm">        
                 <div>
                     <label>Username</label>
                     <input 
                         value={this.state.username}
                         onChange={this.inputChangeHandler}
                         name="username"
+                        classame="username1"
                         type="text"
                     />
                 </div>
@@ -37,15 +36,14 @@ class Signup extends React.Component {
                     <input 
                         value={this.state.race}
                         onChange={this.inputChangeHandler}
-                        name="password"
+                        name="race"
                         type="text"
                     />
                 </div>
                 <div>
-                    <button type="submit">Signup</button>
+                    <button type="submit">Sign Up</button>
                 </div>
-            </form>
-          </div>
+            </form>          
         );
     }
 
@@ -59,12 +57,13 @@ class Signup extends React.Component {
 
                 console.log('signup props', this.props);
                 this.props.history.push('/users');
+                response.status(200).json({message: 'Welcome to Middle Earth!'});
             })
             .catch(err => console.log('error signing up!'));
     };
 
     inputChangeHandler = event => {
-        const { name, value } = event.trigger; 
+        const { name, value } = event.target; 
 
         this.setState({ [name]: value });
     };
