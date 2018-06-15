@@ -5,7 +5,7 @@ class Signup extends Component {
     state = {
         username: '',
         password: '',
-        race: ''
+        position: ''
     };
 
     render() {
@@ -30,11 +30,11 @@ class Signup extends Component {
                     />
                 </div>
                 <div>
-                    <label>Race</label>
+                    <label>Position</label>
                     <input
-                        value={this.state.race}
+                        value={this.state.position}
                         onChange={this.inputChangeHandler}
-                        name="race"
+                        name="position"
                         type="text"
                     />
                 </div>
