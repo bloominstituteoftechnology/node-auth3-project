@@ -26,13 +26,3 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
-.message {
-  margin-top: 30px;
-  display: flex; 
-  justify-content: center;  
-}
-
-.message h4 {
-  width: 44%; 
-}

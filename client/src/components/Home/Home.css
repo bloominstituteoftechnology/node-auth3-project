@@ -1,0 +1,16 @@
+.message {
+    margin-top: 30px;
+    display: flex; 
+    justify-content: flex-start;  
+    flex-wrap: wrap; 
+  }
+
+.message .card {
+    margin: 0 30px; 
+}
+
+.message h4 {
+    margin: 0 auto; 
+    width: 44%; 
+}
+  

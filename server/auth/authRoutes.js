@@ -15,13 +15,25 @@ function genderateToken(user) {
 }
 
 router.post('/register', (req, res) => {
-  User.create(req.body)
-    .then(({ username, password, race }) => {
-      // we destructure the username and race to avoid returning the hashed password
-      // then we assemble a new object and return it
-      res.status(201).json({ username, race });
+  const { username, race, password } = req.body;
+
+  User.findOne({ username })
+    .then(user => {
+      if (user) {
+        res.status(400).json('Username already exists.');
+        return;
+      }
+      else {
+        User.create({ username, race, password })
+          .then(({ username, race, password }) => {
+            // we destructrue the username and race to avoid returning the hashed password
+            // then we assemble a new object and return it 
+            res.status(201).json({ username, race });
+          })
+          .catch(error => res.status(500).json(error.message))
+      }
     })
-    .catch(error => res.status(500).json(error.message));
+    .catch(error => res.status(500).json(error.message))
 });
 
 router.post('/login', (req, res) => {
@@ -30,14 +42,13 @@ router.post('/login', (req, res) => {
   User.findOne({ username })
     .then(user => {
       if (user) {
-        console.log('User', user);
         user
           .validatePassword(password)
           .then(passwordsMatch => {
             if (passwordsMatch) {
               const token = genderateToken(user);
 
-              res.status(200).json(`Welcome ${user.username}! Here is your token ${token}`);
+              res.status(200).json(token);
             }
             else {
               res.status(401).send('Invalid credentials.');
