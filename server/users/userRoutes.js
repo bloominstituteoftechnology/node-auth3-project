@@ -1,16 +1,5 @@
 const router = require('express').Router();
-
 const User = require('./User');
+const jwt = require('jsonwebtoken');
+const secret = 'I am an anarchist.';
 
-router.get('/', (req, res) => {
-  User.find()
-    .select('-password')
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
-});
-
-module.exports = router;
