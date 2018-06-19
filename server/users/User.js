@@ -11,19 +11,28 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    // minlength: 4, // make this at least 12 in production
+    maxlength: 25,
+    validate: checkPasswordLength,
+    msg: 'Password is too weak',
   },
-  race: {
+  position: {
     type: String,
     required: true,
-    index: true,
-    minlength: 2,
+    validate: {
+      validator: /(founder|partner|member)/i,
+      msg: 'Invalid position',
+    },
   },
 });
 
+function checkPasswordLength(password) {
+  return password.length > 10;
+}
+
 userSchema.pre('save', function(next) {
   return bcrypt
-    .hash(this.password, 10)
+    .hash(this.password, 10) // this time we'll use promises instead of a callback
     .then(hash => {
       this.password = hash;
 
