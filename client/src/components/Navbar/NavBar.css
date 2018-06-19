@@ -1,0 +1,11 @@
+.navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.button-container {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+}
