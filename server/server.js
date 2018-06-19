@@ -1,4 +1,5 @@
 const express = require('express');
+// let's get this party started
 
 const db = require('./_config/db');
 const setupMiddleware = require('./_config/middleware');
