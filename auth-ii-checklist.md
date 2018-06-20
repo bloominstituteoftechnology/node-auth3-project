@@ -1,0 +1,48 @@
+####Setup
+
+- [ ] Fork and Clone this repository.
+- [ ] **CD into the server folder**.
+- [ ] type `yarn install` to download the server dependencies.
+- [ ] type `yarn start` to run the server, and leave it running.
+- [ ] **In a separate terminal window, CD into the client folder**.
+- [ ] type `yarn install` to download the server dependencies.
+- [ ] type `yarn start` to execute the client application.
+- [ ] Ensure that you have an instance of `MongoDB` running.
+
+
+####Assignment
+
+- [ ] Server Middleware
+    * [ ] CORS
+        - [ ] Modify CORS Options  -- origin -- credentials
+- [ ] Routes
+    * [ ] inspect the code to figure out which routes are already implemented and where you need to make changes to add support for JWTs.
+- [ ] JWTs Authentication Workflow
+    * [ ] Register
+    * [ ] Login
+- [ ] Restrict Access
+    * [ ] add the functionality to restrict access to `/api/users` to authenticated users only. If a non authenticated user tries to make a request the server should return the appropriate `HTTP status code`.
+- [ ] React client
+    * [ ] Verify Create-react-app already created
+    * [ ] Routes
+        * [ ] Register
+        * [ ] SignIn
+        * [ ] UserList
+- [ ] Register Component
+    * [ ] Provide a form that gathers `username`, `password` and `race` for user
+    * [ ] `POST` request to the `/api/auth/register` route on the API.
+    * [ ] If the user is created successfully, take the returned token, save it to the browser's local storage and redirect the user to the `/users` route, where they should see the list of users.
+- [ ] Login Component
+    * [ ] form that gathers `username` and `password` for the user 
+    * [ ] `POST` request to the  `/api/auth/login` route on the API.
+    * [ ] Upon successful login, persist the returned token to the browser's local storage and redirect the user to the `/users` route.
+- [ ] UserList Component
+    * [ ] the `/users` route should read the token from local storage 
+    * [ ] `GET` request to the `/api/users` route on the API attaching the token as the value of the `Authorization` header.
+    * [ ] provide a button to `sign out` that will remove the token from local storage.
+
+###Stretch Problems
+- [ ] **Same Race**
+    add the code necessary so that when a client makes a `GET` request to `/api/users` the server only returns documents with the `same race` as the logged in user. 
+- [ ] **Redirect**
+    add any extra functionality to make the application more user friendly like showing a message and redirecting to `/signin` if an unauthenticated user tries to access the list of users in the `/users` route.
