@@ -6,27 +6,26 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
+    lowercase: true
+  },
+  race: {
+    type: String, 
+    required: true,
+    index: true,
+    minlength: 2
   },
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
-  },
-  race: {
-    type: String,
-    required: true,
-    index: true,
-    minlength: 2,
-  },
+    minlength: 12
+  }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   return bcrypt
-    .hash(this.password, 10)
+    .hash(this.password, 11)
     .then(hash => {
       this.password = hash;
-
       return next();
     })
     .catch(err => {
@@ -34,8 +33,8 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.validatePassword = function(passwordGuess) {
-  return bcrypt.compare(passwordGuess, this.password);
+userSchema.methods.validatePassword = function (passAttempt) {
+  return bcrypt.compare(passAttempt, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema, 'users');
+module.exports = mongoose.model('User', userSchema);
