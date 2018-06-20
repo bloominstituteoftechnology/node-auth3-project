@@ -1,21 +1,21 @@
 ####Setup
 
-- [ ] Fork and Clone this repository.
-- [ ] **CD into the server folder**.
-- [ ] type `yarn install` to download the server dependencies.
-- [ ] type `yarn start` to run the server, and leave it running.
-- [ ] **In a separate terminal window, CD into the client folder**.
-- [ ] type `yarn install` to download the server dependencies.
-- [ ] type `yarn start` to execute the client application.
-- [ ] Ensure that you have an instance of `MongoDB` running.
+- [] Fork and Clone this repository.
+- [] **CD into the server folder**.
+- [] type `yarn install` to download the server dependencies.
+- [] type `yarn start` to run the server, and leave it running.
+- [] **In a separate terminal window, CD into the client folder**.
+- [] type `yarn install` to download the server dependencies.
+- [] type `yarn start` to execute the client application.
+- [] Ensure that you have an instance of `MongoDB` running.
 
 
 ####Assignment
 
-- [ ] Server Middleware
-    * [ ] CORS
+- [] Server Middleware
+    * [] CORS
         - [ ] Modify CORS Options  -- origin -- credentials
-- [ ] Routes
+- [] Routes
     * [ ] inspect the code to figure out which routes are already implemented and where you need to make changes to add support for JWTs.
 - [ ] JWTs Authentication Workflow
     * [ ] Register
