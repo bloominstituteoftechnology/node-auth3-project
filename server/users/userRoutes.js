@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const User = require('./User');
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
