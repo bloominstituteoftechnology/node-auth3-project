@@ -1,41 +1,41 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
+    lowercase: true
   },
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    minlength: 4 // make this at least 12 in production
   },
   race: {
     type: String,
     required: true,
     index: true,
-    minlength: 2,
-  },
-});
+    minlength: 2
+  }
+})
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   return bcrypt
     .hash(this.password, 10)
     .then(hash => {
-      this.password = hash;
+      this.password = hash
 
-      return next();
+      return next()
     })
     .catch(err => {
-      return next(err);
-    });
-});
+      return next(err)
+    })
+})
 
-userSchema.methods.validatePassword = function(passwordGuess) {
-  return bcrypt.compare(passwordGuess, this.password);
-};
+userSchema.methods.validatePassword = function (passwordGuess) {
+  return bcrypt.compare(passwordGuess, this.password)
+}
 
-module.exports = mongoose.model('User', userSchema, 'users');
+module.exports = mongoose.model('User', userSchema, 'users')
