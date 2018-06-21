@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+
 const User = require('../users/User');
 
 
 router.post('/register', function(req, res) {
   User.create(req.body)
-    .then(({ username, race }) => {
-      const token = generateToken(user);
+    .then(({ username }) => {
       // we destructure the username and race to avoid returning the hashed password
+      const token = generateToken(user);
 
       // then we assemble a new object and return it
       res.status(201).json({ username, race, token });
@@ -47,36 +48,7 @@ router.post('/login', (req, res) => {
     });
 });
 
-// function restricted(req, res, next) {
-//   const token = req.headers.authorization;
-
-//   if (token) {
-//     jwt.verify(token, secret, (err, decodedToken) => {
-//       // req.jwtPayload.decodedToken = decodedToken;
-//       if (err) {
-//         return res
-//           .status(401)
-//           .json({ message: 'you shall not pass! not decoded' });
-//       }
-
-//       next();
-//     });
-//   } else {
-//     res.status(401).json({ message: 'you shall not pass! no token' });
-//   }
-// }
-
-// router.get('/api/users', restricted, (req, res) => {
-//   User.find({})
-//     .select('username')
-//     .then(users => {
-//       res.status(200).json(users);
-//     })
-//     .catch(err => {
-//       return res.status(500).json(err);
-//     });
-// });
-
+//----TOKEN FUNCTION------
 function generateToken(user) {
   const options = {
     expiresIn: '1h',
@@ -87,5 +59,8 @@ function generateToken(user) {
   // sign the token
   return jwt.sign(payload, secret, options);
 };
+
+
+
 
 module.exports = router;
