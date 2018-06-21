@@ -4,8 +4,8 @@ import axios from 'axios';
 
 class SignIn extends Component {
     state = {
-        username: 'Sam',
-        password: 'passSam'
+        username: '',
+        password: ''
     }
 
     submitForm = e => {
@@ -13,7 +13,11 @@ class SignIn extends Component {
         axios
             .post('http://localhost:5500/api/auth/login', this.state)
             .then(res => {
-                console.log('response:', res.data)
+                console.log('res:', res.data.token)
+                localStorage.setItem('jwt', res.data.token)
+
+                console.log('signin props:', this.props)
+                this.props.history.push('/users');
             })
             .catch(error => {
                 console.log(error)
