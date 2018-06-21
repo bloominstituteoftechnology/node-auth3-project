@@ -1,8 +1,7 @@
-const userRoutes = require('../users/userRoutes');
-const authRoutes = require('../auth/authRoutes');
+const userRoutes = require('./userRoutes');
+const authRoutes = require('./authRoutes');
 
 module.exports = function(server) {
-  // sanity check route
   server.get('/', function(req, res) {
     res.send({ api: 'What business do you have here?' });
   });

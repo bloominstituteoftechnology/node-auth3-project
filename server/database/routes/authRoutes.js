@@ -1,31 +1,23 @@
 const router = require( 'express' ).Router();
-const webtoken = require( 'jsonwebtoken' );
-const User = require( '../users/User' );
+const jwt = require( 'jsonwebtoken' );
+const User = require( '../models/index' );
 const secret = 'Cwk6sjAYd7qxrgGLFamWfNK8Q4HMn3Bzc5JUeTpXDubEv9Py2Zt8SngvD9G6yk3hMadK4fxZFBREqY7zAceCPpjrQLW5bwTVu2Hs'
 
-router.post( '/register', function ( req, res )
+router
+  .route('/register')
+  .post( '/register', function ( req, res )
 {
   User.create( req.body )
     .then( ( { username, race } ) =>
     {
-      // we destructure the username and race to avoid returning the hashed password
-
-      // then we assemble a new object and return it
       res.status( 201 ).json( { username, race } );
     } )
     .catch( err => res.status( 500 ).json( err ) );
 } );
 
-function generateToken( user )
-{
-  const options = {
-    expiresIn: '15m'
-  }
-  const payload = { name: user.username };
-  return webtoken.sign( payload, secret, options );
-}
 
 router
+  .route('/login')
   .post( '/login', ( req, res ) =>
   {
     const { username, password } = req.body;
@@ -50,7 +42,7 @@ router
             } )
             .catch( err =>
             {
-              res.json( { 'error': err } );
+              res.status( 500 ).json( { Error: err.message } );
             } );
         } else
         {

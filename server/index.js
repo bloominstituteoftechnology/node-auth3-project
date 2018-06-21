@@ -8,19 +8,19 @@ const axios = require( 'axios' );
 const bcrypt = require( 'bcrypt' );
 const cookieparser = require( 'cookie-parser' );
 
-const db = require('./_config/db');
-const setupMiddleware = require('./_config/middleware');
-const setupRoutes = require('./_config/routes');
+const db = require('./database/db.js');
+const setupMiddleware = require('./database/middleware/index.js');
+const setupRoutes = require('./database/routes/index.js');
 
 const server = express();
 const port = process.env.PORT || 777;
-
+const databaseName = 'authiiproj';
 setupMiddleware(server);
 setupRoutes(server);
 
-db.connectTo('authiiproj')
+db.connectTo( `${ databaseName }`)
   .then(() => {
-    console.log('\n... API Hooked Up To The Database ...\n');
+    console.log(`\n... API Hooked Up To The ${databaseName} Database ...\n`);
     server.listen(port, () =>
       console.log(`\n=== API running on port ${ port } ===\n`)
     );
