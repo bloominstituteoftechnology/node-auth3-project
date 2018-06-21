@@ -21,7 +21,8 @@ module.exports = function(server) {
           return res
             .status(401)
             .json({ message: 'No alohamora for you. Token was not decoded', err });
-        } next();
+        } 
+        next();
       });
 
     } 

@@ -34,7 +34,7 @@ const postLogin = (req, res) => { //this works
     .findOne( { username })
     .then(user => {
       if(!user){
-        res.status(401).json({Error: `${username} is not in our database. Please try again or register.`})
+        res.status(401).json({Error: `username is not in our database. Please try again or register.`})
       }
       else{ 
         user

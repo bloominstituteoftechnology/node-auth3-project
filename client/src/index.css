@@ -7,11 +7,10 @@ body {
 .App{
   display:flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background: teal;
   color:beige;
-  height: 100vh;
+  height: 100vw;
 }
 .input-field{
   display:flex;
@@ -35,6 +34,8 @@ body {
   flex-direction:column;
   justify-content: center;
   align-items:center;
+  border: 5px double salmon;
+  margin: 15px;
 }
 .register-link{
   margin:20px;
@@ -50,4 +51,13 @@ label{
 .link-style{
   color:black;
   text-decoration-line: line;
+}
+.collection-of-users{
+  display:flex;
+  justify-content: center;
+  flex-wrap:wrap;
+}
+.sign-out{
+  margin-bottom:20px;
+  text-align:center;
 }
