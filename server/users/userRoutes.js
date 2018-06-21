@@ -1,9 +1,27 @@
 const router = require('express').Router();
-
 const User = require('./User');
+const jwt = require('jsonwebtoken')
+const secret = "The cake is a lie"
+function restricted(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      // req.jwtPayload.decodedToken = decodedToken;
+      if (err) {
+        return res
+          .status(401)
+          .json({ message: 'you shall not pass! not decoded' });
+      }
+      req.decodedToken = decodedToken
+      next();
+    });
+  } else {
+    res.status(401).json({ message: 'you shall not pass! no token' });
+  }
+}
 
-router.get('/', (req, res) => {
-  User.find()
+router.get('/', restricted, (req, res) => {
+  User.find({ race: req.decodedToken.race })
     .select('-password')
     .then(users => {
       res.json(users);
