@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const User = require('./User');
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
@@ -12,5 +12,17 @@ router.get('/', (req, res) => {
       res.status(500).json(err);
     });
 });
+function restricted( req, res, next )
+{
+  const token = req.headers.authorization;
+  if ( token )
+  {
+    next();
+  } else
+  {
+    res.status( 401 ).json( { message: 'you shall not pass!' } );
+  }
+}
+
 
 module.exports = router;
