@@ -1,7 +1,7 @@
 (1x)mongod for DB to be running before server starts..
 (2x)yarn install and yarn start for the server....
-(3)modiffy middleware.js so cors uses authentication...
-(4)test the registration endpoint: with an object that contains { "username": "moises", "password": "12345", "race":"human" }`
+(3x)modiffy middleware.js so cors uses authentication...
+(4x)test the registration endpoint('/api/auth/register'): with an object that contains { "username": "moises", "password": "12345", "race":"human" }`
 
 ## Client Todo:
 (1x) yarn install
@@ -34,14 +34,14 @@
 
 #### Assignment
 
-- [ ] Server Middleware
-    * [ ] CORS
-        - [ ] Modify CORS Options  -- origin -- credentials
-- [ ] Routes
-    * [ ] inspect the code to figure out which routes are already implemented and where you need to make changes to add support for JWTs.
-- [ ] JWTs Authentication Workflow
-    * [ ] Register
-    * [ ] Login
+- [x] Server Middleware
+    * [x] CORS
+        - [x] Modify CORS Options  -- origin -- credentials
+- [x] Routes
+    * [x] inspect the code to figure out which routes are already implemented and where you need to make changes to add support for JWTs.
+- [x] JWTs Authentication Workflow
+    * [?] Register
+    * [x] Login
 - [ ] Restrict Access
     * [ ] add the functionality to restrict access to `/api/users` to authenticated users only. If a non authenticated user tries to make a request the server should return the appropriate `HTTP status code`.
 - [ ] React client

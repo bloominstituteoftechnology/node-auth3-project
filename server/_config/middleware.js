@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const corsOptions = {
-  credentials: true, // sets the Access-Control-Allow-Credentials CORS header
+  credentials: true // sets the Access-Control-Allow-Credentials CORS header
 };
 
 
