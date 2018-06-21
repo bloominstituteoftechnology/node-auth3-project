@@ -17,8 +17,8 @@ class SignUp extends Component {
 
     render() {
         return (
-            <div>
-                
+            <div className='container'>
+                <div className='form-wrapper'>
                     <h2 className='header'>Sign Up</h2>
                     <input className='input-box'
                         type = 'text'
@@ -36,7 +36,7 @@ class SignUp extends Component {
                         placeholder = 'Race'
                     />
                     <button className='btn'><Link to='/users'>Welcome to the Club!</Link></button> 
-                
+                </div>
             </div>
         );
     }
