@@ -8,9 +8,11 @@ function restricted(req, res, next) {
   if (token) {
     jwt.verify(token, secret, (err, verifiedToken) => {
      if (err) {
-       return res.status(401).json({ message: 'can not enter, not decoded' });
-     } 
+       res.status(401).json({ message: 'can not enter, not decoded' });
+     } else {
+       req.jwtPayload = verifiedToken;
      next();
+     }
     });
   } else {
     res.status(401).json({ message: 'can not enter, no token'});
@@ -20,7 +22,7 @@ router.get('/', (req, res) => {
   User.find()
     .select('-password')
     .then(users => {
-      res.json(users);
+      res.status(200).json(users);
     })
     .catch(err => {
       res.status(500).json(err);

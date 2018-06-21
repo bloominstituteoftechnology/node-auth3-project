@@ -2,11 +2,18 @@ const router = require('express').Router();
 const User = require('../users/User');
 const jwt = require('jsonwebtoken');
 
+const secret = 'This is a secret'
+
+function generateToken(user) {
+const payload = { name: user.username, race: user.race };
+return jwt.sign(payload, secret);
+};
+
 router.post('/register', function(req, res) {
   User.create(req.body)
     .then(({ username, race }) => {
       // we destructure the username and race to avoid returning the hashed password
-      const token = generateToken(username, race);
+      const token = generateToken({username, race});
       // then we assemble a new object and return it
       res.status(201).json({ username, race, token });
     })
@@ -14,7 +21,7 @@ router.post('/register', function(req, res) {
 });
 
 router.post('/login', (req, res)=> {
-  const { username, password } = req.body;
+  const { username, password, race } = req.body;
 
   User.findOne({ username })
   .then(user => {
@@ -23,7 +30,8 @@ router.post('/login', (req, res)=> {
       .validatePassword(password)
       .then(passwordsMatch => {
         if (passwordsMatch) {
-          const token = generateToken(user);
+          const {username, race } = user;
+          const token = generateToken({ username, race });
           res.status(200).json({ message: `welcome ${username}!`, token });
         } else {
           res.status(401).send('invalid credentials');
@@ -40,14 +48,6 @@ router.post('/login', (req, res)=> {
       res.send(err);
   });
 });
-
-function generateToken(user) {
-  const options = {
-    expiresIn: '1h',
-  };
-const payload = {username };
-return jwt.sign(payload, secret, options );
-}
 
 module.exports = router;
 
