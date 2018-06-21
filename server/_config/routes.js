@@ -20,7 +20,7 @@ module.exports = function(server) {
         if (err) {
           return res
             .status(401)
-            .json({ message: 'you shall not pass! not decoded', err });
+            .json({ message: 'No alohamora for you. Token was not decoded', err });
         } next();
       });
 

@@ -19,7 +19,7 @@ body {
   align-items:center;
 }
 .text{
-  margin: 20px;
+  height:30px;
 }
 .log-button{
   width: 100px;
@@ -36,4 +36,18 @@ body {
   justify-content: center;
   align-items:center;
 }
-
+.register-link{
+  margin:20px;
+}
+.label{
+  height: 50px;
+  display:flex;
+  align-items: center;
+}
+label{
+  width: 100px;
+}
+.link-style{
+  color:black;
+  text-decoration-line: line;
+}
