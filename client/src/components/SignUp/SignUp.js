@@ -26,7 +26,7 @@ class SignUp extends Component {
                         placeholder = 'Username'
                     />
                     <input className='input-box'
-                        type = 'text'
+                        type = 'password'
                         name = 'password'
                         placeholder = 'Password'
                     />
