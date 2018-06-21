@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -30,15 +29,22 @@ class UserList extends Component {
             })
     }
 
+    signout = () => {
+        if(localStorage.getItem('jwt')) {
+            localStorage.removeItem('jwt')
+            this.props.history.push('/')
+        }
+    }
+
     render() {
         return (
             <div className='container'>
             <div className='top-section'>
                 <h2 className='user-header'>List of Members</h2>
-                <p className='sign-out'><Link to='/'>Sign out</Link></p>
+                <a href='#' className='sign-out' onClick={this.signout}>Sign out</a>
             </div>
             <div>
-                {this.state.users.map(user => <ol key={user.id}>{user.username}</ol>)}
+                {this.state.users.map(user => <ol key={user._id}>{user.username}</ol>)}
             </div>
             </div>
         );

@@ -35,7 +35,7 @@ class SignUp extends Component {
                         name = 'race'
                         placeholder = 'Race'
                     />
-                    <button className='btn'><Link to='/users'>Welcome to the Club!</Link></button> 
+                    <button className='btn'><Link to='/'>Welcome to the Club!</Link></button> 
                 </div>
             </div>
         );

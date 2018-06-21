@@ -39,6 +39,7 @@ span {
 .top-section {
   display: flex;
   justify-content: flex-end;
+  /* border: 1px solid black; */
 }
 
 .user-header {
@@ -46,8 +47,13 @@ span {
 }
 
 .sign-out{
-  margin-right: 2rem;
+  margin-top: 3rem;
   height: 5rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 .footer {
