@@ -47,6 +47,36 @@ router.post('/login', (req, res) => {
     });
 });
 
+// function restricted(req, res, next) {
+//   const token = req.headers.authorization;
+
+//   if (token) {
+//     jwt.verify(token, secret, (err, decodedToken) => {
+//       // req.jwtPayload.decodedToken = decodedToken;
+//       if (err) {
+//         return res
+//           .status(401)
+//           .json({ message: 'you shall not pass! not decoded' });
+//       }
+
+//       next();
+//     });
+//   } else {
+//     res.status(401).json({ message: 'you shall not pass! no token' });
+//   }
+// }
+
+// router.get('/api/users', restricted, (req, res) => {
+//   User.find({})
+//     .select('username')
+//     .then(users => {
+//       res.status(200).json(users);
+//     })
+//     .catch(err => {
+//       return res.status(500).json(err);
+//     });
+// });
+
 function generateToken(user) {
   const options = {
     expiresIn: '1h',
