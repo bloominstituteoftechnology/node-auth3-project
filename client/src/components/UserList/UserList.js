@@ -7,6 +7,7 @@ class UserList extends Component {
         return (
             <div>
                 List of Users
+                <button><Link to='/'>Sign out</Link></button>
             </div>
         );
     }
