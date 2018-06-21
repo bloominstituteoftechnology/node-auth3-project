@@ -26,6 +26,6 @@ function restricted(req, res, next) {
       next();
     });
   } else {
-    res.status(401).json({ message: 'you shall not pass! no token' });
+    res.status(401).json({ message: 'No token provided' });
   }
 }

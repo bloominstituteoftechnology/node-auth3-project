@@ -7,6 +7,24 @@ class Signin extends React.Component {
     password: 'mellower'
   };
 
+  submitHandler = event => {
+    axios
+      .post('http://localhost:5500/api/auth/login', this.state)
+      .then(response => {
+        localStorage.setItem('jwt', response.data.token);
+
+        console.log('signin props', this.props);
+        this.props.history.push('/users');
+      })
+      .catch(err => console.log('unable to post sign in'));
+  }
+
+  handleInput = event => {
+    console.log('event.target\n', event.target);
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     return (
       <form onSubmit={this.submitHandler}>
@@ -14,7 +32,7 @@ class Signin extends React.Component {
           <label>Username</label>
           <input 
             value={this.state.username}
-            onChange={this.inputChangeHandler}
+            onChange={this.handleInput}
             name="username"
             type="text" 
           />
@@ -24,7 +42,7 @@ class Signin extends React.Component {
           <label>Password</label>
           <input
             value={this.state.password}
-            onChange={this.inputChangeHandler}
+            onChange={this.handleInput}
             name="password"
             type="password"
           />
@@ -37,23 +55,6 @@ class Signin extends React.Component {
     );
   }
 
-  submitHandler = event => {
-    axios
-      .post('http://localhost:5000/api/login', this.state)
-      .then(response => {
-        localStorage.setItem('jwt', response.data.token);
-
-        console.log('signin props', this.props);
-        this.props.history.push('/users');
-      })
-      .catch(err => console.log('unable to post sign in'));
-  }
-
-  inputChangeHandler = event => {
-    console.log('event.target\n', event.target);
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
 }
 
 export default Signin;
