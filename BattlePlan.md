@@ -42,8 +42,8 @@
 - [x] JWTs Authentication Workflow
     * [?] Register
     * [x] Login
-- [ ] Restrict Access
-    * [ ] add the functionality to restrict access to `/api/users` to authenticated users only. If a non authenticated user tries to make a request the server should return the appropriate `HTTP status code`.
+- [x] Restrict Access
+    * [x] add the functionality to restrict access to `/api/users` to authenticated users only. If a non authenticated user tries to make a request the server should return the appropriate `HTTP status code`.
 - [ ] React client
     * [ ] Verify Create-react-app already created
     * [ ] Routes
