@@ -1,18 +1,21 @@
-const router = require('express').Router();
+const router = require( 'express' ).Router();
 
-const User = require('./User');
+const User = require( './User' );
 const jwt = require( 'jsonwebtoken' );
 const secret = "toss me, but dont tell the elf!";
 
-router.get('/', restricted, (req, res) => {
+router.get( '/', restricted, ( req, res ) =>
+{
   User.find()
-    .select('-password')
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+    .select( '-password' )
+    .then( users =>
+    {
+      res.json( users );
+    } )
+    .catch( err =>
+    {
+      res.status( 500 ).json( err );
+    } );
 } );
 
 function restricted( req, res, next )
@@ -26,10 +29,10 @@ function restricted( req, res, next )
       {
         return res
           .status( 401 )
-      .json( { message: 'you shall not pass! not decoded' } );
-      
+          .json( { message: 'you shall not pass! not decoded' } );
+
       }
-       
+
       next();
     } );
   } else
@@ -37,8 +40,8 @@ function restricted( req, res, next )
     res.status( 401 ).json( { message: 'you shall not pass!' } );
   }
 }
-    
- 
+
+
 
 
 module.exports = router;
