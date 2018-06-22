@@ -30,7 +30,7 @@ class Register extends Component {
           />
         </div>
         <div>
-          <label>Password</label>
+          <label>Race</label>
           <input
             value={this.state.race}
             onChange={this.inputChangeHandler}
@@ -49,7 +49,7 @@ class Register extends Component {
     event.preventDefault();
 
     axios
-      .post('http://localhost:5500/api/register', this.state)
+      .post('http://localhost:5500/api/auth/register', this.state)
       .then(response => {
         localStorage.setItem('jwt', response.data.token);
 
