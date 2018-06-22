@@ -18,8 +18,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     index: true,
     minlength: 2,
+    validate: {
+      validator: /(hobbit|human|elf)/,
+      msg: 'Sorry...Invalid Race'
+    }
   },
-});
+}); 
 
 userSchema.pre('save', function(next) {
   return bcrypt
