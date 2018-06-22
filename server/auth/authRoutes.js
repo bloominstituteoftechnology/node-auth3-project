@@ -16,7 +16,7 @@ router.post('/register', function(req, res) {
 router.post( '/login', ( req, res ) =>
 {
   //grab credentials
-  const { username, password, race } = req.body;
+  const { username, password} = req.body;
   //find the user to get to the store password
   User.findOne( { username } )
     .then( user =>
