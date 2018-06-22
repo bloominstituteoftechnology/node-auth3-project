@@ -14,14 +14,14 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 ## Download and Run Starter Code
 
-- Fok and Clone this repository.
-- **CD into the server folder**.
-- type `yarn install` to download the server dependencies.
-- type `yarn start` to run the server, and leave it running.
-- **In a separate terminal window, CD into the client folder**.
-- type `yarn install` to download the server dependencies.
-- type `yarn start` to execute the client application.
-- Ensure that you have an instance of `MongoDB` running.
+[x]- Fok and Clone this repository.
+[x]- **CD into the server folder**.
+-[x] type `yarn install` to download the server dependencies.
+-[x] type `yarn start` to run the server, and leave it running.
+-[]x **In a separate terminal window, CD into the client folder**.
+-[x] type `yarn install` to download the server dependencies.
+-[x] type `yarn start` to execute the client application.
+- [x]Ensure that you have an instance of `MongoDB` running.
 
 ## Assignment
 
