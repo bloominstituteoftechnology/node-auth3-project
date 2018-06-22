@@ -14,10 +14,10 @@
 (8) Component Flow: SignUp -> SignIn -> User List
 
 ## Server Todo:
-(1) Implement JWT in our server
-(2) Inject into Register Route already provided
-(3) Create a Login Route with JWT expected from postman/client
-(4) Global Middleware Restrict Acess to all Routes Insidde (/api/users)
+(1x) Implement JWT in our server
+(2x) Inject into Register Route already provided
+(3x) Create a Login Route with JWT expected from postman/client
+(4x) Global Middleware Restrict Acess to all Routes Insidde (/api/users)
     -> Send a HTTP code of 401 to the user that is not auhenticated and tries to acess those routes.
 
 ####Setup
@@ -45,11 +45,11 @@
 - [x] Restrict Access
     * [x] add the functionality to restrict access to `/api/users` to authenticated users only. If a non authenticated user tries to make a request the server should return the appropriate `HTTP status code`.
 - [ ] React client
-    * [ ] Verify Create-react-app already created
+    * [x] Verify Create-react-app already created
     * [ ] Routes
-        * [ ] Register
-        * [ ] SignIn
-        * [ ] UserList
+        * [x] Register
+        * [x] SignIn
+        * [x] UserList
 - [ ] Register Component
     * [ ] Provide a form that gathers `username`, `password` and `race` for user
     * [ ] `POST` request to the `/api/auth/register` route on the API.
