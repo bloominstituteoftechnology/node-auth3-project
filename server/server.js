@@ -1,4 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
+
+const User = require('./users/User.js')
+
 
 const db = require('./_config/db');
 const setupMiddleware = require('./_config/middleware');
