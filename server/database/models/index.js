@@ -7,18 +7,24 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
+    minlength: 8,
   },
   password: {
     type: String,
     required: true,
-    minlength: 4, // make this at least 12 in production
+    minlength: 17, // make this at least 12 in production
   },
-  race: {
-    type: String,
+  pin: {
+    type: Number,
     required: true,
-    index: true,
-    minlength: 2,
+    minlength: 6,
   },
+  // race: {
+  //   type: String,
+  //   required: true,
+  //   index: true,
+  //   minlength: 2,
+  // },
 });
 
 userSchema.pre('save', function(next) {
