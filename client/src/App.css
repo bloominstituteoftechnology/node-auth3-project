@@ -26,3 +26,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.container {
+  background: linear-gradient(to right, rgb(226, 235, 105), rgb(171, 90, 171), rgb(79, 79, 152));
+}
+
+.member-title {
+  color: white;
+}

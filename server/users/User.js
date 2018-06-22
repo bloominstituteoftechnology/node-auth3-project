@@ -18,8 +18,22 @@ const userSchema = new mongoose.Schema({
     required: true,
     index: true,
     minlength: 2,
+    //validate: checkPasswordLength,
+    //msg: 'password is too weak'
   },
+  // race: {
+  //   type: String,
+  //   required: true,
+  //   validate: {
+  //     validator: /(hobbit|human|elf)/,
+  //     msg: 'invalid race'
+  //   }
+  // }
 });
+
+// function checkPasswordLength(password) {
+//   return password.length > 12;
+// }
 
 userSchema.pre('save', function(next) {
   return bcrypt
