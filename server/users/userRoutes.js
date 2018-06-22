@@ -8,6 +8,8 @@ function restricted(req, res, next) {
   const token = req.headers.authorization;
   if(token) {
     jwt.verify(token, secret, (error, decodedToken) => {
+      req.jwtPayload = decodedToken
+      console.log('decodedToken', decodedToken);
       if(error) {
         return res.status(401).json({ message: 'You shall NOT pass! Not Decoded'})
       }
