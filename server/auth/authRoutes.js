@@ -8,7 +8,7 @@ const generateToken = (user) => {
   const options = {
     expiresIn: "1h",
   };
-  const payload = {name: user.username};
+  const payload = {name: user.username, race:user.race};
   const secret = "You're a wizard, Harry";
   return jwt.sign(payload, secret, options);
 };

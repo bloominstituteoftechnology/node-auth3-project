@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class UserList extends Component {
     constructor(props){
@@ -41,15 +42,17 @@ class UserList extends Component {
         console.log(this.state);
         return (
             <div>
-                <div className="sign-out" onClick={this.handleSignOut}>Sign Out</div>
-
+                {localStorage.getItem("jwt") && 
+                    <div><div className="sign-out" onClick={this.handleSignOut}>Sign Out</div>  
+                    <h1 className="sign-out">I'm a list of Harry Potter Characters</h1></div>}
+                {!localStorage.getItem("jwt") &&
+                    <div className="please-signin"><Link className="link-style" to="/login">Please Sign in to access list of users</Link></div>}
             <ul className="collection-of-users">
-
             {this.state.users.map(user => {
                 return(
                     <li className="indiv-user" key={user._id}>
-                        <h4>{user.username}</h4>
-                        <p>{user.race}</p>
+                        <h4>username:  {user.username}</h4>
+                        <p>I'm a {user.race}</p>
                     </li>
                 )}
             )}

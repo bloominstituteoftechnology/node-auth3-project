@@ -29,6 +29,7 @@ class Login extends Component {
             .then(response => {
                 console.log("response", response);
                 localStorage.setItem("jwt", response.data.token);
+                console.log(localStorage.getItem("jwt"));
                 this.props.history.push("/users");
             })
             .catch(err => {
@@ -38,6 +39,7 @@ class Login extends Component {
 
     render() {
         console.log({"username": this.state.username, "password": this.state.password})
+        console.log(localStorage);
         return (
             <div>
             <form className="input-field" onSubmit={this.handleSubmit}>

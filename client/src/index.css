@@ -61,3 +61,13 @@ label{
   margin-bottom:20px;
   text-align:center;
 }
+.please-signin{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  padding: 30px;
+  margin: 30px;
+  border: 5px double salmon;
+  background: beige;
+}
