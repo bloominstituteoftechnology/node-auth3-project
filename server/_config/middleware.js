@@ -3,9 +3,13 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
-module.exports = function(server) {
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+}
+module.exports = function(server) { //this exports the middleware as global middleware
   server.use(helmet());
   server.use(morgan('dev'));
   server.use(express.json());
-  server.use(cors());
+  server.use(cors(corsOptions));
 };
