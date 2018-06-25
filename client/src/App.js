@@ -1,21 +1,49 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route, Link, withRouter } from 'react-router-dom';
 import './App.css';
+import Signin from './auth/Signin';
+import Users from './users/Users';
+import Signup from './auth/Signup';
 
 class App extends Component {
+
+  signout = () => {
+    if(localStorage.getItem('jwt')) {
+      localStorage.removeItem('jwt');
+      this.props.history.push('/');
+    }
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Authentication using JWTs</h1>
+          <h1 className="App-title">Fellowship of the JWTs</h1>
+          <img src="https://pre00.deviantart.net/104f/th/pre/i/2013/353/3/a/lord_of_the_rings_logo_by_haleyhss-d6yi9hz.png" className="App-logo" alt="logo" />
+
+          <Link to='/' className="home">Home</Link>
+
+          <div className="signout">
+            {localStorage.getItem('jwt') && (
+              <button onClick={this.signout}>Signout</button>
+            )}
+          </div>
         </header>
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        <div className="app-body">
+          { this.props.location.pathname === "/" && (
+            <div className="links">
+              <Link to='/signin' className="link">Sign In</Link>
+              <Link to='/signup' className="link">Sign Up</Link>
+            </div>)
+          }
+            
+          <Route path="/signin" component={Signin} />
+          <Route path="/users" component={Users} />
+          <Route path="/signup" component={Signup} />
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

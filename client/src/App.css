@@ -4,13 +4,22 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
+  width: 80px;
   height: 80px;
+  padding: 10px;
 }
 
 .App-header {
-  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("http://www-images.theonering.org/torwp/wp-content/uploads/2013/07/lord-of-the-rings-fellowship-of-the-ring-the-silhouettes.jpg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
   height: 150px;
-  padding: 20px;
+  padding: 50px;
   color: white;
 }
 
@@ -22,7 +31,52 @@
   font-size: large;
 }
 
+.app-body{
+  min-height: 550px;
+  background-image: url("https://fairytalepictures.files.wordpress.com/2014/12/lotr-poster.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.home{
+  padding: 5px;
+  background-color: rgba(242, 243, 244, 0.7);
+  transition: 0.25s all ease-in-out 0s;
+}
+
+.home:hover{
+  background-color: rgba(242, 243, 244, 1);
+}
+
+.links{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link{
+  text-decoration: none;
+  font-size: 24px;
+  border: 1px solid black;
+  background-color: rgba(242, 243, 244, 0.7);
+  width: 100px;
+  padding: 10px;
+  margin: 20px;
+  transition: 0.25s all ease-in-out 0s;
+}
+
+.link:hover {
+  background-color: rgba(242, 243, 244, 1);
+}
+
+.signout{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 }
