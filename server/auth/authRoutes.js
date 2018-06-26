@@ -23,7 +23,10 @@ router.post('/register', function(req, res) {
             const token = generateToken(username, race);
             res.status(201).json({ username, race, token });
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => {
+            console.log('register error: ', err.message);
+            res.status(500).send(err);
+        });
 });
 
 router.post('/login', (req, res) => {

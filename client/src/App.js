@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import { Route, withRouter } from "react-router-dom";
 
+import Register from "./Components/Register";
+
 import "./App.css";
 
 class App extends Component {
@@ -24,7 +26,7 @@ class App extends Component {
           )}
         </header>
 
-        <Route path="register" component={Register} />
+        <Route path="/register" component={Register} />
         {/* <Route path="signin" component={Signin} />
         <Route path="users" component={Users} /> */}
 
@@ -40,4 +42,4 @@ class App extends Component {
   };
 }
 
-export default App;
+export default withRouter(App);

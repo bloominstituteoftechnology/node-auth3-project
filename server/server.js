@@ -8,8 +8,6 @@ const server = express();
 
 setupMiddleware(server);
 setupRoutes(server);
-//what do these lines of code do?
-//I'm guessing it gives express functionality to Middleware and seupRoutes?
 
 db.connectTo('authii')
     .then(() => {
