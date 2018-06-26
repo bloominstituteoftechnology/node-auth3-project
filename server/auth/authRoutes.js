@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-//Do we need CORS here or just inside server.js?
 
 const secret = 'Derrick is really Kevin';
 

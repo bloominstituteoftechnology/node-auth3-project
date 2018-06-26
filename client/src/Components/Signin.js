@@ -18,7 +18,6 @@ class Signin extends Component {
             <input
               type="text"
               value={this.state.username}
-              name="username"
               onChange={this.handleChange}
               id="username"
             />
@@ -28,7 +27,6 @@ class Signin extends Component {
             <input
               type="password"
               value={this.state.password}
-              name="password"
               onChange={this.handleChange}
               id="password"
             />
@@ -39,7 +37,7 @@ class Signin extends Component {
     );
   }
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
   handleSubmit = event => {
     event.preventDefault();
