@@ -3,6 +3,8 @@ import logo from "./logo.svg";
 import { Route, withRouter } from "react-router-dom";
 
 import Register from "./Components/Register";
+import Signin from "./Components/Signin";
+import Users from "./Components/Users";
 
 import "./App.css";
 
@@ -16,23 +18,28 @@ class App extends Component {
           {localStorage.getItem("token") ? (
             <button onClick={this.signout}>Sign Out</button>
           ) : (
-            <button
-              onClick={() => {
-                this.props.history.push("/register");
-              }}
-            >
-              Register
-            </button>
+            <div>
+              <button
+                onClick={() => {
+                  this.props.history.push("/register");
+                }}
+              >
+                Register
+              </button>
+              <button
+                onClick={() => {
+                  this.props.history.push("/signin");
+                }}
+              >
+                Login
+              </button>
+            </div>
           )}
         </header>
 
         <Route path="/register" component={Register} />
-        {/* <Route path="signin" component={Signin} />
-        <Route path="users" component={Users} /> */}
-
-        <p className="App-intro">
-          Please implement the required code for the assignment.
-        </p>
+        <Route path="/signin" component={Signin} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
