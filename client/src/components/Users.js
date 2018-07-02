@@ -16,14 +16,11 @@ class Users extends React.Component {
         users: []
     } 
 
-   
-
 render() {
     return (
     <div className="root">
-        <List component="nav">
-        
-             {this.state.users.map(user => <ListItem button> <ListItemText inset primary={user.username} style={{textAlign: 'center'}} key={user._id} />  </ListItem>)}
+        <List component="nav"><span />
+             {this.state.users.map(user => <ListItemText inset primary={user.username} style={{textAlign: 'center'}} key={user._id} />)}
         </List>
     </div>
     )
@@ -48,6 +45,5 @@ componentDidMount() {
         })
     }
 }
-
 
 export default withStyles(styles)(Users)

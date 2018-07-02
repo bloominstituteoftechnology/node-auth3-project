@@ -25,6 +25,7 @@ router.get('/', restricted, (req, res) => {
     .select('-password')
     .then(users => {
       console.log('users', users)
+      console.log('cat: meow')
       res.json(users);
     })
     .catch(err => {
@@ -32,4 +33,13 @@ router.get('/', restricted, (req, res) => {
     });
 });
 
+router.get('/myprofile', (req, res) => {
+  const username = req.jwtpayload.name
+  User.findOne({username})
+    .then(user => {
+      res.json
+    }).catch(err => {
+      res.status(500).json(err)
+    })
+})
 module.exports = router;
