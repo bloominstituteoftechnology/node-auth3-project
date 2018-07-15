@@ -24,6 +24,7 @@ body {
   width: 100px;
   display:flex;
   justify-content: center;
+  cursor: pointer;
 }
 .indiv-user{
   width:300px;
@@ -60,6 +61,7 @@ label{
 .sign-out{
   margin-bottom:20px;
   text-align:center;
+  cursor: pointer;
 }
 .please-signin{
   display:flex;
