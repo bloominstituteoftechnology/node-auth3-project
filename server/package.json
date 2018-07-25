@@ -10,6 +10,8 @@
   "author": "Lambda School",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^5.0.0",
+    "eslint-plugin-react": "^7.9.1",
     "nodemon": "^1.17.5"
   },
   "dependencies": {
@@ -17,6 +19,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "helmet": "^3.12.1",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.5",
     "morgan": "^1.9.0"
   }
