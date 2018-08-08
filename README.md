@@ -21,7 +21,7 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 **Part one, due Wednesday**
 
-- Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information. **The user schema should include: username, password and department**. The department should be a string used to group the users. We will not be working with multiple departments.
+- Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information. **The user schema should include: username, password and department**. The department should be a string used to group the users. No need for a _departments_ table or setting up relationships.
 - Use **JSON Web Tokens** to keep users authenticated across requests.
 - Design and build a set of endpoints listed below.
 
