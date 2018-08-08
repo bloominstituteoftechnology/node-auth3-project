@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "node": "^10.8.0",
+    "nodemon": "^1.18.3",
+    "sqlite3": "^4.0.2"
+  },
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/rushman7/auth-ii.git",
+  "author": "<arthurpisakhov1@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
