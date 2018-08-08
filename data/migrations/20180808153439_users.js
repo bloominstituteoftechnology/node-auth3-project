@@ -9,9 +9,9 @@ exports.up = function(knex, Promise) {
         tbl.string('password')
         .notNullable();
     
-        tbl.string('role')
+        tbl.string('department')
         .notNullable()
-        .defaultTo('free');
+        .defaultTo('admin');
       });
 };
 
