@@ -42,6 +42,15 @@ server.post('/login', middleware.getUser, (req, res) => {
     }
 })
 
+// Get all users
+server.get('/users', middleware.protected, (req, res) => {
+    db('users')
+        .then(users => {
+            res.status(200).json(users)
+        })
+        .catch(err => res.status(500).json("You shall not pass"))
+})
+
 
 
 module.exports = server
