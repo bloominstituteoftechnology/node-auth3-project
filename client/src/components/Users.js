@@ -25,14 +25,11 @@ class Users extends React.Component {
     }
 
     logout = () => {
-        axios
-            .get('http://localhost:8000/api/logout')
-            .then(() => window.location.reload())
-            .catch(err => console.log(err.response));
+        localStorage.removeItem('token');
+        window.location.reload();
     }
 
     render() {
-        console.log(axios.defaults)
         if (!this.state.loggedin) {
             return (
                 <div>
