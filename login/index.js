@@ -11,7 +11,10 @@ router.post('/', async (req, res) => {
         const record = await db.get(newRecord);
         
         if(record.username && bcrypt.compareSync(newRecord.password, record.password)) {
-            res.status(200).json({message: 'Login Successful'});
+            const token = mw.genToken(record);
+
+            // res.status(200).json({message: 'Login Successful'});
+            res.status(200).json({token});
         } else {
             res.status(401).json({message: 'Incorrect Credentials'});
         }

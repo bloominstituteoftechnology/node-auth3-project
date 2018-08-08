@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../data/helpers/registerDb');
+const userDb = require('../data/helpers/userDb');
 const bcrypt = require('bcryptjs');
 const mw = require('../data/middleware/index');
 
@@ -10,12 +11,12 @@ router.post('/', async (req, res) => {
         const newRecord = { ...req.body };
         const hash = bcrypt.hashSync(newRecord.password, 14);
         newRecord.password = hash;
-        const token = mw.genToken(newRecord);
-        
         const record = await db.add(newRecord);
+        const getRecord = await userDb.get(newRecord);
+        const token = mw.genToken(getRecord);
 
-        res.status(200).json({message: 'Register Successful'});
-        // res.status(200).json({token});
+        // res.status(200).json({message: 'Register Successful'});
+        res.status(200).json({token});
     } catch (err) {
         res.status(500).json({error: 'Server Error'});
     }
