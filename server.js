@@ -20,7 +20,6 @@ const protected = (req, res, next) => {
           .json({ error: 'You shall not pass! - invalid credentials' })
           .end()
       }
-      req.jwtToken = decodedToken;
       next();
     })
   } else {
@@ -57,7 +56,7 @@ server.post('/api/register', (req, res) => {
           const token = generateToken(response);
           res
             .status(201)
-            .json(token)
+            .send(token)
             .end()
         })
         .catch(err => {
