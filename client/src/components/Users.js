@@ -12,21 +12,7 @@ class Users extends React.Component {
             loggedIn: true,
             time: 5
         }
-
-        this.timeout = setTimeout(() => {
-            this.props.history.push('/login');
-        }, this.state.time * 1000);
-
-        this.timeLeft = this.state.time;
-        this.interval = setInterval(() => {
-            this.timeLeft--;
-            this.setState({ time: this.timeLeft })
-            if (this.state.time <= 0) {
-                clearInterval(this.interval);
-            }
-        }, 1000);
     }
-
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -37,8 +23,8 @@ class Users extends React.Component {
                 .catch(err => console.log(err.response));
         } else {
             this.setState({ loggedIn: false })
-            this.interval;
-            this.timeout;
+            this.interval();
+            this.timeout();
         }
     }
 
@@ -55,6 +41,23 @@ class Users extends React.Component {
     logout = () => {
         localStorage.removeItem('token');
         window.location.reload();
+    }
+
+    timeout = () => {
+        setTimeout(() => {
+            this.props.history.push('/login');
+        }, this.state.time * 1000);
+    }
+
+    interval = () => {
+        let timeLeft = this.state.time;
+        setInterval(() => {
+            timeLeft--;
+            this.setState({ time: timeLeft })
+            if (this.state.time <= 0) {
+                clearInterval(this);
+            }
+        }, 1000);
     }
 
     render() {
