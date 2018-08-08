@@ -11,6 +11,8 @@ const usersDB = require('./data/helpers/usersDB');
 // error handling middleware
 const { registerConstraints, loginConstraints } = require('./middleware');
 const errors = require('./middleware/errors');
+// turn on cors
+const cors = require('cors');
 
 server.use(express.json());
 const PORT = 3000;
@@ -47,7 +49,6 @@ server.post('/api/register', registerConstraints, async (req, res) => {
       }
     } catch (err) {
       res.status(500).send(`${err}`);
-      next(err);
     }
   } catch (err) {
     res.status(500).send(`${err}`);
