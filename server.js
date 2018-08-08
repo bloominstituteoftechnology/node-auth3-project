@@ -136,18 +136,7 @@ server.post('/api/login', (req, res) => {
 			})
 });
 
-//********CREATE LOGOUT ENDPOINT*********************
-server.get('/logout', (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.send('Logout Session Unsuccessful');
-      } else {
-        res.send('You are successfully logged out');
-      }
-    });
-  }
-});
+
 
 const port = 3300;
 server.listen(port, function() {
