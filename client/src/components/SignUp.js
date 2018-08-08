@@ -24,12 +24,11 @@ class SignUp extends React.Component {
 
         const user = { username: this.state.username, password: this.state.password }
 
-        axios.defaults.withCredentials = true
         axios
             .post('http://localhost:8000/api/register', user)
             .then(() => this.props.history.push('/users'))
             .catch(err => {
-                if (!err) return;
+                if (!err || !err.response.status) return;
                 if (err.response.status === 400) {
                     this.setState({ userExists: true })
                 }

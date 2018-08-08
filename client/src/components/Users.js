@@ -13,10 +13,15 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
-        axios
-            .get('http://localhost:8000/api/users')
-            .then(response => this.setState({ users: response.data, loggedin: true }))
-            .catch(err => console.log(err.response));
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios
+                .get('http://localhost:8000/api/users', { headers: { Authorization: token } })
+                .then(response => this.setState({ users: response.data, loggedin: true }))
+                .catch(err => console.log(err.response));
+        } else {
+            this.props.history.push('/login');
+        }
     }
 
     logout = () => {
@@ -27,6 +32,7 @@ class Users extends React.Component {
     }
 
     render() {
+        console.log(axios.defaults)
         if (!this.state.loggedin) {
             return (
                 <div>

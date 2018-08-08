@@ -10,6 +10,7 @@ function postCheck(req, res, next) {
 }
 
 function loginCheck(req, res, next) {
+    console.log(req.headers);
     const token = req.headers.authorization;
     if (token) {
         jwt.verify(token, config.secret, (err, decodedToken) => {
