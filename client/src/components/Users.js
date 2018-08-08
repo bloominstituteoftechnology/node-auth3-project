@@ -8,41 +8,53 @@ class Users extends React.Component {
 
         this.state = {
             users: [],
+            user: [],
             loggedIn: true,
             time: 5
         }
+
+        this.timeout = setTimeout(() => {
+            this.props.history.push('/login');
+        }, this.state.time * 1000);
+
+        this.timeLeft = this.state.time;
+        this.interval = setInterval(() => {
+            this.timeLeft--;
+            this.setState({ time: this.timeLeft })
+            if (this.state.time <= 0) {
+                clearInterval(this.interval);
+            }
+        }, 1000);
     }
+
 
     componentDidMount() {
         const token = localStorage.getItem('token');
         if (token) {
             axios
                 .get('http://localhost:8000/api/users', { headers: { Authorization: token } })
-                .then(response => this.setState({ users: response.data }))
+                .then(response => this.setState({ users: response.data.users, user: response.data.user }))
                 .catch(err => console.log(err.response));
         } else {
             this.setState({ loggedIn: false })
-            this.getTime();
-            setTimeout(() => {
-                this.props.history.push('/login');
-            }, this.state.time * 1000)
+            this.interval;
+            this.timeout;
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.timeout) {
+            clearTimeout(this.timeout)
+        }
+
+        if (this.interval) {
+            clearTimeout(this.interval);
         }
     }
 
     logout = () => {
         localStorage.removeItem('token');
         window.location.reload();
-    }
-
-    getTime = () => {
-        var timeleft = this.state.time;
-        let timer = setInterval(() => {
-            timeleft--;
-            this.setState({ time: timeleft });
-            if (timeleft <= 0) {
-                clearInterval(timer);
-            }
-        }, 1000);
     }
 
     render() {
@@ -56,7 +68,7 @@ class Users extends React.Component {
 
         return (
             <div>
-                <h1>{this.state.users[0].department.toUpperCase()}</h1>
+                <h1>{this.state.users[0].department.toUpperCase()} - {this.state.user.username}</h1>
                 <button onClick={this.logout}>Log Out</button>
                 {this.state.users.map(user => <User key={user.id} user={user} />)}
             </div >
