@@ -2,6 +2,7 @@
 function registerConstraints(req, res, next) {
   const NAME = req.body.name;
   const CLEARPASSWORD = req.body.password;
+  const DEPARTMENT = req.body.department;
 
   if (!NAME || NAME.length < 1) {
     return next({
@@ -31,9 +32,24 @@ function registerConstraints(req, res, next) {
     });
   }
 
+  if (!DEPARTMENT || DEPARTMENT.length < 1) {
+    return next({
+      code: 400,
+      error: `Please provide a 'department' for the user.`,
+    });
+  }
+
+  if (DEPARTMENT.length > 255) {
+    return next({
+      code: 400,
+      error: `The 'department' of the user must be fewer than 255 characters.`,
+    });
+  }
+
   // set the req object
   req.NAME = NAME;
   req.CLEARPASSWORD = CLEARPASSWORD;
+  req.DEPARTMENT = DEPARTMENT;
 
   next();
 }
