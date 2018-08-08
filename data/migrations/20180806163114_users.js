@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
       tbl.increments();
       tbl.string('username', 128).notNullable();
       tbl.string('password').notNullable();
+      tbl.string('department').notNullable();
       tbl.timestamp('created_at').defaultTo(knex.fn.now());
   })
 };

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/helpers/userDb');
 const bcrypt = require('bcryptjs');
+const mw = require('../data/middleware/index');
 
 // login
 router.post('/', async (req, res) => {
@@ -10,7 +11,6 @@ router.post('/', async (req, res) => {
         const record = await db.get(newRecord);
         
         if(record.username && bcrypt.compareSync(newRecord.password, record.password)) {
-            // req.session.username = record.username;
             res.status(200).json({message: 'Login Successful'});
         } else {
             res.status(401).json({message: 'Incorrect Credentials'});
