@@ -32,7 +32,7 @@ function loginCheck(req, res, next) {
 }
 
 function generateToken(user) {
-    const payload = { username: user.username };
+    const payload = { userId: user.id };
     const options = { expiresIn: '1h' }
 
     return jwt.sign(payload, config.secret, options);

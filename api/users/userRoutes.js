@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', loginCheck, (req, res) => {
     db('users')
+    db('users')
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ error: "Couldn't retrieve the users information" }));
 })

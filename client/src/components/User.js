@@ -5,7 +5,6 @@ const User = props => {
         <div className='user-container'>
             <p><strong>{props.user.username}</strong></p>
             <p>{props.user.password}</p>
-            <p>{props.user.department}</p>
         </div>
     );
 }
