@@ -9,7 +9,7 @@ server.use(express.json());
 
 server.use("/api/users", userRoutes);
 
-server.post("/register", (req, res, next) => {
+server.post("/api/register", (req, res, next) => {
   db("users")
     .then(response => {
       res.status(codes.OK).json(response);
@@ -19,7 +19,7 @@ server.post("/register", (req, res, next) => {
     });
 });
 
-server.post("/login", (req, res, next) => {
+server.post("/api/login", (req, res, next) => {
     db("users")
       .then(response => {
         res.status(codes.OK).json(response);
