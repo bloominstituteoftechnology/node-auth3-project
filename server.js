@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 
+const expressjwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const db = require('./data/db');
 
@@ -85,6 +86,13 @@ function protected (req, res, next){
   }
 }
 
+server.get('/api/users',expressjwt({secret: 'jtq27utfvvbc90ndtwjuw'}),
+  
+  function(req, res, next) {
+    if (!req.user) return res.status(401).json({error: 'no token'});
+    next();        //res.status(200).json({message: 'success'});
+  });
+
 
 
 server.post('/api/login', function(req, res) {
@@ -112,7 +120,7 @@ server.post('/api/login', function(req, res) {
 });
 
 
-server.get('/api/users', protected, (req, res) => {
+server.get('/api/users', (req, res) => {
   console.log('token', req.jwtToken);
 
   db('users')
@@ -122,6 +130,18 @@ server.get('/api/users', protected, (req, res) => {
     
     .catch(err => res.send(err));
 });
+
+
+server.get('/api/logout', (req, res)=>{
+	if(req.headers.authorization){
+	req.headers.authorization =null;
+	res.send('logged out successfully');
+      	} 
+	else {
+        res.send('not logged in');
+      }
+    });
+  
 
 
 server.listen(4003, ()=> console.log('API running on port 4003'));
