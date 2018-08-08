@@ -1,19 +1,37 @@
+require('dotenv').config()
+
 const db = require('../data/db')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+//* Generate token
+
+function generateToken ({ username }) {
+  const payload = {
+    username
+  }
+  console.log(payload, 'payload')
+  const options = {
+    expiresIn: '1h'
+  }
+  return jwt.sign(payload, process.env.SECRET, options)
+}
 
 module.exports = {
   registerUser: (req, res, next) => {
-    const { password } = req.body
+    const user = req.body
 
     //* Hash password
-    const hash = bcrypt.hashSync(password, 14)
-    req.body.password = hash
+    const hash = bcrypt.hashSync(user.password, 14)
+    user.password = hash
 
     db('users')
-      .insert(req.body)
-
-      .then(user => {
-        res.status(201).json({ msg: 'Registration Successful!' })
+      .insert(user)
+      .then(ids => {
+        const token = generateToken(user)
+        console.log('token', token)
+        console.log('HERE')
+        res.status(201).json({ msg: 'Registration Successful!', token })
       })
       .catch(next)
   },
