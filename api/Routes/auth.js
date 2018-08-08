@@ -33,7 +33,13 @@ function registerUser (req, res, next) {
 }
 // GET USERS
 const getUsers = (req, res, next) => {
-  db('users').then((users) => res.status(200).json(users)).catch(next)
+  db('users')
+    .then((response) => {
+      const users = response.map((users) => users.username)
+      console.log(users)
+      res.status(200).json(users)
+    })
+    .catch(next)
 }
 // LOGIN
 const login = (req, res, next) => {
