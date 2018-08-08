@@ -64,9 +64,22 @@ server.post('/api/register', function(req, res) {
 });
 
 
+server.post('/api/login', function(req, res) {
+  const credentials = req.body;
+
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(function(user) {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        res.status(codes.OK).json(token);
+      } else {
+        return res.status(401).json({ error: 'Incorrect credentials' });
+      }
       })
-      .catch(err => {
-        next(err);
+    .catch(function(error) {
+      res.status(500).json({ error });
       });
   });
   
