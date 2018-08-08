@@ -1,16 +1,11 @@
-const bcrypt = require('bcrypt')
 
 exports.seed = function(knex, Promise) {
-  // Hash passwords for seeds
-  const passwordIn = bcrypt.hashSync('password', 10)
   // Deletes ALL existing entries
-  return knex('users').del()
+  return knex('sqlite_sequence').del()
     .then(function () {
       // Inserts seed entries
-      return knex('users').insert([
-        { userName: 'Bilbo', password: passwordIn},
-        { userName: 'Frodo', password: passwordIn},
-        { userName: 'Gimli', password: passwordIn}
+      return knex('sqlite_sequence').insert([
+        {name: 'users', seq: 0}
       ]);
     });
 };
