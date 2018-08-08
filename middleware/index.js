@@ -1,20 +1,20 @@
 // middleware for users constraints
 function registerConstraints(req, res, next) {
-  const NAME = req.body.name;
+  const USERNAME = req.body.username;
   const CLEARPASSWORD = req.body.password;
   const DEPARTMENT = req.body.department;
 
-  if (!NAME || NAME.length < 1) {
+  if (!USERNAME || USERNAME.length < 1) {
     return next({
       code: 400,
-      error: `Please provide a 'name' for the user.`,
+      error: `Please provide a 'username'.`,
     });
   }
 
-  if (NAME.length > 128) {
+  if (USERNAME.length > 128) {
     return next({
       code: 400,
-      error: `The 'name' of the user must be fewer than 128 characters.`,
+      error: `The 'username' must be fewer than 128 characters.`,
     });
   }
 
@@ -47,7 +47,7 @@ function registerConstraints(req, res, next) {
   }
 
   // set the req object
-  req.NAME = NAME;
+  req.USERNAME = USERNAME;
   req.CLEARPASSWORD = CLEARPASSWORD;
   req.DEPARTMENT = DEPARTMENT;
 
@@ -55,17 +55,17 @@ function registerConstraints(req, res, next) {
 }
 
 function loginConstraints(req, res, next) {
-  const NAME = req.body.name;
+  const USERNAME = req.body.username;
   const CLEARPASSWORD = req.body.password;
 
-  if (!NAME) {
+  if (!USERNAME) {
     return next({
       code: 400,
       error: `Please provide a 'name' for the user.`,
     });
   }
 
-  if (NAME.length > 128) {
+  if (USERNAME.length > 128) {
     return next({
       code: 400,
       error: `The 'name' of the user must be fewer than 128 characters.`,
@@ -80,7 +80,7 @@ function loginConstraints(req, res, next) {
   }
 
   // set the req object
-  req.NAME = NAME;
+  req.USERNAME = USERNAME;
   req.CLEARPASSWORD = CLEARPASSWORD;
 
   next();
