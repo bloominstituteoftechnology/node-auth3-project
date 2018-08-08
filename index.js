@@ -34,6 +34,10 @@ function protected(req, res, next) {
   }
 }
 
+server.get('/', (req, res) => {
+  res.send('Its Alive!');
+});
+
 server.post('/api/register', (req, res) => {
   // save the user to the database
   const user = req.body;
@@ -43,15 +47,40 @@ server.post('/api/register', (req, res) => {
     .insert(user)
     .into('users')
     .then(id => {
-      db('User') 
-        .then(user => res.status(201).json(user.pop()))
+      db('users') 
+        .then(user => {
+          console.log(user) 
+          res.status(201).json(user.pop()) 
+        })
     })
     .catch(err => {
       res.status(500).json(err);
     });
 })
 
-server.get('/users', protected, (req, res) => {
+
+server.post('/api/login', function(req, res) {
+  const credentials = req.body;
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(function(user) {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        res.json({
+          message: "You Are Logged In",
+          token
+        });
+      } else {
+        return res.status(401).json({ error: 'Incorrect credentials' });
+      }
+    })
+    .catch(function(error) {
+      res.status(500).json({ error });
+    });
+});
+
+server.get('/api/users', protected, (req, res) => {
   //console.log('token', req.jwtToken);
   db('users')
     .then(users => {
