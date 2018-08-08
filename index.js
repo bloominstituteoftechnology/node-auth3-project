@@ -58,7 +58,9 @@ server.post('/api/register', async (req, res) => {
     if (user.username && user.password) {
       const ids = await db.insert(user).into('users');
       const id = ids[0];
-      res.status(201).json(await db('users').where('id', id).first());
+      const result = await db('users').where('id', id).first()
+      result.token = token;
+      res.status(201).json(result);
     } else {
       throw Error;
     }
