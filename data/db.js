@@ -3,11 +3,11 @@ const knex = require('knex');
 
 const db = knex(knexConfig);
 
-module.exports {
+module.exports = {
     get,
     register,
     login
-}
+};
 
 function get(department) {
     return db('users').where('department', department);
