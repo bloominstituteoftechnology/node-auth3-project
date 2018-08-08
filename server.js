@@ -39,22 +39,31 @@ function protect(req, res, next) {
 
 server.use(express.json());
 
-server.use("/api/users", userRoutes);
 
-server.post("/api/register", (req, res, next) => {
-  db("users")
-    .then(response => {
-      res.status(codes.OK).json(response);
+server.post('/api/register', function(req, res) {
+  const user = req.body;
+
+  const hash = bcrypt.hashSync(user.password, 14);
+  user.password = hash;
+
+  db('users')
+    .insert(user)
+    .then(id => {
+      db('users')
+        .where({ id: id[0] })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+
+          res.status(codes.CREATED).json(token);
+        });
     })
-    .catch(err => {
-      next(err);
+    .catch(function(error) {
+      res.status(500).json({ error });
     });
 });
 
-server.post("/api/login", (req, res, next) => {
-    db("users")
-      .then(response => {
-        res.status(codes.OK).json(response);
+
       })
       .catch(err => {
         next(err);
