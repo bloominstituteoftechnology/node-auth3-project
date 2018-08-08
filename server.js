@@ -27,7 +27,7 @@ function protect(req, res, next) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
         return res
-          .status(401)
+          .status(codes.UNAUTHORIZED)
           .json({ error: 'you shall not pass!! - token invalid' });
       }
 
@@ -35,7 +35,7 @@ function protect(req, res, next) {
       next();
     });
   } else {
-    return res.status(401).json({ error: 'you shall not pass!! - no token' });
+    return res.status(codes.UNAUTHORIZED).json({ error: 'you shall not pass!! - no token' });
   }
 }
 
@@ -61,7 +61,7 @@ server.post('/api/register', function(req, res) {
         });
     })
     .catch(function(error) {
-      res.status(500).json({ error });
+      res.status(codes.INTERNAL_SERVER_ERROR).json({ error });
     });
 });
 
@@ -77,11 +77,11 @@ server.post('/api/login', function(req, res) {
         const token = generateToken(user);
         res.status(codes.OK).json(token);
       } else {
-        return res.status(401).json({ error: 'Incorrect credentials' });
+        return res.status(codes.UNAUTHORIZED).json({ error: 'Incorrect credentials' });
       }
     })
     .catch(function(error) {
-      res.status(500).json({ error });
+      res.status(codes.INTERNAL_SERVER_ERROR).json({ error });
     });
 });
   
