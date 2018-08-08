@@ -9,9 +9,13 @@ module.exports = {
     login
 };
 
-function get() {
-    const query = db('users').select('id', 'username', 'department');
-    return query;
+async function get(username) {
+    const department = await db('users').select('department').where('username', username);
+    if (department[0].department == 'Administration') {
+        return db('users').select('id', 'username', 'department');
+    } else {
+        return db('users').select('id', 'username', 'department').where('department', department[0].department);
+    }
 }
 
 function register(user) {

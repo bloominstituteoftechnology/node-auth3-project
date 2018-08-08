@@ -42,8 +42,7 @@ const secret = '1029384756';
 
 function generateToken(user) {
     const payload = {
-        "username": user.username,
-        "department": user.deparment
+        "username": user.username
     };
 
     const options = {
@@ -71,9 +70,9 @@ function protected(req, res, next) {
 
 //endpoint for main page 
 server.get('/api/users', protected, async (req, res, next) => {
-    console.log('token', req.jwtToken);
+    const username = req.jwtToken.username;
     try {
-        const response = await db.get();
+        const response = await db.get(username);
         res.status(200).json(response);
     } catch (error) {
         next(sendError(401, "Failed to retrieve users information.", error.message))
