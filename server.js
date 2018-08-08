@@ -41,15 +41,16 @@ function generateToken(user) {
 }
 
 server.post('/api/register', function(req, res) {
+    console.log("test", req.body);
     const user = req.body;
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash; 
     db('users')
         .insert(user)
-        .then(function(ids) {
+        .then(response => {
             const id = response[0];
             db('users')
-                .where({ id: ids[0] })
+                .where({ id })
                 .first()
                 .then(user => {
                     const token = generateToken(user);
@@ -57,7 +58,8 @@ server.post('/api/register', function(req, res) {
                 });
         })
         .catch(err => {
-            res.status(500).json({ error: 'Cant register' });
+            res.status(500)
+            .send(`${err}`);
         });       
 });
 
