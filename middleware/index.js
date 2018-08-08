@@ -58,17 +58,10 @@ function loginConstraints(req, res, next) {
   const USERNAME = req.body.username;
   const CLEARPASSWORD = req.body.password;
 
-  if (!USERNAME) {
+  if (!USERNAME || USERNAME.length < 1) {
     return next({
       code: 400,
-      error: `Please provide a 'name' for the user.`,
-    });
-  }
-
-  if (USERNAME.length > 128) {
-    return next({
-      code: 400,
-      error: `The 'name' of the user must be fewer than 128 characters.`,
+      error: `Please provide a 'username'.`,
     });
   }
 

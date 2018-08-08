@@ -50,6 +50,13 @@ server.post('/api/register', registerConstraints, async (req, res) => {
   }
 });
 
+/*
+  LOGIN ENDPOINTS
+*/
+server.post('/api/login', loginConstraints, async (req, res) => {
+  res.send('hola!');
+});
+
 // error handling
 server.use(errors);
 
