@@ -10,17 +10,19 @@ server.use(express.json());
 
 
 // configure jwt
-const secret = 'nobody tosses a dwarf!';
+const secret = 'ems secret key!';
 
 
 function generateToken(user) {
   const payload = {
     name: user.name,
+    password: user.password,
+    department: user.password
   };
 
   const options = {
     expiresIn: '1h',
-    jwtid: 'whitehairsuckds',
+    jwtid: 'whitehairsucks',
   };
 
   return jwt.sign(payload, secret, options);
@@ -53,16 +55,6 @@ server.get('/', (req, res) => {
 });
 
 
-server.get('/api/restricted/users', restricted, (req, res) => {
-    db('users').select('name')
-    .then(response => {
-            res.status(200).json(response)
-    })
-    .catch(err => {
-        res.status(500).json('Sorry, you do not have access');
-    })
-});
-
 server.get('/setname', (req, res) => {
   req.session.name = '';
   res.send('User Info retrieved');
@@ -75,13 +67,13 @@ server.get('/getname', (req, res) => {
 
 //********GET All USERS ENDPOINT*********************
 server.get('/users', restricted, (req, res) => {
-  console.log('token', req.jwtToken);
-
-  db('users')
-    .then(users => {
-      res.json(users);
+    db('users').select('name', 'password', 'department')
+    .then(response => {
+            res.status(200).json(response)
     })
-    .catch(err => res.send(err));
+    .catch(err => {
+        res.status(500).json('Sorry, you do not have access');
+    })
 });
 
 //********CREATE REGISTER ENDPOINTS*********************
@@ -136,7 +128,18 @@ server.post('/api/login', (req, res) => {
 			})
 });
 
-
+//********CREATE LOGOUT ENDPOINT*********************
+server.get('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send('Logout Session Unsuccessful');
+      } else {
+        res.send('You are successfully logged out');
+      }
+    });
+  }
+});
 
 const port = 3300;
 server.listen(port, function() {
