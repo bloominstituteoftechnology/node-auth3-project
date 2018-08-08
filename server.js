@@ -18,6 +18,25 @@ function generateToken(user) {
 
   return jwt.sign(payload, secret, options);
 }
+function protect(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ error: 'you shall not pass!! - token invalid' });
+      }
+
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({ error: 'you shall not pass!! - no token' });
+  }
+}
+
 server.use(express.json());
 
 server.use("/api/users", userRoutes);
