@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
 const server = express();
-server.use(cors());
+server.use(cors({ origin: 'http://localhost:3300', credentials: true }));
 
 const secret = "nobody tosses dwarf!";
 
