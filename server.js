@@ -53,7 +53,7 @@ server.post("/api/register", (req, res) => {
     .then(user => {
       // generate the token
       const token = generateToken(user);
-      res.status(201).json(token);
+      res.status(201).json(user);
     })
     .catch(function(error) {
       res.status(500).json({ error });
