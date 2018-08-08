@@ -1,11 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const db = require('../../data/db');
-const { postCheck, generateToken } = require('../../middleware/required');
+const { loginPostCheck, generateToken } = require('../../middleware/required');
 
 const router = express.Router();
 
-router.post('/', postCheck, (req, res) => {
+router.post('/', loginPostCheck, (req, res) => {
     const credentials = { username: req.username, password: req.password }
     db('users')
         .whereRaw('LOWER("username") = ?', credentials.username.toLowerCase()).first()

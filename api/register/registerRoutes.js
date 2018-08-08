@@ -1,11 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const db = require('../../data/db');
-const { postCheck, generateToken } = require('../../middleware/required');
+const { registerPostCheck, generateToken } = require('../../middleware/required');
 
 const router = express.Router();
 
-router.post('/', postCheck, (req, res) => {
+router.post('/', registerPostCheck, (req, res) => {
     const user = { username: req.username, password: req.password }
     const hash = bcrypt.hashSync(user.password, 14);
     user.password = hash;
