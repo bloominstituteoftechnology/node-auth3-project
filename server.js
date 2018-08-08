@@ -10,17 +10,6 @@ server.use(express.json());
 
 const secret = 'aliens are real';
 
-const generateToken = user => {
-  const payload = {
-    username: user.username,
-  };
-  const options = {
-    expiresIn: '1h',
-    jwtid: '98546682',
-  };
-  return jwt.sign(payload, secret, options);
-}
-
 const protected = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
@@ -40,6 +29,17 @@ const protected = (req, res, next) => {
       .json({ error: 'You shall not pass! - no token provided'})
       .end()
   }
+}
+
+const generateToken = user => {
+  const payload = {
+    username: user.username,
+  };
+  const options = {
+    expiresIn: '1h',
+    jwtid: '98546682',
+  };
+  return jwt.sign(payload, secret, options);
 }
 
 server.post('/api/register', (req, res) => {
