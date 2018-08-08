@@ -3,6 +3,7 @@ exports.up = function (knex, Promise) {
     tbl.increments()
     tbl.string('username').notNullable().unique()
     tbl.string('password').notNullable()
+    tbl.string('department').notNullable()
   })
 }
 

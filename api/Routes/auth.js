@@ -1,6 +1,15 @@
+require('dotenv').config()
 const server = require('express')()
 const db = require('../../data/dbConfig')
 const bcrypt = require('bcryptjs')
+const jtw = require('jsonwebtoken')
+
+function getToken (user) {
+  const userId = user.id
+  return jtw.sign({ userId }, process.env.SECRET, {
+    expiresIn: '1d'
+  })
+}
 // REGISTER
 function registerUser (req, res, next) {
   const credentials = req.body
@@ -13,11 +22,10 @@ function registerUser (req, res, next) {
       db('users')
         .where('id', id)
         .then((newUser) => {
-          console.log('in register', newUser[0])
           const user = newUser[0]
-          req.session.username = user.username
-          console.log('in register', req.session.username)
-          res.status(201).json({ ...user, ...req.session })
+          req.session.username = user.id
+          const token = getToken(user)
+          res.status(201).json({ token: token })
         })
         .catch(next)
     })
@@ -25,20 +33,7 @@ function registerUser (req, res, next) {
 }
 // GET USERS
 const getUsers = (req, res, next) => {
-  const { id } = req.params
-  if (id) {
-    db('users')
-      .where({ id })
-      .then((user) => {
-        if (!user.length > 0) {
-          next(new Error(`CANT_FIND`))
-        }
-        res.status(200).json(user)
-      })
-      .catch(next)
-  } else {
-    db('users').then((users) => res.status(200).json(users)).catch(next)
-  }
+  db('users').then((users) => res.status(200).json(users)).catch(next)
 }
 // LOGIN
 const login = (req, res, next) => {
@@ -48,22 +43,33 @@ const login = (req, res, next) => {
     .first()
     .then((user) => {
       if (user || bcrypt.compareSync(credentials.password, user.password)) {
-        req.session.username = user.username
-        console.log(req.session)
-        res.json({ msg: `welcome ${req.session.username}` })
+        req.session.username = user.id
+        const token = getToken(user)
+        res
+          .status(200)
+          .json({ mes: 'Logged In', cookie: req.session.username, token })
       } else {
-        return res.status(401).json({ error: 'Incorrect credentials' })
+        return res.status(401).json({ error: 'U shall not pass!' })
       }
     })
     .catch(next)
 }
 // restricted
 const restricted = (req, res, next) => {
-  console.log('IN RESTRICTED', req.session)
-  if (req.session.username) {
-    res.status(200).send('Premium Content')
+  const token = req.headers.authorization
+  console.log(token)
+  if (token) {
+    jtw.verify(token, process.env.SECRET, (err, decodedToken) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ error: 'you shall not pass!! - token invalid' })
+      }
+    })
+    req.token = token
+    next()
   } else {
-    res.status(500).json({ mes: 'error', ...req.session })
+    return res.status(401).json({ error: 'you shall not pass!! - no token' })
   }
 }
 // Register
@@ -73,5 +79,5 @@ server.get('/users', getUsers)
 // LOGIN
 server.post('/login', login)
 // Restricted
-server.get('/restricted', restricted)
+server.get('/restricted', restricted, getUsers)
 module.exports = server
