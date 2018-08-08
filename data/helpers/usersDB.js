@@ -8,4 +8,10 @@ module.exports = {
     }
     return query;
   },
+  getByUsername: function(username) {
+    return db('users')
+      .select()
+      .where('username', username)
+      .first();
+  },
 };

@@ -1,13 +1,13 @@
 // express
 const express = require('express');
 const server = express();
-
 // bcrypt
 const bcrypt = require('bcryptjs');
-
+// JWT
+const { jwtRoute, generateToken } = require('./middleware/jwt');
 // databases
 const registerDB = require('./data/helpers/registerDB');
-
+const usersDB = require('./data/helpers/usersDB');
 // error handling middleware
 const { registerConstraints, loginConstraints } = require('./middleware');
 const errors = require('./middleware/errors');
@@ -33,6 +33,10 @@ server.post('/api/register', registerConstraints, async (req, res) => {
     try {
       const response = await registerDB.insert(USER);
       if (response) {
+        // set JWT: generate the token
+        const token = generateToken(USER);
+        // attach token to the response
+        res.header('x-authorization', 'Bearer ' + token);
         res
           .status(200)
           .json({ message: `User with id:${response.id} has been added.` });
@@ -54,7 +58,49 @@ server.post('/api/register', registerConstraints, async (req, res) => {
   LOGIN ENDPOINTS
 */
 server.post('/api/login', loginConstraints, async (req, res) => {
-  res.send('hola!');
+  const { USERNAME, CLEARPASSWORD } = req;
+
+  try {
+    const USER = await usersDB.getByUsername(USERNAME);
+    if (USER) {
+      const VALID = await bcrypt.compare(CLEARPASSWORD, USER.password);
+      if (VALID) {
+        // set JWT: generate the token
+        const token = generateToken(USER);
+        // attach token to the response
+        res.header('x-authorization', 'Bearer ' + token);
+        res.status(200).send(`Logged in`);
+      } else {
+        res.status(401).send(`You shall not pass!`);
+      }
+    } else {
+      // error with the user, but don't let the hackers know!
+      // take the same amount of time as if legit checking
+      await bcrypt.compare(
+        CLEARPASSWORD,
+        '$2a$14$plRslh.07bHu/BWHztxq9.20YIJluMBo9JhdIOCJOQjvAZHmbPV6a',
+      );
+      res.status(401).send(`You shall not pass!`);
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
+});
+
+/*
+  USERS ENDPOINTS
+*/
+server.get('/api/users', jwtRoute, async (req, res) => {
+  try {
+    const users = await usersDB.get();
+    if (users.length === 0) {
+      res.status(200).json({ message: 'There are currently no users' });
+    } else {
+      res.status(200).json(users);
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
 });
 
 // error handling
