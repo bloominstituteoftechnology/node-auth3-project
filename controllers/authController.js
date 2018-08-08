@@ -5,10 +5,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 //* Generate token
-
-function generateToken ({ username }) {
+function generateToken({ id }) {
   const payload = {
-    username
+    jwtid: id
   }
   console.log(payload, 'payload')
   const options = {
@@ -16,6 +15,8 @@ function generateToken ({ username }) {
   }
   return jwt.sign(payload, process.env.SECRET, options)
 }
+
+//* Verify token
 
 module.exports = {
   registerUser: (req, res, next) => {
@@ -47,7 +48,8 @@ module.exports = {
         bcrypt.compare(password, user.password)
           .then(isPasswordValid => {
             if (isPasswordValid) {
-              return res.status(200).json({ msg: 'login successful' })
+              const token = generateToken(user)
+              return res.status(200).json({ msg: 'login successful', token })
             } else {
               return res.status(401).json({ msg: 'login failed' })
             }
