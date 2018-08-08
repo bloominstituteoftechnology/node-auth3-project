@@ -23,6 +23,7 @@ function loginCheck(req, res, next) {
     if (token) {
         jwt.verify(token, config.secret, (err, decodedToken) => {
             if (err) return res.status(401).json({ error: 'Token invalid' });
+    
             req.jwtToken = decodedToken;
             next();
         })
@@ -37,6 +38,7 @@ function generateToken(user) {
 
     return jwt.sign(payload, config.secret, options);
 }
+
 module.exports.loginPostCheck = loginPostCheck;
 module.exports.registerPostCheck = registerPostCheck;
 module.exports.loginCheck = loginCheck;

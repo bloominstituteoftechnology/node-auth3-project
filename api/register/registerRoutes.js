@@ -19,7 +19,7 @@ router.post('/', registerPostCheck, (req, res) => {
             db('users')
                 .insert(user)
                 .then(insertResponse => {
-                    const token = generateToken(user);
+                    const token = generateToken({ id: insertResponse[0], ...user });
                     return res.status(201).json({ id: insertResponse[0], ...user, token });
                 })
                 .catch(err => res.status(500).json({ error: "Couldn't save the user to the database." }))
