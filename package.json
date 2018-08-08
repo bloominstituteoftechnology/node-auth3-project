@@ -3,6 +3,9 @@
   "version": "1",
   "description": "auth-ii",
   "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "repository": "y",
   "author": "Lambda",
   "license": "y",

@@ -29,6 +29,23 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options)
 }
 
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+
+    if(token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err) {
+                return res.status(401).json({ error: 'You shall not pass! - invalid token'})
+            }
+
+            req.jwtToken = decodedToken;
+            next();
+        })
+    } else {
+        return res.status(401).json({ error: 'You shall not pass! - no token'})
+    }
+}
+
 // **** user *****
 
 server.post('/api/register', (req, res) => {
@@ -69,8 +86,8 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-server.get('/users', (req, res) => {
-    
+server.get('/users', protected, (req, res) => {
+    console.log('token: ', req.jwtToken)
     db('users')
         .then(users => {
             res.json(users);
