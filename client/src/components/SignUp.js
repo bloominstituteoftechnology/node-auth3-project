@@ -26,7 +26,10 @@ class SignUp extends React.Component {
 
         axios
             .post('http://localhost:8000/api/register', user)
-            .then(() => this.props.history.push('/users'))
+            .then(response => {
+                localStorage.setItem('token', response.data.token);
+                this.props.history.push('/users')
+            })
             .catch(err => {
                 if (!err || !err.response.status) return;
                 if (err.response.status === 400) {
