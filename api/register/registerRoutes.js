@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const db = require('../../data/db');
-const { postCheck } = require('../../middleware/required');
+const { postCheck, generateToken } = require('../../middleware/required');
 
 const router = express.Router();
 
