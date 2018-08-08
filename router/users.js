@@ -1,9 +1,9 @@
 const express = require('express');
-const db = require('../data/db');const bcrypt = require('bcrypt');
+const db = require('../data/db');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-
+const secret = "I can sleep now I think";
 
 function protected(req, res, next) {
     const token = req.headers.authorization;
@@ -14,7 +14,7 @@ function protected(req, res, next) {
                 return res.status(401).json({error: 'you shall not pass!! - token invalid'})
             }
 
-            req.jwToken = decodedToken;
+            req.jwtToken = decodedToken;
             next();
         })
     } else {
@@ -23,7 +23,7 @@ function protected(req, res, next) {
 }
 
 router.get('/', protected, (req, res) => {
-
+    console.log('token', req.jwtToken);
     db('users').then(user => {
         if(user) {
         res.status(201).json(user);
