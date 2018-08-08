@@ -30,7 +30,7 @@ function generateToken(user) {
         department: user.department
     }
     const options = {
-        expiresIn: '1m',
+        expiresIn: '1d',
         }
         return jwt.sign(payload, secret, options)
 }
@@ -50,6 +50,16 @@ function checkLogIn (req, res, next) {
 
 server.get('/api/users', checkLogIn, (req, res) => {
     db('users').select('username', 'department')
+    .then(response => {
+            res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json('You shall not pass!')
+    })
+})
+
+server.get('/api/users/test', (req, res) => {
+    db('users').select('username', 'department', 'password')
     .then(response => {
             res.status(200).json(response)
     })
@@ -83,13 +93,16 @@ server.post('/api/login', (req, res) => {
     db('users')
     .where({username: credentials.username}).first()
     .then(function(user) {
-    if(user || bcrypt.compareSync(credentials.password, user.password)) {
+    if(user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
-            res.status(201).json(token, 'Logged in.')
+            res.status(201).json(token)
     }
     else {
         return res.status(401).json('You shall not pass!')
     }
+})
+.catch(err => {
+    res.status(500).json({error: 'There was an error logging in.'})
 })
 })
 
