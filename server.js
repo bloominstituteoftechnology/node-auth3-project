@@ -69,5 +69,14 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
+server.get('/users', (req, res) => {
+    
+    db('users')
+        .then(users => {
+            res.json(users);
+        })
+        .catch(err => res.send(err))
+})
+
 
 server.listen(port, () => console.log(`running on port ${port}`));
