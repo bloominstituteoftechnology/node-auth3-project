@@ -25,6 +25,7 @@ function generateToken(user) {
 
     return jwt.sign(payload, secret, options);
 }
+
 function protected(req, res, next) {
     const token = req.headers.authorization;
 
@@ -71,7 +72,7 @@ server.post('/api/register', (req, res) => {
             res.status(500).json({ err })
         })
 
-    server.post('api/login', function (req, res) {
+    server.post('/api/login', (req, res) => {
         const credentials = req.body;
 
         db('users')
