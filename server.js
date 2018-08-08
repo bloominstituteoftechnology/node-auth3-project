@@ -5,6 +5,19 @@ const server = express();
 
 const userRoutes = require("./api/userRouter");
 
+const secret = 'we have the power!';
+function generateToken(user) {
+  const payload = {
+    username: user.username
+  }
+
+  const options = {
+    expiresIn: '12h',
+    jwtid: '482910',
+  }
+
+  return jwt.sign(payload, secret, options);
+}
 server.use(express.json());
 
 server.use("/api/users", userRoutes);
