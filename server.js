@@ -1,5 +1,12 @@
+// express
 const express = require('express');
 const server = express();
+
+// bcrypt
+const bcrypt = require('bcryptjs');
+
+// databases
+const registerDB = require('./data/helpers/registerDB');
 
 // error handling middleware
 const { registerConstraints, loginConstraints } = require('./middleware');
@@ -17,9 +24,30 @@ server.get('/', (req, res) => {
   RESISTER ENDPOINTS
 */
 server.post('/api/register', registerConstraints, async (req, res) => {
-  const { NAME, PASSWORD, DEPARTMENT } = req;
-  console.log(NAME, PASSWORD, DEPARTMENT);
-  res.status(200).send('woo hoo!');
+  const { USERNAME, CLEARPASSWORD, DEPARTMENT } = req;
+
+  try {
+    // hash the password
+    const HASH = await bcrypt.hash(CLEARPASSWORD, 14);
+    const USER = { username: USERNAME, password: HASH, department: DEPARTMENT };
+    try {
+      const response = await registerDB.insert(USER);
+      if (response) {
+        res
+          .status(200)
+          .json({ message: `User with id:${response.id} has been added.` });
+      } else {
+        res.status(400).json({
+          error: `Undetermined error adding project.`,
+        });
+      }
+    } catch (err) {
+      res.status(500).send(`${err}`);
+      next(err);
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
 });
 
 // error handling

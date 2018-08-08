@@ -1,5 +1,6 @@
 // error handling middleware
 function errors(err, req, res, next) {
+  console.log('OUTSIDE ERRORS');
   switch (err.code) {
     case 400:
       res.status(400).json({
@@ -14,9 +15,9 @@ function errors(err, req, res, next) {
       return;
 
     default:
-      res.status(400).json({
+      console.log('IN ERRORS');
+      res.status(400).send({
         error: 'Something weird has happened!',
-        err,
       });
       return;
   }
