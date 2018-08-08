@@ -7,8 +7,7 @@ class Users extends React.Component {
         super();
 
         this.state = {
-            users: [],
-            loggedin: false,
+            users: []
         }
     }
 
@@ -17,7 +16,7 @@ class Users extends React.Component {
         if (token) {
             axios
                 .get('http://localhost:8000/api/users', { headers: { Authorization: token } })
-                .then(response => this.setState({ users: response.data, loggedin: true }))
+                .then(response => this.setState({ users: response.data }))
                 .catch(err => console.log(err.response));
         } else {
             this.props.history.push('/login');
@@ -30,16 +29,6 @@ class Users extends React.Component {
     }
 
     render() {
-        if (!this.state.loggedin) {
-            return (
-                <div>
-                    <p>You need to be logged in to view this!</p>
-                    <button onClick={() => this.props.history.push('/login')}>Login</button>
-                    <button onClick={() => this.props.history.push('/register')}>Register</button>
-                </div>
-            );
-        }
-
         return (
             <div>
                 <h1>Users</h1>
