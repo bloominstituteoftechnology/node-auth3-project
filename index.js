@@ -7,12 +7,45 @@ const jwt = require('jsonwebtoken');
 
 server.use(express.json());
 
+const secret = 'idk what im doing';
+
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ error: 'You shall not pass! Wrong token!' });
+      }
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({ error: 'You shall not pass! No token!' });
+  }
+}
+
+function generateToken(user) {
+  const payload = {
+    username: user.username,
+  };
+  const options = {
+    expiresIn: '1h',
+    jwtid: '8728391',
+  };
+
+  return jwt.sign(payload, secret, options);
+}
+
+
 server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
+
 server.post('/api/register', function(req, res) {
   const user = req.body;
-
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
 
@@ -39,7 +72,8 @@ server.post('/api/login', (req, res) => {
   .first()
   .then(user => {
     if (user && bcrypt.compareSync(credentials.password, user.password)) {
-      return res.status(200).json({'message': 'You are now logged in.'})
+      const token = generateToken(user);
+      res.send(token);
     }
     return res.status(401).json({'errorMessage': 'The username and password you entered did not match our records. You shall not pass!'})
   })
@@ -49,6 +83,7 @@ server.post('/api/login', (req, res) => {
 });
 
 server.get('/api/users', protected, (req, res) => {
+  console.log('token', req.jwtToken);
   db('users')
     .then(users => {
       res.status(200).json(users);
