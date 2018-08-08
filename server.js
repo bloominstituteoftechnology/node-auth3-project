@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 const db = require("./data/db");
 
@@ -9,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const server = express();
 
 server.use(express.json());
+server.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 server.get("/api", (req, res) => {
   res.send("working...");
