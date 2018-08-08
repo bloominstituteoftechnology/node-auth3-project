@@ -9,6 +9,7 @@
   "author": "TangledTessellations <mcevoya@oregonstate.edu>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "jsonwebtoken": "^8.3.0",
