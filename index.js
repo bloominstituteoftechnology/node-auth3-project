@@ -32,9 +32,6 @@ const authenticate = async (req, res, next) => {
 };
 
 server.get('/api/users', (req, res) => {
-  console.log(req.headers.tokenkey);
-  console.log(token);
-  console.log(req.headers.userdep);
   if (req.headers.tokenkey === token) {
     db('users').where('department', req.headers.userdep).then(response => {
       res.status(200).json(response);
