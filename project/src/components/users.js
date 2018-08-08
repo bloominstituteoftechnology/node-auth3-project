@@ -20,14 +20,22 @@ class Users extends Component {
         axios
             .get('http://localhost:3300/api/users')
             .then((response) => {
-              this.setState({ projects: response.data })
+              this.setState({ users: response.data })
             })
             .catch(err => console.log(err));
       }
 
     render() { 
         return ( 
+            
+            <div className="users">
             <h1>Users</h1>
+                {this.state.users.map(user => {
+                    return (
+                        <p>{user.username}{user.department}</p>
+                    )
+                })}
+            </div>
          );
     }
 }

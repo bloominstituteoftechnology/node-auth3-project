@@ -11,33 +11,14 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
+      users:[],
       
 
     }
   }
 
-  componentWillMount() {
-    this.regiSter();
-    
-  }
-
-  
-  logIn = () => {
-    axios
-        .get('http://localhost:3300/api/login')
-        .then((response) => {
-          this.setState({ login: response.data })
-        })
-        .catch(err => console.log(err));
-  }
-
-  regiSter = () => {
-    axios
-        .get('http://localhost:3300/api/register')
-        .then((response) => {
-          this.setState({ register: response.data })
-        })
-        .catch(err => console.log(err));
+  handleSetData = data => {
+    this.setState({smurfs:data});
   }
 
   render() {
