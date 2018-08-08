@@ -1,10 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const port = 8002;
 
-const db = require('./database/dbConfig.js');
+const db = require('./data/db');
 
 const server = express();
 
 
-server.listen(3300, () => console.log('\nrunning on port 3300\n'));
+server.listen(port, () => console.log(`running on port ${port}`));
