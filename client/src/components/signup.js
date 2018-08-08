@@ -27,7 +27,6 @@ class SignUp extends Component {
     axios
       .post("http://localhost:8000/api/register", users)
       .then(response => {
-        this.state.users(response.data);
         console.log(response);
         this.setState({
           username: "",
