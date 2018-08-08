@@ -18,6 +18,23 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+// protected function
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ error: "You shall not pass!" });
+      }
+
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    res.status(401).json({ error: "You shall not pass!" });
+  }
+}
+
 // use middleware
 server.use(express.json());
 
@@ -56,15 +73,23 @@ server.post("/api/login", (req, res) => {
         const token = generateToken(user);
 
         // attach the token to the response
-        res.send(token);
+        res.json(token);
       } else {
-        return res.status(401).json({ error: "Incorrect credentials" });
+        return res.status(401).json({ error: "You shall not pass!" });
       }
     })
     .catch(error => res.status(500).json(error.message));
 });
 
 // GET /api/users
+server.get("/api/users", protected, (req, res) => {
+  console.log("token", req.jwtToken);
+  db("users")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.status(500).json(error.message));
+});
 
 // run server
 const port = 8000;
