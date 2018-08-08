@@ -67,6 +67,29 @@ function generateToken(user) {
 }
 
 
+server.post('/api/login', function(req, res) {
+  const credentials = req.body;
+
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(function(user) {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        // generating the token
+        
+	const token = generateToken(user);
+
+        //token attached to the response
+        
+	  res.send(token);
+      } else {
+        return res.status(401).json({ error: 'Incorrect credentials' });
+      }
+    })
+    .catch(function(error) {
+      res.status(500).json({ error });
+    });
+});
 
 
 server.listen(4003, ()=> console.log('API running on port 4003'));
