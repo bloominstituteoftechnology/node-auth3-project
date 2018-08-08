@@ -12,9 +12,26 @@ server.use(express.json());
 server.get('/', (req, res) => {
     res.send('<h1>Home Page</h1>')
 })
+
+
+const secret = 'nobody tosses a dwarf!!';
+
+function generateToken(user) {
+    const payload = {
+        username: user.username,
+    }
+
+    const options = {
+        expiresIn: '1h',
+        jwtid: '2345678'
+    };
+
+    return jwt.sign(payload, secret, options)
+}
+
 // **** user *****
 
-server.post('/api/register', function(req, res) {
+server.post('/api/register', (req, res) => {
     const user = req.body;
 
     const hash = bcrypt.hashSync(user.password, 10);
@@ -35,19 +52,22 @@ server.post('/api/register', function(req, res) {
 
 })
 
-const secret = 'nobody tosses a dwarf!!';
+server.post('/api/login', (req, res) => {
+    const credentials = req.body;
 
-function generateToken(user) {
-    const payload = {
-        username: user.username,
-    }
+    db('users')
+        .where({ username: credentials.username })
+        .first()
+        .then(user => {
+            if( user && bcrypt.compareSync(credentials.password, user.password)) {
+                const token = generateToken(user);
+                res.send(token)
+            } else {
+                return res.status(401).json({ err: 'Incorrect credentials'})
+            }
+        })
+        .catch(err => res.status(500).json(err))
+})
 
-    const options = {
-        expiresIn: '1h',
-        jwtid: '2345678'
-    };
-
-    return jwt.sign(payload, secret, options)
-}
 
 server.listen(port, () => console.log(`running on port ${port}`));
