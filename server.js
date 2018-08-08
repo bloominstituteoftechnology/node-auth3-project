@@ -92,4 +92,20 @@ server.post('/api/login', (req, res) => {
     })
 })
 
+server.get('/api/users', protected, (req, res) => {
+  db('users')
+    .then(response => {
+      res
+        .status(200)
+        .json(response)
+        .end()
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json(err)
+        .end()
+    })
+})
+
 server.listen(8000, () => console.log('API runnin on Port 8000'));
