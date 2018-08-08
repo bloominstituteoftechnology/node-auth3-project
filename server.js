@@ -38,9 +38,46 @@ function isLoginValid(userObject) {
     return false;
 }
 
+const secret = '1029384756';
+
+function generateToken(user) {
+    const payload = {
+        "username": user.username,
+        "department": user.deparment
+    };
+
+    const options = {
+        expiresIn: '1h',
+        jwtid: '8728391'
+      };
+
+    return jwt.sign(payload, secret, options)
+}
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, secret, (error, decodedToken) => {
+            if (error) {
+                return next(sendError(401, "You're not authorize to view this content.", "Invalid token."))
+            }
+            req.jwtToken = decodedToken;
+            next()
+        })
+    } else {
+        return next(sendError(401, "You're not authorize to view this content.", "No token found."))
+    }
+}
+
 //endpoint for main page 
-server.get('/', (req, res) => {
-    res.status(200).send('Welcome!')
+server.get('/api/users', protected, async (req, res, next) => {
+    console.log('token', req.jwtToken);
+    try {
+        const response = await db.get();
+        res.status(200).json(response);
+    } catch (error) {
+        next(sendError(401, "Failed to retrieve users information.", error.message))
+    }
 });
 
 //endpoint for register page
@@ -57,18 +94,40 @@ server.post('/api/register', async (req, res, next) => {
 
     try {
         const response = await db.register(user);
-        res.status(201).json(response);
+        const token = generateToken(user);
+        res.status(201).send(token);
     } catch (error) {
         next(sendError(500, 'Failed to sign up.', error.message))
     }
 });
 
-
 //endpoint for login page
+server.post('/api/login', async (req, res, next) => {
+    if (!isLoginValid(req.body)) {
+        return next(sendError(400, 'Failed to log in.', 'Please provide username and password.'))
+    }
+
+    const user = req.body;
+
+    try {
+        const response = await db.login(user);
+        const match = bcrypt.compareSync(String(req.body.password), response);
+        if (match) {
+            const token = generateToken(user);
+            res.status(200).send(token);
+        }
+    } catch (error) {
+        next(sendError(400, 'Failed to log in.', 'Incorect credentials.'));
+    }
+})
 
 //Error Handler
 server.use((error, req, res, next) => {
-    res.status(error.code).json({ message: error.message, error: error.errMsg })
+    if (error.errMsg.includes('UNIQUE')) {
+        res.status(error.code).json({ message: error.message, error: 'This username already exists. Please choose another username.' })
+    } else {
+        res.status(error.code).json({ message: error.message, error: error.errMsg })
+    }
 })
 
 server.use(function (req, res, next) {

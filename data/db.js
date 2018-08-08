@@ -9,8 +9,9 @@ module.exports = {
     login
 };
 
-function get(department) {
-    return db('users').where('department', department);
+function get() {
+    const query = db('users').select('id', 'username', 'department');
+    return query;
 }
 
 function register(user) {
