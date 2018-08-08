@@ -22,7 +22,6 @@ class SignUp extends React.Component {
     const username = this.state.username;
     const password = this.state.password;
     const department = this.state.department;
-    console.log(username, password);
     axios.post('http://localhost:8000/api/register', {username, password, department}).then(response => {
       localStorage.setItem('token', response.data.token);
       this.props.history.push('/');

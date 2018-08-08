@@ -34,8 +34,9 @@ const authenticate = async (req, res, next) => {
 server.get('/api/users', (req, res) => {
   console.log(req.headers.tokenkey);
   console.log(token);
+  console.log(req.headers.userdep);
   if (req.headers.tokenkey === token) {
-    const users = db('users').then(response => {
+    db('users').where('department', req.headers.userdep).then(response => {
       res.status(200).json(response);
     }).catch(err => {
       res.status(500).json(`${err}`);
@@ -73,7 +74,7 @@ server.post('/api/login', authenticate, async (req, res) => {
   if (isValid) {
     try {
       const cookie = await db('users').where('username', req.body.username).first();
-      res.status(200).json({message:"Logged In", token:token, cookie: cookie.id});
+      res.status(200).json({message:"Logged In", token:token, cookie: cookie.id, userDep: cookie.department});
     } catch (err) {
       console.log(err);
     }

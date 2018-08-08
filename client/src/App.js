@@ -16,7 +16,8 @@ class App extends Component {
   componentDidMount() {
     axios.get('http://localhost:8000/api/users',{
       headers: {
-        tokenKey: localStorage.getItem('token')
+        tokenKey: localStorage.getItem('token'),
+        userdep: localStorage.getItem('User Department')
       }
     }).then(response => {
       this.setState({users: response.data})
