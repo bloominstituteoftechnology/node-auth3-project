@@ -1,0 +1,20 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ekm79/auth-ii.git",
+  "author": "Erin Meredith <ekmeredith@att.net>",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "nodemon": "^1.18.3",
+    "sqlite": "^2.9.2"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
