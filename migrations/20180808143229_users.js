@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     tbl.increments();
     tbl.string('username').notNullable();
     tbl.string('department').notNullable();
+    tbl.string('password').notNullable();
   })
 };
 
