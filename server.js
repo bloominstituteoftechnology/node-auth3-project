@@ -69,4 +69,27 @@ server.post('/api/register', (req, res) => {
     })
 })
 
+server.post('/api/login', (req, res) => {
+  const credentials = req.body;
+  const username = credentials.username;
+  db('users')
+    .where({ username })
+    .first()
+    .then(response => {
+      const passwordMatch = bcrypt.compareSync(credentials.password, response.password);
+      if (passwordMatch) {
+        const token = generateToken(response);
+        res
+          .status(200)
+          .send(token)
+          .end()
+      } else {
+        res
+          .status(401)
+          .json({ error: 'Incorrect Credentials' })
+          .end()
+      }
+    })
+})
+
 server.listen(8000, () => console.log('API runnin on Port 8000'));
