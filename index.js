@@ -1,22 +1,11 @@
 const express = require('express');
 const db = require('./data/db');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const server = express();
 
 server.use(express.json());
 
-server.use(
-    session({
-      name: 'notsession', // default is connect.sid
-      secret: 'secret',
-      cookie: { maxAge:  60 * 60 * 1000 }, // 1 day in milliseconds
-      httpOnly: true, // don't let JS code access cookies. Browser extensions run JS code on your browser!
-      secure: true, // only set cookies over https. Server will not send back a cookie over http.
-      resave: false,
-      saveUninitialized: false,
-    })
-);
 
 server.post('/api/register', (req, res) => {
     const credentials = req.body;
@@ -30,6 +19,7 @@ server.post('/api/register', (req, res) => {
                 .where({ id: ids[0] })
                 .first()
                 .then(user => {
+                    const token = generateToken(user);
                     res.status(201).json(user);
                 })
 
@@ -38,6 +28,34 @@ server.post('/api/register', (req, res) => {
             res.status(500).json(err);
         })
 });
+
+const secret = 'nobody tosses a dswarf';
+
+function generateToken(user){
+    const payload ={
+        username: user.username,
+    };
+
+    const options = {
+        expiresIn: '1h',
+    };
+    return jwt.sign(payload, secret, options);
+}
+
+function protected(req,res, next) {
+    const token = req.headers.authorization;
+    if(token){
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err) {
+                return res.status(401).json({error: 'you shall not pass! - token invalid'});
+            }
+            req.jwtToken = decodedToken;
+            next();
+        })
+    } else{
+        return res.status(401).json({error: 'you shall not pass! - no token'});
+    }
+}
 
 server.post('/api/login', (req, res) => {
     const credentials = req.body;
@@ -50,7 +68,7 @@ server.post('/api/login', (req, res) => {
                 return res.status(401).json({ error: 'You shall not pass!' });
             }
             else {
-                req.session.username = user.username;
+                const token = generateToken(user);
                 res.status(201).json({ message: 'Logged in' });
             }
         })
@@ -60,8 +78,7 @@ server.post('/api/login', (req, res) => {
 
 })
 
-server.get('/api/users', (req,res) => {
-    if(req.session && req.session.username === 'Desco'){
+server.get('/api/users', protected, (req,res) => {
     db.select()
         .from('users')
         .then(users => {
@@ -70,9 +87,6 @@ server.get('/api/users', (req,res) => {
         .catch(err => {
             res.status(500).json(err);
         })
-    }
-    else
-    return res.status(401).json({ error: 'You shall not pass!' });
 })
 
 const port = 8000;
