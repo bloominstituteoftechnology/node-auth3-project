@@ -10,17 +10,6 @@ server.use(express.json());
 
 const secret = 'nobody tosses a dwarf'
 
-function generateToken(user) {
-    const payload = {
-        username: user.username,
-    };
-    const options = {
-        expriesIn: '1h',
-        jwtid: '8728391',
-    };
-    return jwt.sign(payload, secret, options);
-}
-
 function protected(req, res, next) {
     const token = req.headers.authorization;
     if (token) {
@@ -38,6 +27,19 @@ function protected(req, res, next) {
     }
 }
 
+function generateToken(user) {
+    const payload = {
+      username: user.username,
+    };
+  
+    const options = {
+      expiresIn: '1h',
+      jwtid: '8764691',
+    };
+  
+    return jwt.sign(payload, secret, options);
+}
+
 server.post('/api/register', function(req, res) {
     const user = req.body;
     const hash = bcrypt.hashSync(user.password, 10);
@@ -45,13 +47,14 @@ server.post('/api/register', function(req, res) {
     db('users')
         .insert(user)
         .then(function(ids) {
+            const id = response[0];
             db('users')
-            .where({ id: ids[0] })
-            .first()
-            .then(user => {
-                const token = generateToken(user);
-                res.status(201).json(token);
-            });
+                .where({ id: ids[0] })
+                .first()
+                .then(user => {
+                    const token = generateToken(user);
+                    res.status(201).json(token);
+                });
         })
         .catch(err => {
             res.status(500).json({ error: 'Cant register' });
