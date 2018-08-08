@@ -1,0 +1,21 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "yeeeeee",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": "https://github.com/Twistedkidd22/auth-i.git",
+  "author": "<joshtietz11@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "nodemon": "^1.18.3",
+    "sqlite3": "^4.0.2"
+  }
+}
