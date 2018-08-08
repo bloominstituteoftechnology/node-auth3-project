@@ -6,8 +6,6 @@ require('dotenv').config();
 const SECRET = process.env.SECRET;
 
 function jwtRoute(req, res, next) {
-  // res.header('x-authorization', 'Bearer ' + token);
-  console.log('headers.authorization', req.headers.authorization);
   const token = req.headers.authorization;
 
   if (token) {

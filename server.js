@@ -92,11 +92,18 @@ server.post('/api/login', loginConstraints, async (req, res) => {
 */
 server.get('/api/users', jwtRoute, async (req, res) => {
   try {
-    const users = await usersDB.get();
-    if (users.length === 0) {
+    const USERS = await usersDB.get();
+    if (USERS.length === 0) {
       res.status(200).json({ message: 'There are currently no users' });
     } else {
-      res.status(200).json(users);
+      const USER = req.jwtToken;
+      res
+        .status(200)
+        .send(
+          `Welcome ${USER.username}! Here are the users ${JSON.stringify(
+            USERS,
+          )}`,
+        );
     }
   } catch (err) {
     res.status(500).send(`${err}`);
