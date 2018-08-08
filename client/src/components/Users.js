@@ -33,7 +33,7 @@ class Users extends React.Component {
             <div>
                 <h1>Users</h1>
                 <button onClick={this.logout}>Log Out</button>
-                {this.state.users.map(user => <User key={user.id} user={user} />)}
+                {this.state.users.length === 0 ? <h1>No users registered!</h1> : this.state.users.map(user => <User key={user.id} user={user} />)}
             </div >
         );
     }

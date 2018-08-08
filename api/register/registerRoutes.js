@@ -6,7 +6,7 @@ const { registerPostCheck, generateToken } = require('../../middleware/required'
 const router = express.Router();
 
 router.post('/', registerPostCheck, (req, res) => {
-    const user = { username: req.username, password: req.password }
+    const user = { username: req.username, password: req.password, department: req.department }
     const hash = bcrypt.hashSync(user.password, 14);
     user.password = hash;
     db('users')
