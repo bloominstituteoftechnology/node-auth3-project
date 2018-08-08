@@ -1,7 +1,7 @@
 const knexConfig = require('../knexfile');
 const knex = require('knex');
 
-const db = knex(knexConfig);
+const db = knex(knexConfig.development);
 
 module.exports = {
     get,
@@ -15,7 +15,9 @@ function get(department) {
 
 function register(user) {
     const query = db('users').insert(user);
-    return query.then(res => res[0].id);
+    return query.then(res => {
+        return res[0]
+    });
 }
 
 function login(user) {
