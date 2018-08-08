@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const logger = require('morgan')
 const helmet = require('helmet')
 const session = require('express-session')
@@ -7,6 +8,7 @@ const KnexSessionStore = require('connect-session-knex')(session)
 
 module.exports = (server) => {
   server.use(express.json())
+  server.use(cors())
   server.use(
     session({
       name: 'sliturbrain',
