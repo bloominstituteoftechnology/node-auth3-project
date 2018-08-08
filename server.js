@@ -2,8 +2,10 @@ const codes = require("./data/statusCodes");
 
 const express = require("express");
 const server = express();
+const jwt = require("jsonwebtoken");
+const db = require("./data/dbConfig");
 
-const userRoutes = require("./api/userRouter");
+const bcrypt = require("bcrypt");
 
 const secret = 'we have the power!';
 function generateToken(user) {
@@ -77,12 +79,21 @@ server.post('/api/login', function(req, res) {
       } else {
         return res.status(401).json({ error: 'Incorrect credentials' });
       }
-      })
+    })
     .catch(function(error) {
       res.status(500).json({ error });
-      });
-  });
+    });
+});
   
+server.get('/api/users', protect, (req, res) => {
+  console.log('token', req.jwtToken);
+
+  db('users')
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
 
 server.use((err, req, res, next) => {
   err.code = err.code !== undefined ? err.code : codes.INTERNAL_SERVER_ERROR;
