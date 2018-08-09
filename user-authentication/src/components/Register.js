@@ -62,12 +62,15 @@ logoutHandler = event =>{
                 <button onClick={this.logoutHandler}>Logout</button>
 
                 </div>) :(
+	<div>
+	<h2>Register</h2>		
         <form onSubmit={this.registerHandler}>
-        <input type="text" onChange={this.changeHandler} name="username" value={this.state.username}/><br />
-	<input type="text" onChange={this.changeHandler} name="department" value={this.state.department}/><br />		
-        <input type="password" onChange={this.changeHandler} name="password" value={this.state.password}/><br />		
+        <input type="text" placeholder="username" onChange={this.changeHandler} name="username" value={this.state.username}/><br />
+	<input type="text" placeholder="department"  onChange={this.changeHandler} name="department" value={this.state.department}/><br />		
+        <input type="password" placeholder="password" onChange={this.changeHandler} name="password" value={this.state.password}/><br />		
         <button type="submit">Submit</button>
         </form>
+	</div>		
         )}
      </div>
     );

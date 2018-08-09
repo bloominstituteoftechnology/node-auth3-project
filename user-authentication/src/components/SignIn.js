@@ -61,11 +61,14 @@ logoutHandler = event =>{
 		<button onClick={this.logoutHandler}>Logout</button>
 
 		</div>) :(
+		<div>
+		<h2>Login</h2><br /><br />	
      	<form onSubmit={this.submitHandler}>
 	<input type="text" onChange={this.changeHandler} name="username" value={this.state.username}/><br />
 	<input type="password" onChange={this.changeHandler} name="password" value={this.state.password}/><br />
 	<button type="submit">Submit</button>
 	</form>
+	</div>		
 	)}        
      </div>
     );
