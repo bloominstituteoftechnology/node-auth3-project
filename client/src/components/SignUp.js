@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class SignUp extends React.Component {
   constructor() {
@@ -8,8 +9,16 @@ class SignUp extends React.Component {
       username: '',
       password: '',
       department: '',
+      error: '',
+      modal: false,
     };
   }
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -23,13 +32,24 @@ class SignUp extends React.Component {
         const token = res.data;
         // stash it for later use
         localStorage.setItem('jwt', token);
+        this.setState({ username: '', password: '', department: '' });
         this.props.history.push('/main');
       })
       .catch(err => {
-        console.error('axios err:', err);
+        if (err.response.data.includes('UNIQUE')) {
+          this.setState({
+            error: 'That user already exists. Please choose another.',
+            username: '',
+            password: '',
+            department: '',
+          });
+        } else {
+          this.setState({ error: err.response.data.error });
+        }
+        this.toggle();
+        // console.error('axios err:', err);
         console.log('ERR?', err.response.data);
       });
-    this.setState({ username: '', password: '', department: '' });
   };
 
   handleInput = e => {
@@ -72,6 +92,17 @@ class SignUp extends React.Component {
         </div>
         <div>
           <button type="submit">Register</button>
+        </div>
+        <div>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>ERROR</ModalHeader>
+            <ModalBody>{this.state.error}</ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.toggle}>
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
         </div>
       </form>
     );
