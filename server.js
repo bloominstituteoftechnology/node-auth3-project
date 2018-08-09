@@ -14,6 +14,7 @@ const errors = require('./middleware/errors');
 // turn on cors
 const cors = require('cors');
 
+server.use(cors());
 server.use(express.json());
 const PORT = 3000;
 
@@ -66,9 +67,9 @@ server.post('/api/login', loginConstraints, async (req, res) => {
         // set JWT: generate the token
         const token = generateToken(USER);
         // attach token to the response
-        res.status(200).send(`Logged in`);
+        res.status(200).send(token);
       } else {
-        res.status(401).send(`You shall not pass!`);
+        res.status(401).json({ error: `Unauthorized` });
       }
     } else {
       // error with the user, but don't let the hackers know!
@@ -77,7 +78,7 @@ server.post('/api/login', loginConstraints, async (req, res) => {
         CLEARPASSWORD,
         '$2a$14$plRslh.07bHu/BWHztxq9.20YIJluMBo9JhdIOCJOQjvAZHmbPV6a',
       );
-      res.status(401).send(`You shall not pass!`);
+      res.status(401).json({ error: `Unauthorized` });
     }
   } catch (err) {
     res.status(500).send(`${err}`);
@@ -93,14 +94,8 @@ server.get('/api/users', jwtRoute, async (req, res) => {
     if (USERS.length === 0) {
       res.status(200).json({ message: 'There are currently no users' });
     } else {
-      const USER = req.jwtToken;
-      res
-        .status(200)
-        .send(
-          `Welcome ${USER.username}! Here are the users ${JSON.stringify(
-            USERS,
-          )}`,
-        );
+      // const USER = req.jwtToken; // don't need with the client
+      res.status(200).json(USERS);
     }
   } catch (err) {
     res.status(500).send(`${err}`);

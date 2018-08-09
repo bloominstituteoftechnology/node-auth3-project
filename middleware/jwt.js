@@ -10,8 +10,8 @@ function jwtRoute(req, res, next) {
 
   if (token) {
     // strip "Bearer "
-    const actual = token.substring(7);
-    jwt.verify(actual, SECRET, (err, decodedToken) => {
+    // const actual = token.substring(7);
+    jwt.verify(token, SECRET, (err, decodedToken) => {
       if (err) {
         return res
           .status(401)

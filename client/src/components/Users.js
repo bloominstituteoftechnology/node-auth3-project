@@ -22,10 +22,10 @@ class Users extends React.Component {
         this.setState({ users: res.data });
       })
       .catch(err => {
+        alert('You must be logged in to continue... Redirecting');
         setTimeout(() => {
           this.props.history.push('/login');
         }, 500);
-        alert('You must be logged in to continue... Redirecting');
         console.error('axios err:', err);
       });
   }
