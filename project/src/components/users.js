@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import '../styles/users.css';
+
 class Users extends Component {
     constructor(props) {
         super();
@@ -14,6 +16,10 @@ class Users extends Component {
         
         this.getData();
         
+      }
+
+      logoutHandler = event => {
+        localStorage.removeItem('jwt');
       }
     
       
@@ -34,15 +40,21 @@ class Users extends Component {
 
     render() { 
         return ( 
-            
-            <div className="users">
+        <div>
             <h1>Users</h1>
+            <div className="users">
+            
                 {this.state.users.map(user => {
                     return (
-                        <p key={user.id}>{user.username}{user.department}</p>
+                        <div className='userbox' key={user.id}>
+                            <div className='user'>User: {user.username}</div>
+                            <div className='department'>Department: {user.department}</div>
+                        </div>
                     )
                 })}
             </div>
+            <button className='logout' onClick={this.logoutHandler}>Logout</button>
+        </div>
          );
     }
 }

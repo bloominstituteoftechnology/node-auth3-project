@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../styles/register.css';
 // axios.defaults.withCredentials = true;
 
 
@@ -19,8 +20,9 @@ class Signup extends Component {
         axios
             .post('http://localhost:3300/api/register', adduser)
             .then((response) => {
-              this.setState({ username:'', password:'', department:''})
-              
+              const token = response.data;
+              localStorage.setItem('jwt', token);
+              this.props.history.push('/users')
             })
             .catch(err => console.log(err));
 
@@ -39,6 +41,9 @@ class Signup extends Component {
 
     render() { 
         return ( 
+          <div className='container'>
+          <div className='containertwo'>
+            <h1>Register User</h1>
             <div className="userform">
             <form onSubmit={this.postUser}>
               <input
@@ -61,6 +66,8 @@ class Signup extends Component {
               />
               <button type="submit">Create User</button>
             </form>
+          </div>
+          </div>
           </div>
             
             

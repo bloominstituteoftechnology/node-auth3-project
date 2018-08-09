@@ -26,3 +26,32 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+button {
+  margin:0 20px 0 20px;
+}
+
+header {
+  display:flex;
+  flex-direction: column;
+}
+
+.buttons {
+  display:flex;
+
+}
+
+.red {
+  background:greenyellow;
+  color:white;
+}
+
+.blue {
+  background:teal;
+  color:white;
+}
+
+.green {
+  color:white;
+  background:red;
+}

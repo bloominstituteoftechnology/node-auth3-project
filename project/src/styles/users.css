@@ -1,0 +1,35 @@
+.users {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.userbox {
+    border: 1px solid #222;
+    margin:40px;
+    background-color:#222;
+    color:white;
+    
+}
+
+.user {
+    border-bottom:1px solid white;
+    padding:20px;
+
+}
+
+.department {
+    padding:20px;
+}
+
+h1 {
+    margin-top:0;
+}
+
+.logout {
+    background:red;
+    color:white;
+    width:100px;
+    height:40px;
+    margin-bottom:100px;
+}

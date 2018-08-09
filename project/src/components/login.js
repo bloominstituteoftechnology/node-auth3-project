@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import '../styles/login.css';
 
 class Signin extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ class Signin extends Component {
           .then((response) => {
             const token = response.data;
             localStorage.setItem('jwt', token);
+            this.props.history.push('/users')
             
           })
           .catch(err => console.log(err));
@@ -38,8 +41,11 @@ class Signin extends Component {
 
     render() { 
         return ( 
-            <div>
+        <div className='container'>
+        <div className='topsign'>
             <h1>Sign In</h1>
+            <div>
+            
             <form onSubmit={this.logIn}>
               <input
                 onChange={this.handleInputChange}
@@ -55,20 +61,28 @@ class Signin extends Component {
                 name="password"
                 type="password"
               />
-              <input
+              {/* <input
                 onChange={this.handleInputChange}
                 placeholder="department"
                 value={this.state.department}
                 name="department"
                 type="text"
-              />
-              <button type="submit">Login</button>
+              /> */}
+              
+              <button className='submit' type="submit">Login</button>
+              
             </form>
 
             </div>
+        </div>
+        </div>
          );
     }
 }
+
+
+
+
  
 export default Signin;
 

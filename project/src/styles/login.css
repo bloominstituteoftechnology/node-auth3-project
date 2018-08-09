@@ -1,0 +1,39 @@
+.container {
+    display:flex;
+    justify-content: center;
+    margin-top:40px;
+}
+
+.topsign {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#222;
+    width:600px;
+    margin: auto 0;
+}
+
+form {
+    background:#222;
+    width:600px;
+}
+
+input {
+    margin:20px;
+}
+
+h1 {
+    background: #222;
+    color:white;
+}
+
+button {
+    background:greenyellow;
+}
+
+.submit {
+    background:greenyellow;
+    color:white;
+    width:100px;
+    height:40px;
+}
