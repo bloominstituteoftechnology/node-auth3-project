@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 // recommend setting environment variable
-const secret = process.env.MYSECRET;
+const secret = process.env.MY_SECRET;
 
 module.exports = {
     genToken: function (record) {

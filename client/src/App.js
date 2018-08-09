@@ -22,7 +22,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div>
-          <button onClick={this.handleLogout}>Logout</button>
+          {localStorage.getItem('jwt') && <button onClick={this.handleLogout}>Logout</button>}
         </div>
 
         <Route path="/signin" component={SignIn} />

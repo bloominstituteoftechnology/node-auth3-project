@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
+require('dotenv').config();
 
 // routers
 const loginRouter = require('./login/index');
