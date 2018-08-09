@@ -14,7 +14,7 @@ module.exports = {
             query.where("t.username", record.username).first();
 
             const promises = [query];
-
+           
             return Promise.all(promises).then(function (results) {
                 let [record] = results;
                 
