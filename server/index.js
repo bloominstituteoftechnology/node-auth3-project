@@ -43,7 +43,6 @@ server.get("/api/users", protected, async (req, res) => {
   try {
     const list = await db("Users");
     res.status(200).json(list);
-    console.log(h);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -84,7 +83,6 @@ server.post("/api/login", async (req, res) => {
       .from("Users")
       .where({ username })
       .first();
-    console.log("getUser is: ", getUser);
     if (getUser && bcrypt.compareSync(credentials.password, getUser.password)) {
       const token = generateToken(username);
       res.send(token);
