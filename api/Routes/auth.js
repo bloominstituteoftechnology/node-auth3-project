@@ -63,8 +63,8 @@ const login = (req, res, next) => {
 }
 // restricted
 const restricted = (req, res, next) => {
-  const token = req.headers.authorization
-  console.log(token)
+  const token = req.body.token
+  console.log('token,', token)
   if (token) {
     jtw.verify(token, process.env.SECRET, (err, decodedToken) => {
       if (err) {
@@ -81,10 +81,10 @@ const restricted = (req, res, next) => {
 }
 
 function departmentUsers (req, res, next) {
-  const department = req.body.department
+  // const department = req.body.department
   db('users')
     .then((response) => {
-      const users = response.filter((users) => users.department == department)
+      const users = response.filter((users) => users.department == 'maywood')
       const filteredUsers = users.map((user) => user.username)
       console.log(users)
       res.status(200).json(filteredUsers)
