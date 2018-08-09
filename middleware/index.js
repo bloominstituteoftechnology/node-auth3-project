@@ -9,16 +9,10 @@ const generateToken = (user) => {
 }
 
 const checkRestricted = (req, res, next) => {
-  console.log(req);
-  console.log(req.headers);
   const token = req.headers.authorization;
-  console.log(token);
   if (token) {
     jwt.verify(token, secret, (error, decodedToken) => {
-      if (error) {
-        return res.status(401).json({ message: "Token not valid." });
-      }
-
+      if (error) { return res.status(401).json({ message: "Token not valid." }) };
       req.jwtToken = decodedToken;
       next();
     });
