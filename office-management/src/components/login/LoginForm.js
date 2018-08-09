@@ -23,11 +23,12 @@ class LoginForm extends Component {
     .then(res => {
       console.log(res.data);
       localStorage.setItem('jwt', res.data);
+      this.props.history.push('/users');
+
     })
     .catch(err => {
       console.log(err);
     });
-    this.props.history.push('/users');
   };
   render() {
     return (
