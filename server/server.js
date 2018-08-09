@@ -91,7 +91,7 @@ server.post('/api/login', (req, res) => {
         .then(user => {
             if( user && bcrypt.compareSync(credentials.password, user.password)) {
                 const token = generateToken(user);
-                res.status(200).json({ message: 'Logged in', token})
+                res.status(200).send(token)
             } else {
                 return res.status(401).json({ err: 'Incorrect credentials'})
             }
@@ -102,7 +102,7 @@ server.post('/api/login', (req, res) => {
 server.get('/users', protected, (req, res) => {
     console.log('token: ', req.jwtToken)
     db('users')
-    .select()
+    .select('id', 'username')
         .then(users => {
             res.json(users);
         })

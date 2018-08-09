@@ -5,29 +5,37 @@ class Users extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            users: null,
+            users: [],
          }
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('jwt');
-    
+        const token = localStorage.getItem('token');
+        const requestOptions = { headers: { authorization: token } };
         axios
-        .get('http://localhost:8002/iusers')
-        .then(res => {
-            this.setState({ users: res.data })
-        })
-        .catch(err => {
-            console.error('Axios failed');
-        });
-        console.log('state', this.state)
+          .get(`http://localhost:8002/users`, requestOptions)
+          .then(response => this.setState({ users: response.data }))
+          .catch(err => console.log(err));
     }
 
-    render() { 
+    logoutHandler = e =>{
+        localStorage.removeItem('token');
+        this.props.history.push('/signin');
+      }
+
+    render() {
+        if(!this.state.users) {
+            return <div>Loading users info</div>
+        } 
         return (
-            <ul> 
-            {this.state.users.map(user => <li key={user.id}> { user.username} </li>)}
-            </ul>
+            <div>
+                <ul> 
+                    {this.state.users.map(user => {
+                    return <li key={user.id}>{user.username}: {user.department}</li>
+                    })}    
+                </ul>
+                { localStorage.getItem('token') && (<button onClick={this.logoutHandler}>Logout</button>)}
+            </div>
          );
     }
 }

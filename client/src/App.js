@@ -4,6 +4,7 @@ import './App.css';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Signin from './components/Signin';
+import Signup from './components/Signup';
 import Users from './components/Users';
 
 class App extends Component {
@@ -18,17 +19,15 @@ class App extends Component {
           
             <Route exact path='/signin' component={ Signin } ></Route>
             <Route exact path='/users' component={ Users } ></Route>
+            <Route exact path='/signup' component={ Signup } ></Route>
           
 
-          { localStorage.getItem('jwt') && (<button onClick={this.logoutHandler}>Logout</button>)}
+         
         </div>
       </div>
     );
   }
-  logoutHandler = e =>{
-    localStorage.removeItem('jwt');
-    this.props.histry.push('/signin');
-  }
+ 
 }
 
 
