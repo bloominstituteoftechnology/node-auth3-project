@@ -34,7 +34,7 @@ class Users extends Component {
           <p>You are not logged in. Redirecting...</p>
         ) : (
           <Fragment>
-            <Link to='/login'>
+            <Link to='/'>
               <button type='button' className='logout' onClick={this.logout}>
                 Logout
               </button>
