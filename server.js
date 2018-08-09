@@ -51,12 +51,39 @@ server.post('/login', async (req, res, next) => {
   }
 })
 
+server.get('/users', protected, async (req, res, next) => {
+  try {
+    const users = await db('users')
+      .select('id', 'username', 'department')
+    res.status(200).json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+
 
 server.use((err, req, res, next) => {
   res
     .status(500)
     .json(err)
 })
+
+async function protected (req, res, next) {
+  const { authorization: token } = req.headers
+
+  try {
+    if (token) {
+      const decodedToken = await jwt.verify(token, process.env.AUTH_SECRET)
+      req.jwtToken = decodedToken
+      next()
+    } else {
+      res.status(401).send('please provide a token')
+    }
+  } catch (err) {
+    res.status(401).json(err)
+  }
+}
 
 function generateUserToken (user) {
   const payload = {
