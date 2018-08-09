@@ -35,7 +35,21 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+  const credentials = {...req.body};
 
+  db('users')
+    .where({username: credentials.username})
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        return res.status(200).json(token);
+      }
+      return res.status(401).json({'error': 'You shall not pass!'});
+    })
+    .catch(e => {
+      return res.status(500).json(e);
+    });
 });
 
 router.get('/users', (req, res) => {
