@@ -4,7 +4,7 @@ import '../index.css';
 import Header from './Header';
 import { Link } from 'react-router-dom';
 import axios from "axios";
-//axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 class App extends Component {
   constructor(props) {
@@ -15,12 +15,6 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    // axios
-    //   .get(`http://localhost:8000/`)
-    //   .then(res => {
-    //     console.log('authorized', res)
-    //   })
-    //   .catch(err => console.log('Unauthorized', err))
     const token = localStorage.getItem('token');
     const requestOptions = {
       headers: {
@@ -37,15 +31,6 @@ class App extends Component {
         })
       })
       .catch(err => this.props.history.push('/login'))
-  }
-
-  handleLogout = id => {
-    //const URL = 'http://localhost:3000/'
-    axios
-      .get(`http://localhost:8000/api/logout`)
-      //.then(response => window.location.href = URL)
-      .then(response => console.log('logout response', response))
-      .catch(error => console.log('logout error', error))
   }
 
   render() {

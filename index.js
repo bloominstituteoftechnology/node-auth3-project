@@ -22,6 +22,7 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+//! middleware
 function protected(req, res, next) {
   const token = req.headers.authorization;
   console.log(token);
@@ -42,6 +43,7 @@ function protected(req, res, next) {
   }
 }
 
+//! get users
 server.get('/api/users', protected, (req, res) => {
   console.log('token', req.jwtToken);
   db('users')
@@ -55,20 +57,24 @@ server.get('/', (req, res) => {
   res.send('Running....');
 });
 
+//! register
 server.post('/api/register', (req, res) => {
-  // save the user to the database
   const user = req.body;
   const hash = bcrypt.hashSync(user.password, 14);
   user.password = hash;
+  console.log(user)
+  //{ user: 'username12',
+  //password: '$2a$10$.8IyHJZ/xEZrnV9ABCjch.VTCpS8O/d.mtmoT8U6BfVJhq1qZA3Uu' }
   db    
     .insert(user)
     .into('users')
     .then(id => {
       db('users') 
         .then(users => {
-          const user = users.pop()
+          console.log(users)
+          const user = users.pop();
           const token = generateToken(user);
-          res.status(201).json({user, token}) 
+          res.status(201).json({token})
         })
     })
     .catch(err => {
@@ -77,11 +83,9 @@ server.post('/api/register', (req, res) => {
 })
 // server.post('/api/register', function(req, res) {
 //   const user = req.body;
-
-//   // hash password
 //   const hash = bcrypt.hashSync(user.password, 10);
 //   user.password = hash;
-
+//   console.log(user)
 //   db('users')
 //     .insert(user)
 //     .then(function(ids) {
@@ -102,6 +106,7 @@ server.post('/api/register', (req, res) => {
 //     });
 // });
 
+//! login
 server.post('/api/login', function(req, res) {
   const credentials = req.body;
   db('users')

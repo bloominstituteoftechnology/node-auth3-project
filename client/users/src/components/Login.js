@@ -21,7 +21,7 @@ export default class Login extends Component {
         localStorage.setItem('token', response.data)
         console.log('localStorage', localStorage.token)
         //this.props.history.push('/');
-        //console.log('localStorage',localStorage)
+        console.log('localStorage',localStorage)
       }) 
       .catch(err => localStorage.removeItem('token'));
   }
@@ -30,15 +30,6 @@ export default class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
-
-  handleLogout = id => {
-    const URL = 'http://localhost:3000/'
-    axios
-      .get(`http://localhost:8000/api/logout`)
-      //.then(response => window.location.href = URL)
-      .then(response => console.log('logout response', response))
-      .catch(error => console.log('logout error', error))
   }
 
   render() {
