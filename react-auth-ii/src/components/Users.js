@@ -10,8 +10,14 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
+        const token = localStorage.getItem('token');
+        const reqOptions = {
+            headers: {
+                authorization: token
+            }
+        }
         axios
-            .get('http://localhost:8000/api/users')
+            .get('http://localhost:8000/api/users', reqOptions)
             .then(response => {
                 console.log(response);
                 this.setState({users: response.data})
@@ -24,11 +30,11 @@ class Users extends React.Component {
     render() {
         return(
             <div>
-                <ul>
+                
                     {this.state.users.map(user => {
-                        return <li>{user.username}, {user.department}</li>
+                        return<ul> <li>{user.username}, {user.department}</li></ul>
                     })}
-                </ul>
+                
             </div>
         )
     }

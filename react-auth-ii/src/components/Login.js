@@ -1,29 +1,33 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import axios from 'axios';
+
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            loggedIn: false
         }
     }
 
-    handleChange = (user, event) => {
-        this.setState({[user]: {...this.state[user], [event.target.name]: event.target.value}})
+    handleChange = (event) => { 
+        this.setState({[event.target.name]: event.target.value})
       }
 
       logIn = () => {
-        const user = this.state.user;
+        const user = {username: this.state.username, password: this.state.password};
         axios.post('http://localhost:8000/api/login', user)
         .then(response => {
           console.log(response);
-          <Redirect to='/users' />
-          this.setState({username: '', password: ''})
+          localStorage.setItem("token", JSON.stringify(response.data));
+          this.setState({username: '', password: '', loggedIn: true})
         })
         .catch(err => {
-          console.log(err)
+          console.log(err);
+          <Redirect to='/signup' />
         })
       }
 
@@ -35,16 +39,18 @@ class Login extends React.Component {
             type='text'
             name='username'
             placeholder='Username'
-            onChange={props.handleChange.bind(this, 'user')}
+            value={this.state.username}
+            onChange={this.handleChange}
             />
             <input
             type='password'
             name='password'
             placeholder='Password'
-            onChange={props.handleChange.bind(this, 'user')}
+            value={this.state.password}
+            onChange={this.handleChange}
             />
-            <button onClick={() => props.logIn()}>Log in</button>
-            <button onClick={() => props.logOut()}>Log out</button>
+            <button onClick={this.logIn}>Log in</button>
+            {this.state.loggedIn ? <Redirect to='/users' /> : null }
         </div>
     )}
 }

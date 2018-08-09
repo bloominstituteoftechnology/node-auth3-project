@@ -6,10 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const server = express();
 server.use(express.json());
-server.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
+server.use(cors());
 
 const secret = 'Are you suggesting coconuts migrate?'
 
