@@ -25,7 +25,6 @@ function generateToken(user) {
 //! middleware
 function protected(req, res, next) {
   const token = req.headers.authorization;
-  console.log(token);
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
@@ -45,7 +44,6 @@ function protected(req, res, next) {
 
 //! get users
 server.get('/api/users', protected, (req, res) => {
-  console.log('token', req.jwtToken);
   db('users')
     .then(users => {
       res.json(users);
@@ -63,8 +61,6 @@ server.post('/api/register', (req, res) => {
   const hash = bcrypt.hashSync(user.password, 14);
   user.password = hash;
   console.log(user)
-  //{ user: 'username12',
-  //password: '$2a$10$.8IyHJZ/xEZrnV9ABCjch.VTCpS8O/d.mtmoT8U6BfVJhq1qZA3Uu' }
   db    
     .insert(user)
     .into('users')
@@ -74,13 +70,11 @@ server.post('/api/register', (req, res) => {
           console.log(users)
           const user = users.pop();
           const token = generateToken(user);
-          res.status(201).json({token})
+          res.send(token);
         })
     })
-    .catch(err => {
-      res.status(500).json(err);
-    });
-})
+    .catch(err => console.log(err));
+});
 // server.post('/api/register', function(req, res) {
 //   const user = req.body;
 //   const hash = bcrypt.hashSync(user.password, 10);

@@ -11,7 +11,7 @@ export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
+      username: '',
       password: '',
     }
   }
@@ -33,8 +33,9 @@ export default class Register extends Component {
         //console.log('localStorage', localStorage.token)
         //this.props.history.push('/');
         //console.log('localStorage',localStorage)
-      }) 
-      .catch(err => localStorage.removeItem('token'));
+      })
+      .catch(err => console.log(err)); 
+      //.catch(err => localStorage.removeItem('token'));
   }
 
   handleChange = e => {
@@ -50,7 +51,7 @@ export default class Register extends Component {
       <div className="form-group container w-50">
         <h3 className="header mt-2">Register</h3>
         <input
-          name='user'
+          name='username'
           type='text' 
           className="form-control"
           placeholder="Username"
