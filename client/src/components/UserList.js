@@ -56,10 +56,12 @@ const Warning = styled.p`
 `
 
 const Nav = styled.div`
+    height: 40px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 5px;
     text-align: right;
-    width: 100%;
     background: #404F50;
     color:  #F1FAEE;
 `
@@ -71,6 +73,8 @@ const Button = styled.button`
     &:hover {
         color: salmon;
     }
+    font-weight: bold;
+    font-size: 16px;
 `
 class UserList extends React.Component {
     constructor(props) {
@@ -115,7 +119,7 @@ class UserList extends React.Component {
         const userTable = (
             <Content>
                 <Nav>
-                    Welcome! You're logged in as {this.state.username}        
+                    Welcome! You're logged in as {<span style={{color: '#A8DADC', marginLeft: '4px', marginRight: 'auto'}}>{this.state.username}</span>}
                     <Button onClick = {this.onClick}>Logout</Button>
                 </Nav>
                 <Header>Users List</Header>
