@@ -1,11 +1,13 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const db = require('./data/db');
 
 const server = express();
 
+server.use(cors());
 server.use(express.json());
 
 const secret = 'aliens are real';
@@ -93,6 +95,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {
   db('users')
+    .select('id', 'username', 'department')
     .then(response => {
       res
         .status(200)
