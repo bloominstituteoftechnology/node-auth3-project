@@ -1,25 +1,37 @@
 import React, { Component } from "react";
 import "bulma/css/bulma.css";
+import axios from 'axios';
 class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      department: "normal"
     };
   }
   changeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  loginHandler = (e) => {
+  registerUserHandler = (e) => {
     e.preventDefault();
+    const requestBody = {
+      ...this.state
+    }
+    axios.post('http://localhost:8001/api/register', requestBody)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.error(err);
+    })
     this.props.history.push('/login');
   };
   render() {
     return (
       <form
-        onSubmit={this.loginHandler}
+        onSubmit={this.registerUserHandler}
       >
         <div className="container">
           <div className="field">
@@ -47,6 +59,11 @@ class RegisterForm extends Component {
               />
             </div>
           </div>
+          <select name = "department" onChange = {this.changeHandler}>
+  <option value="admin">Admin</option>
+  <option value="normal" selected>Normal</option>
+  <option value="plebian">Plebian</option>
+</select>
           <button type="submit" className = "btn is-primary">Create user</button>
         </div>
       </form>
