@@ -10,12 +10,15 @@
   "author": "<joshtietz11@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.0",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
     "nodemon": "^1.18.3",
+    "react-router-dom": "^4.3.1",
     "sqlite3": "^4.0.2"
   }
 }

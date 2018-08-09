@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const db = require('../data/db.js');
 
@@ -8,6 +9,7 @@ const router = express.Router();
 
 
 router.use(express.json());
+router.use(cors());
 
 const secret = 'antidisestablishmentarionism'
 
@@ -19,28 +21,28 @@ function protected(req, res, next) {
       if (err) {
         return res
           .status(401)
-          .json({ error: ' token invalid' });
+          .json({ error: ' token invalid' })
       }
 
       req.jwtToken = decodedToken;
       next();
-    });
+    })
   } else {
-    return res.status(401).json({ error: 'no token found' });
+    return res.status(401).json({ error: 'no token found' })
   }
 }
 
 function generateToken(user) {
   const payload = {
     username: user.username,
-  };
+  }
 
   const options = {
     expiresIn: '1h',
     jwtid: '8728391',
-  };
+  }
 
-  return jwt.sign(payload, secret, options);
+  return jwt.sign(payload, secret, options)
 }
 
 router.get('/users', protected, (req, res) => {
@@ -57,30 +59,31 @@ router.get('/users', protected, (req, res) => {
 router.post('/register', (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 14)
 
-  let { username, password } = req.body;
+  let { username, password, department } = req.body;
   let user = {
     username,
-    password
+    password,
+    department
   }
   db('users')
-  .insert(user)
-  .then(function(ids) {
-      db('users')
-        .where({ id: ids[0] })
-        .first()
-        .then(user => {
-          const token = generateToken(user);
-          res.status(201).json(token);
-        })
-        .catch(error => {
-          res.status(500).send('error adding token...')
-        })
-      },
-    res.status(200).json(user))
-    .catch(error => {
-      res.status(500).send('error adding user...')
+    .insert(user)
+    .then(ids => {
+      // save the record then send back the saved record
+      // db('users')
+      //   .first()
+      //   .where({ id: ids[0] })
+      //   .then(user => {
+      //     res.status(201).json({ token });
+      //   })
+      //   .catch(err => {
+      //     res.status(500).json(err);
+      //   });
     })
-  })
+    .catch(err => res.status(500).json(err));
+
+    const token = generateToken(user);
+    res.status(200).json(token)
+});
 
   router.post('/login', (req, res) => {
     let { username, password } = req.body;
@@ -93,7 +96,7 @@ router.post('/register', (req, res) => {
     .where('username', credentials.username).first()
     .then(user => {
       if (!user || !bcrypt.compareSync(credentials.password, user.password)) {
-        return res.status(401).json({ error: 'invalid username or password' });
+        return res.status(401).json({ error: 'invalid username or password' })
       } else {
         const token = generateToken(user)
         return res.send(token);
