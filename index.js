@@ -58,7 +58,7 @@ server.post("/api/login", (req, res) => {
     let hashed = response[0].password;
 
       if (!bcrypt.compareSync(password, hashed)) {
-        return res.status(401).json({ error: 'Incorrect credentials' });
+        return res.status(401).json({ error: 'You shall not pass!' });
         }
       else {
         req.session.username = username;
