@@ -39,6 +39,7 @@ class Signup extends React.Component {
               placeholder='username...'
             />
           </div>
+          <br/>
           <div>
             <input
               name="password"
@@ -48,6 +49,7 @@ class Signup extends React.Component {
               placeholder='password...'
             />
           </div>
+          <br/>
           <div>
             <input
               name="department"
@@ -57,8 +59,9 @@ class Signup extends React.Component {
               placeholder="department..."
             />
           </div>
+          <br/>
           <div>
-            <button type="submit">Sign Up</button>
+            <button type="submit">Register</button>
           </div>
         </form>
       </div>
