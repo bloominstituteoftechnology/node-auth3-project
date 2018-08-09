@@ -1,10 +1,12 @@
 const express = require('express');
 const db = require('./data/db');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const server = express();
 
 server.use(express.json());
+server.use(cors({origin: 'http://localhost:3000'}));
 
 
 server.post('/api/register', (req, res) => {
