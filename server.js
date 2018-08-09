@@ -1,13 +1,14 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const db = require('./data/db')
-
+const cors = require('cors')
 //Install the JWT Library
 const jwt = require('jsonwebtoken');
 
 const server = express()
 
 server.use(express.json())
+server.use(cors())
 
 server.get('/', (req, res) => {
   res.status(200).send('Alive and well')
