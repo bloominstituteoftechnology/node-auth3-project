@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.header-title {
+  font-family: cursive; 
+  color: dodgerblue;
+}
+.input-box {
+  border-radius: 5px;
+}
+
 .users {
   display: flex;
   flex-direction: column;

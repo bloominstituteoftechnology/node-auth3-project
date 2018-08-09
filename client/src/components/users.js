@@ -35,7 +35,7 @@ class Users extends React.Component {
   render() {
     return (
       <div className="users">
-        <h1> Users</h1>
+        <h1 className="header-title"> Users</h1>
         <ul>
           {this.state.users.map(user => (
             <div className="user-card" key={user.id}>
