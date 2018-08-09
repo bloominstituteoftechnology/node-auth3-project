@@ -24,5 +24,22 @@
 }
 
 .my-app {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
 
+}
+
+.nav {
+  width: 33vw;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav button{
+  height: 5vh;
+  background: dodgerblue;
+  opacity: 0.85;
+  margin: 1vh;
 }
