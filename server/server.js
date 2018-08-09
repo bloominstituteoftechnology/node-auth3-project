@@ -1,12 +1,14 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const db = require('./data/db');
 
 const server = express();
 
 server.use(express.json());
+server.use(cors({ origin: 'http://localhost:8000'}));
 
 const secret = 'nobody tosses a dwarf'
 
@@ -41,7 +43,6 @@ function generateToken(user) {
 }
 
 server.post('/api/register', function(req, res) {
-    console.log("test", req.body);
     const user = req.body;
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash; 
