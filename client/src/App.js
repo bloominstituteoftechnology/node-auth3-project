@@ -33,7 +33,13 @@ class App extends Component {
             localStorage.getItem("jwt") ? <Redirect to="/users" /> : <Signup />
           }
         />
-        <Route path="/signin" component={Signin} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            localStorage.getItem("jwt") ? <Redirect to="/users" /> : <Signin />
+          }
+        />
         <Route path="/users" component={Users} />
       </div>
     );

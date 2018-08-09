@@ -19,6 +19,7 @@ class Signin extends Component {
       .then(response => {
         const token = response.data;
         localStorage.setItem("jwt", token);
+        window.location.reload();
       })
       .catch(error => console.error(error));
   };
