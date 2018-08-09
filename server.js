@@ -38,13 +38,10 @@ server.post('/api/register', registerConstraints, async (req, res) => {
         // set JWT: generate the token
         const token = generateToken(USER);
         // attach token to the response
-        res.header('x-authorization', 'Bearer ' + token);
-        res
-          .status(200)
-          .json({ message: `User with id:${response.id} has been added.` });
+        res.status(200).send(token);
       } else {
         res.status(400).json({
-          error: `Undetermined error adding project.`,
+          error: `Undetermined error adding user.`,
         });
       }
     } catch (err) {
@@ -69,7 +66,6 @@ server.post('/api/login', loginConstraints, async (req, res) => {
         // set JWT: generate the token
         const token = generateToken(USER);
         // attach token to the response
-        res.header('x-authorization', 'Bearer ' + token);
         res.status(200).send(`Logged in`);
       } else {
         res.status(401).send(`You shall not pass!`);
