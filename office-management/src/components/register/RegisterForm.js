@@ -58,9 +58,9 @@ class RegisterForm extends Component {
               />
             </div>
           </div>
-          <select name="department" onChange={this.changeHandler}>
+          <select name="department" value = "normal" onChange={this.changeHandler}>
             <option value="admin">Admin</option>
-            <option value="normal" selected>
+            <option value="normal">
               Normal
             </option>
             <option value="plebian">Plebian</option>
