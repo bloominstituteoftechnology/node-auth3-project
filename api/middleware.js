@@ -3,25 +3,10 @@ const express = require('express')
 const cors = require('cors')
 const logger = require('morgan')
 const helmet = require('helmet')
-const session = require('express-session')
-const KnexSessionStore = require('connect-session-knex')(session)
 
 module.exports = (server) => {
   server.use(express.json())
   server.use(cors())
-  server.use(
-    session({
-      name: 'sliturbrain',
-      secret: 'secret',
-      store: new KnexSessionStore(),
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        secure: false
-      }
-    })
-  )
   server.use(logger('dev'))
   server.use(helmet())
 }

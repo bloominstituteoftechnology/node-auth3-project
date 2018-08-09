@@ -24,7 +24,6 @@ function registerUser (req, res, next) {
         .then((newUser) => {
           console.log(newUser)
           const user = newUser[0]
-          req.session.username = user.id
           const token = getToken(user)
           res.status(201).json({ token: token })
         })
@@ -52,11 +51,10 @@ const login = (req, res, next) => {
     .first()
     .then((user) => {
       if (user || bcrypt.compareSync(credentials.password, user.password)) {
-        req.session.username = user.id
         const token = getToken(user)
         res
           .status(200)
-          .json({ mes: 'Logged In', cookie: req.session.username, token })
+          .json({ mes: 'Logged In', cookie: req.body.username, token })
       } else {
         return res.status(401).json({ error: 'U shall not pass!' })
       }
