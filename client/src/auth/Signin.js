@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Signin extends Component {
     state= {
@@ -40,6 +41,13 @@ class Signin extends Component {
 
   submiteHandler = event => {
       event.preventDefault();
+
+      axios.port('http://localhost:8001/api/login', this.state).then(res => {
+          console.log('data', res.data);
+      }).catch(err => {
+          console.error('Failed');
+      })
+      console.log('state, this.state');
   }
 }
 

@@ -13,7 +13,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Route path="/signin" component={ Signin }></Route>
+        <Route path="/api/signin" component={ Signin }></Route>
       </div>
     );
   }

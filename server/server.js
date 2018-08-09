@@ -83,7 +83,6 @@ server.post('/api/login', function(req,res) {
 })
 
 server.get('/api/users', protected, (req, res) => {
-    console.log('token', req.jwtToken);
     db('users')
         .then(users => {
             res.json(users);
