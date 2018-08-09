@@ -72,8 +72,8 @@ function protected(req, res, next) {
 server.get('/api/users', protected, async (req, res, next) => {
     const username = req.jwtToken.username;
     try {
-        const response = await db.get(username);
-        res.status(200).json(response);
+        const users = await db.get(username);
+        res.status(200).json({username, users});
     } catch (error) {
         next(sendError(401, "Failed to retrieve users information.", error.message))
     }

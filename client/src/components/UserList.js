@@ -76,6 +76,7 @@ class UserList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
             users: [],
             isAuthenticated: false
         }
@@ -95,7 +96,8 @@ class UserList extends React.Component {
             });
             console.log(response);
             this.setState({
-                users: response.data,
+                username: response.data.username,
+                users: response.data.users,
                 isAuthenticated: true
             });
         } catch (error) {
@@ -113,7 +115,7 @@ class UserList extends React.Component {
         const userTable = (
             <Content>
                 <Nav>
-                    Welcome....        
+                    Welcome! You're logged in as {this.state.username}        
                     <Button onClick = {this.onClick}>Logout</Button>
                 </Nav>
                 <Header>Users List</Header>
