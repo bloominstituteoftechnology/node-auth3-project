@@ -229,3 +229,202 @@ server.get('/users', protected, (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 ```
+
+## Day 2 objectives
+
+- implement a React client:
+  - use `create-react-app` to generate a application to server as the client for the Web API.
+  - inside the React application add **client-side routes** and components for `signup`, `signin` and showing the `list of users` stored in the database.
+  - the `/signup` route should provide a form to gather `username`, `password` and `department` for the user and make a `POST` request to the `/api/register` route on the API. If the user is created successfully, take the returned token, save it to the browser's local storage and redirect the user to the `/users` route, where they should see the list of users.
+  - the `/signin` route should provide a form to gather `username` and `password` for the user and make a `POST` request to the `/api/login` route on the API. Upon successful login, persist the returned token to the browser's local storage and redirect the user to the `/users` route.
+  - the `/users` route should read the token from local storage and make a `GET` request to the `/api/users` route on the API attaching the token as the value of the `Authorization` header.
+  - provide a button to `sign out` that will remove the token from local storage.
+
+## . Create a server folder and drag everything into it
+
+## . Create react app
+
+```
+$ create-react-app client
+
+$ cd client
+
+$ cd yarn start
+```
+
+# . Add dependencies
+
+```
+$ yarn add react-router-dom axios reactstrap
+```
+
+## . Wrap <App /> on index.js with <Router>
+
+```
+import {BrowserRouter as Router} from 'react-router-dom'
+
+ReactDOM.render(
+    <Router>
+        <App />
+    </Router>
+        , document.getElementById('root'));
+registerServiceWorker();
+```
+
+## . Add routes to App.js
+
+```
+import {Route} from 'react-router-dom'
+
+<Route path='/login' component={Login} />
+<Route path='/register' component={Register} />
+```
+
+## . Set up reactstrap
+
+```
+$ yarn add reactstrap bootsrap
+
+import 'bootstrap/dist/css/bootstrap.css' // on index.js
+```
+
+## . Create basic login and register components in /auth
+
+```
+import React from 'react';
+import '../App.css';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+
+  render() {
+    return (
+      <div>
+          <h1>Log in</h1>
+            <Form>
+                <FormGroup>
+                    <Label>Username:</Label>
+                    <Input
+                        name="username"
+                        placeholder="Username"
+                        // onChange={}
+                        value={this.state.username}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Password:</Label>
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        // onChange={}
+                        value={this.state.password}
+                    />
+                </FormGroup>
+                <Button>Log in</Button>
+            </Form>
+      </div>
+    );
+  }
+}
+
+export default Login;
+```
+
+## . Style the form with `className="form-wrapper"
+
+```
+<div className="formWrapper">
+
+.formWrapper {
+  margin: 0 auto;
+  width: 40vw;
+  padding: 10px;
+  border: 1px solid darkgray;
+}
+```
+
+## . Create an `inputChangeHandler`
+
+```
+inputChangeHandler = event => {this.setState({ [event.target.name]: event.target.value})};
+```
+
+## . Create a `submitHandler`
+
+```
+submitHandler = event => {
+    event.preventDefault();
+    axios
+        .post('http://localhost:8000/login', this.state)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    console.log(this.state);
+  }
+```
+
+## . Add cors
+
+```
+cd server
+
+yarn add cors
+
+server.use(cors()); // on server.js
+```
+
+## . Create `/users/Users.js`: (1) add an empty array of users to state, (2) componenDidMount with axios, (3) fetch the token from local storage and attach it to the header, (4) map over the list of users and return their usernames
+
+```
+import React, {Component} from 'react';
+import '../App.css';
+import axios from 'axios'
+
+class Users extends Component {
+  constructor() {
+    super();
+    this.state = {
+      users: []
+    }
+  }
+
+  componentDidMount = () => {
+    const token = localStorage.getItem('jwt');
+
+    const requestOptions = {
+        headers: {
+            Authorization: token
+        }
+    };
+
+    axios
+        .get('http://localhost:8000/users', requestOptions)
+        .then((response) => {
+          this.setState({ users: response.data })
+        })
+        .catch(err => console.log(err));
+  }
+
+  render() {
+    return (
+      <div className="formWrapper">
+          <h1>Users</h1>
+            {this.state.users.map(user => <div key={user.id}>{user.username}</div>)}
+      </div>
+    );
+  }
+}
+
+export default Users;
+```

@@ -3,14 +3,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('./auth/db');
 const server = express();
+const cors = require('cors');
 
 server.use(express.json());
+server.use(cors());
 
 server.get('/', (req, res) => {
     res.send('Up and running...')
 })
 
-const secret = 'snoop doggy dogg';
+const secret = 'snoop doggy dogg'; // global so that it's accessible elsewhere
 
 function generateToken(user) {
   const payload = {
@@ -35,6 +37,7 @@ function protected(req, res, next) {
       }
 
       req.jwtToken = decodedToken;
+      console.log(decodedToken);
       next();
     });
   } else {
