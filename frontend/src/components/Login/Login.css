@@ -1,0 +1,9 @@
+.form-wrapper {
+  background-color: #222;
+  max-width: 40rem;
+  margin: 5rem auto;
+}
+
+.form-control {
+  height: 3rem;
+}
