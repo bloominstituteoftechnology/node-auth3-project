@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
+const cors = require('cors')
 const jwt = require('jsonwebtoken');
 const db = require('./data/db')
 
@@ -10,6 +11,7 @@ const server = express();
 server.use(express.json());
 server.use(morgan('dev'));
 server.use(helmet());
+server.use(cors());
 
 const secret = 'nobody tosses a dwarf!';
 
@@ -71,31 +73,30 @@ server.post('/api/register', (req, res) => {
         .catch(err => {
             res.status(500).json({ err })
         })
-
-    server.post('/api/login', (req, res) => {
-        const credentials = req.body;
-
-        db('users')
-            .where({ username: credentials.username })
-            .first()
-            .then(function (user) {
-                if (user && bcrypt.compareSync(credentials.password, user.password)) {
-                    // generate the token
-                    const token = generateToken(user);
-
-                    // req.session.username = user.username;
-
-                    // attach token to the response
-                    res.send(token);
-                } else {
-                    return res.status(401).json({ error: 'Incorrect credentials' });
-                }
-            })
-            .catch(function (error) {
-                res.status(500).json({ error });
-            });
-    });
 })
+server.post('/api/login', (req, res) => {
+    const credentials = req.body;
+
+    db('users')
+        .where({ username: credentials.username })
+        .first()
+        .then(function (user) {
+            if (user && bcrypt.compareSync(credentials.password, user.password)) {
+                // generate the token
+                const token = generateToken(user);
+
+                // req.session.username = user.username;
+
+                // attach token to the response
+                res.send(token);
+            } else {
+                return res.status(401).json({ error: 'Incorrect credentials' });
+            }
+        })
+        .catch(function (error) {
+            res.status(500).json({ error });
+        });
+});
 
 
 server.get('/api/users', protected, (req, res) => {
@@ -108,4 +109,4 @@ server.get('/api/users', protected, (req, res) => {
         .catch(err => res.send(err));
 });
 
-server.listen(8000, () => console.log('API running on port 8000... *.*'));
+server.listen(3300, () => console.log('API running on port 3300... *.*'));
