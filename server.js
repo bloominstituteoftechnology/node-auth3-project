@@ -25,7 +25,25 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-server.get('/users', (req, res) => {
+function protected(req, res, next) {
+  const token = req.headers.authorization; // grab the header
+
+  if (token) { // check for token
+    jwt.verify(token, secret, (err, decodedToken) => { // check if it's valid (err = didn't decode, decodedToken = success)
+      if (err) { // if it didn't validate correctly
+        return res.status(401).json({ error: 'you shall not pass!! - token invalid' });
+      }
+
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({ error: 'you shall not pass!! - no token' }); // return an error
+  }
+};
+
+server.get('/users', protected, (req, res) => {
+    console.log('token', req.jwtToken); // add a console.log of the token and the decoded token
     db('users')
         .then(users => {
             res.status(200).json(users);

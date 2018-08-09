@@ -200,3 +200,32 @@ server.post('/login', (req, res) => {
         });
 });
 ```
+
+## 12. Create protected routes: (1) create a `protected` function, (2) add `protected` to the route you want to protect
+
+```
+function protected(req, res, next) {
+  const token = req.headers.authorization; // grab the header
+
+  if (token) { // check for token
+    jwt.verify(token, secret, (err, decodedToken) => { // check if it's valid (err = didn't decode, decodedToken = success)
+      if (err) { // if it didn't validate correctly
+        return res.status(401).json({ error: 'you shall not pass!! - token invalid' });
+      }
+
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({ error: 'you shall not pass!! - no token' }); // return an error
+  }
+
+server.get('/users', protected, (req, res) => {
+    console.log('token', req.jwtToken); // add a console.log of the token and the decoded token
+    db('users')
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(err => res.status(500).json(err));
+});
+```
