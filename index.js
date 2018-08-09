@@ -6,16 +6,21 @@ const bcrypt = require('bcryptjs');
 const db = require('./data/db');
 const server = express();
 
-const generateToken = (user) => {
-  const options = {
-    expiresIn: "1h"
-  }
-  const payload = {name: user.username};
-  return jwt.sign(payload, secret, options);
-};
-
 server.use(express.json());
 server.use(cors({origin: 'http://localhost:3000', credentials:true}));
+
+function generateToken(user) {
+  const payload = {
+    username: user.username,
+  };
+
+  const options = {
+    expiresIn: '1h',
+    jwtid: '8728391',
+  };
+
+  return jwt.sign(payload, secret, options);
+}
 
 function protected(req, res, next) {
   const token = req.headers.authorization;
@@ -34,6 +39,15 @@ function protected(req, res, next) {
   }
 }
 
+server.get('/api/users', protected, (req, res) => {
+  console.log('token', req.jwtToken);
+  db('users')
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
+
 server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
@@ -48,16 +62,42 @@ server.post('/api/register', (req, res) => {
     .into('users')
     .then(id => {
       db('users') 
-        .then(user => {
-          console.log(user) 
-          res.status(201).json(user.pop()) 
+        .then(users => {
+          const user = users.pop()
+          const token = generateToken(user);
+          res.status(201).json({user, token}) 
         })
     })
     .catch(err => {
       res.status(500).json(err);
     });
 })
+// server.post('/api/register', function(req, res) {
+//   const user = req.body;
 
+//   // hash password
+//   const hash = bcrypt.hashSync(user.password, 10);
+//   user.password = hash;
+
+//   db('users')
+//     .insert(user)
+//     .then(function(ids) {
+//       db('users')
+//         .where({ id: ids[0] })
+//         .first()
+//         .then(user => {
+//           // generate the token
+//           const token = generateToken(user);
+//           // req.session.username = user.username;
+
+//           // attach the token to the response
+//           res.status(201).json(token);
+//         });
+//     })
+//     .catch(function(error) {
+//       res.status(500).json({ error });
+//     });
+// });
 
 server.post('/api/login', function(req, res) {
   const credentials = req.body;
@@ -67,10 +107,7 @@ server.post('/api/login', function(req, res) {
     .then(function(user) {
       if (user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
-        res.json({
-          message: "You Are Logged In",
-          token
-        });
+        res.send(token);
       } else {
         return res.status(401).json({ error: 'Incorrect credentials' });
       }
@@ -80,14 +117,15 @@ server.post('/api/login', function(req, res) {
     });
 });
 
-server.get('/api/users', protected, (req, res) => {
-  //console.log('token', req.jwtToken);
-  db('users')
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
-});
+server.post('/api/logout', (req, res) => {
+  console.log(req.headers.authorization)
+  // if (req.headers.authorization) {
+  //   req.headers.authorization = null
+  //   res.status(500).json({ message: 'you are logged out'})
+  // } else {
+  //   res.json({ message: "unable to log out"})
+  // }
+})
 
 server.listen(8000, () => {
   console.log('API running on port 8000')
