@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "brcypt": "^1.0.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
