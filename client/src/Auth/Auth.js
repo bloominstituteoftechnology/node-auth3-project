@@ -71,7 +71,7 @@ const Authentication = (App) =>
             /> */}
             <Route
               exact
-              path='/api/login'
+              path='/'
               render={(props) => (
                 <Login
                   {...props}

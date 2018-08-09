@@ -42,6 +42,7 @@ const getUsers = (req, res, next) => {
     })
     .catch(next)
 }
+
 // LOGIN
 const login = (req, res, next) => {
   const credentials = req.body
@@ -80,6 +81,18 @@ const restricted = (req, res, next) => {
     return res.status(401).json({ error: 'you shall not pass!! - no token' })
   }
 }
+
+function departmentUsers (req, res, next) {
+  const department = req.body.department
+  db('users')
+    .then((response) => {
+      const users = response.filter((users) => users.department == department)
+      const filteredUsers = users.map((user) => user.username)
+      console.log(users)
+      res.status(200).json(filteredUsers)
+    })
+    .catch(next)
+}
 // Register
 server.post('/register', registerUser)
 // GET USERS
@@ -88,4 +101,6 @@ server.get('/users', getUsers)
 server.post('/login', login)
 // Restricted
 server.get('/restricted', restricted, getUsers)
+// Get Department
+server.get('/departments', restricted, departmentUsers)
 module.exports = server
