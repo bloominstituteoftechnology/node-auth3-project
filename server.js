@@ -22,6 +22,7 @@ const protected = (req, res, next) => {
           .json({ error: 'You shall not pass! - invalid credentials' })
           .end()
       }
+      req.jwtToken = decodedToken;
       next();
     })
   } else {
@@ -35,6 +36,7 @@ const protected = (req, res, next) => {
 const generateToken = user => {
   const payload = {
     username: user.username,
+    department: user.department
   };
   const options = {
     expiresIn: '1h',
@@ -94,7 +96,9 @@ server.post('/api/login', (req, res) => {
 })
 
 server.get('/api/users', protected, (req, res) => {
+  const department = req.jwtToken.department;
   db('users')
+    .where({ department })
     .select('id', 'username', 'department')
     .then(response => {
       res
