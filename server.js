@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 
@@ -37,7 +39,7 @@ server.post("/api/register", (req, res) => {
     });
 });
 
-const secret = "nobody tosses a dwarf";
+// const secret = "nobody tosses a dwarf";
 function generateToken(user) {
   const payload = {
     username: user.username
@@ -46,12 +48,12 @@ function generateToken(user) {
     expiresIn: "1h",
     jwtid: "8728391"
   };
-  return jwt.sign(payload, secret, options);
+  return jwt.sign(payload, process.env.SECRET, options);
 }
 function protected(req, res, next) {
   const token = req.headers.authorization;
   if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
+    jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
       if (err) {
         return res
           .status(401)
