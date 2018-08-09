@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 
-import Signin from "./auth/Signin";
-import Users from "./users/Users";
+import Signup from "./components/Signup";
+import Signin from "./components/Signin";
+import Users from "./components/Users";
 
 import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
-  handleLogout = event => {
+  handleSignout = event => {
     localStorage.removeItem("jwt");
     this.props.history.push("/signin");
   };
@@ -21,10 +22,17 @@ class App extends Component {
         </header>
         <div>
           {localStorage.getItem("jwt") && (
-            <button onClick={this.handleLogout}>Logout</button>
+            <button onClick={this.handleSignout}>Signout</button>
           )}
         </div>
 
+        <Route
+          exact
+          path="/signup"
+          render={() =>
+            localStorage.getItem("jwt") ? <Redirect to="/users" /> : <Signup />
+          }
+        />
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
       </div>

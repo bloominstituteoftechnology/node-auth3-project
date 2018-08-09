@@ -74,8 +74,7 @@ server.post("/api/register", function(req, res) {
           const token = generateToken(user);
 
           // attaches the token to the response
-          //res.status(201).json(token);
-          res.status(201).json();
+          res.status(201).json(token);
         });
     })
     .catch(function(error) {
