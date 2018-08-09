@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const Form = styled.form`
+    color: #457B9D;
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(45,45,45,0.2);
@@ -39,15 +40,15 @@ const SubHeader = styled.p`
 const Button = styled.button`
     box-shadow: 0 10px 20px rgba(0,0,0,0.16), 0 6px 6px rgba(45,45,45,0.20);
     width: 150px;
-    background: rgb(0, 52, 89);
-    color: white;
+    background: #457B9D;
+    color: #F1FAEE;
     border: none;
     width: 250px;
     height: 50px;
     font-size: 24px;
     cursor: pointer;
     &:hover {
-        background: rgb(0, 23, 31);
+        background: #1D3557;
     }
 
     &:active {
@@ -59,13 +60,17 @@ const Button = styled.button`
 const Input = styled.input`
     width: 100%;
     border: none;
+    outline: none;
     border-bottom: 1px solid rgba(45,45,45,0.2);
+    &::placeholder {
+        color: #457B9D;
+    }
 `
 
 const StyledLink = styled(Link)`
     text-decoration: none;
     &:visited {
-        color: blue;
+        color: #457B9D;;
     }
     &:hover {
         color: #003459;
@@ -79,16 +84,29 @@ const Text = styled.p`
     color: rgba(45,45,45,0.7)
 `
 
-class Registration extends React.Component {
+const Warning = styled.p`
+    width: 400px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #E63946;
+    margin: 10px auto;
+    font-family: 'Lora', Serif;
+    font-Size: 14px;
+    text-align: center;
+`
+
+class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             user: {
                 username: "",
                 password: "",
                 department: ""
-            }
-         }
+            },
+            isErrored: false,
+            error: {}
+        }
     }
 
     changeHandler = (e) => {
@@ -100,8 +118,25 @@ class Registration extends React.Component {
         });
     }
 
-    render() { 
+    submitHandler = async (e, user) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8000/api/signup', user);
+            const token = response.data;
+            localStorage.setItem('token', token);
+            this.props.history.push('/users');
+        } catch (error) {
+            this.setState({ isErrored: true, error: error.response.data });
+        }
+    }
+
+    render() {
         const signinLink = <StyledLink to='/signin'>Sign In</StyledLink>
+        const errors = <Warning>
+            {this.state.error.message}
+            <br/>
+            {this.state.error.error}
+        </Warning>;
         return (
             <div>
                 <Form className="login-form" onSubmit={(e) => this.submitHandler(e, this.state.user)}>
@@ -120,7 +155,7 @@ class Registration extends React.Component {
 
                     <Input
                         name="password"
-                        type="text"
+                        type="password"
                         placeholder="Password"
                         value={this.state.password}
                         required
@@ -141,9 +176,10 @@ class Registration extends React.Component {
                         <Text>Already have an account? {signinLink}</Text>
                     </div>
                 </Form>
+                {this.state.isErrored ? errors : null}
             </div>
         );
     }
 }
- 
-export default Registration;
+
+export default SignupForm;

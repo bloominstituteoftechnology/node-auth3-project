@@ -80,7 +80,7 @@ server.get('/api/users', protected, async (req, res, next) => {
 });
 
 //endpoint for register page
-server.post('/api/register', async (req, res, next) => {
+server.post('/api/signup', async (req, res, next) => {
     if (!isRegisterValid(req.body)) {
         return next(sendError(400, 'Failed to sign up.', 'Please provide username, password, and department.'))
     }
@@ -101,9 +101,9 @@ server.post('/api/register', async (req, res, next) => {
 });
 
 //endpoint for login page
-server.post('/api/login', async (req, res, next) => {
+server.post('/api/signin', async (req, res, next) => {
     if (!isLoginValid(req.body)) {
-        return next(sendError(400, 'Failed to log in.', 'Please provide username and password.'))
+        return next(sendError(400, 'Failed to sign in.', 'Please provide username and password.'))
     }
 
     const user = req.body;
@@ -114,9 +114,11 @@ server.post('/api/login', async (req, res, next) => {
         if (match) {
             const token = generateToken(user);
             res.status(200).send(token);
+        } else {
+            next(sendError(400, 'Failed to sign in.', 'Incorect credentials.'));
         }
     } catch (error) {
-        next(sendError(400, 'Failed to log in.', 'Incorect credentials.'));
+        next(sendError(400, 'Failed to sign in.', error.message));
     }
 })
 

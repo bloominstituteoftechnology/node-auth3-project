@@ -26,20 +26,32 @@ const Th = styled.th`
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-    background: black;
-    color: #B9BEC4;
+    background: #404F50;
+    color: #F1FAEE;
     font-family: 'Roboto', Sans-Serif;
 `
 
 const Tr = styled.tr`
     &:nth-child(even) {
-        background-color: #dddddd;
+        background-color: #F0F8F8;
     }
 `
 
 const Header = styled.h1`
     font-family: 'Roboto', Sans-Serif;
     font-size: 48px;
+    color: #404F50;
+`
+
+const Warning = styled.p`
+    width: 60%;
+    font-size: 16px;
+    font-weight: bold;
+    color: #E63946;
+    margin: 10px auto;
+    font-family: 'Lora', Serif;
+    font-Size: 24px;
+    text-align: center;
 `
 
 class UserList extends React.Component {
@@ -97,7 +109,11 @@ class UserList extends React.Component {
             </Content>
         );
 
-        const warning = <h3>You are unauthorized to see this content</h3>;
+        const warning = <Warning>
+            You are unauthorized to see this content. 
+            <br/>
+            Redirecting to Sign In...
+            </Warning>;
         return (
             <Content>
                 {this.state.isAuthenticated ? userTable : warning}

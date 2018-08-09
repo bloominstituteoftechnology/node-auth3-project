@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const Form = styled.form`
+    color: #457B9D;
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(45,45,45,0.2);
@@ -39,15 +40,15 @@ const SubHeader = styled.p`
 const Button = styled.button`
     box-shadow: 0 10px 20px rgba(0,0,0,0.16), 0 6px 6px rgba(45,45,45,0.20);
     width: 150px;
-    background: rgb(0, 52, 89);
-    color: white;
+    background: #457B9D;
+    color: #F1FAEE;
     border: none;
     width: 250px;
     height: 50px;
     font-size: 24px;
     cursor: pointer;
     &:hover {
-        background: rgb(0, 23, 31);
+        background:1D3557;
     }
 
     &:active {
@@ -59,14 +60,21 @@ const Button = styled.button`
 const Input = styled.input`
     width: 100%;
     border: none;
+    outline: none;
     border-bottom: 1px solid rgba(45,45,45,0.2);
+    &::placeholder {
+        color: #457B9D;
+    }
 `
 
 const Warning = styled.p`
     font-size: 16px;
-    color: red;
+    font-weight: bold;
+    color: #E63946;
     margin: auto;
     transition-delay: 0.5s;
+    font-family: 'Lora', Serif;
+    font-Size: 14px;
 `
 
 const Text = styled.p`
@@ -77,7 +85,7 @@ const Text = styled.p`
 const StyledLink = styled(Link)`
     text-decoration: none;
     &:visited {
-        color: blue;
+        color: #457B9D;
     }
     &:hover {
         color: #003459;
@@ -86,7 +94,7 @@ const StyledLink = styled(Link)`
     
 `
 
-class Login extends React.Component {
+class SigninForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -94,7 +102,8 @@ class Login extends React.Component {
                 username: "",
                 password: ""
             },
-            wrongCredentials: false
+            wrongCredentials: false,
+            error: {}
         }
     }
 
@@ -110,17 +119,21 @@ class Login extends React.Component {
     submitHandler = async (e, user) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/login', user);
+            const response = await axios.post('http://localhost:8000/api/signin', user);
             const token = response.data;
             localStorage.setItem('token', token);
             this.props.history.push('/users');
         } catch (error) {
-            this.setState({ wrongCredentials: true });
+            this.setState({ wrongCredentials: true, error: error.response.data });
         }
     }
 
     render() {
-        const warning = <Warning>Invalid credentials. Please try again.</Warning>;
+        const warning = <Warning>
+            {this.state.error.message}
+            <br />
+            {this.state.error.error}
+        </Warning>;
         const signupLink = <StyledLink to='/signup'>Sign up</StyledLink>
         return (
             <div>
@@ -140,7 +153,7 @@ class Login extends React.Component {
 
                     <Input
                         name="password"
-                        type="text"
+                        type="password"
                         placeholder="Password"
                         value={this.state.password}
                         required
@@ -158,4 +171,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default SigninForm;
