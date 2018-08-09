@@ -8,7 +8,7 @@ const db = require('./data/db');
 
 const server = express();
 server.use(express.json());
-server.use(cors({ origin: 'http://localhost:3000', credentials: true}));
+server.use(cors({ origin: 'http://localhost:3000' }));
 server.use(helmet());
 server.use(morgan('dev'));
 

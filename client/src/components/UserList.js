@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 
 const Content = styled.div`
-    width: 50%;
+    width: 70%;
     margin: auto;
+    font-family: 'Lora', Serif;
+    font-Size: 14px;
+    margin-bottom: 20px;
 `
 
 const Table = styled.table`
@@ -24,6 +26,20 @@ const Th = styled.th`
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    background: black;
+    color: #B9BEC4;
+    font-family: 'Roboto', Sans-Serif;
+`
+
+const Tr = styled.tr`
+    &:nth-child(even) {
+        background-color: #dddddd;
+    }
+`
+
+const Header = styled.h1`
+    font-family: 'Roboto', Sans-Serif;
+    font-size: 48px;
 `
 
 class UserList extends React.Component {
@@ -36,13 +52,18 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
-        console.log('here');
         this.fetchUsers();
     }
 
     fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/restricted/users/');
+            const token = localStorage.getItem('token');
+
+            const response = await axios({
+                method: 'get',
+                url: 'http://localhost:8000/api/users/',
+                headers: { authorization: token }
+            });
             this.setState({
                 users: response.data,
                 isAuthenticated: true
@@ -54,23 +75,33 @@ class UserList extends React.Component {
 
     render() {
         const userTable = (
-            <Table>
-                <thead>
-                    <tr>
-                        <Th>User</Th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.users.map((user, index)=><tr key={index}><Td>{user.username}</Td></tr>)}
-                </tbody>
-            </Table>
+            <Content>
+                <Header>Users List</Header>
+                <Table>
+                    <thead>
+                        <Tr>
+                            <Th>User Id</Th>
+                            <Th>Username</Th>
+                            <Th>Department</Th>
+                        </Tr>
+                    </thead>
+                    <tbody>
+                        {this.state.users.map((user, index) =>
+                            <Tr key={index}>
+                                <Td>{user.id}</Td>
+                                <Td>{user.username}</Td>
+                                <Td>{user.department}</Td>
+                            </Tr>)}
+                    </tbody>
+                </Table>
+            </Content>
         );
 
         const warning = <h3>You are unauthorized to see this content</h3>;
         return (
             <Content>
-                {this.state.isAuthenticated ? userTable : warning}   
-            </Content>         
+                {this.state.isAuthenticated ? userTable : warning}
+            </Content>
         );
     }
 }
