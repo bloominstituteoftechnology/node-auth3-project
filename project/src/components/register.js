@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 
 class Signup extends Component {
@@ -11,13 +11,7 @@ class Signup extends Component {
             password:'',
             department:''
          }
-    }
-
-    componentWillMount() {
-        
-        
-      }
-    
+    }    
       
       postUser = event => {
           event.preventDefault();
@@ -32,11 +26,11 @@ class Signup extends Component {
 
 
 
-            this.setState({
-                username:'',
-                password:'',
-                department:''
-            });
+            // this.setState({
+            //     username:'',
+            //     password:'',
+            //     department:''
+            // });//don't need
       }
 
       handleInputChange = e => {

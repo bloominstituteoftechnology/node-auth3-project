@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
+// import axios from 'axios';
 import {Route} from 'react-router-dom';
 import Users from './components/users';
 import Signin from './components/login';
@@ -15,6 +15,10 @@ class App extends Component {
       
 
     }
+  }
+
+  logoutHandler = event => {
+    localStorage.removeItem('jwt');
   }
 
   handleSetData = data => {
@@ -35,6 +39,9 @@ class App extends Component {
           <Route path='/signup' component={Signup} />
           <Route path='/signin' component={Signin} />
           <Route path='/users' component={Users} />
+          <div>
+            <button onClick={this.logoutHandler}>Logout</button>
+          </div>
 
         </div>
         
