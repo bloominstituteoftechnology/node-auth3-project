@@ -8,7 +8,7 @@ const db = require('./data/db');
 const server = express();
 
 server.use(express.json());
-server.use(cors({ origin: 'http://localhost:8000'}));
+server.use(cors());
 
 const secret = 'nobody tosses a dwarf'
 

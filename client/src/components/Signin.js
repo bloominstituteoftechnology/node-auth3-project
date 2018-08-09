@@ -10,24 +10,26 @@ class Signin extends Component {
   render() {
     return (
       <div className="Signin">
-        <h1> Signin Component </h1>
-            <form action="">
+        <h1>Signin</h1>
+            <form onSubmit={this.submitHandler}>
                 <div>
                     <input 
                         name="username"
                         value={this.state.username} 
                         onChange={this.inputChangeHandler}
-                        type="text" />
+                        type="text" 
+                    />
                 </div>
                 <div>
                     <input 
                         name="password"
                         value={this.state.password} 
                         onChange={this.inputChangeHandler}
-                        type="password" />
+                        type="password" 
+                    />
                 </div>
                 <div>
-                    <button type="button">Signin</button>
+                    <button type="submit">Signin</button>
                 </div>
             </form>
       </div>
@@ -39,15 +41,21 @@ class Signin extends Component {
     this.setState({ [name]: value });
   };
 
-  submiteHandler = event => {
+  submitHandler = event => {
       event.preventDefault();
+      console.log('state', this.state);
 
-      axios.port('http://localhost:8001/api/login', this.state).then(res => {
-          console.log('data', res.data);
-      }).catch(err => {
-          console.error('Failed');
-      })
-      console.log('state, this.state');
+      axios
+        .post('http://localhost:8000/api/login', this.state)
+        .then(res => {
+            const token =  res.data;
+            localStorage.setItem('jwt', token);
+            this.props.history.push('/api/users');
+        })
+        .catch(err => {
+            console.error('Axios Failed');
+        });
+
   }
 }
 
