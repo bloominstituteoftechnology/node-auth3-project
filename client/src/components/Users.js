@@ -20,7 +20,6 @@ class Users extends Component {
 
   componentDidMount() {
       const token = localStorage.getItem('jwt');
-
       const requestOptions = {
         headers: {
           Authorization: token
@@ -33,9 +32,9 @@ class Users extends Component {
             this.setState({ users: res.data });
         })
         .catch(err => {
-            console.error('Failed');
+            console.error('Axios Failed');
         });
-      console.log('state, this.state');
+      console.log('state', this.state);
   }
 }
 

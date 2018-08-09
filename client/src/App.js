@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import Signin from './components/Signin';
 import Users from './components/Users';
+import Signup from './components/Signup';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
         <div>
           {localStorage.getItem('jwt') && (<button onClick={this.logoutHandler}>Logout</button>)}
         </div>
+        <Route path="/api/register" component={ Signup }></Route>
         <Route path="/api/signin" component={ Signin }></Route>
         <Route path="/api/users" component={ Users }></Route>
       </div>
