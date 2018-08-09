@@ -24,9 +24,6 @@ export default class Header extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Auth-ii</h1> 
-          {localStorage.token ? <Link to="/" style={{ textDecoration: 'none' }}>
-            <button type='button' className="btn btn-secondary mr-2">Users</button>
-          </Link> : null}
 
           {localStorage.token ? null : <Link to="/register" style={{ textDecoration: 'none' }}>
             <button type='button' className="btn btn-info mr-2">Register</button>
