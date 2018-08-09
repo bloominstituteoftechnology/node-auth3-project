@@ -24,10 +24,8 @@ class Signin extends Component {
         .then(res => {
             console.log('data', res.data);
             const token = res.data;
-    
             localStorage.setItem('token', token);
             this.props.history.push('/users')
-        
         })
         .catch(err => {
             console.error('Axios falied');

@@ -19,11 +19,9 @@ class Signup extends Component {
       .post(`http://localhost:8002/api/register`, this.state)
       .then(res=> {
         localStorage.setItem('token', res.data);
-        // this.props.history.push('/signin');
         const token = res.data;
-    
-            localStorage.setItem('token', token);
-            this.props.history.push('/users')
+        localStorage.setItem('token', token);
+        this.props.history.push('/users');
       })
       .catch(error => console.log(error));
   }

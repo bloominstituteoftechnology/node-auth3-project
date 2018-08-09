@@ -34,7 +34,7 @@ class Users extends Component {
                     return <li key={user.id}>{user.username}: {user.department}</li>
                     })}    
                 </ul>
-                { localStorage.getItem('token') && (<button onClick={this.logoutHandler}>Logout</button>)}
+                { localStorage.getItem('token') && (<button onClick={this.logoutHandler}>Sign Out</button>)}
             </div>
          );
     }
