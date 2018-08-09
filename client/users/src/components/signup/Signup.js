@@ -37,7 +37,9 @@ class Signup extends Component {
     submitHandler = (e) => {
         e.preventDefault()
 
-        axios.post('http://localhost:8000/api/register', this.state)
+        const { userName, password, department } = this.state
+
+        axios.post('http://localhost:8000/api/register', {userName, password, department})
             .then(res => {
                 console.log(res)
                 const token = res.data
@@ -47,15 +49,15 @@ class Signup extends Component {
 
             })
             .catch(err => {
-                console.error("Axios failed", err)
-                this.setState({userName: '', password: ''})
+                console.log("Axios failed", err.response)
+                this.setState({userName: '', password: '', department: '', error: err.response.data.error})
             })
     }
 
     render() {
     return (
         <Login className="Signin">
-            <h1>Please Sign in</h1>
+            <h1>Please Sign Up to Continue</h1>
             <form onSubmit={this.submitHandler}>
                 <div> 
                     <Input type="text"
