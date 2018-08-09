@@ -1,0 +1,20 @@
+{
+  "name": "auth-ii",
+  "description": "authentication using JSON Web Tokens (JWTs)",
+  "version": "0.0.0",
+  "repository": {
+    "url": "git://github.com/coetry/auth-ii.git"
+  },
+  "main": "server.js",
+  "scripts": {},
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
+  "author": "Allen Hai <allenhai03@gmail.com> (https://allenhai.now.sh)"
+}
