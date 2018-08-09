@@ -14,7 +14,7 @@ class App extends Component {
             <Route path='/signin' component={SigninForm} />
             <Route path='/signup' component={SignupForm} />
             <Route path='/users' component={UserList} />
-            <Redirect to='/signin' />
+            <Redirect to='/users' />
           </Switch>
         </div>
       </Router>

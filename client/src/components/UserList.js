@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+const jwtDecode = require('jwt-decode');
 
 const Content = styled.div`
     width: 70%;
@@ -92,16 +92,21 @@ class UserList extends React.Component {
 
     fetchUsers = async () => {
         const token = localStorage.getItem('token');
+        if (!token){
+            this.props.history.replace('/signin');
+        }
+
         try {
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:8000/api/users/',
                 headers: { authorization: token }
             });
-            console.log(response);
+
+            const decoded = jwtDecode(token);
             this.setState({
-                username: response.data.username,
-                users: response.data.users,
+                username: decoded.username,
+                users: response.data,
                 isAuthenticated: true
             });
         } catch (error) {
@@ -115,7 +120,6 @@ class UserList extends React.Component {
     }
 
     render() {
-        console.log(this.state.token);
         const userTable = (
             <Content>
                 <Nav>
@@ -151,7 +155,8 @@ class UserList extends React.Component {
 
         return (
             <Content>
-                {this.state.isAuthenticated ? userTable : warning}
+                {/* {this.state.isAuthenticated ? userTable : warning} */}
+                {userTable}
             </Content>
         );
     }

@@ -109,6 +109,13 @@ class SignupForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.props.history.replace('/users')
+        }
+    }
+
     changeHandler = (e) => {
         this.setState({
             user: {
