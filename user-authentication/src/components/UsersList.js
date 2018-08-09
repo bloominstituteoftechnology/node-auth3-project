@@ -50,7 +50,7 @@ render() {
                 <Link to="/">Login</Link><br /><br />
 		</div>) :(	
       <div>
-    	{this.state.users.map(user => <ul><li key={user.id}>{user.username}</li></ul>		
+    	{this.state.users.map(user => {return <ul><li key={user.id}>{user.username}</li></ul>}		
 	)}
 
 	<button onClick={this.logoutHandler}>Logout</button>    
