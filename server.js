@@ -23,10 +23,31 @@ server.post('/signup', async (req, res, next) => {
     const user = await db('users')
       .where('id', '=', ids[0])
       .first()
-    const token = generateUserToken(user)
-    res.status(200).json(token)
+    res.status(200).json(generateUserToken(user))
   } catch (err) {
     next(err) 
+  }
+})
+
+server.post('/login', async (req, res, next) => {
+  if (!req.body || !req.body.username || !req.body.password) {
+    res
+      .status(400)
+      .send('please provide username and password')
+  }
+  try {
+    const user = await db('users')
+      .where('username', '=', req.body.username) 
+      .first()
+    const success = await bcrypt.compare(
+      req.body.password, 
+      user.password
+    )
+    success 
+      ? res.status(200).json(generateUserToken(user))
+      : res.status(401).send('invalid credentials')
+  } catch (err) {
+    next(err)
   }
 })
 
@@ -37,7 +58,7 @@ server.use((err, req, res, next) => {
     .json(err)
 })
 
-function generateUserToken(user) {
+function generateUserToken (user) {
   const payload = {
     username: user.username,
   }
