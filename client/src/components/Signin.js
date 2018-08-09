@@ -16,8 +16,8 @@ class Signin extends Component {
     axios
       .post('http://localhost:3300/login', this.state)
       .then(response => {
-        console.log('SIGNIN RESPONSE: ', response.data)
         localStorage.setItem('jwt', response.data);
+        this.props.history.push('/users');
       })
       .catch(err => {console.log('Axios failed.', err)})
     this.setState({ username: '', password: '' })

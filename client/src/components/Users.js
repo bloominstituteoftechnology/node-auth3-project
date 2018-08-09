@@ -23,13 +23,24 @@ class Users extends Component {
         console.error('Axios Failed');
       })
   }
+  handleLogout = e => {
+    localStorage.removeItem('jwt')
+    this.props.history.push('/signin');
+  }
   render() {
     return (
       <div>
+        {/* Logout Button */}
+        {localStorage.getItem('jwt') && (
+          <button onClick={this.handleLogout}>Logout</button>
+        )}
         <ul>
           {this.state.users.map(user => {
             return (
-              <li key={user.id}>{user.username}</li>  
+              <div key={user.id}>
+                <li>{user.username}</li>  
+                <li>{user.department}</li>
+              </div>
             )
           })}
         </ul>
