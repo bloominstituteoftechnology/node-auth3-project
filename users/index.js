@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../data/helpers/userDb');
+const db = require('../data/helpers/index');
 const mw = require('../data/middleware/index');
 
 // users

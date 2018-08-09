@@ -3,6 +3,10 @@ const mappers = require("../helpers/mappers");
 const tbl = 'users';
 
 module.exports = {
+    add: function(record) {
+        return db(tbl)
+            .insert(record);
+    },
     get: function (record) {
         let query = db(`${tbl} as t`);
 

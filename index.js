@@ -4,8 +4,6 @@ const helmet = require('helmet');
 
 // routers
 const loginRouter = require('./login/index');
-const logoutRouter = require('./logout/index');
-const registerRouter = require('./register/index');
 const userRouter = require('./users/index');
 
 const server = express();
@@ -15,9 +13,7 @@ server.use(express.json());
 server.use(helmet());
 
 // mount routers
-server.use('/api/login', loginRouter);
-server.use('/api/logout', logoutRouter);
-server.use('/api/register', registerRouter);
+server.use('/api', loginRouter);
 server.use('/api/users', userRouter);
 
 server.get('/', (req, res) => {

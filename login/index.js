@@ -1,11 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../data/helpers/userDb');
+const db = require('../data/helpers/index');
 const bcrypt = require('bcryptjs');
 const mw = require('../data/middleware/index');
 
+// register
+router.post('/register', async (req, res) => {
+    try {
+        const newRecord = { ...req.body };
+        const hash = bcrypt.hashSync(newRecord.password, 14);
+        newRecord.password = hash;
+        const record = await db.add(newRecord);
+        const getRecord = await db.get(newRecord);
+        const token = mw.genToken(getRecord);
+
+        // res.status(200).json({message: 'Register Successful'});
+        res.status(200).json({token});
+    } catch (err) {
+        res.status(500).json({error: 'Server Error'});
+    }
+});
+
 // login
-router.post('/', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const newRecord = { ...req.body };
         const record = await db.get(newRecord);
@@ -19,6 +36,15 @@ router.post('/', async (req, res) => {
             res.status(401).json({message: 'Incorrect Credentials'});
         }
 
+    } catch (err) {
+        res.status(500).json({error: 'Server Error'});
+    }
+});
+
+// logout
+router.get('/logout', async (req, res) => {
+    try {
+        res.status(200).json({message: 'Logout Successful'});
     } catch (err) {
         res.status(500).json({error: 'Server Error'});
     }
