@@ -21,31 +21,32 @@ class Login extends Component {
     });
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log("SUBMITTED");
+  };
+
   render() {
     return (
       <div className="form-wrapper">
         <h2>LOGIN</h2>
-        <form>
-          <div className="form-group">
-            <input
-              className="form-control"
-              type="text"
-              name="username"
-              placeholder="User Name"
-              value={this.state.username}
-              onChange={this.state.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              className="form-control"
-              type="text"
-              name="password"
-              placeholder="PASSWORD"
-              value={this.state.password}
-              onChange={this.state.handleChange}
-            />
-          </div>
+        <form className="form-group" onSubmit={this.handleSubmit}>
+          <input
+            className="form-control"
+            type="text"
+            name="username"
+            placeholder="USER NAME"
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          <input
+            className="form-control"
+            type="text"
+            name="password"
+            placeholder="PASSWORD"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
           <button type="submit" className="btn btn-lg form-control">
             SUBMIT
           </button>
