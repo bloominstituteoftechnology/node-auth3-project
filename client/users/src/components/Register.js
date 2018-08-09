@@ -30,6 +30,7 @@ export default class Register extends Component {
       .then(response => {
         console.log('response', response)
         localStorage.setItem('token', response.data)
+        this.props.history.push('/');
         //console.log('localStorage', localStorage.token)
         //this.props.history.push('/');
         //console.log('localStorage',localStorage)

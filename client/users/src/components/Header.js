@@ -21,8 +21,7 @@ export default class Header extends Component {
     this.setState({
       token: false
     })
-
-    //window.location.href = URL;
+    window.location.href = URL;
   }
 
   render() {
