@@ -12,7 +12,6 @@ class Users extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem('jwt');
-    console.log('TOKEN', token);
     const requestOptions = {
       headers: { Authorization: token },
     };
@@ -23,13 +22,16 @@ class Users extends React.Component {
         this.setState({ users: res.data });
       })
       .catch(err => {
+        setTimeout(() => {
+          this.props.history.push('/login');
+        }, 500);
+        alert('You must be logged in to continue... Redirecting');
         console.error('axios err:', err);
       });
   }
 
   render() {
     return this.state.users.map(u => <User key={u.id} user={u} />);
-    // return <User />;
   }
 }
 

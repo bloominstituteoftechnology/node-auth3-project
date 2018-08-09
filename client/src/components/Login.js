@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class Login extends React.Component {
   constructor() {
@@ -7,8 +8,16 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
+      error: '',
+      modal: false,
     };
   }
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -22,7 +31,17 @@ class Login extends React.Component {
         localStorage.setItem('jwt', token);
       })
       .catch(err => {
-        console.error('axios err:', err);
+        console.error('axios err:', err.response.data);
+        if (err.response.data.error.includes('Unauthorized')) {
+          this.setState({
+            error: 'There is an error with your credentials',
+            username: '',
+            password: '',
+          });
+        } else {
+          this.setState({ error: err.response.data.error });
+        }
+        this.toggle();
       });
     this.setState({ username: '', password: '' });
   };
@@ -57,6 +76,17 @@ class Login extends React.Component {
         </div>
         <div>
           <button type="submit">Login</button>
+        </div>
+        <div>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>ERROR</ModalHeader>
+            <ModalBody>{this.state.error}</ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.toggle}>
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
         </div>
       </form>
     );
