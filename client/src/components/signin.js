@@ -22,7 +22,7 @@ class Signin extends React.Component {
         this.props.history.push("/users");
       })
       .catch(err => {
-        console.error("Axios failed");
+        console.log(err.response.data);
       });
   };
 
