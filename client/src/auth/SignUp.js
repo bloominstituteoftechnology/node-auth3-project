@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class SignUp extends Component {
-    state = {
-        username: '',
-        password: '',
-        department: ''
-    };
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: '',
+            department: ''
+        }
+    }
 
     handleChange = e => {
         this.setState({[e.target.name]: e.target.value});
@@ -14,17 +17,14 @@ class SignUp extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        console.log('register');
 
-        axios.post(`http://localhost:8000/api/register`, this.state)
-            .then(res => {
-                console.log(res);
-                const token = res.data;
+        axios.post('http://localhost:8000/api/register', this.state)
+            .then(({data}) => {
+                const token = data.token;
                 localStorage.setItem('jwt', token);
+                this.props.history.push('/users');
             })
             .catch(err => console.log(err));
-        
-        this.props.history.push('/users');
     };
 
     render() {
@@ -59,7 +59,7 @@ class SignUp extends Component {
                         />
                     </div>
                 </form>
-                <button type="submit">Submit</button>
+                <button onClick={this.handleSubmit}>Submit</button>
             </div>
         );
     }

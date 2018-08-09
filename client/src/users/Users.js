@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Users extends Component {
-    state = {
-        users: []
+    constructor() {
+        super();
+        this.state = {
+            users: []
+        }
     }
 
     componentDidMount() {
@@ -26,7 +29,7 @@ class Users extends Component {
         return (
             <div className="App">
                 <ul>
-                    {this.state.map(user => {
+                    {this.state.users.map(user => {
                         return <li>{user.username}</li>;
                     })}
                 </ul>
