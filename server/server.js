@@ -1,13 +1,17 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const helmet = require('helmet');
+const cors = require('cors');
 const port = 8002;
 
 const db = require('./data/db');
 
 const server = express();
 
+server.use(helmet());
 server.use(express.json());
+server.use(cors({ origin: "http://localhost:3000", credentials:true }));
 
 server.get('/', (req, res) => {
     res.send('<h1>Home Page</h1>')
@@ -46,23 +50,32 @@ function protected(req, res, next) {
     }
 }
 
+// function checkNamePass(req, res, next) {
+//     const { username, password } = req.body;
+
+//     if(!username || !password) {
+//         return res.status(400).json({ error: 'Please provide both a username and password' })
+//         next()
+//     }
+// }
+
 // **** user *****
 
 server.post('/api/register', (req, res) => {
     const user = req.body;
-
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash;
 
+   
     db('users')
         .insert(user)
-        .then(function(ids) {
+        .then(ids => {
             db('users')
-            .where({ id: ids[0] })
-            .first()
+            .where({ id: ids[0] }) // grabbing the first from the array
+            .first() // same o
             .then(user => {
                 const token = generateToken(user);
-                res.status(201).json(token);
+                res.status(201).json({ username: user.username, token});
             })
         })
         .catch(err => res.status(500).json({ err }))
@@ -78,7 +91,7 @@ server.post('/api/login', (req, res) => {
         .then(user => {
             if( user && bcrypt.compareSync(credentials.password, user.password)) {
                 const token = generateToken(user);
-                res.send(token)
+                res.status(200).json({ message: 'Logged in', token})
             } else {
                 return res.status(401).json({ err: 'Incorrect credentials'})
             }
@@ -89,11 +102,24 @@ server.post('/api/login', (req, res) => {
 server.get('/users', protected, (req, res) => {
     console.log('token: ', req.jwtToken)
     db('users')
+    .select()
         .then(users => {
             res.json(users);
         })
         .catch(err => res.send(err))
 })
+
+// server.get('/logout', (req, res) => {
+//     if (token) {
+//         token.destroy(err => {
+//             if(err) {
+//                 res.send('error logging out');
+//             } else {
+//                 res.send('good bye');
+//             }
+//         })
+//     }
+// })
 
 
 server.listen(port, () => console.log(`running on port ${port}`));
