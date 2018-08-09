@@ -1,3 +1,4 @@
+require('dotenv').config()
 const db = require('knex')(require('./knexfile').development)
 const jwt = require('jsonwebtoken')
 const express = require('express')
@@ -22,17 +23,30 @@ server.post('/signup', async (req, res, next) => {
     const user = await db('users')
       .where('id', '=', ids[0])
       .first()
-    res.status(200).json(user)
+    const token = generateUserToken(user)
+    res.status(200).json(token)
   } catch (err) {
     next(err) 
   }
 })
+
 
 server.use((err, req, res, next) => {
   res
     .status(500)
     .json(err)
 })
+
+function generateUserToken(user) {
+  const payload = {
+    username: user.username,
+  }
+  const options = {
+    expiresIn: '1h',
+    jwtid: '1'
+  }
+  return jwt.sign(payload, process.env.AUTH_SECRET, options)
+}
 
 server.listen(2345, () => console.log('... 2345 ...'))
 

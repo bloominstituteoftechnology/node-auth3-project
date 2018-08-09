@@ -4,3 +4,4 @@ node_modules/
 *.swo
 package-lock.json
 data/auth_ii.sqlite3
+.env
