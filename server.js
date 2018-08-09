@@ -94,7 +94,7 @@ server.post('/api/signup', async (req, res, next) => {
     try {
         const response = await db.register(user);
         const token = generateToken(user);
-        res.status(201).send(token);
+        res.status(201).json({token});
     } catch (error) {
         next(sendError(500, 'Failed to sign up.', error.message))
     }

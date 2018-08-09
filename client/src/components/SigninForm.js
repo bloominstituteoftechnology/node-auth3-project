@@ -48,7 +48,7 @@ const Button = styled.button`
     font-size: 24px;
     cursor: pointer;
     &:hover {
-        background:1D3557;
+        background: #1D3557;
     }
 
     &:active {

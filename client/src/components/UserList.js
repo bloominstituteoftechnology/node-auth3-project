@@ -63,7 +63,15 @@ const Nav = styled.div`
     background: #404F50;
     color:  #F1FAEE;
 `
-
+const Button = styled.button`
+    background: none;
+    color: #F1FAEE;
+    border: none;
+    cursor: pointer;
+    &:hover {
+        color: salmon;
+    }
+`
 class UserList extends React.Component {
     constructor(props) {
         super(props);
@@ -106,7 +114,7 @@ class UserList extends React.Component {
             <Content>
                 <Nav>
                     Welcome....        
-                    <button onClick = {this.onClick}>Logout</button>
+                    <Button onClick = {this.onClick}>Logout</Button>
                 </Nav>
                 <Header>Users List</Header>
                 <Table>
