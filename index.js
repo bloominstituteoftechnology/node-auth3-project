@@ -3,9 +3,11 @@ const db = require('./data/db');
 const server = express();
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 
 server.use(express.json());
+server.use(cors());
 
 const secret = 'idk what im doing';
 
