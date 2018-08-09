@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route } from 'react-router-dom';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import Users from './components/users/Users';
+import AuthProvider from './AuthProvider';
+import Header from './components/Header';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="container">
+        <AuthProvider>
+          <Header />
+          <h2>Client Auth with React Context</h2>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/users" component={Users} />
+        </AuthProvider>
       </div>
     );
   }
