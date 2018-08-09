@@ -25,12 +25,19 @@ class Users extends Component {
             })
     }
 
+    logoutHandler = (e) => {
+        localStorage.removeItem('jwt')
+    
+        this.props.history.push('/signin')
+      }
+
     render() {
     return (
         <div className="Users">
            <ul>
                {this.state.users.map(user => <li key={user.id}>{user.userName}</li>)}
            </ul>
+           <div><button onClick={this.logoutHandler}>Logout</button></div>
         </div>
     );
   }
