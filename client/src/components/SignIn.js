@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 
 class SignIn extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             password: ''
@@ -28,8 +28,7 @@ class SignIn extends React.Component {
             .then(response => {
                 const token = response.data;
                 localStorage.setItem('jwt', token)
-                console.log(response)
-                console.log(response.data)
+                this.props.history.push('/users')
             })
             .catch(err => console.error('axios failed', err.response.data))
 
@@ -57,7 +56,9 @@ class SignIn extends React.Component {
                             name='password'
                         />
                     </div>
+
                     <div onClick={this.onSubmit}><button>Sign In</button></div>
+
                 </form>
             </div>
         )

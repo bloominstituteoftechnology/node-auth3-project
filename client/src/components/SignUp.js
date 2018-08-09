@@ -3,8 +3,8 @@ import axios from 'axios'
 
 
 class SignUp extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             password: '',
@@ -30,10 +30,10 @@ class SignUp extends React.Component {
             .then(response => {
                 const token = response.data;
                 localStorage.setItem('jwt', token)
-                console.log(response)
-                console.log(response.data)
+                this.props.history.push('/users')
+
             })
-            .catch(res => console.error('axios failed'))
+            .catch(err => console.error(err.response.data))
 
         this.setState({ username: '', password: '', department: '' })
     }
