@@ -2,25 +2,15 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const db = require('./data/db.js');
 const cors = require('cors');
-//const session = require('express-session');
 const jwt = require('jsonwebtoken');
 
 const server = express();
 server.use(express.json());
-server.use(cors());
-/*server.use(
-    session({
-        name: "holyhandgrenade",
-        secret: "Are you suggesting coconuts migrate?",
-        cookie: {
-            maxAge: 1 * 24 * 60 * 60 * 1000,
-            secure: false
-        },
-        httpOnly: true,
-        resave: false,
-        savUninitialized: false
-    })
-);*/
+server.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
 const secret = 'Are you suggesting coconuts migrate?'
 
 function generateToken(user) {

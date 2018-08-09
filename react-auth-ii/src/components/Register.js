@@ -20,7 +20,7 @@ class Register extends React.Component {
         axios.post('http://localhost:8000/api/register', user)
         .then(response => {
           console.log(response);
-          this.setState({users: response.data})
+          localStorage.setItem("token", JSON.stringify(response.data));
         })
         .catch(err => {
           console.log(err)
@@ -36,15 +36,21 @@ class Register extends React.Component {
             type='text'
             name='username'
             placeholder='Choose a username'
-            onChange={props.handleChange.bind(this, 'user')}
+            onChange={this.handleChange.bind(this, 'user')}
             />
           <input
             type='password'
             name='password'
             placeholder='Choose a password'
-            onChange={props.handleChange.bind(this, 'user')}
+            onChange={this.handleChange.bind(this, 'user')}
             />
-            <button onClick={props.addUser}>Register</button>
+            <input
+            type='text'
+            name='department'
+            placeholder='Department'
+            onChange={this.handleChange.bind(this, 'user')}
+            />
+            <button onClick={this.addUser}>Register</button>
             </form>
         </div>
     )}
