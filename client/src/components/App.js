@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import './App.css';
 // import axios from 'axios';
 
@@ -7,28 +7,21 @@ import Signup from './Signup';
 import Signin from './Signin';
 import Users from './Users';
 
-
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: '',
-      department: ''
-    }
+  handleLogout = e => {
+    localStorage.removeItem('jwt')
+    this.props.history.push('/signin');
   }
-
-  handleChange = (e) => {this.setState({ [e.target.name]: e.target.value });}
-  handleSignup = () => {
-    // Put POST request to /register here.
-    this.setState({ username: '', password: '', department: '' })
-  }
-
   render() {
     return (
       <div className="App">
         <h1>Home/Root</h1>
-        <Route path='/signup' render={() => <Signup state={this.state} handleChange={this.handleChange} handleSignup={this.handleSignup} />} />
+        {/* Logout Button */}
+        {localStorage.getItem('jwt') && (
+          <button onClick={this.handleLogout}>Logout</button>
+        )}
+        {/* Routes */}
+        <Route path='/signup' component={Signup} />
         <Route path='/signin' component={Signin} />
         <Route path='/users' component={Users} />
       </div>
@@ -36,4 +29,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

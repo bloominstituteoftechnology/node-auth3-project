@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 
-const Signup = (props) => {
+class Signup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      department: ''
+    }
+  }
+  handleChange = (e) => {this.setState({ [e.target.name]: e.target.value });}
+  handleSignup = (e) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:3300/register', this.state)
+      .then(response => {
+        console.log('SIGNUP RESPONSE: ', response.data)
+        localStorage.setItem('jwt', response.data);
+      })
+      .catch(err => {console.log('Axios failed.', err)})
+    this.setState({ username: '', password: '', department: '' })
+  }
+  render() {
     return (
-        <div>
-            <form onSubmit={props.handleSignup} >
-                <input name='username' value={props.username} placeholder='Username...' onChange={props.handleChange} />
-                <input name='password' value={props.password} placeholder='Password...' onChange={props.handleChange} />
-                <input name='department' value={props.department} placeholder='Department...' onChange={props.handleChange} />
-                <button onClick={props.handleSignup}>Sign Up</button>
-            </form>
-        </div>
+      <div>
+        <form>
+          <input name='username' value={this.state.username} placeholder='Username...' onChange={this.handleChange} />
+          <input name='password' type='password' value={this.state.password} placeholder='Password...' onChange={this.handleChange} />
+          <input name='department' value={this.state.department} placeholder='Department...' onChange={this.handleChange} />
+          <button onClick={this.handleSignup}>Sign Up</button>
+        </form>
+      </div>
     );
+  }
 }
- 
+
 export default Signup;

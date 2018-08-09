@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
 const server = express();
-server.use(cors({ origin: 'http://localhost:3300', credentials: true }));
+server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 const secret = "nobody tosses dwarf!";
 
@@ -54,7 +54,7 @@ server.post('/register', function(req, res) {
         .then(user => {
           const token = generateToken(user);
           // req.session.username = user.username;
-          res.status(201).json(user);
+          res.status(201).json(token);
         });
     })
     .catch(function(error) {
@@ -71,7 +71,7 @@ server.post('/login', function(req, res) {
       if (user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
         // req.session.username = user.username;
-        res.send({token});
+        res.send(token);
       } else {
         return res.status(401).json({ error: 'Incorrect credentials' });
       }
