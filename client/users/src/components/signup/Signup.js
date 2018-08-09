@@ -21,32 +21,34 @@ const Error = styled.div`
     color: red
 `
 
-class Signin extends Component {
+class Signup extends Component {
     state = {
         userName: '',
         password: '',
+        department: '',
         error: ''
     }
 
     inputHandler = (e) => {
         // Handle the input change
-        this.setState({ [e.target.name]: e.target.value, error: '' })
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     submitHandler = (e) => {
         e.preventDefault()
 
-        axios.post('http://localhost:8000/api/login', this.state)
+        axios.post('http://localhost:8000/api/register', this.state)
             .then(res => {
                 console.log(res)
                 const token = res.data
 
                 localStorage.setItem('jwt', token)
                 this.props.history.push('/users')
+
             })
             .catch(err => {
-                console.log("err!!!", err)
-                this.setState({userName: '', password: '', error: err.response.data.error})
+                console.error("Axios failed", err)
+                this.setState({userName: '', password: ''})
             })
     }
 
@@ -69,9 +71,17 @@ class Signin extends Component {
                             value={this.state.password} 
                             onChange={this.inputHandler} />
                 </div>
+                <div> 
+                    <Input type="text"
+                            name="department" 
+                            placeholder="Department"
+                            value={this.state.department} 
+                            onChange={this.inputHandler} />
+                </div>
                 <div>
                     <button type="submit">Signin</button>
                 </div>
+
                 {this.state.error ? (
                     <Error>{this.state.error}</Error>
                  ) : null}
@@ -81,4 +91,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default Signup;
