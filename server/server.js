@@ -32,6 +32,7 @@ function protected(req, res, next) {
 function generateToken(user) {
     const payload = {
       username: user.username,
+      department: user.department
     };
   
     const options = {
@@ -83,7 +84,9 @@ server.post('/api/login', function(req,res) {
 })
 
 server.get('/api/users', protected, (req, res) => {
+    const department = req.jwtToken.department;
     db('users')
+        .where({ department })
         .then(users => {
             res.json(users);
         })

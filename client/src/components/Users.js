@@ -11,7 +11,10 @@ class Users extends Component {
       <div className="Users">
         <u1>
           {this.state.users.map(user => 
-            <li key={user.id}>{user.username}</li>
+            <li key={user.id}>
+              <p>{user.username}</p>
+              <p>{user.department}</p>
+            </li>
           )}
         </u1>
       </div>
@@ -25,15 +28,18 @@ class Users extends Component {
           Authorization: token
         }
       }
-
+      if (token) {
       axios
         .get('http://localhost:8000/api/users', requestOptions)
         .then(res => {
             this.setState({ users: res.data });
         })
         .catch(err => {
-            console.error('Axios Failed');
-        });
+            console.error('Axios Failed')
+        }) 
+      } else {
+        setTimeout(() => window.location.pathname = '/api', 3000)
+      }
       console.log('state', this.state);
   }
 }
