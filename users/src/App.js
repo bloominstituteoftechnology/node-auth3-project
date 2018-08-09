@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Signin from "./components/Signin.js";
+import Signup from "./components/Signup.js";
+import Users from "./components/Users";
 
 class App extends Component {
   render() {
@@ -11,17 +14,10 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Users</h1>
         </header>
-        <form>
-          <h2>Log In to See List of Users</h2>
-          <input placeholder="Enter your Username" />
-          <input placeholder="Enter your Password" />
-          <button>Log In</button>
-          <hr />
-          <p>No account yet? Please register.</p>
-          <button>Register Now</button>
-        </form>
 
-        {/*<Route exact path="/" {Signin}/>*/}
+        <Route exact path="/" component={Signin} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
