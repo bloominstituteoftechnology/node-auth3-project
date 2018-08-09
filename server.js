@@ -2,13 +2,15 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
-
+const cors = require('cors');
 const expressjwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const db = require('./data/db');
 
 
 const server = express();
+
+server.use(cors())
 
 server.use(express.json());
 
@@ -20,7 +22,7 @@ server.get('/', (req, res)=> {
 });
 
 
-server.post('/api/register', (req, res)=> {
+server.post('/register', (req, res)=> {
 
         const credentials = req.body;
         const hash = bcrypt.hashSync(credentials.password, 14);  //hasing password using bcrypt
@@ -62,6 +64,7 @@ function generateToken(user) {
   const options = {
     expiresIn: '2h',
     jwtid: 'u97487291',
+    issuer: 'lambdastudent', 	  
   };
 
   return jwt.sign(payload, secret, options);
@@ -86,16 +89,46 @@ function protected (req, res, next){
   }
 }
 
-server.get('/api/users',expressjwt({secret: 'jtq27utfvvbc90ndtwjuw'}),
+
+const isRevokedCallback = function(req, payload, done){
+  let issuer = payload.iss;
+  let tokenId = payload.jti;
+
+	//req.headers.authorization = null;
+	let data= req.headers.authorization;
+	
+	 console.log(issuer);
+	 console.log(tokenId);
+	 console.log(data);
+	
+  //data.getRevokedToken(issuer, tokenId, function(err, token){
+   // if (err) { return done(err); }
+    return done(null);
+  //});
+};
+ 
+
+/*server.get('/users', expressjwt({secret: 'jtq27utfvvbc90ndtwjuw', isRevoked: isRevokedCallback}),protected,
   
   function(req, res, next) {
     if (!req.user) return res.status(401).json({error: 'no token'});
-    next();        //res.status(200).json({message: 'success'});
+    // next();        
+	  res.status(200).json({message: 'success'});
   });
 
 
 
-server.post('/api/login', function(req, res) {
+/*server.get('/users', expressjwt({secret: 'jtq27utfvvbc90ndtwjuw'}),
+ 
+  function(req, res, next) {
+    if (!req.user) return res.status(401).json({error: 'no token'});
+    next();        
+  });*/
+
+
+
+
+server.post('/login', function(req, res) {
   const credentials = req.body;
 
   db('users')
@@ -120,19 +153,18 @@ server.post('/api/login', function(req, res) {
 });
 
 
-server.get('/api/users', (req, res) => {
-  console.log('token', req.jwtToken);
-
-  db('users')
-    .then(users => {
-      res.json(users);
+server.get('/users', protected, (req, res) => {
+  								//console.log(req.headers.authorization);
+    db('users')
+     .then(users => {
+     res.json(users);
     })
     
     .catch(err => res.send(err));
 });
 
 
-server.get('/api/logout', (req, res)=>{
+server.get('/logout', (req, res)=>{
 	if(req.headers.authorization){
 	req.headers.authorization =null;
 	res.send('logged out successfully');
