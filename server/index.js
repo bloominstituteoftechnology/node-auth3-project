@@ -83,8 +83,8 @@ server.post('/api/login', (req, res) => {
 })
 
 server.get('/api/users', protected, (req,res) => {
-    db.select()
-        .from('users')
+    db('users')
+        .select('id', 'username')
         .then(users => {
             res.status(201).json(users);
         })
