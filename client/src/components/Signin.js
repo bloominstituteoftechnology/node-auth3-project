@@ -24,11 +24,12 @@ class Signin extends Component {
   }
   render() {
     return (
-      <div>
-        <form>
+      <div className='signin'>
+        <form className='form'>
+          <h1 className='form-header'>Sign in below:</h1>
           <input name='username' value={this.state.username} placeholder='Username...' onChange={this.handleChange} />
           <input name='password' type='password' value={this.state.password} placeholder='Password...' onChange={this.handleChange} />
-          <button onClick={this.handleSignin}>Login</button>
+          <div className='btn' onClick={this.handleSignin}>Login</div>
         </form>
       </div>
     );

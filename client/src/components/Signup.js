@@ -24,12 +24,13 @@ class Signup extends Component {
   }
   render() {
     return (
-      <div>
-        <form>
+      <div className='signup'>
+        <form className='form'>
+          <h1 className='form-header'>Create a new user below:</h1>
           <input name='username' value={this.state.username} placeholder='Username...' onChange={this.handleChange} />
           <input name='password' type='password' value={this.state.password} placeholder='Password...' onChange={this.handleChange} />
           <input name='department' value={this.state.department} placeholder='Department...' onChange={this.handleChange} />
-          <button onClick={this.handleSignup}>Sign Up</button>
+          <div className='btn' onClick={this.handleSignup}>Sign Up</div>
         </form>
       </div>
     );

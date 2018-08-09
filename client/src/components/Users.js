@@ -29,21 +29,21 @@ class Users extends Component {
   }
   render() {
     return (
-      <div>
+      <div className='users'>
         {/* Logout Button */}
         {localStorage.getItem('jwt') && (
-          <button onClick={this.handleLogout}>Logout</button>
+          <div className='btn' onClick={this.handleLogout}>Logout</div>
         )}
-        <ul>
+        <div className='users-list'>
           {this.state.users.map(user => {
             return (
-              <div key={user.id}>
-                <li>{user.username}</li>  
-                <li>{user.department}</li>
+              <div key={user.id} className='user'>
+                <p>{user.username}</p>  
+                <p>{user.department}</p>
               </div>
             )
           })}
-        </ul>
+        </div>
       </div>
     );
   }

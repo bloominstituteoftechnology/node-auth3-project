@@ -1,28 +1,138 @@
+/* App Styles */
 .App {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  background: #D9DBBC;
+}
+
+/* Signup Styles */
+.signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FCDDBC;
+  height: 50%;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  border: 3px double #EF959D;
+  border-radius: 15px;
+}
+.signup .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  width: 60%;
+}
+.signup .form-header {
+  font-size: 2rem;
+}
+.signup input {
+  width: 60%;
+  border-radius: 10px;
+  font-size: 1.25rem;
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.signup .btn {
+  width: 30%;
+  height: 7%;
+  border: 1px solid #69585F;
+  border-radius: 15px;
+  background: #B8D8BA;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+/* Signin Styles */
+.signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FCDDBC;
+  height: 50%;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  border: 3px double #EF959D;
+  border-radius: 15px;
+}
+.signin .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  width: 60%;
+}
+.signin .form-header {
+  font-size: 2rem;
+}
+.signin input {
+  width: 60%;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  text-align: center;
+}
+.signin .btn {
+  width: 30%;
+  height: 7%;
+  border: 1px solid #69585F;
+  border-radius: 15px;
+  background: #B8D8BA;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.App-title {
-  font-size: 1.5em;
+/* Users Styles */
+.users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #FCDDBC;
+  height: 50%;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  border: 3px double #EF959D;
+  border-radius: 15px;
 }
-
-.App-intro {
-  font-size: large;
+.users .btn {
+  width: 30%;
+  height: 7%;
+  border: 1px solid #69585F;
+  border-radius: 15px;
+  background: #B8D8BA;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.users .users-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70%;
+  width: 60%;
+  padding: 2% 0;
+}
+.users .user {
+  width: 30%;
+  border: 1px solid #69585F;
+  padding: 2% 15%;
+  margin-bottom: 5%;
+}
+.users .user p {
+  font-size: .8rem;
+}
+.users .user p:nth-child(1) {
+  font-size: 1rem;
 }
