@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
 import logo from './logo.svg';
+import Register from './components/Register';
 import Login from './components/Login';
 import './App.css';
 
@@ -16,6 +17,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
       </div>
     );
