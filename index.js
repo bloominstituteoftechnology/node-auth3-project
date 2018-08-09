@@ -117,16 +117,6 @@ server.post('/api/login', function(req, res) {
     });
 });
 
-server.post('/api/logout', (req, res) => {
-  console.log(req.headers.authorization)
-  // if (req.headers.authorization) {
-  //   req.headers.authorization = null
-  //   res.status(500).json({ message: 'you are logged out'})
-  // } else {
-  //   res.json({ message: "unable to log out"})
-  // }
-})
-
 server.listen(8000, () => {
   console.log('API running on port 8000')
 });

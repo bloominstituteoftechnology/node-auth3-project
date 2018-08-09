@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import '../index.css';
 import '../App.css';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Header from './Header';
 
 export default class Register extends Component {
   constructor(props) {
@@ -43,19 +44,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="App">
-      <header className="App-header">
-      <h1 className="App-title">Auth-i</h1>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <button type='button' className="btn btn-secondary mr-2">Users</button>
-        </Link>
-        <Link to="/register" style={{ textDecoration: 'none' }}>
-          <button type='button' className="btn btn-info mr-2">Register</button>
-        </Link>
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <button type='button' className="btn btn-success mr-2">Login</button>
-        </Link>
-        <button type='button' onClick={this.handleLogout} className="btn btn-danger mr-2">Logout</button>
-      </header>
+      <Header />
       <div className="form-group container w-50">
         <h3 className="header mt-2">Register</h3>
         <input

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../index.css';
+import Header from './Header';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 axios.defaults.withCredentials = true
@@ -46,19 +47,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Auth-i</h1>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <button type='button' className="btn btn-secondary mr-2" onClick={() => this.getUsers()}>Users</button>
-          </Link>
-          <Link to="/register" style={{ textDecoration: 'none' }}>
-            <button type='button' className="btn btn-info mr-2">Register</button>
-          </Link>
-          <Link to="/login" style={{ textDecoration: 'none' }}>
-            <button type='button' className="btn btn-success mr-2">Login</button>
-          </Link>
-          <button type='button' onClick={this.handleLogout} className="btn btn-danger mr-2">Logout</button>
-        </header>
+        <Header />
         <div className="container">
           <h4>Users:</h4>
           {this.state.usernames.map(user =>
