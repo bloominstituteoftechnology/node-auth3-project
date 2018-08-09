@@ -16,6 +16,7 @@ class Users extends Component {
         }
         axios
             .get('http://localhost:8000/api/users', requestOptions)
+            .select('id', 'userName', 'department')
             .then(res => {
                 console.log("res Users", res)
                 this.setState({ users: res.data })

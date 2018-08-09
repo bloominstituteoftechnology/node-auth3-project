@@ -3,9 +3,6 @@ import axios from 'axios';
 import styled from 'styled-components'
 
 const Login = styled.div`
-    width: 100vw
-    height: 100vh
-    background: linear-gradient(to right, grey, white);
     display: flex
     flex-flow: column
     justify-content: center
@@ -57,7 +54,7 @@ class Signup extends Component {
     render() {
     return (
         <Login className="Signin">
-            <h1>Please Sign Up to Continue</h1>
+            <h1>Please Sign Up</h1>
             <form onSubmit={this.submitHandler}>
                 <div> 
                     <Input type="text"
