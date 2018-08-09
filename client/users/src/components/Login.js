@@ -15,15 +15,18 @@ export default class Login extends Component {
   }
 
   handleSubmit = () => {
-    const URL = 'http://localhost:3000/'
     axios
       .post(`http://localhost:8000/api/login`, {
         username: this.state.username,
         password: this.state.password
       })
-      .then(response => console.log('Login response', response))
-      //.then(response => window.location.href = URL)
-      .catch(error => console.log('login err', error));
+      .then(response => {
+        localStorage.setItem('token', response.data)
+        console.log('setItem', localStorage)
+        //this.props.history.push('/');
+        //console.log('localStorage',localStorage)
+      }) 
+      .catch(err => localStorage.removeItem('token'));
   }
 
   handleChange = e => {
