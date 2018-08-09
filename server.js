@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const session = require('express-session');
 const apiRoutes = require('./api/apiRoutes');
 
 const server = express();
