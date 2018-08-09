@@ -41,19 +41,10 @@ server.get('/api/users', checkLogIn, (req, res) => {
             res.status(200).json(response)
     })
     .catch(err => {
-        res.status(500).json('You shall not pass!')
+        res.status(500).json({error: 'You shall not pass!'})
     })
 })
 
-server.get('/api/users/test', (req, res) => {
-    db('users').select('username', 'department', 'password')
-    .then(response => {
-            res.status(200).json(response)
-    })
-    .catch(err => {
-        res.status(500).json('You shall not pass!')
-    })
-})
 
 server.post('/api/register', (req, res) => {
     const credentials = req.body;

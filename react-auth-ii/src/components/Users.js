@@ -1,12 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            users: [],
+            error: ''
         }
+    }
+
+    logOut = event => {
+        localStorage.removeItem('token');
+        this.props.history.push('/signin')
     }
 
     componentDidMount() {
@@ -16,6 +23,7 @@ class Users extends React.Component {
                 authorization: token
             }
         }
+        console.log(token);
         axios
             .get('http://localhost:8000/api/users', reqOptions)
             .then(response => {
@@ -24,20 +32,24 @@ class Users extends React.Component {
             })
             .catch(err => {
                 console.log(err);
+                this.setState({error: err})
             })
     }
+
 
     render() {
         return(
             <div>
-                
+                <ul>
                     {this.state.users.map(user => {
-                        return<ul> <li>{user.username}, {user.department}</li></ul>
+                        return <li key={user.id}>{user.username}, {user.department}</li>
                     })}
+                    </ul>
+                <button onClick={this.logOut}>Log out</button> 
                 
             </div>
         )
     }
 }
 
-export default Users;
+export default withRouter(Users);

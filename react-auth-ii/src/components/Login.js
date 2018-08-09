@@ -35,6 +35,7 @@ class Login extends React.Component {
     return (
         <div>
             <h3>Log In</h3>
+           
         <input 
             type='text'
             name='username'
@@ -50,6 +51,7 @@ class Login extends React.Component {
             onChange={this.handleChange}
             />
             <button onClick={this.logIn}>Log in</button>
+           
             {this.state.loggedIn ? <Redirect to='/users' /> : null }
         </div>
     )}
