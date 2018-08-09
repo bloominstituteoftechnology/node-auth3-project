@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-axios.defaults.withCredentials = true;
 
 class SignUp extends Component {
   constructor(props) {
@@ -19,24 +18,26 @@ class SignUp extends Component {
 
   handleSubmitInput = e => {
     e.preventDefault();
-    const users = {
-      username: this.state.username,
-      password: this.state.password,
-      departments: this.state.departments
-    };
+    // const users = {
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   departments: this.state.departments
+    // };
     axios
-      .post("http://localhost:8000/api/register", users)
+      .post("http://localhost:8000/api/register", this.state)
       .then(response => {
         console.log(response);
-        this.setState({
-          username: "",
-          password: "",
-          departments: ""
-        });
+        localStorage.setItem("jwt", response.data);
+        this.props.history.push("/users");
       })
       .catch(err => {
         console.log(err);
       });
+    // this.setState({
+    //   username: "",
+    //   password: "",
+    //   departments: ""
+    // });
   };
 
   render() {

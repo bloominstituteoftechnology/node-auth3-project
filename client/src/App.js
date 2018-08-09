@@ -4,7 +4,6 @@ import SignIn from "./components/signin";
 import SignUp from "./components/signup";
 import Users from "./components/users";
 import { Route } from "react-router-dom";
-import axios from "axios";
 
 class App extends Component {
   render() {

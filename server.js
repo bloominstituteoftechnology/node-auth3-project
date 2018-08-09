@@ -72,7 +72,7 @@ server.post("/api/login", (req, res) => {
   db("users")
     .where({
       username: credentials.username
-      //   departments: credentials.departments
+      // departments: credentials.departments
     })
     .first()
     .then(user => {
@@ -90,6 +90,7 @@ server.post("/api/login", (req, res) => {
 
 server.get("/api/users", protected, (req, res) => {
   db("users")
+    // .select("id", "username", "departments")
     .then(users => {
       res.json(users);
     })
