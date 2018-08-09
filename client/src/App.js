@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 
 import Signin from "./auth/Signin";
 import Users from "./users/Users";
@@ -8,6 +8,10 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  handleLogout = event => {
+    localStorage.removeItem("jwt");
+    this.props.history.push("/signin");
+  };
   render() {
     return (
       <div className="App">
@@ -16,7 +20,9 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div>
-          <button>Logout</button>
+          {localStorage.getItem("jwt") && (
+            <button onClick={this.handleLogout}>Logout</button>
+          )}
         </div>
 
         <Route path="/signin" component={Signin} />
@@ -26,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
