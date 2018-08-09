@@ -4,6 +4,7 @@ import './App.css';
 import { Route, withRouter } from 'react-router-dom';
 import SignIn from './auth/SignIn';
 import Users from './users/Users';
+import SignUp from './auth/SignUp';
 
 class App extends Component {
   handleLogout = e => {
@@ -25,6 +26,7 @@ class App extends Component {
           {localStorage.getItem('jwt') && <button onClick={this.handleLogout}>Logout</button>}
         </div>
 
+        <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />
         <Route path="/users" component={Users} />
       </div>

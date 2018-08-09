@@ -4,6 +4,12 @@ const db = require('../data/helpers/index');
 const bcrypt = require('bcryptjs');
 const mw = require('../data/middleware/index');
 
+// routers
+const userRouter = require('../users/index');
+
+// mount routers
+router.use('/users', userRouter);
+
 // register
 router.post('/register', async (req, res) => {
     try {

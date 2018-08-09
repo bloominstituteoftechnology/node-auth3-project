@@ -5,7 +5,6 @@ require('dotenv').config();
 
 // routers
 const loginRouter = require('./login/index');
-const userRouter = require('./users/index');
 
 const server = express();
 
@@ -15,7 +14,6 @@ server.use(helmet());
 
 // mount routers
 server.use('/api', loginRouter);
-server.use('/api/users', userRouter);
 
 server.get('/', (req, res) => {
     res.status(200).send(`\n=== Web API Listening on http://localhost:${port} ===\n`);

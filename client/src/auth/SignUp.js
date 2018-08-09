@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class SignIn extends Component {
+class SignUp extends Component {
     state = {
         username: '',
-        password: ''
+        password: '',
+        department: ''
     };
 
     handleChange = e => {
@@ -13,9 +14,9 @@ class SignIn extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        console.log('submit');
+        console.log('register');
 
-        axios.post(`http://localhost:8000/api/login`, this.state)
+        axios.post(`http://localhost:8000/api/register`, this.state)
             .then(res => {
                 console.log(res);
                 const token = res.data;
@@ -48,6 +49,15 @@ class SignIn extends Component {
                             onChange={this.handleChange}
                         />
                     </div>
+                    <div>
+                        <input
+                            type="text"
+                            name="department"
+                            placeholder="department"
+                            value={this.state.department}
+                            onChange={this.handleChange}
+                        />
+                    </div>
                 </form>
                 <button type="submit">Submit</button>
             </div>
@@ -55,4 +65,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default SignUp;
