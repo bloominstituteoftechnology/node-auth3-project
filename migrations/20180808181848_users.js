@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
 
     table.string('department')
     .notNullable()
-    .defaultTo(false);
+    .defaultTo('Regular Users');
   })  
 };
 
