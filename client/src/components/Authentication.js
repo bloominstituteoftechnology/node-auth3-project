@@ -11,12 +11,14 @@ const Authentication = App =>
     }
 
     componentDidMount() {
-    if (localStorage.getItem('token')) this.setState({loggedIn:true});
-  }
+      if (localStorage.getItem('token')) this.setState({
+        loggedIn: true
+      });
+    }
 
     render() {
-      if (this.state.loggedIn) return <App/>;
-      return <Login />;
+      if (this.state.loggedIn) return <App / > ;
+      return <Login / > ;
       //this.state.loggedIn ? return (<App/>:<Login />);
     }
   }

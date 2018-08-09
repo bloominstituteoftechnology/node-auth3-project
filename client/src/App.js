@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Route} from 'react-router-dom';
 import axios from 'axios';
 import Authentication from './components/Authentication';
 

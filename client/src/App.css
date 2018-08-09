@@ -268,11 +268,34 @@ body {
 .loginTitle {
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
-  width: 300px;
+  width: 320px;
   border: 2px solid ;
   background: firebrick;
   opacity: 0.9;
   font-size: 80px;
   text-align: center;
   margin-bottom: 50px;
+}
+
+.Goto-Signup {
+  text-decoration: none;
+  color: indigo;
+  border: 2px solid;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+}
+
+.Goto-Login {
+  text-decoration: none;
+  color: indigo;
+  border: 2px solid;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+}
+
+.wrong-password {
+  color: red;
+  text-shadow: 1px black;
 }

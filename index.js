@@ -7,7 +7,9 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 let isValid = null;
 
-var token = jwt.sign({validity: isValid}, 'someKeyITk')
+var token = jwt.sign({
+  validity: isValid
+}, 'someKeyITk')
 server.use(express.json());
 server.use(cors());
 
@@ -25,10 +27,16 @@ server.use((req, res, next) => {
 const authenticate = async (req, res, next) => {
   const credentials = req.body;
   console.log(credentials);
-  const foundUser = await db('users').where('username', credentials.username).first();
-  const userHash = foundUser.password;
-  isValid = bcrypt.compareSync(credentials.password, userHash);
-  next();
+  try {
+    const foundUser = await db('users').where('username', credentials.username).first();
+    const userHash = foundUser.password;
+    isValid = bcrypt.compareSync(credentials.password, userHash);
+    next();
+  } catch (err) {
+    isValid = false;
+    next();
+  }
+
 };
 
 server.get('/api/users', (req, res) => {
@@ -49,7 +57,7 @@ server.get('/api/users', (req, res) => {
 
 server.post('/api/register', async (req, res) => {
   const user = req.body;
-  const hash = bcrypt.hashSync(user.password, 0);
+  const hash = bcrypt.hashSync(user.password, 14);
   user.password = hash;
 
   try {
@@ -71,7 +79,12 @@ server.post('/api/login', authenticate, async (req, res) => {
   if (isValid) {
     try {
       const cookie = await db('users').where('username', req.body.username).first();
-      res.status(200).json({message:"Logged In", token:token, cookie: cookie.id, userDep: cookie.department});
+      res.status(200).json({
+        message: "Logged In",
+        token: token,
+        cookie: cookie.id,
+        userDep: cookie.department
+      });
     } catch (err) {
       console.log(err);
     }

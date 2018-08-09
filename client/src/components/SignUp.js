@@ -24,6 +24,7 @@ class SignUp extends React.Component {
     const department = this.state.department;
     axios.post('http://localhost:8000/api/register', {username, password, department}).then(response => {
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('User Department', response.data.department);
       this.props.history.push('/');
     }).catch(err => {
       console.log(err);
@@ -40,11 +41,11 @@ class SignUp extends React.Component {
         <div>Username: <input name="username" placeholder="Username"
         onChange={this.handleChange} value={this.state.username} /></div><br/>
         <div>Password: <input type="password" name="password" placeholder="Password"
-        onChange={this.handleChange} value={this.state.password} /><br/>
+        onChange={this.handleChange} value={this.state.password} /></div><br/>
         <div>Department: <input name="department" placeholder="Department"
         onChange={this.handleChange} value={this.state.department} /></div><br/>
-        <input className="sidebar-button login-button" type="submit" value="Log In" onClick={this.handleSignup} /></div>
-        <NavLink to='/'>"Have an account already? Login here"</NavLink>
+        <input className="sidebar-button login-button" type="submit" value="Sign Up" onClick={this.handleSignup} /><br/>
+        <NavLink to='/' className="Goto-Login">"Have an account already? Login here"</NavLink>
         </form>
       </div>
     );
