@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 const Content = styled.div`
@@ -54,6 +55,15 @@ const Warning = styled.p`
     text-align: center;
 `
 
+const Nav = styled.div`
+    display: flex;
+    justify-content: space-between;
+    text-align: right;
+    width: 100%;
+    background: #404F50;
+    color:  #F1FAEE;
+`
+
 class UserList extends React.Component {
     constructor(props) {
         super(props);
@@ -68,14 +78,14 @@ class UserList extends React.Component {
     }
 
     fetchUsers = async () => {
+        const token = localStorage.getItem('token');
         try {
-            const token = localStorage.getItem('token');
-
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:8000/api/users/',
                 headers: { authorization: token }
             });
+            console.log(response);
             this.setState({
                 users: response.data,
                 isAuthenticated: true
@@ -85,9 +95,19 @@ class UserList extends React.Component {
         }
     }
 
+    onClick = () => {
+        localStorage.removeItem('token');
+        this.props.history.push('/signin');
+    }
+
     render() {
+        console.log(this.state.token);
         const userTable = (
             <Content>
+                <Nav>
+                    Welcome....        
+                    <button onClick = {this.onClick}>Logout</button>
+                </Nav>
                 <Header>Users List</Header>
                 <Table>
                     <thead>
@@ -110,10 +130,11 @@ class UserList extends React.Component {
         );
 
         const warning = <Warning>
-            You are unauthorized to see this content. 
-            <br/>
-            Redirecting to Sign In...
+            You are unauthorized to view this content.
+            <br />
+            Redirecting to login page...
             </Warning>;
+
         return (
             <Content>
                 {this.state.isAuthenticated ? userTable : warning}
