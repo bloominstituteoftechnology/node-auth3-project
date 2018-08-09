@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import { Link } from 'react-router-dom';
+
 import '../styles/users.css';
 
 class Users extends Component {
@@ -53,7 +55,9 @@ class Users extends Component {
                     )
                 })}
             </div>
+            <Link to='/signin'>
             <button className='logout' onClick={this.logoutHandler}>Logout</button>
+            </Link>
         </div>
          );
     }
