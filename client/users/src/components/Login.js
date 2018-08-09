@@ -19,9 +19,9 @@ export default class Login extends Component {
       .post(`http://localhost:8000/api/login`, this.state)
       .then(response => {
         localStorage.setItem('token', response.data)
-        console.log('localStorage', localStorage.token)
-        //this.props.history.push('/');
-        console.log('localStorage',localStorage)
+        //console.log('localStorage', localStorage.token)
+        this.props.history.push('/');
+        //console.log('localStorage',localStorage)
       }) 
       .catch(err => localStorage.removeItem('token'));
   }
