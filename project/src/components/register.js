@@ -28,11 +28,11 @@ class Signup extends Component {
 
 
 
-            // this.setState({
-            //     username:'',
-            //     password:'',
-            //     department:''
-            // });//don't need
+            this.setState({
+                username:'',
+                password:'',
+                department:''
+            });
       }
 
       handleInputChange = e => {

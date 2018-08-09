@@ -28,11 +28,11 @@ class Signin extends Component {
 
 
 
-        //   this.setState({
-        //       username:'',
-        //       password:'',
-        //       department:''
-        //   });
+          this.setState({
+              username:'',
+              password:'',
+              department:''
+          });
     }
 
     handleInputChange = e => {
