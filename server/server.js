@@ -75,7 +75,7 @@ server.post('/api/register', (req, res) => {
             .first() // same o
             .then(user => {
                 const token = generateToken(user);
-                res.status(201).json({ username: user.username, token});
+                res.status(201).json(token);
             })
         })
         .catch(err => res.status(500).json({ err }))

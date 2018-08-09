@@ -17,9 +17,13 @@ class Signup extends Component {
     e.preventDefault();
     axios
       .post(`http://localhost:8002/api/register`, this.state)
-      .then(response => {
-        localStorage.setItem('token', response.data);
-        this.props.history.push('/signin');
+      .then(res=> {
+        localStorage.setItem('token', res.data);
+        // this.props.history.push('/signin');
+        const token = res.data;
+    
+            localStorage.setItem('token', token);
+            this.props.history.push('/users')
       })
       .catch(error => console.log(error));
   }

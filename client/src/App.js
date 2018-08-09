@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Link } from 'react-router-dom';
 
 import Signin from './components/Signin';
 import Signup from './components/Signup';
@@ -16,7 +16,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
-          
+            <Link to='/signup'>Sign Up</Link><br/>
+            <Link to='/signin'>Sign In</Link>
             <Route exact path='/signin' component={ Signin } ></Route>
             <Route exact path='/users' component={ Users } ></Route>
             <Route exact path='/signup' component={ Signup } ></Route>
