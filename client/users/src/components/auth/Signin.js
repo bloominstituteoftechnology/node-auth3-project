@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
+import { withRouter } from 'react-router'
 
 const Login = styled.div`
     display: flex
     flex-flow: column
     justify-content: center
     align-items: center
+    
 `
 const Input = styled.input`
     margin: 0% 0 8% 0;
@@ -33,7 +35,9 @@ class Signin extends Component {
     submitHandler = (e) => {
         e.preventDefault()
 
-        axios.post('http://localhost:8000/api/login', this.state)
+        const user = { userName: this.state.userName, password: this.state.password }
+
+        axios.post('http://localhost:8000/api/login', user)
             .then(res => {
                 console.log(res)
                 const token = res.data
@@ -78,4 +82,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default withRouter(Signin);

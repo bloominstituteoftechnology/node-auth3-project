@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
+import { withRouter } from 'react-router'
+
 
 const Login = styled.div`
     display: flex
@@ -90,4 +92,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
