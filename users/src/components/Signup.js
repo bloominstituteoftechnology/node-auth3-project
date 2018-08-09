@@ -6,7 +6,8 @@ class Signup extends React.Component {
     super();
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      department: ""
     };
   }
   addSignup = event => {
@@ -14,7 +15,11 @@ class Signup extends React.Component {
   };
   submitSignup = event => {
     event.preventDefault();
-    const newUser = { username: this.state.username, password: this.state.password };
+    const newUser = {
+      username: this.state.username,
+      password: this.state.password,
+      department: this.state.department
+    };
     axios
       .post("http://localhost:8000/api/register", newUser)
       .then(response => {
@@ -36,6 +41,7 @@ class Signup extends React.Component {
           placeholder="Create a password"
           type="password"
         />
+        <input onChange={this.addSignup} name="department" placeholder="Create a department" />
         <button onClick={this.submitSignup}>Submit</button>
       </form>
     );
