@@ -5,6 +5,7 @@ import { Route, withRouter } from 'react-router-dom';
 import SignIn from './auth/SignIn';
 import Users from './users/Users';
 import SignUp from './auth/SignUp';
+import { Navigation } from './nav/Navigation';
 
 class App extends Component {
   handleLogout = e => {
@@ -20,11 +21,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <div>
-          {localStorage.getItem('jwt') && <button onClick={this.handleLogout}>Logout</button>}
-        </div>
+        <Navigation handleLogout={this.handleLogout}/>
 
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />

@@ -17,6 +17,7 @@ module.exports = {
            
             return Promise.all(promises).then(function (results) {
                 let [record] = results;
+                console.log(record);
                 
                 return mappers.recordToBody(record);
             });

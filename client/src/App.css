@@ -26,3 +26,13 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.Nav {
+  display: flex;
+  justify-content: center;
+}
+
+.Nav div {
+  padding: 10px;
+  margin: 10px;
+}
