@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import "../App.css"
+import "../App.css";
 
 class Users extends React.Component {
   state = {
@@ -28,9 +28,12 @@ class Users extends React.Component {
   logoutHandler = e => {
     localStorage.removeItem("jwt");
 
-    this.props.history.push('/signin')
+    this.props.history.push("/signin");
   };
 
+  handleSignUpPage = e => {
+    this.props.history.push("/signup");
+  };
 
   render() {
     return (
@@ -46,7 +49,10 @@ class Users extends React.Component {
         </ul>
         <div>
           {localStorage.getItem("jwt") && (
-            <button onClick={this.logoutHandler}>Logout</button>
+            <div>
+              <button onClick={this.logoutHandler}>Logout</button>
+              <button onClick={this.handleSignUpPage}>Sign Up Page</button>
+            </div>
           )}
         </div>
       </div>

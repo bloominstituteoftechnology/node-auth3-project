@@ -26,6 +26,12 @@ class Signup extends React.Component {
       });
   };
 
+  handleSignInPage = e => {
+    localStorage.removeItem("jwt");
+
+    this.props.history.push('/signin')
+  }
+
   render() {
     return (
       <div className="sign-up">
@@ -66,8 +72,10 @@ class Signup extends React.Component {
           <br/>
           <div>
             <button type="submit">Register</button>
+
           </div>
         </form>
+        <button onClick={this.handleSignInPage}>Sign in Instead</button>
       </div>
     );
   }
