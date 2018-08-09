@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import axios from 'axios'
+import Register from './Register'
+import Login from './Login'
 
 const Authentication = (App) =>
   class extends Component {
@@ -12,10 +15,11 @@ const Authentication = (App) =>
       }
     }
 
-    handleSubmitLogIn = (e) => {
+    handleRegister = (e) => {
       e.preventDefault()
       console.log('METHOD')
       const { username, password, department } = this.state
+      console.log(department)
       axios
         .post('http://localhost:8000/api/register', {
           username,
@@ -23,13 +27,29 @@ const Authentication = (App) =>
           department
         })
         .then((response) => {
-          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('token', JSON.stringify(response.data.token))
           this.setState({ username: '', password: '', department: '' })
         })
         .catch((err) => console.log(err))
     }
 
+    handleLogin = (e) => {
+      e.preventDefault()
+      console.log('login')
+      const { username, password } = this.state
+      console.log(username)
+      axios
+        .post('http://localhost:8000/api/login', { username, password })
+        .then((res) => {
+          console.log(res)
+          localStorage.setItem('token', JSON.stringify(res.data.token))
+          this.setState({ username: '', password: '' })
+        })
+        .catch((err) => console.log(err))
+    }
+
     logInput = ({ target }) => {
+      console.log('in here')
       const { name, value } = target
 
       this.setState({
@@ -38,44 +58,43 @@ const Authentication = (App) =>
     }
 
     render () {
-      console.log('in here')
-      if (
-        localStorage.getItem('username') &&
-        localStorage.getItem('password')
-      ) {
+      if (localStorage.getItem('token')) {
         return <App />
       } else {
         return (
-          <form type='submit' onSubmit={this.handleSubmitLogIn}>
-            <input
-              placeholder='sername'
-              type='text'
-              name='username'
-              onChange={this.logInput}
-              value={this.state.username}
-              className='comment-input'
-              required
+          <div>
+            {/* <Login
+              username={this.state.username}
+              password={this.state.password}
+              logInput={this.logInput}
+              handleLogin={this.handleLogin}
+            /> */}
+            <Route
+              exact
+              path='/api/login'
+              render={(props) => (
+                <Login
+                  {...props}
+                  username={this.state.username}
+                  password={this.state.password}
+                  logInput={this.logInput}
+                  handleLogin={this.handleLogin}
+                />
+              )}
             />
-            <input
-              placeholder='Password'
-              type='password'
-              name='password'
-              onChange={this.logInput}
-              value={this.state.password}
-              className='comment-input'
-              required
+            <Route
+              path='/api/register'
+              render={(props) => (
+                <Register
+                  username={this.state.username}
+                  password={this.state.password}
+                  department={this.state.department}
+                  handleRegister={this.handleRegister}
+                  logInput={this.logInput}
+                />
+              )}
             />
-            <input
-              placeholder='Department'
-              type='input'
-              name='department'
-              onChange={this.logInput}
-              value={this.state.department}
-              className='comment-input'
-              required
-            />
-            <button type='submit'>Sign up</button>
-          </form>
+          </div>
         )
       }
     }

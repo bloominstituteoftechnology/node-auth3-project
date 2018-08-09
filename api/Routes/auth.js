@@ -22,6 +22,7 @@ function registerUser (req, res, next) {
       db('users')
         .where('id', id)
         .then((newUser) => {
+          console.log(newUser)
           const user = newUser[0]
           req.session.username = user.id
           const token = getToken(user)
@@ -44,6 +45,7 @@ const getUsers = (req, res, next) => {
 // LOGIN
 const login = (req, res, next) => {
   const credentials = req.body
+  console.log(req.body)
   db('users')
     .where({ username: credentials.username })
     .first()
@@ -71,9 +73,9 @@ const restricted = (req, res, next) => {
           .status(401)
           .json({ error: 'you shall not pass!! - token invalid' })
       }
+      req.token = decodedToken
+      next()
     })
-    req.token = token
-    next()
   } else {
     return res.status(401).json({ error: 'you shall not pass!! - no token' })
   }
