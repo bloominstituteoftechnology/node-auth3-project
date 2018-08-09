@@ -6,10 +6,12 @@ class Signin extends Component {
     username: "",
     password: ""
   };
+
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
+
   handleSubmit = event => {
     event.preventDefault();
     axios
@@ -17,7 +19,6 @@ class Signin extends Component {
       .then(response => {
         const token = response.data;
         localStorage.setItem("jwt", token);
-        console.log(response.data);
       })
       .catch(error => console.error(error));
   };
