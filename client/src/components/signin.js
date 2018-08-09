@@ -28,7 +28,7 @@ class Signin extends React.Component {
   render() {
     return (
       <div className="Signin">
-        <h1>Sign In Component</h1>
+        <h1>Sign In</h1>
         <form onSubmit={this.submitHandler}>
           <div>
             <input
@@ -36,16 +36,20 @@ class Signin extends React.Component {
               value={this.state.username}
               onChange={this.inputChangeHandler}
               type="text"
+              placeholder="username..."
             />
           </div>
+          <br/>
           <div>
             <input
               name="password"
               value={this.state.password}
               onChange={this.inputChangeHandler}
               type="password"
+              placeholder="password..."
             />
           </div>
+          <br/>
           <div>
             <button type="submit">Sign In</button>
           </div>
