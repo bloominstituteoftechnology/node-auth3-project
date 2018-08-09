@@ -24,18 +24,21 @@ function generateToken(user) {
 
 function protected(req, res, next) {
   const token = req.headers.authorization;
+  console.log(token);
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
+        console.log(err)
         return res
           .status(401)
-          .json({ error: 'you shall not pass!! - token invalid' });
+          .json({ error: 'Token is not valid' });
       }
       req.jwtToken = decodedToken;
       next();
     });
   } else {
-    return res.status(401).json({ error: 'you shall not pass!! - no token' });
+    console.log('err2',err)
+    return res.status(401).json({ error: 'Token is required' });
   }
 }
 
@@ -49,7 +52,7 @@ server.get('/api/users', protected, (req, res) => {
 });
 
 server.get('/', (req, res) => {
-  res.send('Its Alive!');
+  res.send('Running....');
 });
 
 server.post('/api/register', (req, res) => {
@@ -109,7 +112,7 @@ server.post('/api/login', function(req, res) {
         const token = generateToken(user);
         res.send(token);
       } else {
-        return res.status(401).json({ error: 'Incorrect credentials' });
+        return res.status(401).json({ error: 'Incorrect Username or Password' });
       }
     })
     .catch(function(error) {

@@ -3,7 +3,23 @@ import '../index.css';
 import '../App.css';
 import { Link } from 'react-router-dom';
 
+
 export default class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: '',
+      password: '',
+    }
+  }
+  
+  handleLogout = () => {
+    const URL = 'http://localhost:3000/';
+    localStorage.removeItem('token');
+    window.location.href = URL
+    console.log('removed')
+  }
+
   render() {
     return (
       <div className="App">
@@ -18,7 +34,7 @@ export default class Header extends Component {
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <button type='button' className="btn btn-success mr-2">Login</button>
           </Link>
-          <button type='button' onClick={this.handleLogout} className="btn btn-danger mr-2">Logout</button>
+          <button type='button' onClick={() => this.handleLogout()} handleLogout={() => this.handleLogout} className="btn btn-danger mr-2">Logout</button>
         </header>
       </div>
     )

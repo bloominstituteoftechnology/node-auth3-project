@@ -17,10 +17,7 @@ export default class Register extends Component {
   handleSubmit = () => {
     const URL = 'http://localhost:3000/'
     axios
-      .post(`http://localhost:8000/api/register`, {
-        username: this.state.user,
-        password: this.state.password
-      })
+      .post(`http://localhost:8000/api/register`, this.state)
       //.then(response => console.log(response))
       .then(response => window.location.href = URL)
       .catch(error => console.log(error));
