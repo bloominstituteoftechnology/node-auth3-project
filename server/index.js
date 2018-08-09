@@ -12,7 +12,8 @@ const secret = "hi poof";
 
 function generateToken(user) {
   const payload = {
-    username: user.username
+    username: user.username,
+    department: user.department
   };
   const options = {
     expiresIn: "2h",
@@ -32,6 +33,7 @@ function protected(req, res, next) {
         return res.status(401).json({ error: "invalid token" });
       }
       req.jwtToken = decodedToken;
+      console.log("req.jwtToken: ", req.jwtToken);
       next();
     });
   } else {
@@ -40,8 +42,11 @@ function protected(req, res, next) {
 }
 
 server.get("/api/users", protected, async (req, res) => {
+  console.log("req.jwtToken is: ", req.jwtToken);
+  console.log("req.jwtToken.department is: ", req.jwtToken.department);
+  const department = req.jwtToken.department;
   try {
-    const list = await db("Users");
+    const list = await db("Users").where({ department });
     res.status(200).json(list);
   } catch (err) {
     res.status(500).json({ error: err.message });
