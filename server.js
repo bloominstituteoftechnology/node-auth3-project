@@ -2,6 +2,7 @@ const codes = require("./data/statusCodes");
 
 const express = require("express");
 const server = express();
+const cors = require('cors');
 const jwt = require("jsonwebtoken");
 const db = require("./data/dbConfig");
 
@@ -28,17 +29,17 @@ function protect(req, res, next) {
       if (err) {
         return res
           .status(codes.UNAUTHORIZED)
-          .json({ error: 'you shall not pass!! - token invalid' });
+          .json({ error: 'invalid token' });
       }
 
       req.jwtToken = decodedToken;
       next();
     });
   } else {
-    return res.status(codes.UNAUTHORIZED).json({ error: 'you shall not pass!! - no token' });
+    return res.status(codes.UNAUTHORIZED).json({ error: 'No token' });
   }
 }
-
+server.use(cors())
 server.use(express.json());
 
 
