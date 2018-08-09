@@ -20,7 +20,7 @@ server.post('/api/register', (req, res) => {
                 .first()
                 .then(user => {
                     const token = generateToken(user);
-                    res.status(201).json(user);
+                    res.status(201).json(token);
                 })
 
         })
@@ -43,7 +43,9 @@ function generateToken(user){
 }
 
 function protected(req,res, next) {
+    console.log(req.headers);
     const token = req.headers.authorization;
+    console.log(token);
     if(token){
         jwt.verify(token, secret, (err, decodedToken) => {
             if(err) {
@@ -89,7 +91,7 @@ server.get('/api/users', protected, (req,res) => {
         })
 })
 
-const port = 8000;
+const port = 3300;
 server.listen(port, function () {
     console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
