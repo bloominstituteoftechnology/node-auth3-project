@@ -12,6 +12,19 @@ server.use(express.json());
 
 const secret = 'aliens are real';
 
+// const caser = (req, res, next) => {
+//   const department = req.body.department.split('');
+//   for(let i = 0; i < department.length; i++) {
+//     if (i === 0) {
+//       department[i].toUpperCase();
+//     } else {
+//       department[i].toLowerCase();
+//     }
+//     req.body.department = department.join('');
+//     next();
+//   }
+// }
+
 const protected = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {

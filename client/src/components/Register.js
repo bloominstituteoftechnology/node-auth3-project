@@ -20,9 +20,18 @@ class Register extends Component {
       return this.setState({ password: '', confirmPassword: '' })
     }
     const URL = 'http://localhost:8000/api/register';
+    const departmentArr = this.state.department.split('');
+    for(let i = 0; i < departmentArr.length; i++) {
+      if (i === 0) {
+        departmentArr[i] = departmentArr[i].toUpperCase();
+      } else {
+        departmentArr[i] = departmentArr[i].toLowerCase();
+      }
+    }
+    const department = departmentArr.join('');
     const user = { 
       username: this.state.username,
-      department: this.state.department,
+      department,
       password: this.state.password
      };
     axios
@@ -33,7 +42,7 @@ class Register extends Component {
         window.location.pathname = '/users';
       })
       .catch(err => console.log(err))
-  }
+    }
 
   render() {
     return(
