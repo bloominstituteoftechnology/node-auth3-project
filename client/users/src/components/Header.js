@@ -10,17 +10,12 @@ export default class Header extends Component {
     this.state = {
       user: '',
       password: '',
-      token: true
     }
   }
   
   handleLogout = () => {
     const URL = 'http://localhost:3000/';
     localStorage.removeItem('token');
-    console.log('localStorage.token', localStorage.token)
-    this.setState({
-      token: false
-    })
     window.location.href = URL;
   }
 
