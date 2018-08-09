@@ -18,7 +18,7 @@ class Users extends Component {
         })
         .catch(err => console.log(err))
     } else {
-      return;
+      setTimeout(() => window.location.pathname = '/', 3000)
     }
   }
 
@@ -31,7 +31,7 @@ class Users extends Component {
     return(
       <Fragment>
         {!localStorage.getItem('token') ? (
-          <p>You are not logged in.</p>
+          <p>You are not logged in. Redirecting...</p>
         ) : (
           <Fragment>
             <Link to='/login'>
