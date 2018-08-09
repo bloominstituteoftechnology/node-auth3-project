@@ -1,5 +1,12 @@
+html {
+  font-size: 62.5%;
+  background-color: #222;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: monospace;
+  font-size: 1.6rem;
+  color: #fff;
 }
