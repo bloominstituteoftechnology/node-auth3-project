@@ -92,7 +92,8 @@ server.post('/api/login', (req, res, next) => {
 
                 const token = generateToken(user);
                 // res.setHeader("authorization", token);
-                res.status(200).send(`Welcome back, ${user.username}. Here is your token: ${token}`)
+                // res.status(200).send(`Welcome back, ${user.username}. Here is your token: ${token}`)
+                res.send(token);
             }
         })
         .catch(err => {
@@ -106,6 +107,7 @@ server.post('/api/login', (req, res, next) => {
 
 //this route sends back just the list of usernames.
 server.get('/api/users', protected, (req, res, next) => {
+    const currentUser = req.jwtToken.username
 
     db('users')
         .then(response => {
@@ -114,6 +116,7 @@ server.get('/api/users', protected, (req, res, next) => {
                 userArray.push(users.username)
             })
             res.status(200).json({
+                currentUser,
                 users: userArray
             })
         })
