@@ -35,9 +35,7 @@ const Authentication = (App) =>
 
     handleLogin = (e) => {
       e.preventDefault()
-      console.log('login')
       const { username, password } = this.state
-      console.log(username)
       axios
         .post('http://localhost:8000/api/login', { username, password })
         .then((res) => {
@@ -63,12 +61,6 @@ const Authentication = (App) =>
       } else {
         return (
           <div>
-            {/* <Login
-              username={this.state.username}
-              password={this.state.password}
-              logInput={this.logInput}
-              handleLogin={this.handleLogin}
-            /> */}
             <Route
               exact
               path='/'
