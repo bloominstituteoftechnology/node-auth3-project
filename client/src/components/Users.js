@@ -24,6 +24,7 @@ class Users extends Component {
 
   logout = () => {
     localStorage.removeItem('token');
+    window.location.pathname = '/';
   }
 
   render() {
@@ -40,7 +41,7 @@ class Users extends Component {
             </Link>
             {this.state.users.map(user => {
               return (
-                  <div className='user'>
+                  <div className='user' key={user.id}>
                     <p>{user.username}</p>
                     <p>{user.department}</p>
                   </div>
