@@ -1,15 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import User from './User';
+import Timeout from './Timeout/Timeout';
 
 class Users extends React.Component {
     constructor() {
         super();
 
         this.state = {
+            loggedIn: true,
             users: [],
             user: [],
-            loggedIn: true,
             time: 5
         }
     }
@@ -23,18 +24,8 @@ class Users extends React.Component {
                 .catch(err => console.log(err.response));
         } else {
             this.setState({ loggedIn: false })
-            this.interval();
-            this.timeout();
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.timeout) {
-            clearTimeout(this.timeout)
-        }
-
-        if (this.interval) {
-            clearTimeout(this.interval);
+            this.setTimeout();
+            this.setInterval();
         }
     }
 
@@ -43,21 +34,18 @@ class Users extends React.Component {
         window.location.reload();
     }
 
-    timeout = () => {
-        setTimeout(() => {
+    setTimeout = () => {
+        this.props.setTimeout(() => {
             this.props.history.push('/login');
         }, this.state.time * 1000);
     }
 
-    interval = () => {
+    setInterval = () => {
         let timeLeft = this.state.time;
-        setInterval(() => {
+        this.props.setInterval(() => {
             timeLeft--;
-            this.setState({ time: timeLeft })
-            if (this.state.time <= 0) {
-                clearInterval(this);
-            }
-        }, 1000);
+            this.setState({ time: timeLeft });
+        }, 1000)
     }
 
     render() {
@@ -66,7 +54,7 @@ class Users extends React.Component {
         }
 
         if (this.state.users.length === 0) {
-            return <h1>No users registered!</h1>
+            return <div>Loading...</div>
         }
 
         return (
@@ -79,4 +67,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default Timeout(Users);
