@@ -32,7 +32,10 @@ class SignIn extends Component {
     }
     console.log(body)
     axios.post('http://localhost:3000/api/login', body)
-    .then(data => console.log(data))
+    .then(data => {
+      localStorage.setItem('jwt',data.data)
+      this.props.history.push('/users')
+    })
     .catch(err => console.log(err))
   }
 
