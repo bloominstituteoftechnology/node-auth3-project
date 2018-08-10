@@ -11,15 +11,21 @@ class UsersView extends Component {
     };
   }
 
+  onSubmit = e => {
+    e.preventDefault();
+    localStorage.clear(); 
+    window.location.href = '/signin';   
+  };
+
   componentDidMount() {
     const token = localStorage.getItem('jwt');
-    const requestOptions = {
-      headers: { Authorization: token },
+    const resOptions = {
+      headers: {authorization: token},
     };
     axios
-      .get(API_URL, requestOptions)
+      .get(API_URL, resOptions)
       .then(res => {
-        this.setState({ users: res.data });
+        this.setState({users: res.data});
       })
       .catch(e => {
         console.error(e);
@@ -32,13 +38,14 @@ class UsersView extends Component {
     return (
       <main className="users-view">
         <h2>Users</h2>
-        <div className="">
+        <ul className="">
         {
           this.state.users.map(user => {
-            return <div key={user.id}>{user.username}, {user.department}</div>;
+            return <li key={user.id}>{user.username}, {user.department}</li>;
           })
         }
-        </div>
+        </ul>
+        <button onClick={this.onSubmit}>Log out</button>
       </main>
     );
   }
