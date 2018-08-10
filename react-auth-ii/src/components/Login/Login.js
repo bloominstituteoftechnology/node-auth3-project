@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -39,7 +39,6 @@ class Login extends Component {
   	return(
   	       <div>
   	       	<h1 className="login">Login</h1>
-
   	       	<form onSubmit={this.submitHandler}>
                 <div>
                    <input
@@ -57,11 +56,13 @@ class Login extends Component {
                     type="text"
                    />
                 </div>
-                <div>
-                    <button type="submit"> Login</button>
-                </div>
-            </form>
 
+                <div>
+                    <Link to="/users"><button type="submit"> Login</button></Link>
+
+                </div>
+
+            </form>
   	       </div>
   	)
 	};
