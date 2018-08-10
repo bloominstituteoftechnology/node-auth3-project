@@ -22,7 +22,8 @@ const options = {
 }
 
 function protected(req, res, next) {
-    const token = req.headers.authorization;
+ const token = req.headers.authorization;
+
 
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => {
@@ -109,18 +110,19 @@ server.post('/api/signin', (req, res, next) => {
 
 //this route sends back just the list of usernames.
 server.get('/api/users', protected, (req, res, next) => {
-    const currentUser = localStorage.getItem('token')
+const currentUser = req.jwtToken.username;
+console.log(currentUser);
 
-    db('users')
+    db('users').select('id', 'username')
         .then(response => {
-            let userArray = [];
-            response.map(users => {
-                userArray.push(users.username)
-            })
+            console.log('response', response)
+          
             res.status(200).json({
                 currentUser,
-                users: userArray
+                users: response
             })
+        }).catch(err=>{
+          console.log(err)
         })
 })
 

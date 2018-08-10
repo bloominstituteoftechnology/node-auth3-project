@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import SignIn from './components/SignIn/SignIn'
+import UserList from './components/Users/UserList'
 import './App.css';
-import {Route} from 'react-router-dom'
+import {Route} from 'react-router-dom';
+
 class App extends Component {
   render() {
     return (
@@ -10,11 +12,12 @@ class App extends Component {
    
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        
+
 
         <Route path='/signin' component={SignIn}/>
 
-         {/* <Route path='login' component={}/> */}
+         <Route path='/users' component={UserList}/>
+        
       </div>
     );
   }
