@@ -42,7 +42,7 @@ class SignInView extends Component {
 
   render() {
     return (
-      <main className="sign-up-view">
+      <main className="sign-in-view">
         <h2>Sign In</h2>
         <form>
           <input 
