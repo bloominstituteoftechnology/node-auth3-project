@@ -19,7 +19,7 @@ class App extends Component {
         {localStorage.getItem('jwt') && (
         <button onClick={this.logoutHandler}>Log Out</button>)}
              <Route path='/login' component={ Login } />
-             <Route path='/signup' component={ Register } />
+             <Route path='/register' component={ Register } />
              <Route path='/users' component={ Users } />
         </div>
       </div>

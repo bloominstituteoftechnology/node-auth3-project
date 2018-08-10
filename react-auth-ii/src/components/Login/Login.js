@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
 class Login extends Component {
         state = {
-            name: 'em',
+            name: '',
             password: '',
             isLoggedIn: false,
         }
@@ -39,6 +39,7 @@ class Login extends Component {
   	return(
   	       <div>
   	       	<h1 className="login">Login</h1>
+
   	       	<form onSubmit={this.submitHandler}>
                 <div>
                    <input
@@ -57,7 +58,7 @@ class Login extends Component {
                    />
                 </div>
                 <div>
-                    <button type="submit"> Login </button>
+                    <button type="submit"> Login</button>
                 </div>
             </form>
 
