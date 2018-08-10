@@ -5,10 +5,12 @@ const jwt = require('jsonwebtoken');
 const knex = require('knex');
 const knexConfig = require('./knexfile.js');
 const db = knex(knexConfig.development);
-
+const cors = require('cors');
 
 const server = express();
 
+server.use(express.json());
+server.use(cors());
 
 //jwt token secret
 const secret = "nobody tosses a dwarf!";
@@ -49,7 +51,7 @@ function generateToken(user) {
 }
 
 
-server.use(express.json());
+
 
 
 server.post('/api/register', (req, res, next) => {
@@ -78,7 +80,7 @@ server.post('/api/register', (req, res, next) => {
 
 
 
-server.post('/api/login', (req, res, next) => {
+server.post('/api/signin', (req, res, next) => {
     //get credentials from req
     const credentials = req.body;
     //query db
@@ -107,7 +109,7 @@ server.post('/api/login', (req, res, next) => {
 
 //this route sends back just the list of usernames.
 server.get('/api/users', protected, (req, res, next) => {
-    const currentUser = req.jwtToken.username
+    const currentUser = localStorage.getItem('token')
 
     db('users')
         .then(response => {
