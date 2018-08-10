@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios'
 
 class SignIn extends Component {
-    state={
-    username: '',
-    password: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        }
     }
+    
 
     changeHandler = (e) =>{
       this.setState({
@@ -25,6 +29,7 @@ class SignIn extends Component {
       .then(response =>{
           const token = response.data;
           localStorage.setItem('token', token)
+          this.props.history.push('/users')
       })
       .catch(err=>{
           console.log(err)
