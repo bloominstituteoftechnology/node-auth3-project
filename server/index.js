@@ -67,7 +67,9 @@ server.post("/api/register", async (req, res) => {
         .where({ id: ids[0] })
         .first();
       // Generate the token
-      const token = generateToken(user);
+      console.log("user in register is: ", user);
+      console.log("newUser in register is: ", newUser);
+      const token = generateToken(newUser);
 
       // attach the token to the response
       res.status(201).json(token);
@@ -89,7 +91,8 @@ server.post("/api/login", async (req, res) => {
       .where({ username })
       .first();
     if (getUser && bcrypt.compareSync(credentials.password, getUser.password)) {
-      const token = generateToken(username);
+      console.log("getUser in Login is: ", getUser);
+      const token = generateToken(getUser);
       res.send(token);
     } else {
       return res.status(401).json({ error: "Incorrect credentials, you shall not pass!" });

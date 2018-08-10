@@ -16,15 +16,20 @@ class Users extends React.Component {
         Authorization: token
       }
     };
-    axios
-      .get("http://localhost:8000/api/users", authHeader)
-      .then(response => {
-        this.setState({ users: response.data });
-      })
-      .catch(err => {
-        console.log(err.response.data);
-      });
+    if (token) {
+      axios
+        .get("http://localhost:8000/api/users", authHeader)
+        .then(response => {
+          this.setState({ users: response.data });
+        })
+        .catch(err => {
+          console.log(err.response.data);
+        });
+    } else {
+      setTimeout(() => this.props.history.push("/"), 2000);
+    }
   }
+
   Logout = event => {
     event.preventDefault();
     localStorage.removeItem("jwt");
@@ -35,9 +40,15 @@ class Users extends React.Component {
     return (
       <div>
         <button onClick={this.Logout}>Log Out</button>
-        {this.state.users.map(user => {
-          return <User key={Math.random()} user={user} />;
-        })}
+        {localStorage.getItem("jwt") ? (
+          <div>
+            {this.state.users.map(user => {
+              return <User key={Math.random()} user={user} />;
+            })}
+          </div>
+        ) : (
+          <p>You're not logged in, redirecting...</p>
+        )}
       </div>
     );
   }
