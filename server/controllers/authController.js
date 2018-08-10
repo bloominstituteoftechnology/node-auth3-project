@@ -29,7 +29,7 @@ module.exports = {
       .insert(user)
       .then(ids => {
         const token = generateToken(user)
-        res.status(201).json({ msg: 'Registration Successful!', token })
+        res.status(201).json({ msg: 'Registration Successful!', token, user })
       })
       .catch(next)
   },
@@ -46,7 +46,7 @@ module.exports = {
           .then(isPasswordValid => {
             if (isPasswordValid) {
               const token = generateToken(user)
-              return res.status(200).json({ msg: 'login successful', token })
+              return res.status(200).json({ msg: 'login successful', token, department, user })
             } else {
               return res.status(401).json({ msg: 'login failed' })
             }

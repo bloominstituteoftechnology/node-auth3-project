@@ -60,8 +60,9 @@ class Signin extends Component {
     axios
       .post('http://localhost:8000/api/login', this.state)
       .then(res => {
-        const { token } = res.data
+        const { token, user } = res.data
         localStorage.setItem('jwt', token)
+        localStorage.setItem('user', JSON.stringify(user))
         this.props.history.push('/users')
       })
       .catch(err => {

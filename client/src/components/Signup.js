@@ -8,7 +8,7 @@ class Signup extends Component {
     department: ''
   }
 
-  render() {
+  render () {
     const { username, password, department } = this.state
 
     return (
@@ -53,8 +53,9 @@ class Signup extends Component {
 
     axios.post('http://localhost:8000/api/register', this.state)
       .then(res => {
-        const { token } = res.data
+        const { token, user } = res.data
         localStorage.setItem('jwt', token)
+        localStorage.setItem('user', JSON.stringify(user))
         this.setState({
           username: '',
           password: '',

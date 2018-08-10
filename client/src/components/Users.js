@@ -3,11 +3,13 @@ import axios from 'axios'
 
 class Users extends Component {
   state = {
-    users: []
+    users: [],
+    currentUser: {}
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const token = localStorage.getItem('jwt')
+    // const currentUser = localStorage.getItem('user').JSON()
     const requestOptions = { headers: { authorization: token } }
     axios
       .get('http://localhost:8000/api/users', requestOptions)
@@ -17,14 +19,32 @@ class Users extends Component {
       .catch(err => console.log(err))
   }
 
-  render () {
+  render() {
+    const { users, currentUser } = this.state
+    const { history } = this.props
+    const dptUsers = users.map(user => user.department === currentUser.department)
     return (
-      <ul>
-        {this.state.users.map(user => {
-          return <li key={user.id}>{user.username}</li>
-        })}
-      </ul>
+      <div className='Users'>
+        {localStorage.getItem('jwt') ? (
+          <div>
+            <button onClick={this.handleButtonClick}>Logout</button>
+            <ul>
+              {users.map(user => <li key={user.id}>{user.username}</li>)}
+            </ul>
+          </div>
+        ) : (
+            <h2>
+              Route access is restricted. Redirecting to /signin route
+              {setTimeout(() => history.push('/signin'), 3000)}
+            </h2>
+          )}
+      </div>
     )
+  }
+
+  handleButtonClick = () => {
+    localStorage.removeItem('jwt')
+    this.props.history.push('/signin')
   }
 }
 
