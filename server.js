@@ -1,13 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const cors = require('cors');
 const db = require('./data/dbConfig');
 
 const server = express();
 
 server.use(express.json());
-
+server.use(cors());
 
 // configure jwt
 const secret = 'ems secret key!';
