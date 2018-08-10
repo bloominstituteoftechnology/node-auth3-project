@@ -5,5 +5,5 @@ const authRouter = require('./auth/authRouter')
 module.exports = (server) => {
   server.use('/api/users', userRouter)
   server.use('/api/restricted', restrictedRouter)
-  server.use('/', authRouter)
+  server.use('/api', authRouter)
 }
