@@ -1,13 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import Authenticate from './Authenticate';
 
 class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             users: [],
-            error: ''
         }
     }
 
@@ -32,7 +32,6 @@ class Users extends React.Component {
             })
             .catch(err => {
                 console.log(err);
-                this.setState({error: err})
             })
     }
 
@@ -51,5 +50,7 @@ class Users extends React.Component {
         )
     }
 }
+
+
 
 export default withRouter(Users);

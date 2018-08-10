@@ -28,7 +28,6 @@ function checkLogIn (req, res, next) {
         jwt.verify(token, secret, (err, decodedToken) => {
             next()
         })
-
     }else {
         return res.status(401).json({error: 'Incorrect credentials'})
     }
@@ -37,8 +36,8 @@ function checkLogIn (req, res, next) {
 
 server.get('/api/users', checkLogIn, (req, res) => {
     db('users').select('username', 'department')
-    .then(response => {
-            res.status(200).json(response)
+    .then(user => {
+            res.status(200).json(user)
     })
     .catch(err => {
         res.status(500).json({error: 'You shall not pass!'})

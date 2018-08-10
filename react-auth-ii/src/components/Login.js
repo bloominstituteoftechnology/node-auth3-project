@@ -26,7 +26,7 @@ class Login extends React.Component {
           this.setState({username: '', password: '', loggedIn: true})
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.response.error);
           <Redirect to='/signup' />
         })
       }
