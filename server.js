@@ -67,7 +67,7 @@ server.get('/getname', (req, res) => {
 
 //********GET All USERS ENDPOINT*********************
 server.get('/users', restricted, (req, res) => {
-    db('users').select('name', 'password', 'department')
+    db('users').select('id', 'name', 'password', 'department')
     .then(response => {
             res.status(200).json(response)
     })

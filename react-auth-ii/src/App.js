@@ -16,7 +16,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
-             <Route path='/signin' component={ Login } />
+             <Route path='/login' component={ Login } />
              <Route path='/signup' component={ Register } />
              <Route path='/users' component={ Users } />
         </div>
