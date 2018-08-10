@@ -45,9 +45,7 @@ function generateToken(user){
 }
 
 function protected(req,res, next) {
-    console.log(req.headers);
     const token = req.headers.authorization;
-    console.log(token);
     if(token){
         jwt.verify(token, secret, (err, decodedToken) => {
             if(err) {
@@ -73,7 +71,7 @@ server.post('/api/login', (req, res) => {
             }
             else {
                 const token = generateToken(user);
-                res.status(201).json({ message: 'Logged in' });
+                res.status(201).json(token);
             }
         })
     .catch(err => {

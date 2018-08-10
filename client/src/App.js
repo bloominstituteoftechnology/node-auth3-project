@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Signin from './auth/Signin';
 import Users from './users/users';
+import Signup from './auth/Signup';
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
 
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
+        <Route path="/signup" component={Signup} />
       </div>
     );
   }
