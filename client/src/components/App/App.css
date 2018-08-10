@@ -1,0 +1,16 @@
+.app {
+  padding: 20px;
+}
+
+header {
+  padding: 0 0 30px;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+  padding: 0 0 15px;
+}
