@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import jwtDecode from 'jwt-decode'
 
 const AllUsers = styled.div`
+    padding-top: 5%
     width: 100vw
     height: 100%
     background: linear-gradient(to right, grey, white)

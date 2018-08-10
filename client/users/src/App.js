@@ -8,7 +8,8 @@ import styled from 'styled-components'
 
 const Background = styled.div`
   background: black
-  height: 100%
+  min-height: 100%
+  height: 100vh
 `
 
 class App extends Component {

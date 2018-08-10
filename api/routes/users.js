@@ -1,15 +1,22 @@
-const express = require('express')
+const server = require('express')()
 const bcrypt = require('bcrypt')
-const middleware = require('../middleware')
-const codes = require('../helpers/codes')
 const db = require('../../data/db')
-const jwt = require('jsonwebtoken')
+const functions = require('../helpers/helpers')
 
-const server = express.Router()
+
+server.get('/', (req, res) => {
+    console.log(process.env)
+    res.json("App is currently functioning")
+})
+
 
 // Register users
 server.post('/register', (req, res, next) => {
+    const { userName, password, department } = req.body
 
+    if(!userName || !password || !department){
+        res.status(400).json({error: "Please include a valid User Name, Department and Password"})
+    }
     const credentials = req.body
     const hash = bcrypt.hashSync(credentials.password, 10)
     credentials.password = hash
@@ -22,7 +29,7 @@ server.post('/register', (req, res, next) => {
                 .first()
                 .then(user => {
                     // generate web token
-                    const token = middleware.generateToken(user)
+                    const token = functions.generateToken(user)
                     res.status(201).json(token)
                 })
         })
@@ -30,27 +37,35 @@ server.post('/register', (req, res, next) => {
 })
 
 //Login user
-server.post('/login', middleware.getUser, (req, res) => {
+server.post('/login', functions.getUser, (req, res) => {
     const passwordIn = req.body.password
     const user = req.userIn
 
     if(bcrypt.compareSync(passwordIn, user.password)){
-        const token = middleware.generateToken(user)
-        res.status(200).json(`Welcome ${user.userName}, Token: ${token}`)
+        const token = functions.generateToken(user)
+        res.status(200).json(token)
     }else{
-        return res.status(401).json({error: "Incorrect Credentials"})
+        return res.status(401).json({"error": "Incorrect Credentials"})
     }
 })
 
 // Get all users
-server.get('/users', middleware.protected, (req, res) => {
+server.get('/users', functions.protected, (req, res) => {
+    console.log(req)
     db('users')
+        .select('id', 'userName', 'department')
         .then(users => {
             res.status(200).json(users)
         })
         .catch(err => res.status(500).json("You shall not pass"))
 })
 
+
+// Logout
+server.get('/api/logout', (req, res) => {
+    // Find the token specifically
+    localStorage.removeItem('jwt')
+})
 
 
 module.exports = server
