@@ -63,7 +63,7 @@ const login = (req, res, next) => {
 }
 // restricted
 const restricted = (req, res, next) => {
-  const token = req.body.token
+  const token = req.headers.authorization
   console.log('token,', token)
   if (token) {
     jtw.verify(token, process.env.SECRET, (err, decodedToken) => {

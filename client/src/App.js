@@ -13,11 +13,18 @@ class App extends Component {
   }
   componentDidMount () {
     const token = localStorage.getItem('token')
-    console.log('in here mount', token)
+    const key = JSON.parse(token)
+    const requestOptions = {
+      headers: {
+        authorization: key
+      }
+    }
+    console.log(key)
     axios
-      .get('http://localhost:8000/api/restricted', token)
+      .get('http://localhost:8000/api/restricted', requestOptions)
       .then((users) => {
-        this.setState({ users: users })
+        console.log(users)
+        this.setState({ users: users.data })
       })
       .catch((err) => console.log(err))
   }
@@ -34,16 +41,12 @@ class App extends Component {
           <h1 className='App-title'>Welcome to React</h1>
         </header>
 
-        <p className='App-intro'>
+        <div className='App-intro'>
           {this.state.users.map((user) => {
             console.log(user)
-            return (
-              <ul>
-                <li>{user.username}</li>
-              </ul>
-            )
+            return <li key={user}>{user}</li>
           })}
-        </p>
+        </div>
         <Link className='logout' to='/' onClick={this.logout}>
           Log out
         </Link>

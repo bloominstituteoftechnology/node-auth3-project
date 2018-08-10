@@ -56,7 +56,8 @@ const Authentication = (App) =>
     }
 
     render () {
-      if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token')
+      if (token) {
         return <App />
       } else {
         return (
