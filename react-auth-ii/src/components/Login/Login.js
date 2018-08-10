@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import axios from 'axios';
 
 
@@ -6,6 +7,7 @@ class Login extends Component {
         state = {
             name: 'em',
             password: '',
+            isLoggedIn: false,
         }
 
 	inputChangeHandler = event => {
@@ -26,6 +28,7 @@ class Login extends Component {
         })
    			.catch(err => {
             console.error('Axios falied');
+
           })
    			console.log('state', this.state)
 
@@ -57,6 +60,7 @@ class Login extends Component {
                     <button type="submit"> Login </button>
                 </div>
             </form>
+
   	       </div>
   	)
 	};

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Login from './components/Login/Login.js';
@@ -16,6 +16,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
+        {localStorage.getItem('jwt') && (
+        <button onClick={this.logoutHandler}>Log Out</button>)}
              <Route path='/login' component={ Login } />
              <Route path='/signup' component={ Register } />
              <Route path='/users' component={ Users } />
@@ -23,6 +25,11 @@ class App extends Component {
       </div>
     );
   }
+    logoutHandler = event => {
+      localStorage.removeItem('jwt');
+
+      this.props.history.push('/login');
+    };
 }
 
-export default App;
+export default withRouter(App);
