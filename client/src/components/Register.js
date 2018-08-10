@@ -13,15 +13,23 @@ class Register extends Component {
     }
 
     submitHandler = e => {
-        e.preventDefault()
+        e.preventDefault();
 
-        axios.post('http://localhost:8000/api/register', this.state)
+        const reqBody = {
+            ...this.state
+        }
+
+        axios
+            .post('http://localhost:3300/api/register', reqBody)
             .then(res => {
                 console.log('data', res.data)
-                const token = res.data
-
+                const token = res.data.token
                 localStorage.setItem('jwt', token);
+                this.props.history.push('/users');
+            }).catch(err => {
+                console.error(err);
             })
+            console.log('state', this.state);
     }
 
     render() {

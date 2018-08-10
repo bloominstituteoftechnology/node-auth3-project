@@ -17,6 +17,6 @@ server.use('/api/users', userRoute);
 server.use('/api/register', registerRoute);
 server.use('/api/login', loginRoute);
 
-server.listen(8000, () => {
+server.listen(3300, () => {
     console.log('===API===')
 })

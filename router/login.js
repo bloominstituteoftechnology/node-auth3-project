@@ -21,11 +21,14 @@ function generateToken(user) {
 
 router.post('/', (req, res) => {
     const authentication = req.body;
-    
+    console.log(authentication)
+
     db('users').where({username: authentication.username}).first().then(user => {
+        console.log(user)
         if (user && bcrypt.compareSync(authentication.password, user.password)) {
             const token = generateToken(user);
-            res.send(`${user.username} has logged in`, token) 
+            res.status(200).json(user, token)
+            console.log(authentication) 
         } else {
             return res.status(401).json({error: 'Invalid credentials'});
         }

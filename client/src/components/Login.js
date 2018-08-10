@@ -14,15 +14,19 @@ class Login extends Component {
     submitHandler = e => {
         e.preventDefault();
 
-        axios.post('http://localhost:8000/api/login', this.state)
-        .then(res => {
-            console.log('data', res.data);
-            const token = res.data
-
-            localStorage.setItem('jwt', token);
+        const reqBody = {
+            ...this.state
+        }
+        
+        axios.post('http://localhost:3300/api/login', reqBody).then(res => {
+            const token = res.data.token
+            localStorage.setItem('jwt', token)
+            this.props.history.push('users');
+            console.log('data', res.data)
         }).catch(err => {
-            console.error('Axios failed');
+            console.log(err);
         })
+
 
         console.log('state', this.state);
     }

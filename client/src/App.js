@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import logo from './logo.svg';
 import Register from './components/Register';
 import Login from './components/Login';
+import Users from './components/Users';
 import './App.css';
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
         </p>
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
