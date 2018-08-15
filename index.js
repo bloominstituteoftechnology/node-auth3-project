@@ -42,6 +42,25 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+server.post('/api/login', function(req, res) {
+  const credentials = req.body;
+
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then((user) => {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        res.send(`welcome ${user.username}`);
+      } else {
+        return res.status(401).json({ error: 'Incorrect credentials' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+});
+
 const port = 5000;
 server.listen(port, () => {
   console.log(`server on http://localhost:${port}`);
