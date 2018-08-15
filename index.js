@@ -23,11 +23,25 @@ server.post('/register', (req, res) => {
                 .where({ id: ids[0]})
                 .first()
                 .then( user => {
-                    res.status(201).json(user);
+                    const token = generateToken(user);
+                    res.status(201).json(token);
                 })
         })
         .catch(err => res.status(500).json(err))
 });
+
+const secret = 'my name is Katie.';
+
+generateToken = (user) => {
+    const payload = {
+        username: user.username,
+    };
+    const options = {
+        expiresIn: "1h",
+        jwtid: '8728391',
+    };
+    return jwt.sign(payload, secret, options);
+}
 
 server.post('/login', (req, res) => {
     const credentials = req.body;
@@ -36,7 +50,11 @@ server.post('/login', (req, res) => {
         .where({ username: credentials.username })
         .first()
         .then(user => {
-            res.status(200).json(`Success! ${user.name} is logged in`)
+            if (user && bcrypt.compareSync(credentials.password, user.password)) {
+                res.status(200).json(`Success! ${user.name} is logged in`)
+            } else {
+                return res.status(401).json({ error: 'incorrect user credentials' })
+            }
         })
         .catch(err => res.status(500).json(err))
 });
