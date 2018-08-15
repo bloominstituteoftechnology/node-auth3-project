@@ -51,7 +51,7 @@ server.post('/api/login', function(req, res) {
     .then((user) => {
       if (user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
-        res.send(`welcome ${user.username}`);
+        res.send(`welcome ${user.username} this is your token ${token}`);
       } else {
         return res.status(401).json({ error: 'Incorrect credentials' });
       }
@@ -78,7 +78,7 @@ const protected = (req, res, next) => {
   }
 };
 
-server.get('/users', protected, (req, res) => {
+server.get('api/users', protected, (req, res) => {
   db('users')
     .then((users) => {
       res.json(users);
