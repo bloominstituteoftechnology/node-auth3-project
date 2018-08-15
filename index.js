@@ -61,6 +61,31 @@ server.post('/api/login', function(req, res) {
     });
 });
 
+const protected = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ error: 'Incorrect credentials, token invalid, you put in the wrong token' });
+      }
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({ error: 'Incorrect credentials, no token' });
+  }
+};
+
+server.get('/users', protected, (req, res) => {
+  db('users')
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => res.send(err));
+});
+
 const port = 5000;
 server.listen(port, () => {
   console.log(`server on http://localhost:${port}`);
