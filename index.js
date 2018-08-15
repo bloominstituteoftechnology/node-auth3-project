@@ -8,6 +8,7 @@ const db = require('./data/db');
 
 server.use(express.json());
 const PORT = 3400
+const secret = 'Hello';
 
 function protected(req, res, next) {
   const token = req.headers.authorization;
@@ -29,7 +30,7 @@ server.use(
     
         session({
             name: 'itmenick',
-            secret: 'dismaserver',
+            secret: secret,
             cookie: {maxAge: 1 * 24 * 60 * 60 * 1000,
                 secure: false},
             httpOnly: true, 
@@ -85,6 +86,8 @@ server.post('/register', function(req, res) {
         .first()
         .then(user => {
             const token = generateToken(user);
+
+            res.status(201).json(token);
         });
     })
     .catch(function(error) {
