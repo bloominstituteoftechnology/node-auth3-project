@@ -10,21 +10,7 @@ server.use(express.json());
 const PORT = 3400
 const secret = 'Hello';
 
-function protected(req, res, next) {
-  const token = req.headers.authorization;
 
-  if(token) {
-      jwt.verify(token, secret, (err, decodedToken) => {
-          if (err) {
-              return res.status(401).json({error: 'you shall not pass!'})
-          }
-          req.jwtToken = decodedToken;
-          next();
-      })
-  } else { 
-      return res.status(401).json({error: 'you shall not pass!'})
-  }
-}
 
 server.use(
     
@@ -43,24 +29,31 @@ server.use(
     function generateToken(user) {
         const payload = {
             username: user.username
-        }
+        };
         const options = {
-            expiresIn: "1h",
+            expiresIn: "24h",
             jwtid: "BADA55"
-        }
+        };
         return jwt.sign(payload, secret, options);
     }
 
+    function protected(req, res, next) {
+        const token = req.headers.authorization;
+        if (token) {
+          jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+              return res.status(401).json({ message: "you shall not pass!" });
+            }
+            req.jwtToken = decodedToken;
+            next();
+          });
+        } else {
+          return res.status(401).json({ message: "you shall not pass!" });
+        }
+      }
 
-server.get('/setname', (req, res) => {
-    req.session.username = 'nucked';
-    res.send(`got it ${req.session.username}`);
-})
 
-server.get('/getname', (req, res) => {
-    const name = req.session.username;
-    res.send(`hello ${req.session.username}`)
-})
+      server.get("/", (req, res) => res.send("Hello World!"));
 
 server.get('/users', protected, (req, res) => {
     console.log('token', req.jwtToken);
@@ -72,28 +65,32 @@ server.get('/users', protected, (req, res) => {
     .catch(err => res.send(err));
     })
 
-server.post('/register', function(req, res) {
-    const user = req.body;
-
-    const hash = bcrypt.hashSync(user.password, 14);
-    user.password = hash;
-
-    db('users')
-    .insert(user)
-    .then(function(ids) {
-        db('users')
-        .where({id: ids[0]})
-        .first()
-        .then(user => {
-            const token = generateToken(user);
-
-            res.status(201).json(token);
-        });
-    })
-    .catch(function(error) {
-        res.status(500).json({ error });
-    })
-})
+    server.post("/register", function(req, res) {
+        const user = req.body;
+      
+        
+        const hash = bcrypt.hashSync(user.password, 14);
+        user.password = hash;
+      
+        db("users")
+          .insert(user)
+          .then(function(ids) {
+            db("users")
+              .where({ id: ids[0] })
+              .first()
+              .then(user => {
+                
+                const token = generateToken(user);
+      
+                
+                res.status(201).json(token);
+              });
+          })
+          .catch(function(error) {
+            res.status(500).json({ error });
+          });
+      });
+      
 
 server.post('/login', function(req,res) {
     const credentials = req.body;
@@ -103,10 +100,13 @@ server.post('/login', function(req,res) {
     .first()
     .then(function(user) {
         if (user && bcrypt.compareSync(credentials.password, user.password) ) {
-            res.send(`Welcome ${user.username}`);
+
+            const token = generateToken(user);
+
+            res.send(token);
 
         } else {
-            return res.status(401).json({error: 'Incorrect credentials'});
+            return res.status(401).json({error: 'You shall not pass!'});
         }
     })
     .catch(function(error) {
