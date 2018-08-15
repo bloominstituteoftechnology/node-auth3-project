@@ -10,6 +10,22 @@ const server = express();
 server.use(express.json());
 
 
+protected = (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+                return res.status(404).json({ error: 'You shall not pass! - token invalid' })
+            }
+            req.jwtToken = decodedToken;
+            next();
+        })
+    } else {
+        return res.status(401).json({ error: 'You shall not pass! - no token' })
+    }
+}
+
 server.post('/register', (req, res) => {
     const user = req.body;
 
@@ -38,7 +54,6 @@ generateToken = (user) => {
     };
     const options = {
         expiresIn: "1h",
-        jwtid: '8728391',
     };
     return jwt.sign(payload, secret, options);
 }
@@ -51,7 +66,8 @@ server.post('/login', (req, res) => {
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(credentials.password, user.password)) {
-                res.status(200).json(`Success! ${user.name} is logged in`)
+                const token = generateToken(user);
+                res.status(200).json(token);
             } else {
                 return res.status(401).json({ error: 'incorrect user credentials' })
             }
@@ -59,13 +75,19 @@ server.post('/login', (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
-server.get('/users', (req, res) => {
+server.get('/users', protected, (req, res) => {
     db('users')
         .then(users => {
             res.status(200).json(users)
         })
         .catch(err => res.status(500).json(err))
 })
+
+// server.get('/logout', (req, res) => {
+//     if (req.session) {
+//         req.session.
+//     }
+// })
 
 
 server.listen(port, () => console.log(`\n==== API is running on port ${port} ====\n`));
