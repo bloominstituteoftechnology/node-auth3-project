@@ -1,4 +1,4 @@
-//const session = require('express-session');
+const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const express = require('express');
@@ -10,13 +10,45 @@ server.use(express.json());
 const PORT = 3400
 
 function protected(req, res, next) {
-    if (req.session && req.session.username === 'nucked') {
-        next();
-    } else {
-        return res.status(401).json({error: 'Incorrect credentials'})
-    }
+  const token = req.headers.authorization;
+
+  if(token) {
+      jwt.verify(token, secret, (err, decodedToken) => {
+          if (err) {
+              return res.status(401).json({error: 'you shall not pass!'})
+          }
+          req.jwtToken = decodedToken;
+          next();
+      })
+  } else { 
+      return res.status(401).json({error: 'you shall not pass!'})
+  }
 }
 
+server.use(
+    
+        session({
+            name: 'itmenick',
+            secret: 'dismaserver',
+            cookie: {maxAge: 1 * 24 * 60 * 60 * 1000,
+                secure: false},
+            httpOnly: true, 
+            
+            resave: false,
+            saveUnitialized: true,
+        })
+    );
+
+    function generateToken(user) {
+        const payload = {
+            username: user.username
+        }
+        const options = {
+            expiresIn: "1h",
+            jwtid: "BADA55"
+        }
+        return jwt.sign(payload, secret, options);
+    }
 
 
 server.get('/setname', (req, res) => {
@@ -30,9 +62,11 @@ server.get('/getname', (req, res) => {
 })
 
 server.get('/users', protected, (req, res) => {
+    console.log('token', req.jwtToken);
+
     db('users')
-    .then(response => {
-        res.json(response);
+    .then(users => {
+        res.json(users);
     })
     .catch(err => res.send(err));
     })
@@ -50,7 +84,7 @@ server.post('/register', function(req, res) {
         .where({id: ids[0]})
         .first()
         .then(user => {
-            res.send(`Welcome ${user.username}`)
+            const token = generateToken(user);
         });
     })
     .catch(function(error) {
