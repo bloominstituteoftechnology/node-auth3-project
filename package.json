@@ -2,6 +2,9 @@
   "name": "auth-ii",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "repository": "https://github.com/seanchavez/auth-ii.git",
   "license": "MIT",
   "dependencies": {
