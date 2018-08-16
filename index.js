@@ -7,6 +7,7 @@ const server = express();
 
 server.use(express.json());
 
+<<<<<<< HEAD
 const secret = "I am the man";
 
 function protected(req, res, next) {
@@ -39,30 +40,27 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+=======
+>>>>>>> parent of 2869064... Refactored- added protected fucntion, generateToken function and refactored /api/register to taje in user with token
 server.get("/", (req, res) => {
   res.send("up and running...");
 });
 
 // POST register
-server.post("/api/register", function(req, res) {
+server.post("/api/register", (req, res) => {
   const user = req.body;
+
   const hash = bcrypt.hashSync(user.password, 10);
+
   user.password = hash;
 
   db("users")
     .insert(user)
-    .then(function(ids) {
-      db("users")
-        .where({ id: ids[0] })
-        .first()
-        .then(user => {
-          const token = generateToken(user);
-          res.status(201).json(token);
-        });
+    .then(ids => {
+      const id = ids[0];
+      res.status(201).json({ id, ...user });
     })
-    .catch(function(error) {
-      res.status(500).json({ error: "Could not register user" });
-    });
+    .catch(err => res.status(500).json(err));
 });
 
 server.post("/api/login", (req, res) => {
