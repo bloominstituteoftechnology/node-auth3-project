@@ -76,12 +76,10 @@ server.post("/api/login", (req, res) => {
         const token = generateToken(user);
         res.send(token);
       }
-      return res
-        .status(401)
-        .json({
-          errorMessage:
-            "The username and password you entered did not match our records. You shall not pass!"
-        });
+      return res.status(401).json({
+        errorMessage:
+          "The username and password you entered did not match our records. You shall not pass!"
+      });
     })
     .catch(err => {
       res.status(500).json({ error: "Could not login user" });
@@ -89,12 +87,15 @@ server.post("/api/login", (req, res) => {
 });
 
 //GET users
-server.get("/api/users", (req, res) => {
+server.get("/api/users", protected, (req, res) => {
+  console.log("token", req.jwtToken);
   db("users")
     .then(users => {
       res.status(200).json(users);
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      res.status(500).json({ error: "Could not display users" });
+    });
 });
 
 const port = 3300;
