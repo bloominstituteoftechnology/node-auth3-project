@@ -29,6 +29,32 @@ server.post('/register', (req, res) => {
    });
 });
 
+const secret = 'bullshit';
+
+const generateToken = (user) => {
+  const payload = {username: user.username};
+  const options = {
+    expiresIn: '1h',
+    jwtid: '55555'
+  };
+  return jwt.sign(payload, secret, options);
+}
+
+const protected = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({error: 'GTFO - token invalid'})
+      }
+      req.jwtToken = decodedToken;
+      next();
+    });
+  } else {
+    return res.status(401).json({error: 'GTFO - no token'});
+  }
+}
+
 server.listen(PORT, () => {
   console.log(`UP and RUNNING on ${PORT}`)
 });
