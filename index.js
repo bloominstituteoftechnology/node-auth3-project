@@ -55,6 +55,33 @@ const protected = (req, res, next) => {
   }
 }
 
+server.post('/login', (req, res) => {
+  const credentials = req.body;
+
+  db('users').where({username: credentials.username}).first()
+    .then((user) => {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        res.send(token);
+      } else {
+        return res.status(401).json({error: 'Incorrect credentials'});
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+server.get('/users', protected, (req, res) => {
+  console.log('token', req.jwtToken);
+
+  db('users')
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
+
 server.listen(PORT, () => {
   console.log(`UP and RUNNING on ${PORT}`)
 });
