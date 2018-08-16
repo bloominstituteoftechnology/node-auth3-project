@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "case-sensitive-paths-webpack-plugin": "^2.1.2"
+  }
+}
