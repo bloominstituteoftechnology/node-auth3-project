@@ -2,10 +2,12 @@ const express = require("express");
 const db = require("../data/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 const secret = "I am the man";
 

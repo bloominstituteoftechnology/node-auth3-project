@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Signin extends Component {
   state = {
@@ -14,6 +15,15 @@ class Signin extends Component {
 
   submitHandler = event => {
     event.preventDefault();
+
+    axios
+      .post("http://localhost:3300/login", this.state)
+      .then(res => {
+        console.log("data", res.data);
+      })
+      .catch(err => {
+        console.error("Axios failed");
+      });
 
     console.log(this.state);
   };
