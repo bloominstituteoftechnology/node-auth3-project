@@ -1,6 +1,7 @@
 const express = require ('express');
 const db= require('./data/db');
 const bcrypt= require('bcryptjs');
+const cors= require('cors');
 //const session= require('express-session');
 const jwt= require('jsonwebtoken');
 const server= express();
@@ -20,6 +21,7 @@ const server= express();
 //   );
 
 server.use(express.json());
+server.use(cors());
 
 server.get('/', (req, res) => {
     res.send('Auth-i');
@@ -40,8 +42,8 @@ server.get('/getname', (req, res) => {
 server.post('/register', (req, res) => {
     const user=req.body;
 
-    const hash=bcrypt.hashSync(users.password, 14);
-    users.password=hash;
+    const hash=bcrypt.hashSync(user.password, 14);
+    user.password=hash;
 
     db('users')
     .insert(user)
