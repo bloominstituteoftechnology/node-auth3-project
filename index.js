@@ -1,10 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const db = require('./data/db');
 const jwt = require('jsonwebtoken');
 const server = express();
 
 server.use(express.json());
+
+server.use(cors());
+//this is used to connect the front end to the back end
+// allows us to accept requst from any domains
 
 server.post('/api/register', (req, res) => {
   const user = req.body;
@@ -51,7 +56,7 @@ server.post('/api/login', function(req, res) {
     .then((user) => {
       if (user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
-        res.send(`welcome ${user.username}`);
+        res.send(`welcome ${user.username} this is your token ${token}`);
       } else {
         return res.status(401).json({ error: 'Incorrect credentials' });
       }
