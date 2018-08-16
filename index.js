@@ -8,6 +8,7 @@ const server = express();
 server.use(express.json());
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const secret = "I am the man";
 
 function protected(req, res, next) {
@@ -42,6 +43,8 @@ function generateToken(user) {
 
 =======
 >>>>>>> parent of 2869064... Refactored- added protected fucntion, generateToken function and refactored /api/register to taje in user with token
+=======
+>>>>>>> parent of 2869064... Refactored- added protected fucntion, generateToken function and refactored /api/register to taje in user with token
 server.get("/", (req, res) => {
   res.send("up and running...");
 });
@@ -59,6 +62,7 @@ server.post("/api/register", (req, res) => {
     .then(ids => {
       const id = ids[0];
       res.status(201).json({ id, ...user });
+<<<<<<< HEAD
     })
     .catch(err => res.status(500).json(err));
 });
@@ -81,6 +85,10 @@ server.post("/api/login", (req, res) => {
     .catch(err => {
       res.status(500).json({ error: "Could not login user" });
     });
+=======
+    })
+    .catch(err => res.status(500).json(err));
+>>>>>>> parent of 2869064... Refactored- added protected fucntion, generateToken function and refactored /api/register to taje in user with token
 });
 
 //GET users
