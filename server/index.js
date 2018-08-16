@@ -84,7 +84,7 @@ server.get('/users', protected, (req, res) => {
 })
 
 // server.get('/logout', (req, res) => {
-//     if (req.session) {
+//     if (req.sess) {
 //         req.session.
 //     }
 // })
