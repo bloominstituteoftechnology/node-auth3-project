@@ -2,11 +2,14 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const express = require('express');
+const cors = require('cors');
 
 const server = express();
 const db = require('./data/db');
 
 server.use(express.json());
+server.use(cors());
+
 const PORT = 3400
 const secret = 'Hello';
 
@@ -32,7 +35,7 @@ server.use(
         };
         const options = {
             expiresIn: "24h",
-            jwtid: "BADA55"
+            jwtid: "xd"
         };
         return jwt.sign(payload, secret, options);
     }
@@ -59,6 +62,7 @@ server.get('/users', protected, (req, res) => {
     console.log('token', req.jwtToken);
 
     db('users')
+    .select('id', 'username')
     .then(users => {
         res.json(users);
     })
