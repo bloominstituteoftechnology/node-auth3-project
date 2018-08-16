@@ -6,9 +6,6 @@ const db = require('./database/dbConfig.js')
 
 const server = express();
 
-
-// function protected(req, res, next) {}
-
 server.use(express.json());
 
 const port = 3300;
@@ -29,6 +26,7 @@ server.post('/register', function(req, res) {
         // generate the token
         const token = generateToken(user);
         //attach the token to the response
+        res.send(token);
         res.status(201).json(user);
       });
   })
@@ -41,11 +39,13 @@ const secret = 'nobody tosses a dwarf!';
 
 function generateToken(user) {
     const payload = {
-        username: user.username
+        username: user.username,
     };
 
     const options = {
         expiresIn: '1h',
+        jwtid: '78945',
+
     };
 
     return jwt.sign(payload, secret, options);
@@ -60,11 +60,11 @@ server.post('/login', function(req, res) {
     .then(function(users) {
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
             // generate the token
-            const token = generateToken(user);
+            // const token = generateToken(user);
           // req.session.username = user.username;
 
           //attach token to the response
-            res.send(token);
+           // res.send(token);
         } else {
             return res.status(401).json({ error: 'Incorrect credentials' });
         }
@@ -75,10 +75,24 @@ server.post('/login', function(req, res) {
 });
 
 function protected(req, res, next) {
-  const token = req.headers.authorization;  
+  const token = req.headers.authorization; 
+
+    if(token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if(err) {
+        return res.status(401).json({ error: 'you shall not pass!!' });
+        }
+
+     req.jwtToken = decodedToken;
+        next();
+    });
+  } else {
+      return res.status(401).json({ error: 'you shall not pass!!' });
+  }
 }
 
 server.get('/users', protected, (req, res) => {
+    console.log('token', req.jwtToken);
     db('users')
     .then(users => {
         res.json(users);
