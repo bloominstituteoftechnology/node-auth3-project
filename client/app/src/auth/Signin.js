@@ -26,7 +26,7 @@ class Signin extends Component {
                 localStorage.setItem('jwtToken', token);
             })
             .catch(err => {
-                console.log('request failed')
+                console.error('Sign-Up failed')
             })
         this.setState({ username: '', password: '' })
     }
@@ -34,7 +34,7 @@ class Signin extends Component {
     render() {
         return (
             <div>
-                <h1>Welcome! Please signin:</h1>
+                <h1>Welcome! Please sign-in:</h1>
                 <form onSubmit={this.submitUser} >
                     <div>
                         <label htmlFor='username'></label>
