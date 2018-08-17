@@ -20,7 +20,7 @@ class Users extends Component {
         };
 
         axios
-            .get('http://localhost:3000/users', reqOptions)
+            .get('http://localhost:8000/users', reqOptions)
             .then(res => {
                 this.setState({ users: res.data })
             })

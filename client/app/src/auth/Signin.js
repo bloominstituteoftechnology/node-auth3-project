@@ -17,17 +17,18 @@ class Signin extends Component {
     }
 
     submitUser = e => {
-        e.preventDefault;
+        e.preventDefault();
 
         axios
-            .post('http://localhost:3000/login', this.state)
+            .post('http://localhost:8000/login', this.state)
             .then(res => {
                 const token = res.data;
+                console.log(token);
                 localStorage.setItem('jwtToken', token);
             })
             .catch(err => {
                 console.error('Sign-Up failed')
-            })
+            });
         this.setState({ username: '', password: '' })
     }
 

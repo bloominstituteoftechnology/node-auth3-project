@@ -16,10 +16,10 @@ class Signup extends Component {
     }
 
     submitUser = e => {
-        e.preventDefault;
+        e.preventDefault();
 
         axios
-            .post('http://localhost:3000/register', this.state)
+            .post('http://localhost:8000/register', this.state)
             .then(res => {
                 const token = res.data;
                 localStorage.setItem('jwtToken', token);
