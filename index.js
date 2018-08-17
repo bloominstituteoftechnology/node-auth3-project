@@ -1,10 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 const db = require('./data/db');
 
 const server = express();
 server.use(express.json());
+server.use(cors())
 const PORT = 8000;
 
 server.get('/', (req, res) => {
