@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import SignIn from './auth/SignIn';
 import Users from './auth/Users';
 
 class App extends Component {
+  logoutHandler = (event) => {
+    localStorage.removeItem('jwt');
+
+    this.props.history.push('/signin');
+  };
+
   render() {
     return (
       <div className="App">
@@ -18,9 +24,13 @@ class App extends Component {
         </p>
         <Route path="/signin" component={SignIn} />
         <Route path="/users" component={Users} />
+        <div>
+          {localStorage.getItem('jwt') && <button onClick={this.logoutHandler}>Logout</button>}
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
+// withRouter lets us use this.props.history
