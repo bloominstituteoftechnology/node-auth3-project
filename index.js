@@ -85,6 +85,7 @@ const protected = (req, res, next) => {
 
 server.get('/api/users', protected, (req, res) => {
   db('users')
+    .select('id', 'username')
     .then((users) => {
       res.json(users);
     })

@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import SignIn from './auth/SignIn';
+import Users from './auth/Users';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <Route path="/signin" component={SignIn} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
