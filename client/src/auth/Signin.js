@@ -17,9 +17,10 @@ class Signin extends Component {
     event.preventDefault();
 
     axios
-      .post("http://localhost:3300/login", this.state)
+      .post("http://localhost:3300/api/login", this.state)
       .then(res => {
-        console.log("data", res.data);
+        const token = res.data;
+        localStorage.setItem("jwt", token);
       })
       .catch(err => {
         console.error("Axios failed");
