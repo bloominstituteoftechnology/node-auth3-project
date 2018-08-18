@@ -34,7 +34,6 @@ function generateToken(user){
 
 function protected( req, res, next){
     const token = req.headers.authorization
-    console.log(token)
     if(token){
         jwt.verify(token ,secret , (err, decodetoken) => {
             if(err){
@@ -48,7 +47,6 @@ function protected( req, res, next){
         return res.status(401).json({ error : 'unauthorized login : no token' })
     }
 }    
-
 
 app.post('/api/register', (req, res) => {
     const { username, password } = req.body;
