@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
       users.increments()
       users.string('username', 50).notNullable().unique()
       users.string('password', 50).notNullable()
+      users.string('department', 50).notNullable()
   })
 };
 

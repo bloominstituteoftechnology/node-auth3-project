@@ -1,0 +1,27 @@
+.login-input{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 1rem;
+}
+.input{
+    height: 1rem;
+    width: 5rem;
+}
+
+label{
+    margin: 0.5rem
+}
+
+.input-group{
+    margin: 0.5rem;
+}
+
+.hidden{
+    display: none;
+}
+
+.show{
+    display: block;
+    color: green;
+}

@@ -5,7 +5,8 @@ const db = knex(knexConfig.development)
 module.exports = {
     addUser,
     getUser,
-    getUsers
+    getUsers,
+    getUserByDepartment
 }
 
 function addUser(users){
@@ -22,5 +23,9 @@ function getUsers(id){
 
 function getUser(username){
     return db('users').where({ username })
+}
+
+function getUserByDepartment(department){
+    return db('users').where({  department })
 }
 

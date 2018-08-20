@@ -4,9 +4,10 @@ const db = require('./data/db');
 const logger = require('morgan')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 
 
-
+app.use(cors())
 app.use(express.json());
 app.use(logger('dev'));
 
@@ -49,8 +50,8 @@ function protected( req, res, next){
 }    
 
 app.post('/api/register', (req, res) => {
-    const { username, password } = req.body;
-    const user = { username, password }
+    const { username, password , department } = req.body;
+    const user = { username, password, department }
     //Hasshing My Passowrd
     const hash = bcrypt.hashSync(user.password, 14 )
     user.password = hash 
