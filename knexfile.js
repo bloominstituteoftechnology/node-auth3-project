@@ -5,7 +5,8 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './dev.sqlite3'
+      // filename: './dev.sqlite3' // location of your database file
+      filename: './data/cs11AddingAuthenticationViaJSONTokens' // location of your database file
     },
     useNullAsDefault:true
   },
