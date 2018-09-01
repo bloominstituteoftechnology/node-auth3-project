@@ -3,7 +3,7 @@ import {Route, withRouter} from 'react-router-dom';
 import Login from './auth/Login';
 import Users from './users/Users';
 import './App.css';
-//NOTE: Look into implementing authorization via a higher order component that wraps around the app. There's a video in the training kit by Sean where he talks about it. We also went over it when we covered React. 
+//NOTE: Look into implementing authorization via a higher order component that wraps around the app. There's a video in the training kit (JSON web token(video right in front)) by Sean where he talks about it. We also went over it when we covered React. 
 
 class App extends Component {
   render() {
