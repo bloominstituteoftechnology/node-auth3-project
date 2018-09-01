@@ -1,6 +1,6 @@
 // We can use JSON web tokens (JWTs) to add authentication to a Web API. A JSON web tokens is an industry standard for transferring data between two parties.
 // JWTs are cryptographically signed, typically using a secret with the HMACSHA-256 algorithm.
-// NOTE: FOR WHEN I HAVE APPS GO LIVE, USE OATH & REDIS
+// NOTE: FOR WHEN I HAVE APPS GO LIVE, USE OATH & REDIS or OPENID CONNECT & OATH
 
 
 const express = require('express');
@@ -31,11 +31,30 @@ const secret = 'nobody tosses a dwarf!';
 
 // This middleware verifies that we have a session and that the userId is set. We could use username or any other value we can use to verify access to a resource.
 function protected(req, res, next) {
-    if (req.session && req.session.username === 'Adrian27') {
-      next();
-    } else {
-      res.status(401).json({ message: 'Incorrect credentials' });
+    const token = req.headers.authorization;
+
+
+    // if (req.session && req.session.username === 'Adrian27') {
+    //   next();
+    // } else {
+    //   res.status(401).json({ message: 'Incorrect credentials' });
+    // }
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => { //this decodedToken callback is "the key"
+
+            if (err) {
+                return res.status(401).json({ message: 'Incorrect credentials - token invalid' });
+            }
+
+            req.jwtToken = decodedToken; //Not required. See 1:19:08 in the json web token lecture. 
+            next();
+            })
     }
+    else {
+        res.status(401).json({ message: 'Incorrect credentials - no token' }); 
+    }
+
   }
 
 function roles(req,res,next) {
@@ -83,7 +102,8 @@ function generateToken(user) {
         username: user.username
     };
     const options = {
-        expiresIn: '2h'
+        expiresIn: '2h',
+        jwtid: '07151987'
     };
     return jwt.sign(payload, secret, options);
 }
@@ -103,7 +123,7 @@ db('users')
             // req.session.username = user.username;
 
             //attach token to the response
-            res.send(`welcome ${user.username}`);
+            res.send(token);
         } else {
             return res.status(401).json({error: 'Incorrect credentials'});
         }
@@ -122,18 +142,18 @@ db('users')
 });
 
 
+// GET	    /api/users	    If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'. Use this endpoint to verify that the password is hashed before it is saved.
+server.get('/api/users', protected, (req, res) => {
+    console.log('token', req.jwtToken)
+    db('users')
+        .then(users => {
+            res.json(users);
+        })
+        .catch(err => res.send(err));
+});
+
 //add the basic code to create our Express server and have a default / endpoint we can use to test that our server is responding to requests.
 server.use('/', (req, res) => res.send('API up and running!'));
-
-
-
-
-
-
-
-
-
-
 
 
 server.listen(9000, ()=> console.log('API running on port 9000'));
