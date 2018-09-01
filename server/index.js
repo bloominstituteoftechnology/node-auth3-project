@@ -9,12 +9,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt  = require('bcryptjs')
 const knex = require('knex');
 const knexConfig = require('./knexfile');
+const cors = require('cors');
 
 // We use the db constant to interact with our database.
 const db = knex(knexConfig.development);
-
 const server = express();
+
 server.use(express.json());
+server.use(cors())
 
 
 const secret = 'nobody tosses a dwarf!';
