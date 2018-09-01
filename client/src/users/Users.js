@@ -10,19 +10,28 @@ class Users extends Component {
   render() {
     return (
       <div className="Users">
-        {this.state.users.map(users => {
+        <h1> Users page </h1>
+        {/* {this.state.users.map(users => {
             <ul>
                 <li key = {user.id}>
                     {user.username}
                 </li>
             </ul>
-        })}        
+        })}         */}
       </div>
     );
   }
 
 
   componentDidMount() {
+    const token = localStorage.getItem('jwt');
+
+    const requestOptions = {
+        headers: {
+            Authorization: token,
+        },
+    };
+
     axios
         .get('http://localhost:9000/api/users', this.state)
         .then(res =>{
@@ -36,4 +45,4 @@ class Users extends Component {
   }; 
 }
 
-export default Login;
+export default Users;

@@ -51,8 +51,9 @@ class Login extends Component {
     axios
         .post('http://localhost:9000/api/login', this.state)
         .then(res =>{
-            console.log('data', res.data)
-            const token = res.data
+            // console.log('data', res.data)
+            const token = res.data;
+            localStorage.setItem('jwt', token);
         }).catch()
         .catch(err => {
             console.error('Axios failed')

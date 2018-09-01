@@ -148,7 +148,7 @@ db('users')
 server.get('/api/users', protected, (req, res) => {
     console.log('token', req.jwtToken)
     db('users')
-        .select('id','username')
+        // .select('id','username')     // for the purposes of the client for access to the /api/users data.
         .then(users => {
             res.json(users);
         })
