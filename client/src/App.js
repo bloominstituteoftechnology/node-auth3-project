@@ -13,7 +13,10 @@ class App extends Component {
           We are on. 
         </p>
         <div>
-          <button onClick = {this.logoutHandler}>Logout</button>
+          {localStorage.getItem('jwt') && (
+            <button onClick = {this.logoutHandler}>Logout</button>
+          )}
+  
         </div>
         <Route path = "/login" component= {Login}></ Route>
         <Route path = "/users" component= {Users}></ Route>
