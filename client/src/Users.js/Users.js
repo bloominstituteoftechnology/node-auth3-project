@@ -11,35 +11,29 @@ class Users extends Component {
     return (
       <div className="Users">
         {this.state.users.map(users => {
-            <li key = {user.id}>
-                {user.username}
-            </li>
+            <ul>
+                <li key = {user.id}>
+                    {user.username}
+                </li>
+            </ul>
         })}        
       </div>
     );
   }
 
-  inputChangeHandler = (e) => {
-      e.preventDefault();
-      const {name, value} = e.target;
-      console.log('name: ', name, 'value: ', value);
-      this.setState({[name]: value})
-  }
 
-  submitHandler = (e) => {
-    e.preventDefault();
-    console.log('state', this.state)
-    
+  componentDidMount() {
     axios
-        .get('http://localhost:9000/api/login', this.state)
+        .get('http://localhost:9000/api/users', this.state)
         .then(res =>{
-            console.log('data', res.data)
-            const token = res.data
+            this.setState({users: res.data})
         }).catch()
         .catch(err => {
             console.error('Axios failed')
         })
-  }
+
+    console.log('state', this.state);
+  }; 
 }
 
 export default Login;
