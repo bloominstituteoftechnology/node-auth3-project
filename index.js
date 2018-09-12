@@ -1,18 +1,43 @@
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+const db = require("./data/dbConfig.js");
 
-function generateToken(user){
-    const payload = {
-        username: user.username
-    };
+const server = express();
 
-    const secret = '';
+server.use(express.json());
+server.use(cors());
 
-    const options = {
-        expiresIn: '1h',
-        jwtid: '12345'
-    }
+// function protected(req, res, next) {
+//     if (req.session && req.session.username) {
+//       next();
+//     } else {
+//       res.status(401).json({ message: "You shall not pass!!" });
+//     }
+//   }
 
-    return jwt.sign(payload, secret, options);
+// server.use("/api/restricted", protected);
 
+server.get("/", (req, res) => {
+  res.send("This is working...");
+});
+
+function generateToken(user) {
+  const payload = {
+    username: user.username
+  };
+
+  const secret = "";
+
+  const options = {
+    expiresIn: "1h",
+    jwtid: "12345"
+  };
+
+  return jwt.sign(payload, secret, options);
 }
+
+
+server.listen(8000, () => console.log("\nrunning on port 8000\n"));
