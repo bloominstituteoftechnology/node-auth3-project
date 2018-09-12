@@ -10,15 +10,25 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-// function protected(req, res, next) {
-//     if (req.session && req.session.username) {
-//       next();
-//     } else {
-//       res.status(401).json({ message: "You shall not pass!!" });
-//     }
-//   }
+const secret = "random";
 
-// server.use("/api/restricted", protected);
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "You shall not pass!" });
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "No token provided." });
+  }
+}
+
+server.use("/api/restricted", protected);
 
 server.get("/", (req, res) => {
   res.send("This is working...");
@@ -28,8 +38,6 @@ function generateToken(user) {
   const payload = {
     username: user.username
   };
-
-  const secret = "random";
 
   const options = {
     expiresIn: "1h",
@@ -91,7 +99,7 @@ server.post("/api/login", (req, res) => {
 //     }
 //   });
 
-server.get("/api/users", (req, res) => {
+server.get("/api/users", protected, (req, res) => {
   db("users")
     .then(users => {
       res.json(users);
