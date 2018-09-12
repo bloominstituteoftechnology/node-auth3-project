@@ -10,9 +10,9 @@ const server = express();
 
 server.use(express.json());
 
-function generateToken(user) {
+function generateToken(username) {
     const payload = {
-        username: user.username
+        username,
     };
 
     const secret = 'The meaning of life is 42';
@@ -39,8 +39,20 @@ server.post('/api/register', (req, res) => {
     db('users').insert(credentials).then(ids => {
         const id = ids[0];
 
-        res.status(200).json(id);
+
+        generateToken(credentials.username);
+
+        res.status(201).json({id: id, token});
     }).catch(err => res.status(500).send(err));
+});
+
+server.get('/api/users', (req, res) => {
+    
+        db('users')
+        .then(user => {
+            res.status(200).json(user);
+        })
+        .catch(err => res.status(500).send(err));
 });
 
 server.listen(8000);
