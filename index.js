@@ -54,6 +54,7 @@ server.post('/api/login', (req, res) => {
       // if yes and password matches
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user)
+        // send client token
         res.status(200).json(token)
       } else {
         res.status(401).json({ message: `You shall not pass!` })
@@ -63,6 +64,7 @@ server.post('/api/login', (req, res) => {
 })
 
 const checkToken = (req, res, next) => {
+  // headers via Postman
   const token = req.headers.authorization
 
   if (token) {
@@ -71,6 +73,8 @@ const checkToken = (req, res, next) => {
       if (error) {
         res.status(401).json({ message: `Token is invalid` })
       } else {
+        // can do things with decodedToken here
+        console.log(decodedToken)
         next()
       }
     })
@@ -82,11 +86,12 @@ const checkToken = (req, res, next) => {
 // for accessing database
 server.get('/api/users', checkToken, (req, res) => {
   db('user').select()
-  .then(users => {
-      res.status(200).json(users)
-    })
-  .catch(error => res.status(500).json({ message: error }))
+    .then(users => {
+        res.status(200).json(users)
+      })
+    .catch(error => res.status(500).json({ message: error }))
 })
 
+// starting server
 const port = 3300
 server.listen(port, () => { console.log(`server is listening on port ${port}`) })
