@@ -7,6 +7,7 @@ function generateToken(user) {
   const options = {
       expiresIn: '1h',
       jwtid: '12345',//jti
+      subject: `${user.id}`
   };
   return jwt.sign(payload, secret, options);
 }
