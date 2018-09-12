@@ -6,7 +6,7 @@ const helmet = require("helmet")
 const morgan = require("morgan")
 // import routers 
 const registerRouter = require("./routers/router-register.js")
-
+const loginRouter = require("./routers/router-login.js");
 //import routers
 const server = express()
 //secret 
@@ -25,7 +25,8 @@ server.use(morgan('short'))
 //routes  
 const REGISTER = '/api/register';
 server.use(REGISTER, registerRouter)
-
+const LOGIN = '/api/login'; 
+server.use(LOGIN, loginRouter); 
 //routes^
 
 const PORT = 9000;
