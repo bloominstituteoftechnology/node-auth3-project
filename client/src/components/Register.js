@@ -23,7 +23,7 @@ class Register extends Component {
       username,
       password,
       department
-    });
+    }, this.props.history);
   }
 
   render() {

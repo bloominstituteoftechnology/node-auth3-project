@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 import * as actions from './actions';
@@ -8,9 +8,19 @@ import Register from './components/Register';
 import Users from './components/Users';
 
 class App extends Component {
+  onLogout = () => {
+    this.props.logoutUser(this.props.history);
+  }
+
   render() {
     return (
       <div className='App'>
+        <nav>
+          <Link to='/register'>Register</Link>
+          <Link to='/login'>Login</Link>
+          <Link to='/users'>View Users</Link>
+          <a onClick={this.onLogout}>Sign Out</a>
+        </nav>
         <Route
           path='/register'
           render={ props => (

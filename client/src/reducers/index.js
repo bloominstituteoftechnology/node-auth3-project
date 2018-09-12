@@ -4,6 +4,7 @@ const initialState = {
   registeringUser: false,
   loggingInUser: false,
   fetchingUsers: false,
+  loggingOutUser: false,
   users: [],
   error: null
 };
@@ -41,12 +42,24 @@ export const usersReducer = (state = initialState, action) => {
       fetchingUsers: false,
       users: action.payload
     };
+  case actionTypes.LOGGING_OUT_USER:
+    return {
+      ...state,
+      loggingOutUser: true
+    };
+  case actionTypes.LOGGED_OUT_USER:
+    return {
+      ...state,
+      loggingOutUser: false,
+      users: action.payload
+    };
   case actionTypes.ERROR:
     return {
       ...state,
       registeringUser: false,
       loggingInUser: false,
       fetchingUsers: false,
+      loggingOutUser: false,
       error: action.payload
     };
   default:
