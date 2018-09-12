@@ -1,4 +1,5 @@
 const secret = "pair pare pear";
+const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
   const token = req.headers.authorization;
   if (token) {

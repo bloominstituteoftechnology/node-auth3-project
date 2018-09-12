@@ -7,8 +7,6 @@ const db = require("../db/dbConfig.js");
 
 loginRouter.post("/", (req, res) => {
   const creds = req.body;
-  //const hash = bcrypt.hashSync(creds.password, 14);
-  //creds.password = hash;
   db("users")
     .where({ username: creds.username })
     .first()
