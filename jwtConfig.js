@@ -19,9 +19,13 @@ const config = {
     if(token){
       jwt.verify(token, SECRET, (err, decodedToken) => {
         if(err){
-          console.log(err);
           res.status(401).json({ message: 'Invalid Token' });
         }else{
+          req.user = {
+            id: decodedToken.id,
+            username: decodedToken.username,
+            department: decodedToken.department
+          }
           next();
         }
       });

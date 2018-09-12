@@ -7,6 +7,7 @@ const router = express.Router();
 //get all saved users, if logged in
 router.get('/', jwt.protected, (req, res) => {
   db('users')
+    .where({ department: req.user.department })
     .then(users => {
       res.status(200).json(users);
     })
