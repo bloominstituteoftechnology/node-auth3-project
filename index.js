@@ -44,6 +44,7 @@ const protected = (req, res, next) => {
 };
 // end middleware
 
+// register (add user)
 server.post("/api/register", (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 10);
@@ -61,6 +62,16 @@ server.post("/api/register", (req, res) => {
         })
         .catch(err => res.status(500).send(err));
     });
+});
+
+// get users list
+server.get("/api/users", (req, res) => {
+  db("users")
+    .select("id", "username", "password")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
 });
 
 server.listen(PORT, () => {
