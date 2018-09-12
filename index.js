@@ -3,6 +3,8 @@ const helmet = require("helmet");
 const dbhelpers = require("./dbhelpers/helpers");
 const bcrypt = require('bcrypt');
 const authcheck = require('./middleware/authcheck')
+const secret = require('./config.js')
+const jwt = require('jsonwebtoken');
 
 const server = express();
 
@@ -12,7 +14,7 @@ server.use(helmet());
 
 
 server.post("/api/register", async (req, res) => {
-  if (!req.body.user_name ||!req.body.password  ) {
+  if (!req.body.user_name ||!req.body.password || !req.body.department ) {
     res.status(400).json({ errorMessage: "Invalid body" });
   }
   try {
@@ -31,30 +33,18 @@ server.post("/api/login", async (req, res) => {
   }
   try{
     const results = await dbhelpers.findUser(req.body);
-    
     if (results.length === 0 || await !bcrypt.compareSync(req.body.password, results[0].password)) {
       return res.status(401).json({ error: 'You shall not pass!' });
     }
     else{
-      req.session.name = results[0].user_name;
-      return res.status(200).json({ status: 'Logged In' });
+      const token = await jwt.sign({ user: req.body.user_name }, secret.secret);
+      return res.status(200).json({ 'token': token });
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-server.get('/api/logout', (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.send('error logging out');
-      } else {
-        res.send('good bye');
-      }
-    });
-  }
-});
 server.get('/api/users',authcheck, async (req, res) => {
     const results = await dbhelpers.getUsers();
     return res.status(200).json(results);
@@ -67,5 +57,5 @@ server.use("/", (req, res) =>
 
 const port = 3300;
 server.listen(port, function() {
-  
+  console.log(`Running on ${port}`);
 });

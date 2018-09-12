@@ -18,5 +18,8 @@ module.exports = {
     }) .catch(function(error) {
       console.error(error);
     });
+  },
+  userCheck: (strToCheck)=>{
+    return db("users").where({user_name : strToCheck})
   }
 };
