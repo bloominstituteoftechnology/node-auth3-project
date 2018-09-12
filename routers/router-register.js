@@ -18,8 +18,13 @@ registerRouter.post("/", (req, res) => {
         .where({ id })
         .first()
         .then(user => {
-          const token = generateToken(user);
-          res.status(201).json({ id: user.id, token });
+          if(user){
+            const token = generateToken(user);
+            res.status(201).json({ id: user.id, token });
+          } else {
+            res.status().json({  })
+          }
+        
         })
         .catch(error => res.status(500).json({error, errorMessage: error.message}));
     })
