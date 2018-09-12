@@ -1,0 +1,20 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/careybaldwin02/auth-ii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/careybaldwin02/auth-ii/issues"
+  },
+  "homepage": "https://github.com/careybaldwin02/auth-ii#readme"
+}
