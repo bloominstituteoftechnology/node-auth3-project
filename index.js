@@ -28,13 +28,14 @@ function protected(req, res, next) {
             } else {
                 // token is valid
                 console.log(decodedToken);
+                // set request user to do things like find roles
                 req.user = { username: decodedToken.username };
 
                 next();
             }
         });
     } else {
-        res.status(401).json({errorMessage: 'No token provided.'});
+        res.status(401).json({errorMessage: 'No token provided. You shall not pass!'});
     }
 }
 
@@ -44,12 +45,12 @@ const secret = 'the cake is a lie';
 // function to generate a JSON web token
 function generateToken(user) {
     const payload = {
-        username: user.username
+        username: user.username,
     };
     const options = {
         expiresIn: '1h',
         jwtid: '1234567890',
-        subject: user.id
+        // subject: user.id,
     };
     return jwt.sign(payload, secret, options)
 }
@@ -81,11 +82,11 @@ server.post('/api/register', (req, res) => {
                     res.status(201).json({id: user.id, token})
                 })
                 .catch(err => {
-                    res.status(500).send(err);
+                    res.status(500).json(err);
                 })
         })
         .catch(err => {
-            res.status(500).send(err);
+            res.status(500).json(err);
         })
 });
 
@@ -113,7 +114,7 @@ server.post('/api/login', (req, res) => {
         })
 });
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     // select the information of all the users from the users database
     db('users')
         .select('id', 'username', 'password')
