@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const config = {
   SECRET: 'part and parcel',
   generateToken: function(user) {
@@ -14,4 +16,4 @@ const config = {
   },
 }
 
-module.exports = { config };
+module.exports = config;

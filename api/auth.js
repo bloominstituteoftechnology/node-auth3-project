@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../data/dbConfig');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtokens');
+const jwt = require('jsonwebtoken');
 const jwtConfig = require('../jwtConfig');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.post('/register', (req, res) => {
   if(!username || !password || !department) {
     return res.status(422).json({ message: 'Missing data' });
   }else{
-    const hash = bcrypt.hasSync(password, 16);
+    const hash = bcrypt.hashSync(password, 16);
     password = hash;
     db('users')
       .insert({ username, password, department })
