@@ -21,6 +21,7 @@ const secret = 'buy more cheese';
 function generateToken(user) {
     const payload = {
         username: user.username,
+        department: user.department
     };
     const options = {
         expiresIn: '1h',
@@ -77,7 +78,9 @@ function protected(req,res,next) {
             if (err) {
                 res.status(401).json({ message: 'Invalid Token' });
             }else{
-                req.user = { username: decodedToken.username };
+                req.user = { 
+                    username: decodedToken.username, 
+                    department: decodedToken.department };
 
                 next();
             }
@@ -87,6 +90,22 @@ function protected(req,res,next) {
     }
 }
 
+//protect the route using the 'protected' function
+//get request for users -- show only to those logged in
+
+server.get('/api/users', protected, (req,res) => {
+    if (req.user.department === 'admin'){
+        console.log(req.user)
+        db('users')
+        .select('id', 'username', 'password', 'department')
+        .then(users => {
+            res.json(users);
+        })
+        .catch(err => res.send(err));
+    } else {
+        res.status(403).json( {message: 'You must be a member of the administrative team to access these resources'} )
+    }
+})
 
 
 //start server
