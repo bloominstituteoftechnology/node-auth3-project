@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "connect-session-knex": "^1.4.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "helmet": "^3.13.0",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "nodemon": "^1.18.4",
+    "sqlite": "^3.0.0",
+    "yarn": "^1.9.4"
+  },
+  "name": "auth-ii",
+  "description": "## Topics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kennedykid1995/auth-ii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kennedykid1995/auth-ii/issues"
+  },
+  "homepage": "https://github.com/Kennedykid1995/auth-ii#readme"
+}
