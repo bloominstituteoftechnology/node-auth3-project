@@ -39,7 +39,7 @@ class Register extends React.Component {
       promise
         .then(id => {
           if (id) {
-            return this.props.history.push('/login')
+            return this.props.history.push('/signin')
             //, {some: 'state'} if needed in future. 
           } else {
             const errorHeader = "Issues with registering";
