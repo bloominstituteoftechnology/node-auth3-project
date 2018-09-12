@@ -21,20 +21,22 @@ function protected(req, res, next) {
 			}
 		});
 	} else {
-		return res.json({
-			error: true,
-			message: "No token provided",
-		});
+		return res
+			.json({
+				error: true,
+				message: "No token provided",
+			})
+			.catch(next);
 	}
 }
 
 router.get("/users", protected, function(req, res, next) {
 	db("users")
-		.select("id", "username", "password")
+		.select("id", "username", "password", "department")
 		.then(users => {
 			res.json(users);
 		})
-		.catch(err => res.send(err));
+		.catch(next);
 });
 
 module.exports = router;
