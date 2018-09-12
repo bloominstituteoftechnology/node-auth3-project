@@ -18,7 +18,12 @@ const protected = (req, res, next) => {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
         // wrong token
-        res.status(401).json({ message: "Invalid Token" });
+        try {
+          throw new Error();
+        } catch (err) {
+          err.code = 401;
+          next(err);
+        }
       } else {
         // good token
         req.user = { username: decodedToken.username };
@@ -26,7 +31,12 @@ const protected = (req, res, next) => {
       }
     });
   } else {
-    res.status(401).json({ message: "Missing Token" });
+    try {
+      throw new Error();
+    } catch (err) {
+      err.code = 400;
+      next(err);
+    }
   }
 };
 

@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const db = require("../db/dbConfig.js");
 const middlewareFunctions = require("../middleware/middlewareFunctions.js");
 // register (add user)
-router.post("/register", (req, res) => {
+router.post("/register", (req, res, next) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 10);
   creds.password = hash;
@@ -20,11 +20,14 @@ router.post("/register", (req, res) => {
           const token = middlewareFunctions.generateToken(user);
           res.status(201).json({ id: user.id, token });
         })
-        .catch(err => res.status(500).send(err));
+        .catch(err => {
+          err.code = 500;
+          next(err);
+        });
     });
 });
 // login
-router.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
   const creds = req.body;
   db("users")
     .where({ username: creds.username })
@@ -34,10 +37,18 @@ router.post("/login", (req, res) => {
         const token = middlewareFunctions.generateToken(user);
         res.status(200).json({ token });
       } else {
-        res.status(401).json({ message: "You shall not pass!" });
+        try {
+          throw new Error();
+        } catch (err) {
+          err.code = 401;
+          next(err);
+        }
       }
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      err.code = 500;
+      next(err);
+    });
 });
 // get users list
 router.get("/users", middlewareFunctions.protected, (req, res) => {
@@ -47,7 +58,8 @@ router.get("/users", middlewareFunctions.protected, (req, res) => {
       res.json(users);
     })
     .catch(err => {
-      res.send(err);
+      err.code = 500;
+      next(err);
     });
 });
 
