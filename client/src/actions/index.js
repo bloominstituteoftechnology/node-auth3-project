@@ -41,7 +41,7 @@ export const loginUser = (user) => {
 export const fetchUsers = () => {
   return dispatch => {
     dispatch({ type: FETCHING_USERS });
-    // add header to get
+    // add header to get as authorization
     axios.get(`${url}/users`)
       .then(res => {
         console.log(res);
