@@ -37,10 +37,13 @@ server.post('/api/login',(req,res)=>{
     db('user')
         .where({username:user.username})
         .first()
-        .then(user=>{
-            const token=generateToken(user);
-            console.log(token)
-            res.status(200).json(token);
+        .then(response=>{
+            if (response && bcrypt.compareSync(user.password,response.password)){
+                const token=generateToken(response);
+                res.status(200).json(token);
+            } else {
+                res.status(401).send('You shall not pass!');
+            }
         })
         .catch(err=>res.status(500).send('You shall not pass!'))
 })
