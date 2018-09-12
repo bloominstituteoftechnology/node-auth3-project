@@ -24,6 +24,27 @@ function conjureToken(user) {
     return jwt.sign(payload, secret, options);
 }
 
+function protector(req, res, next) {
+    // read the token string from the Authorization header
+    const token = req.headers.authorization;
+    if (token) {
+        // verify the token
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+                // toekn is invalid
+                res.status(401).json({ message: 'Invalid Token, dont bring that weak stuff here'});
+            } else {
+                // token is valid
+                console.log(decodedToken);
+
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: 'no token provided.  pathetic' })
+    }
+}
+
 // Endpoints 
 server.get('/', (req, res) => {
     res.send('Server online');
@@ -69,7 +90,7 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.status(500).send(err));
 });
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protector, (req, res) => {
     db('users')
         .select('id', 'username', 'password')
         .then(users => {
