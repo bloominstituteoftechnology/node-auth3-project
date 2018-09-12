@@ -1,0 +1,18 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "repository": "https://github.com/blauente/auth-ii.git",
+  "author": "Grant Reighard <grant.reighard@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
