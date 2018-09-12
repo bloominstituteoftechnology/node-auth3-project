@@ -1,8 +1,7 @@
 const express = require('express');
 const db = require('../data/dbConfig');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const jwtConfig = require('../jwtConfig');
+const jwt = require('../jwtConfig');
 
 const router = express.Router();
 
@@ -22,7 +21,7 @@ router.post('/register', (req, res) => {
         .where({ id })
         .first()
         .then(user => {
-          const token = jwtConfig.generateToken(user);
+          const token = jwt.generateToken(user);
           res.status(201).json({ token });
         })
         .catch(err => res.status(500).json(err));
@@ -42,7 +41,7 @@ router.post('/login', (req,res) => {
       .first()
       .then(user => {
         if(user && bcrypt.compareSync(password, user.password)){
-          const token = jwtConfig.generateToken(user);
+          const token = jwt.generateToken(user);
           res.status(200).json({ token });
         }else if(!user){
           res.status(404).json({ message: 'Invalid Username' });

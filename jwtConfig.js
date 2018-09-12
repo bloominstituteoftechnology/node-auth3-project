@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
+const SECRET = 'part and parcel';
 
 const config = {
-  SECRET: 'part and parcel',
   generateToken: function(user) {
     const payload = {
       username: user.username,
@@ -12,8 +12,23 @@ const config = {
       expiresIn: '1hr',
       jwtid: '1234'
     };
-    return jwt.sign(payload, this.SECRET, options);
-  },
+    return jwt.sign(payload, SECRET, options);
+  },//end of generateToken
+  protected: function(req, res, next) {
+    const token = req.headers.authorization;
+    if(token){
+      jwt.verify(token, SECRET, (err, decodedToken) => {
+        if(err){
+          console.log(err);
+          res.status(401).json({ message: 'Invalid Token' });
+        }else{
+          next();
+        }
+      });
+    }else{
+      res.status(401).json({ message: 'No token present' });
+    }
+  },//end of protected
 }
 
 module.exports = config;

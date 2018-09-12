@@ -1,11 +1,11 @@
 const express = require('express');
 const db = require('../data/dbConfig');
-const mw = require('../middleware');
+const jwtConfig = require('../jwtConfig');
 
 const router = express.Router();
 
 //get all saved users, if logged in
-router.get('/', mw.protected, (req, res) => {
+router.get('/', jwtConfig.protected, (req, res) => {
   db('users')
     .then(users => {
       res.status(200).json(users);
