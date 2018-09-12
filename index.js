@@ -5,8 +5,7 @@ const jwt = require("jsonwebtoken");
 const dbConfig = require("./knexfile");
 
 const server = express();
-const db = knex();
-
+const db = knex(dbConfig.development);
 server.use(express.json());
 
 const secret = "thisSecret";
@@ -21,6 +20,24 @@ function generateToken(user) {
   };
   return jwt.sign(payload, secret, options);
 }
+
+server.get("/", (req, res) => {
+  res.send("Route Working");
+});
+
+server.post("/api/register", (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+
+  db("users")
+    .insert(creds)
+    .then(id => {
+      const token = generateToken(creds.username);
+      res.status(201).json({ id, token });
+    })
+    .catch(err => res.status(500).senda(err));
+});
 
 const PORT = 3000;
 server.listen(PORT, () => console.log(`\n Server running on port: ${PORT}`));
