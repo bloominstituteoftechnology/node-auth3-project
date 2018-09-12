@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Route} from 'react-router-dom';
 import './App.css';
 import Register from './components/register'
+import Home from './components/home'
 
 class App extends Component {
   
@@ -18,6 +19,9 @@ class App extends Component {
         <AppDiv>
           <Route path="/register" render={() => {
             return (<Register imputHandler={this.inputHandler} />)}} />
+          <Route path="/" render={() => {
+            return (<Home />)
+          }} />
         </AppDiv>
       </div>
     );
