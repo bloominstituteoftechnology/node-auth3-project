@@ -1,0 +1,76 @@
+.card {
+  border-radius: 3px;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  padding: 5rem;
+  max-width: 45rem;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-top: 10rem;
+}
+
+.heading {
+  margin-bottom: 3rem;
+  color: #fafafa;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.inputGroup:not(:last-child) {
+  margin-bottom: 2.5rem;
+}
+
+.input {
+  width: 100%;
+  display: block;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+  border: none;
+  border-radius: 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+  border-bottom-color: #263238;
+}
+
+.input:not(:placeholder-shown) + .label {
+  transform: translateY(-3rem) scale(0.8);
+  opacity: 1;
+}
+
+.input::placeholder {
+  color: #bdbdbd;
+}
+
+.label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #fff;
+  opacity: 0;
+  transition: all .3s;
+  transform-origin: left;
+}
+
+.button {
+  padding: 1rem 1.5rem;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  border: none;
+  border-radius: 2px;
+  transition: all .3s;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
