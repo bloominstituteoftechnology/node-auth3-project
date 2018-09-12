@@ -25,9 +25,7 @@ router.get("/", function(req, res, next) {
 router.post("/register", async (req, res, next) => {
   try {
     const salt = getRandomArbitrary(10, 50);
-    console.log('taking time to hash')
     const hash = await bcrypt.hash(req.body.password, salt);
-    console.log('taking time here')
     res.status(200).json(
       await db(`users`).insert({
         username: req.body.username,
