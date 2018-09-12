@@ -1,3 +1,4 @@
+const secret = "pair pare pear";
 function verifyToken(req, res, next) {
   const token = req.headers.authorization;
   if (token) {

@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken"); 
+const secret = "pair pare pear";
 function generateToken(user) {
   const payload = {
     username: user.username, 

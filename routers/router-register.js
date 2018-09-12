@@ -21,9 +21,9 @@ registerRouter.post("/", (req, res) => {
           const token = generateToken(user);
           res.status(201).json({ id: user.id, token });
         })
-        .catch(error => res.status(500).send(error));
+        .catch(error => res.status(500).json({error, errorMessage: error.message}));
     })
-    .catch(error => res.status(500).send(error));
+    .catch(error => res.status(500).json({error, errorMessage: error.message}));
 });
 
 module.exports = registerRouter;

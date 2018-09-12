@@ -7,7 +7,7 @@ const morgan = require("morgan");
 // import routers
 const registerRouter = require("./routers/router-register.js");
 const loginRouter = require("./routers/router-login.js");
-const  usersRouter = require("./routers/router-get-users.js");
+const usersRouter = require("./routers/router-get-users.js");
 //import routers
 const server = express();
 //secret
@@ -27,8 +27,8 @@ const REGISTER = "/api/register";
 server.use(REGISTER, registerRouter);
 const LOGIN = "/api/login";
 server.use(LOGIN, loginRouter);
-const USERS = "/api/users"; 
-server.use(USERS, usersRouter); 
+const USERS = "/api/users";
+server.use(USERS, usersRouter);
 //routes^
 
 const PORT = 9000;
