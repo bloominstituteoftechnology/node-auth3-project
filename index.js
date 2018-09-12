@@ -28,8 +28,6 @@ function protected(req, res, next) {
   }
 }
 
-server.use("/api/restricted", protected);
-
 server.get("/", (req, res) => {
   res.send("This is working...");
 });
@@ -86,18 +84,6 @@ server.post("/api/login", (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 });
-
-// server.get("/api/restricted/logout", (req, res) => {
-//     if (req.session) {
-//       req.session.destroy(err => {
-//         if (err) {
-//           res.send("Error logging out");
-//         } else {
-//           res.send("Goodbye...");
-//         }
-//       });
-//     }
-//   });
 
 server.get("/api/users", protected, (req, res) => {
   db("users")
