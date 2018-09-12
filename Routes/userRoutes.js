@@ -38,9 +38,10 @@ router.post('/login', (req, res) => {
         .where({ username: creds.username })
         .first().then(user => {
             if(user && bcrypt.compareSync(creds.password, user.password)) {
-                req.session.username = user.username;
+
+                const token = generateToken(user);
                 
-                res.status(200).send('Logged in');
+                res.status(200).send({ token });
             } else {
                 res.status(401).json({ error: "You shall not pass!"})
             }
@@ -48,9 +49,9 @@ router.post('/login', (req, res) => {
         .catch(err => res.status(500).send(err))
 });
 
-router.get('/users', (req, res) => {  // implemented protected middleware
+router.get('/users', protected, (req, res) => {  // implemented protected middleware
     db('usernames')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
         .then(users => {
         res.status(200).send(users)
         })
