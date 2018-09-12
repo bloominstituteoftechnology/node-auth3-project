@@ -15,7 +15,7 @@ const errorHandler = (err, req, res, next) => {
       });
     case 401:
       res.status(401).json({
-        message: "You are forbidden!",
+        message: "You shall not pass!",
       });
     case 406:
       res.status(406).json({
@@ -23,7 +23,7 @@ const errorHandler = (err, req, res, next) => {
       });
     case 400:
       res.status(400).json({
-        message: "Missing Token.",
+        message: "Missing Token. (Need to login)",
       });
       break;
     default:
