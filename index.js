@@ -6,11 +6,23 @@ const jwt = require('jsonwebtoken');
 const db = require('./database/dbConfig.js');
 
 const server = express();
+
 server.use(express.json());
 server.use(cors());
 
 const secret = 'my voice is my passport';
 
+function conjureToken(user) {
+    const payload = {
+        username: user.username,
+    };
+    const options = {
+        expiresIn: '2h',
+        jwtid: '222', // jti
+        subject: `${user.id}`,
+    };
+    return jwt.sign(payload, secret, options);
+}
 
 // Endpoints 
 server.get('/', (req, res) => {
@@ -32,13 +44,17 @@ server.post('/api/register', (req, res) => {
                 .where({ id })
                 .first()
                 .then(user => {
-                    const token = generateToken(user);
+                    const token = conjureToken(user);
                     res.status(201).json({ id: user.id, token });
                 })
                 .catch(err => res.status(500).send(err));
         })
         .catch(err => res.status(500).send(err));
 });
+
+server.post('/api/login', (req, res) => {
+    
+})
 
 
 server.listen(3900, () => console.log('\nrunning on port 3900\n'));
