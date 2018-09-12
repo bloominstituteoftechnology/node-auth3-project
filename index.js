@@ -18,7 +18,7 @@ generateToken=(user)=>{
     const secret='I see dead people.'
     const options={
         expiresIn:'24h',
-        jwtid:'666'
+        subject:user.username
     }
     return jwt.sign(payload,secret,options);
 }
@@ -32,6 +32,16 @@ server.post('/api/register',(req,res)=>{
         .then(id=>res.status(201).json(id[0]))
         .catch(err=>res.status(500).json(err));
 })
-
+server.post('/api/login',(req,res)=>{
+    const user=req.body;
+    db('user')
+        .where({username:user.username})
+        .first()
+        .then(user=>{
+            const token=generateToken(user);
+            res.status(200).json(token);
+        })
+        .catch(err=>res.status(500).json(err))
+})
 const port=9000;
 server.listen(port,()=>console.log('Engines firing server starting new horizons venturing.'));
