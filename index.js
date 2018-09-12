@@ -11,23 +11,53 @@ function generateToken(payload) {
   return jwt.sign(payload, process.env.SECRET || 'secret', { expiresIn: '1h' });
 }
 
+function jwtExtractor(req, res, next) {
+  if (!req.headers.authorization) return next();
+
+  const token = req.headers.authorization.split(' ')[1];
+
+  if (!token) return next();
+
+  jwt.verify(token, process.env.SECRET || 'secret', function(err, decoded) {
+    if (err) return next(err);
+
+    db('users')
+      .where('id', decoded.id)
+      .first()
+      .then(user => {
+        if (!user) next();
+
+        req.user = user;
+        next();
+      })
+      .catch(next);
+  });
+}
+
+function authenticate(req, res, next) {
+  if (req.user !== undefined) return next();
+
+  res.json({ error: true, message: 'Request is not authenticated' });
+}
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(jwtExtractor);
 
 app.post('/api/register', function(req, res, next) {
-  let { username, password } = req.body;
+  let { username, password, department } = req.body;
 
-  if (!username || !password)
+  if (!username || !password || !department)
     return res.json({
       error: true,
-      message: 'Username or password cannot be empty',
+      message: 'Username, password or department cannot be empty',
     });
 
   password = bcrypt.hashSync(password, SALT_ROUNDS);
 
   db('users')
-    .insert({ username, password })
+    .insert({ username, password, department })
     .then(([id]) => {
       const token = generateToken({ id });
 
@@ -69,6 +99,16 @@ app.post('/api/login', function(req, res, next) {
 
       res.json({ error: false, message: 'Login successful!', token });
     })
+    .catch(next);
+});
+
+app.get('/api/users', authenticate, function(req, res, next) {
+  db('users')
+    .select('id', 'username', 'department')
+    .where('department', req.user.department)
+    .then(users =>
+      res.json({ error: false, message: 'Fetch successful', users })
+    )
     .catch(next);
 });
 
