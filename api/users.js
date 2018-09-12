@@ -14,4 +14,16 @@ router.get('/', jwt.protected, (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.get('/admin', jwt.protected, (req, res) => {
+  if(req.user.department === 'Administration'){
+    db('users')
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => res.status(500).json(err));
+  }else{
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+})
+
 module.exports = router;
