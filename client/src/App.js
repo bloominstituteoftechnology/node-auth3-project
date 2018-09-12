@@ -16,9 +16,14 @@ class App extends Component {
     return (
       <div className='App'>
         <nav>
-          <Link to='/register'>Register</Link>
-          <Link to='/login'>Login</Link>
-          <Link to='/users'>View Users</Link>
+          {
+            localStorage.getItem('token')
+              ? <Link to='/users'>View Users</Link>
+              : <React.Fragment>
+                  <Link to='/register'>Register</Link>
+                  <Link to='/login'>Login</Link>
+                </React.Fragment>
+          }
           <a onClick={this.onLogout}>Sign Out</a>
         </nav>
         <Route
