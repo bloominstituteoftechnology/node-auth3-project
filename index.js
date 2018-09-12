@@ -12,9 +12,24 @@ server.use(cors());
 
 server.use(express.json());// this needs to be .json()
 
-function protect(req, res, next){
+function protect(req, res, next){//this makes sure that there is a valid token that provides identity and passes that info
     console.log('protect')
-    next();
+    if (token){
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+                res.status(200).json({message: "you have submitted an invalid token"})
+            } else {
+                req.user = {//this is when verification is needed but not a post request. so access
+                    username: decodedToken.username,
+                    password: decodedToken.password,
+                    department: decodedToken.department
+                }
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({message: 'no token! you need a token!'})
+    }
 }
 
 const secret = "1234"
@@ -62,13 +77,23 @@ server.post('/api/register', (req, res) => {
     
 })
 
-server.post('/api/login', protect,  (req, res) => {
+server.post('/api/login',  (req, res) => {
     //check with bcrypt if req matches the password 
-
-    res.status(200).send('Auth-ii -- login.')
+    const request = req.body
+    db('users')
+        .where({username: request.username})
+        .first()//returns an item instead of an Array
+        .then(dbUser => {
+            if (dbUser && bcrypt.compareSync(request.password, dbUser.password)){
+               const token = generateToken(dbUser)
+                res.status(200).json({message: 'you are now logged in', token})
+            } else {
+                res.status(401).send('no passing for you!')
+            }
+        })
 })
 
-server.get('/api/users', protect,  (req, res) => {
+server.get('/api/users', protect,  (req, res) => {//protected because we need to check if logged in
     res.status(200).send('Auth-ii -- users.')
 })
 
