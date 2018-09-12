@@ -29,7 +29,7 @@ function generateToken(user) {
     username: user.username
   };
 
-  const secret = "";
+  const secret = "random";
 
   const options = {
     expiresIn: "1h",
@@ -39,5 +39,26 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+server.post("/api/register", (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+
+  db("users")
+    .insert(creds)
+    .then(ids => {
+      const id = ids[0];
+
+      db("users")
+        .where({ id })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(201).json({ id: user.id, token });
+        })
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.status(500).send(err));
+});
 
 server.listen(8000, () => console.log("\nrunning on port 8000\n"));
