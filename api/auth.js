@@ -43,9 +43,14 @@ router.post('/login', (req,res) => {
       .then(user => {
         if(user && bcrypt.compareSync(password, user.password)){
           const token = jwtConfig.generateToken(user);
-          res.status(200).json({ token })
+          res.status(200).json({ token });
+        }else if(!user){
+          res.status(404).json({ message: 'Invalid Username' });
+        }else{
+          res.status(401).json({ message: 'You shall not pass' });
         }
       })
+      .catch(err => res.status(500).json(err));
   }
 });
 
