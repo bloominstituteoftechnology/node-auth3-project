@@ -18,22 +18,21 @@ const secret = 'secret';
 // ####### Protected middleware ##########
 function protected(req, res, next) {
     const token = req.headers.authorization;
-  
     if (token) {
-      jwt.verify(token, secret, (error, decodedToken) => {
-        if (error) {
-          return res
-            .status(400)
-            .json({ Message: ' Invalid token' })
-        }
-  
-        req.jwtToken = decodedToken;
-        next()
-      })
+        jwt.verify(token, secret, (error, decodedToken) => {
+            if (error) {
+                return res
+                    .status(400)
+                    .json({ Message: ' Invalid token' })
+            }
+            req.jwtToken = decodedToken;
+            next()
+        })
     } else {
-      return res.status(400).json({ Message: 'No token found' })
+        return res.status(400).json({ Message: 'No token found' })
     }
-  }
+}
+
 
 // ########## Generating token ###########
 function generateToken(user){
@@ -54,7 +53,7 @@ server.get('/', (req, res) => {
 });
 
 // ########## Getting the users ############
-server.get('/users', (req, res) => {
+server.get('/users', protected, (req, res) => {
     db('users')
         .then(users => {
             res.status(200).json(users)
