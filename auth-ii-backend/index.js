@@ -18,7 +18,7 @@ function generateToken(user) {
     username: user.username
   };
   const options = {
-    expireIn: "1h",
+    expiresIn: "1h",
     jwtid: "12345",
     subject: `${user.id}` 
   };
@@ -56,7 +56,7 @@ server.post("/api/register", (req, res) => {
       db("users")
         .where({ id })
         .first()
-        .then(users => {
+        .then(user => {
           const token = generateToken(user);
           res
             .status(201)
@@ -66,9 +66,9 @@ server.post("/api/register", (req, res) => {
               message: "User Registration Successful"
             });
         })
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).json({message: "Error Nested"}));
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => res.status(500).json({message: "Error Not Nested"}));
 });
 
 server.post("/api/login", (req, res) => {
