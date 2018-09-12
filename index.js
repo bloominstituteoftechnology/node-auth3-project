@@ -25,6 +25,25 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options); 
 }
 
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+
+    if(token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err) {
+                res.status(401).json({error: "You have provided an invalid token. No ride for you!"});
+            } else {
+                req.user = {
+                    username: decodedToken.username,
+                    department: decodedToken.department,
+                }; 
+                next();
+            }
+        });
+    } else {
+        res.status(401).json({error: "Where's ya token pal?"})
+    }
+}
 
 
 
@@ -64,8 +83,21 @@ server.post("/api/login", (req, res) => {
         .catch(err => {
             res.status(500).json({error: "Could not login with given information."});
         })
-
 })
+
+
+server.get("/api/users", protected, (req, res) => {
+    if(req.user.department.includes('king') || req.user.department.includes('prince') || req.user.department.includes('princess')){
+       db('users')
+        .then(users => {
+            res.json(users);
+        })
+        
+    } else {
+       res.status(401).json({error: "Unauthorized access."})
+    }
+})
+
 
 
 const port = 9800;
