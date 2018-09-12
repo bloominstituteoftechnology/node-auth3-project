@@ -43,6 +43,25 @@ const protected = (req, res, next) => {
 };
 // end middleware
 
+server.post("/api/register", (req, res) => {
+  const creds = req.body;
+  const hash = bycrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+  db("users")
+    .insert(creds)
+    .then(ids => {
+      const id = ids[0];
+      db("users")
+        .where({ id })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(201).json({ id: user.id, token });
+        })
+        .catch(err => res.status(500).send(err));
+    });
+});
+
 server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
