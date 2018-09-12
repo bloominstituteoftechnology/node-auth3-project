@@ -15,13 +15,13 @@ server.use(express.json())
 const secret = 'secret'
 
 // generate tokens
-const generateToken = (user) => {
+const generateToken = (user, id) => {
   const { username, department } = user
   
-  const payload = { username, department }
+  const payload = { username, department, sub: id }
   const options = {
     expiresIn: '2h',
-    jwtid: '246'
+    jwtid: '246',
   }
 
   return jwt.sign(payload, secret, options)
@@ -36,7 +36,8 @@ server.post('/api/register', (req, res) => {
   // store user into database
   db('user').insert(user)
     .then(ids => {
-      const token = generateToken(user)
+      const token = generateToken(user, ids[0])
+      console.log(ids, ids[0], token)
       // send client token
       res.status(200).json(token)
     })
@@ -51,9 +52,10 @@ server.post('/api/login', (req, res) => {
   // check whether username exists
   db('user').where({ username }).first()
     .then(user => {
+      console.log(user)
       // if yes and password matches
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = generateToken(user)
+        const token = generateToken(user, user.id)
         // send client token
         res.status(200).json(token)
       } else {
