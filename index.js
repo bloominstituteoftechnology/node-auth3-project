@@ -1,3 +1,5 @@
+const secret = "1234"
+
 const express = require('express');
 const knex = require('knex');
 const jwt = require('jsonwebtoken');
@@ -14,10 +16,11 @@ server.use(express.json());// this needs to be .json()
 
 function protect(req, res, next){//this makes sure that there is a valid token that provides identity and passes that info
     console.log('protect')
+    const token = req.headers.authorization
     if (token){
         jwt.verify(token, secret, (err, decodedToken) => {
             if (err) {
-                res.status(200).json({message: "you have submitted an invalid token"})
+                res.status(200).json({message: "you have submitted an invalid token. or are not logged in"})
             } else {
                 req.user = {//this is when verification is needed but not a post request. so access
                     username: decodedToken.username,
@@ -32,7 +35,7 @@ function protect(req, res, next){//this makes sure that there is a valid token t
     }
 }
 
-const secret = "1234"
+
 
 function generateToken(user){
     const payload = {
@@ -94,7 +97,17 @@ server.post('/api/login',  (req, res) => {
 })
 
 server.get('/api/users', protect,  (req, res) => {//protected because we need to check if logged in
-    res.status(200).send('Auth-ii -- users.')
+    const roles = ['admin', 'Executive']// if their role is not on this list they get bounced
+    
+    if(roles.includes(req.user.department)){
+        db('users')
+        .then(users => {
+            res.status(200).json({users})
+        })
+    } else {
+        res.status(400).json({message: 'you do not have the necessary permissions to access this data.'})
+    }
+   
 })
 
 server.listen(4400, () => console.log("\n == Server running on port 4400 == \n"))
