@@ -1,41 +1,36 @@
-const express = require('express')
-const cors = require('cors')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const helmet = require("helmet")
-const morgan = require("morgan")
-// import routers 
-const registerRouter = require("./routers/router-register.js")
+const express = require("express");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const helmet = require("helmet");
+const morgan = require("morgan");
+// import routers
+const registerRouter = require("./routers/router-register.js");
 const loginRouter = require("./routers/router-login.js");
 //import routers
-const server = express()
-//secret 
-const secret = "pair pare pear"
+const server = express();
+//secret
+const secret = "pair pare pear";
 
-//route variables 
+//route variables
 
+//middleware
+server.use(express.json());
+server.use(helmet());
+server.use(cors());
+server.use(morgan("short"));
+//middleware^^
 
-//middleware 
-server.use(express.json())
-server.use(helmet())
-server.use(cors())
-server.use(morgan('short'))
-//middleware^^ 
-
-//routes  
-const REGISTER = '/api/register';
-server.use(REGISTER, registerRouter)
-const LOGIN = '/api/login'; 
-server.use(LOGIN, loginRouter); 
+//routes
+const REGISTER = "/api/register";
+server.use(REGISTER, registerRouter);
+const LOGIN = "/api/login";
+server.use(LOGIN, loginRouter);
 //routes^
 
 const PORT = 9000;
 server.get("/", (req, res) => {
-  res.send(`Server started on port ${PORT}`)
-})
+  res.send(`Server started on port ${PORT}`);
+});
 
-
- 
-
-server.listen(PORT); 
-
+server.listen(PORT);
