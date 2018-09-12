@@ -1,6 +1,8 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
+const cors = require('cors');
+const bcrypt = require('bcryptjs');
 const sessions = require('express-session');
 const jwt = require('jsonwebtoken');
 
