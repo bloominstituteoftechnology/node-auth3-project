@@ -117,7 +117,7 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', protected, (req, res) => {
     // select the information of all the users from the users database
     db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
         .then(users => {
             res.status(200).json(users);
         })
