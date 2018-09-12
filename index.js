@@ -7,8 +7,23 @@ const dbConfig = require("./knexfile");
 
 const server = express();
 const db = knex(dbConfig.development);
-
 server.use(express.json());
+
+const secret = 'secretkey'; 
+
+function generateToken(username){
+    const payload = {
+        username, 
+    }
+    const options = {
+        expiresIn: "3hr", 
+        jwtid: "134786"
+    }; 
+
+    return jwt.sign(payload, secret, options); 
+}
+
+
 
 server.post("/api/register", (req, res) => {
   const creds = req.body;
@@ -32,8 +47,9 @@ server.post("/api/register", (req, res) => {
   creds.password = hash;
   db("users")
     .insert(creds)
-    .then(ids => {
-      res.status(201).json(ids);
+    .then(id => {
+      const token = generateToken(creds.username); 
+      res.status(201).json({id, token});
     })
     .catch(err => {
       res.status(500).json({ error: "Error updating data in the database" });
@@ -52,7 +68,8 @@ server.post("/api/login", (req, res) => {
     const creds = req.body; 
     db('users').where({username: creds.username}).first().then(user =>{
         if(user && bcrypt.compareSync(creds.password, user.password)){
-            res.status(200).json({message: "Welcome! You are successfully logged in!"}); 
+            const token = generateToken(creds.username); 
+            res.status(200).json({message: "Welcome! You are successfully logged in!", token}); 
         }else {
             res.status(401).json({message: "Sorry, your credentials are wrong, please try again"})
         }
