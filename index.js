@@ -53,10 +53,31 @@ function protected(req, res, next){
                 res.status(401).json({message: "Invalid Token"});
             }else{
                 req.user = { username: decodedToken.username}; 
+                next(); 
             }
         })
+    }else{
+        res.status(401).json({message: "no token provided"});
     }
 }
+
+server.post("/api/login", (req, res)=> {
+    const creds = req.body; 
+
+    db("users")
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if(user && bcrypt.compareSync(creds.password, user.password)){
+                const token = generateToken(user); 
+
+                res.status(200).json({token}); 
+            }else{
+                res.status(401).json({message: "you shall not come in"})
+            }
+        })
+        .catch(err => res.status(500).send(err)); 
+})
 
 server.get("/", (req, res) => {
   res.send("welcome");
