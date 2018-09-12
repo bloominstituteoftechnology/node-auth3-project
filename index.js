@@ -10,7 +10,8 @@ const db = require('./db/dbConfig')
 
 const server = express();
 
-server.use(cors());
+server.use(cors({ credentials: true, 
+    origin: 'http://localhost:3000'}));
 
 server.use(express.json());// this needs to be .json()
 
@@ -72,7 +73,7 @@ server.post('/api/register', (req, res) => {
                 .then(user => {
                    const token = generateToken(user)
                    res.status(201).json({id: user.id, token})
-                })
+                }).catch(err => console.log(err))
 
         }).catch(err => {
             res.status(500).send(err)
