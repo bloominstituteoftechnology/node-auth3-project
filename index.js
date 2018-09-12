@@ -50,7 +50,7 @@ function generateToken(user) {
     const options = {
         expiresIn: '1h',
         jwtid: '1234567890',
-        // subject: user.id,
+        subject: `${user.id}`,
     };
     return jwt.sign(payload, secret, options)
 }
