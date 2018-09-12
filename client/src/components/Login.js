@@ -22,6 +22,13 @@ class Login extends Component {
          }
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.props.history.replace('/users')
+        }
+    }
+
     changeHandler = (event) => {
         this.setState({ user: {
             ...this.state.user,
@@ -32,7 +39,7 @@ class Login extends Component {
     submitHandler = async (event, user) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/login', user);
+            const response = await axios.post('http://localhost:4000/login', user);
             const token = response.data;
             localStorage.setItem('token', token);
             this.props.history.push('/users');
@@ -43,9 +50,9 @@ class Login extends Component {
 
 
     render() { 
-        const LinkToRegister = <Link to='/register'>Sign up</Link>
+        const LinkToRegister = <Link to='/register'>Register</Link>
         return ( 
-                <Form className="login" onSubmit={(e) => this.submitHandler(e, this.state.user)}>
+                <Form className="login" onSubmit={(event) => this.submitHandler(event, this.state.user)}>
                     <Input
                         name="username"
                         type="text"

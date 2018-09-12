@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+const jwtDecode = require('jwt-decode');
 
 const List = styled.div`
 
@@ -22,26 +23,44 @@ const url = 'http://localhost:4000/users/';
 class UserList extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
+            username: '',
             users: [],
             canSee: false
          }
     }
 
 componentDidMount() {
-    axios.get(url)
-        .then(response => {
-            this.setState({
-                users: response.data,
-                canSee: true
-            })
-        })
-        .catch(error => {
-            this.setState({
-                canSee: false
-            })
-            console.log(error);
-        })
+    this.fetchUsers();
+}
+
+fetchUsers = async () => {
+    const token = localStorage.getItem('token');
+    if (!token){
+        this.props.history.replace('/login');
+    }
+
+    try {
+        const response = await axios({
+            method: 'get',
+            url: url,
+            headers: { authorization: token }
+        });
+
+        const decoded = jwtDecode(token);
+        this.setState({
+            username: decoded.username,
+            users: response.data,
+            canSee: true
+        });
+    } catch (error) {
+        this.setState({ canSee: false });
+    }
+}
+
+onClick = () => {
+    localStorage.removeItem('token');
+    this.props.history.push('/login');
 }
 
     render() { 
