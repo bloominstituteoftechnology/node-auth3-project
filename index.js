@@ -33,7 +33,8 @@ function generateToken(user) {
 
   const options = {
     expiresIn: "1h",
-    jwtid: "12345"
+    jwtid: "12345",
+    subject: `${user.id}`
   };
 
   return jwt.sign(payload, secret, options);
@@ -59,6 +60,43 @@ server.post("/api/register", (req, res) => {
         .catch(err => res.status(500).send(err));
     })
     .catch(err => res.status(500).send(err));
+});
+
+server.post("/api/login", (req, res) => {
+  const creds = req.body;
+
+  db("users")
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).send({ token });
+      } else {
+        res.status(401).json({ message: "You shall not pass!" });
+      }
+    })
+    .catch(err => res.status(500).send(err));
+});
+
+// server.get("/api/restricted/logout", (req, res) => {
+//     if (req.session) {
+//       req.session.destroy(err => {
+//         if (err) {
+//           res.send("Error logging out");
+//         } else {
+//           res.send("Goodbye...");
+//         }
+//       });
+//     }
+//   });
+
+server.get("/api/users", (req, res) => {
+  db("users")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
 });
 
 server.listen(8000, () => console.log("\nrunning on port 8000\n"));
