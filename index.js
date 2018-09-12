@@ -1,5 +1,6 @@
 const express = require("express");
-const cores = require("bcryptjs");
+// const cores = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("./db/dbConfig.js");
 
@@ -45,7 +46,7 @@ const protected = (req, res, next) => {
 
 server.post("/api/register", (req, res) => {
   const creds = req.body;
-  const hash = bycrypt.hashSync(creds.password, 10);
+  const hash = bcrypt.hashSync(creds.password, 10);
   creds.password = hash;
   db("users")
     .insert(creds)
