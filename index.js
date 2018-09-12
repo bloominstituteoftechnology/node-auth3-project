@@ -77,12 +77,10 @@ server.post("/api/login", (req, res) => {
 });
 
 server.get("/api/users", protected, (req, res)=>{
-    if(req.user.roles.includes("admin")){
-    }
     db("users")
-    .select("id", "username", "passord")
+    .select("id", "username", "password")
     .then(users => {
-        res.json(users);
+      res.json(users);
     })
     .catch(err => res.send(err));
 }); 
