@@ -13,11 +13,11 @@ server.get("/", (req, res) => {
   res.status(201).send("Working");
 });
 // generate token function
+const secret = "rosebud";
 const generateToken = user => {
   const payload = {
     username: user.username,
   };
-  const secret = "rosebud";
   const options = {
     expiresIn: "1h",
     jwtid: "12345",
@@ -81,7 +81,7 @@ server.post("/api/login", (req, res) => {
 });
 
 // get users list
-server.get("/api/users", (req, res) => {
+server.get("/api/users", protected, (req, res) => {
   db("users")
     .select("id", "username", "password")
     .then(users => {
