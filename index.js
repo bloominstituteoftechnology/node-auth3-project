@@ -39,15 +39,18 @@ server.post('/api/register', (req, res) => {
     db('users').insert(credentials).then(ids => {
         const id = ids[0];
 
-
-        generateToken(credentials.username);
-
-        res.status(201).json({id: id, token});
+        db('users')
+            .where({id})
+            .first()
+            .then(user => {
+                const token = generateToken(user);
+                res.status(201).json({id: user.id, token });
+            })
+            .catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 });
 
 server.get('/api/users', (req, res) => {
-    
         db('users')
         .then(user => {
             res.status(200).json(user);
