@@ -18,7 +18,7 @@ generateToken=(user)=>{
     const secret='I see dead people.'
     const options={
         expiresIn:'24h',
-        subject:user.username
+        subject:user.id.toString()
     }
     return jwt.sign(payload,secret,options);
 }
@@ -39,9 +39,10 @@ server.post('/api/login',(req,res)=>{
         .first()
         .then(user=>{
             const token=generateToken(user);
+            console.log(token)
             res.status(200).json(token);
         })
-        .catch(err=>res.status(500).json(err))
+        .catch(err=>res.status(500).send('You shall not pass!'))
 })
 const port=9000;
 server.listen(port,()=>console.log('Engines firing server starting new horizons venturing.'));
