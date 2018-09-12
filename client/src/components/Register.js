@@ -46,6 +46,9 @@ class Register extends Component {
             name='department'
             onChange={this.handleInputChange}
           />
+          <button>
+            Register
+          </button>
         </form>
       </div>
     );

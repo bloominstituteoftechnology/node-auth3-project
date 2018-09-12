@@ -5,6 +5,7 @@ import './App.css';
 import * as actions from './actions';
 import Login from './components/Login';
 import Register from './components/Register';
+import Users from './components/Users';
 
 class App extends Component {
   render() {
@@ -20,6 +21,12 @@ class App extends Component {
           path='/login'
           render={ props => (
             <Login {...props} loginUser={this.props.loginUser} />
+          )}
+        />
+        <Route
+          path='/users'
+          render={ props => (
+            <Users {...props} fetchUsers={this.props.fetchUsers} users={this.props.users} />
           )}
         />
       </div>
