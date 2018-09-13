@@ -28,6 +28,7 @@ export class Signin extends Component {
       .post("http://localhost:4000/api/login", this.state)
       .then(res => {
         localStorage.setItem("jwt", res.data.token);
+        this.props.history.push("/users");
       })
       .catch(err => console.log("AXIOS ERR", err));
   };

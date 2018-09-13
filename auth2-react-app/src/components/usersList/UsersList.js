@@ -1,15 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 
-// export const UsersList = props => {
-//   return (
-//     <div>
-//       <div>
-//         <h1>Welcome to the UsersList page.</h1>
-//       </div>
-//     </div>
-//   );
-// };
 export class UsersList extends Component {
   state = {
     users: [],
@@ -28,6 +19,9 @@ export class UsersList extends Component {
       })
       .catch(err => console.log("AXIOS GET USERS ERR", err));
   }
+  signoutHandler = () => {
+    localStorage.removeItem("jwt");
+  };
   render() {
     return (
       <Fragment>
@@ -36,6 +30,7 @@ export class UsersList extends Component {
             <li key={user.id}>{user.username}</li>
           ))}
         </ul>
+        <button onSubmit={this.signoutHandler}>Sign Out</button>
       </Fragment>
     );
   }

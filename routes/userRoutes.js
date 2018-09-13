@@ -54,7 +54,7 @@ router.post("/login", (req, res, next) => {
 // get users list
 router.get("/users", middlewareFunctions.protected, (req, res) => {
   db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "department")
     .then(users => {
       res.json(users);
     })
