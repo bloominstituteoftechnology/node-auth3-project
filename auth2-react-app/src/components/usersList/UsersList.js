@@ -29,7 +29,13 @@ export class UsersList extends Component {
       <Fragment>
         <ul>
           {this.state.users.map(user => (
-            <li key={user.id}>{user.username}</li>
+            // let subKey = user.department.concat(user.id)
+            <Fragment key={user.id}>
+              <li>{user.username}</li>
+              <ul className="departmentSubList">
+                <li>{user.department}</li>
+              </ul>
+            </Fragment>
           ))}
         </ul>
         <button onClick={this.signoutHandler}>Sign Out</button>
