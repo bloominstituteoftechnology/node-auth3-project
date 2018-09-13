@@ -12,12 +12,12 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+const secret = 'The meaning of life is 42';
+
 function generateToken(username) {
     const payload = {
         username,
     };
-
-    const secret = 'The meaning of life is 42';
 
     const options = {
         expiresIn: '1h',
@@ -25,6 +25,27 @@ function generateToken(username) {
     };
 
     return jwt.sign(payload, secret, options)
+}
+
+function protected (req, res, next) {
+
+    const token = req.headers.authorization;
+
+    if(token) {
+        jwt.verify(token, secret, (err, decodeToken) => {
+            if(err) {
+                res.status(401).json({message: 'Invalid token'});
+            }
+            else {
+                console.log(decodedToken);
+                req.username = decodedToken.username;
+                next();
+            }
+        });
+    } 
+    else {
+        res.status(401).json({message: 'no token provided'});
+    }
 }
 
 server.get('/', (req, res) => {
@@ -69,10 +90,11 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.status(500).send(err));
 });
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protected, (req, res) => {
         db('users')
-        .then(user => {
-            res.status(200).json(user);
+        .select('id', 'username', 'password')
+        .then(users => {
+            res.status(200).json(users);
         })
         .catch(err => res.status(500).send(err));
 });
