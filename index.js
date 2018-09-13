@@ -17,7 +17,7 @@ server.use(morgan("dev"));
 server.use("/api", authRoutes);
 server.use("/api/restricted", restrictedRoutes);
 
-server.use(errorHandler);
+// server.use(errorHandler);
 
 const port = 8000;
 server.listen(port, function() {

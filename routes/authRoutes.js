@@ -13,7 +13,7 @@ function generateToken(payload) {
 }
 
 router.post("/register", function(req, res, next) {
-	console.log(req);
+	console.log(req.body);
 	let { username, password, department } = req.body;
 
 	if (!username || !password || !department)
@@ -23,7 +23,6 @@ router.post("/register", function(req, res, next) {
 		});
 
 	password = bcrypt.hashSync(password, SALT_ROUNDS);
-	console.log(password);
 
 	db("users")
 		.insert({ username, password, department })
