@@ -8,10 +8,10 @@ class Users extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
-    console.log(token)
+    console.log(token);
     const reqOptions = {
-      header: {
-        Authorization: token,
+      headers: {
+        authorization: token
       }
     };
     axios
@@ -27,7 +27,7 @@ class Users extends Component {
       <div>
         <ul />
         {this.state.users.map(user => (
-          <li key={user.id}>{user.username}</li>
+          <li key={user.id}>{user.username}{user.department}</li>
         ))}
       </div>
     );
