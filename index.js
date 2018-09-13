@@ -12,6 +12,10 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+
+
+//==============MIDDLEWARE=================//
+
 const secret = 'secret';
 function generateToken(user) {
     const payload = {
@@ -46,6 +50,7 @@ function protected(req, res, next) {
 }
 
 
+//==============ENDPOINTS=================//
 
 server.get("/", (req, res) => {
     res.send('hallo, it be working mon!')
@@ -85,7 +90,6 @@ server.post("/api/login", (req, res) => {
         })
 })
 
-
 server.get("/api/users", protected, (req, res) => {
     if(req.user.department.includes('king') || req.user.department.includes('prince') || req.user.department.includes('princess')){
        db('users')
@@ -99,6 +103,8 @@ server.get("/api/users", protected, (req, res) => {
 })
 
 
+
+//==============PORT=================//
 
 const port = 9800;
 server.listen(port, function() {
