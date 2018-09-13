@@ -63,11 +63,13 @@ server.post('/api/login',(req,res)=>{
         })
         .catch(err=>res.status(500).send('You shall not pass!'))
 })
-server.get('/api/users',(req,res)=>{
-    db('user')
-        .select('username','password','department')
-        .then(users=>res.status(200).json(users))
-        .catch(err=>res.status(500).json(err));
+server.get('/api/users', protected, (req,res)=>{
+    if (req.username) {
+        db('user')
+            .select('username','password','department')
+            .then(users=>res.status(200).json(users))
+            .catch(err=>res.status(500).json(err));
+    }
 })
 const port=9000;
 server.listen(port,()=>console.log('Engines firing server starting new horizons venturing.'));
