@@ -8,6 +8,7 @@ function UsersList (props){
                     <h1>Name: {user.username}</h1>
                     <h2>Department: {user.department}</h2>
                 </li> )}</ul>
+            <button onClick={props.signOut}>SignOut</button>
         </div>
     )
 }

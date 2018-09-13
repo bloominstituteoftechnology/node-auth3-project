@@ -70,6 +70,14 @@ class App extends Component {
       console.log(err);
     }
   };
+
+  signOut = event => {
+    event.preventDefault()
+    localStorage.removeItem('jwt')
+    this.setState({
+      isLogged: false
+    })
+  }
   render() {
     return (
       <div className="App">
@@ -78,7 +86,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         {this.state.isLogged ? (
-          <UsersList users={this.state.users} />
+          <UsersList users={this.state.users} signOut={this.signOut}/>
         ) : (
           <div>
             <Route
