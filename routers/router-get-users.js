@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const verifyToken = require("../routers-middleware/verifyToken.js");
 const usersRouter = express.Router();
 
@@ -8,12 +7,11 @@ const db = require("../db/dbConfig.js");
 usersRouter.get("/", verifyToken, (req, res) => {
   db("users")
     .select("id", "username", "department")
+    .where({department: req.department.department})
     .then(users => {
       if (users) {
-        //console.log(req.user)
         users.loggedIn = req.user; 
-        //console.log(users)
-        res.status(200).json({users, loggedIn: req.user});
+        res.status(200).json({users, loggedIn: req.user, department: req.department});
       } else {
         res.status(500).json({ errorMessage: "Problems with your request" });
       }

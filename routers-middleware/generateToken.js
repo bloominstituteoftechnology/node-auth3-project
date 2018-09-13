@@ -3,6 +3,7 @@ const secret = "pair pare pear";
 function generateToken(user) {
   const payload = {
     username: user.username, 
+    department: user.department,
   }
   const options = {
       expiresIn: '1h',

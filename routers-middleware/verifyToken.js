@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 
 function verifyToken(req, res, next) {
-  console.log(req)
   const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
@@ -11,6 +10,7 @@ function verifyToken(req, res, next) {
         res.status(401).json({ message: "Invalid Token" });
       } else {
         req.user = { username: decodedToken.username };
+        req.department = {department: decodedToken.department};
 
         next();
       }

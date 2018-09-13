@@ -1,11 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 
 class ShowUsers extends React.Component {
   state = {
     username: null,
+    department: null, 
     users: []
   };
 
@@ -18,7 +20,10 @@ class ShowUsers extends React.Component {
     const reqOptions = {
       headers: {
         Authorization: token
-      }
+      },
+      // body: {
+      //   department: "student"
+      // }
     };
     const promise = axios.get("http://localhost:9000/api/users", reqOptions);
     promise
@@ -30,7 +35,7 @@ class ShowUsers extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error, error.message);
+        console.log(error);
       });
   };
   removeLocalStorage = () => {
@@ -48,8 +53,8 @@ class ShowUsers extends React.Component {
           {users.map((user, i) => {
             return (
               <div key={i + 100}>
-                <h3 key={i}>{user.username}</h3>
-                <h4 key={i + 10}>{user.department}</h4>
+                <h3 key={i}>User: {user.username}</h3>
+                <h4 key={i + 10}>Department: {user.department}</h4>
               </div>
             );
           })}
@@ -58,8 +63,8 @@ class ShowUsers extends React.Component {
     } else {
       return (
         <div>
-          <h1>Users Page</h1>
-          <button onClick={this.fetchUsers}>Get users</button>
+          <h1>Your not logged in!!</h1>
+          <button><Link to ="/signin">Go to sign in page</Link></button>
         </div>
       );
     }

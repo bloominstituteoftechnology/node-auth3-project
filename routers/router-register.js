@@ -26,9 +26,9 @@ registerRouter.post("/", (req, res) => {
           }
         
         })
-        .catch(error => res.status(500).json({error, errorMessage: error.message}));
+        .catch(error => res.status(500).json({error}));
     })
-    .catch(error => res.status(500).json({error, errorMessage: error.message}));
+    .catch(error => res.status(500).json({error}));
 });
 
 module.exports = registerRouter;

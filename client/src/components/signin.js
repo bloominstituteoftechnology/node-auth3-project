@@ -16,7 +16,6 @@ class Signin extends React.Component {
       .then(response => {
         if (response) {
           console.log(response);
-
           localStorage.setItem("token", response.data.token);
           return this.props.history.push("/showusers");
         }
