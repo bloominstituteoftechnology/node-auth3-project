@@ -80,7 +80,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {    
     db('users')
-        .select('id', 'username')
+        .select('id', 'username', 'password')
         .then(users => {
             res.json(users);
         })
