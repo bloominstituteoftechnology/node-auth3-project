@@ -3,10 +3,15 @@ import React, { Component } from 'react';
 //import './Signin.css';
 
 class Signin extends Component {
+    state = {
+        username: '',
+        password: '',
+    };
+    
   render() {
     return (
       <div className="Signin">
-        <form> 
+        <form onSubmit = {this.signin}> 
             <div> 
                 <label> Username </label>
                 <input type = "text" />
@@ -23,6 +28,11 @@ class Signin extends Component {
       </div>
     );
   }
+
+signin = event => {
+    event.preventDefault();
+    console.log(this.state);
+    }
 }
 
 export default Signin;
