@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 class Users extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class Users extends Component {
       <ul> {this.state.users.map((e,i)=>{
         return <li key={i}>{e.user_name}</li>
       })}</ul>
-     
+     {this.state.users.length ===0 ? <div>Please <Link to="/signin">sign in</Link></div>:"" }
     </div>;
   }
 }
