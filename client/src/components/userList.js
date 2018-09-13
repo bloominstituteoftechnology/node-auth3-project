@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 class UserList extends React.Component{
     constructor() {
@@ -20,10 +21,15 @@ class UserList extends React.Component{
         .then(res=>this.setState({users:res.data,loading:false}))
         .catch(err=>console.log(err));
     }
+    signOut=()=>{
+        localStorage.removeItem('jwt');
+        this.props.history.push('/');
+    }
     render() {
         if (this.state.loading===true) {
             return (
                 <div>
+                    <h1>Sign in to access this content.</h1>
                 </div>
             )
         } else {
@@ -35,9 +41,10 @@ class UserList extends React.Component{
                         <p>{e.username}</p>
                         <p>{e.department}</p>
                     </div>)}
+                    <button onClick={this.signOut}>Sign Out</button>
                 </div>
             )
         }
     }
 }
-export default UserList;
+export default withRouter(UserList);
