@@ -47,7 +47,7 @@ class UserList extends React.Component{
         } else if (this.state.loading===false) {
             return (
                 <div>
-                    <h1>Users in {this.state.users[0].department} department:</h1>
+                    <h1>Users In {this.state.users[0].department} Department:</h1>
                     {this.state.users.map((e,i)=>
                     <div key={i} className='card'>
                         <p className='text-flow'>User Id: {e.id}</p>
