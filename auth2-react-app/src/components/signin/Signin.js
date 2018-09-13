@@ -23,27 +23,21 @@ export class Signin extends Component {
   render() {
     return (
       <form onSubmit={this.signinHandler}>
-        <div>
-          <label>Username</label>
-          <input
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            type="text"
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </div>
-        <div>
-          <button type="submit">Sign In</button>
-        </div>
+        <label>Username</label>
+        <input
+          name="username"
+          value={this.state.username}
+          onChange={this.handleChange}
+          type="text"
+        />
+        <label>Password</label>
+        <input
+          name="password"
+          value={this.state.password}
+          onChange={this.handleChange}
+          type="password"
+        />
+        <button type="submit">Sign In</button>
       </form>
     );
   }

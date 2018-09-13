@@ -1,0 +1,27 @@
+.app {
+  text-align: center;
+  max-width: 800px;
+  border: 1px solid teal;
+  margin: 25% auto;
+}
+form {
+  border: 1px solid red;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 1.2rem;
+  font-weight: bold;
+  max-width: 10rem;
+}
+form input {
+  border: 1px solid grey;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+}
+form button {
+  border: 1px solid grey;
+  padding: 1rem;
+}
