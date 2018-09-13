@@ -21,17 +21,17 @@ class Register extends Component {
         }).then(res => {
             console.log('data sent')
             if (res){
-            this.setState({
-                loggedIn: true, 
-                regusername: '',
-                regpassword: '',
-            })
-            console.log(res)
-            localStorage.setItem("token", res.data.token);
-            console.log(localStorage.getItem('token'))
-            
-            console.log(this.props)
-            this.props.history.push('/users')
+                this.setState({
+                    loggedIn: true, 
+                    regusername: '',
+                    regpassword: '',
+                })
+                console.log(res)
+                localStorage.setItem("token", res.data.token);
+                console.log(localStorage.getItem('token'))
+                
+                console.log(this.props)
+                this.props.history.push('/users')
             }
         }).catch(err => console.log(err))
     }
