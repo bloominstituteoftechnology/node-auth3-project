@@ -14,6 +14,7 @@ router.get('/', jwt.protected, (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+//get all users if department is administration
 router.get('/admin', jwt.protected, (req, res) => {
   if(req.user.department === 'Administration'){
     db('users')

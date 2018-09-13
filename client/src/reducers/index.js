@@ -1,4 +1,8 @@
-import { } from '../actions';
+import {
+  LOGGING_IN,
+  LOGGED_IN,
+  LOGGED_OUT
+ } from '../actions';
 
 const startState = {
   isLoggingIn: false,
@@ -6,7 +10,8 @@ const startState = {
   username: null,
   id: null,
   department: null,
-  token: null
+  token: null,
+  error: null
 };
 
 const initialState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : startState;
@@ -17,15 +22,13 @@ export default (userInfo = initialState, action) => {
       return {
         ...userInfo,
         isLoggingIn: true,
-      },
+      }
     case LOGGED_IN:
       return {
+        ...userInfo,
         isLoggedIn: true,
         isLoggingIn: false,
-        username: action.username,
-        id: action.id,
-        department: action.department,
-        token: action.token,
+        ...action.payload
       }
     case LOGGED_OUT:
       return {
@@ -37,6 +40,6 @@ export default (userInfo = initialState, action) => {
         token: null,
       }
     default:
-      return user;
+      return userInfo;
   }
 }
