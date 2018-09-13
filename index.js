@@ -1,8 +1,8 @@
 const express = require("express");
-const helmet = require("helmet");
 const knex = require("knex");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
 
 const dbConfig = require("./knexfile");
 const db = knex(dbConfig.development);
@@ -10,7 +10,7 @@ const db = knex(dbConfig.development);
 const server = express();
 
 server.use(express.json());
-server.use(helmet());
+server.use(cors());
 
 
 
@@ -63,12 +63,20 @@ server.post("/api/register", (req, res) => {
     
     db('users')
         .insert(credentials)
-        .then(ids => { 
+        .then(ids => {
             const id = ids[0];
-            res.status(201).json(id); 
-        })
-        .catch(err => {
-            res.status(500).json({error: "Could not register the given user."})
+        
+            db('users')
+                .where({id})
+                .first()
+                .then(user => {
+                    const token = generateToken(user); 
+                    res.status(201).json({id: user.id, token});
+                }) 
+                .catch(err => {
+                    res.status(500).json({error: "Could not register the given user."})
+                })
+
         })
 })
 

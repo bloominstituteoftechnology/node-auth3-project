@@ -21,20 +21,22 @@ inputHandler = e => {
 
 onRegisterHandler = e => {
   e.preventDefault(); 
+  console.log( 'state at point of handler', this.state)
   axios
-    .post('http://localhost:9800/api/register', {
-      username: this.state.username, 
-      password: this.state.password,
-      department: this.state.department,
-  })
-    .then(data => {
-        console.log(data)
+    .post("http://localhost:9800/api/register", this.state)
+    .then(res => {
+        console.log('response', res.data);     
     })
+    .catch(err => {
+        console.log(err);
+    })
+
+  this.setState({username: '', password: '', department: ''});  
 }
 
 
   render() {
-    console.log('running')
+    console.log('state', this.state)
     return (
       <div className="App">  
       <Route
@@ -47,6 +49,7 @@ onRegisterHandler = e => {
               />
             )}
           />
+
       </div>
     );
   }

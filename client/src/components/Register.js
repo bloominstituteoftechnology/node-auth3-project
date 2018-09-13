@@ -6,7 +6,7 @@ export default function Register(props){
         return (
             <div>
                 <div className="form-title">Enter Information Below to Register</div>
-                <form onSubmit={props.inputHandler}>
+                <form onSubmit={props.onRegisterHandler}>
                     <input 
                         type="text"
                         className="form-input"
