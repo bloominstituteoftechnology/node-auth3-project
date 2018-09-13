@@ -4,16 +4,49 @@ import styled from 'styled-components';
 const jwtDecode = require('jwt-decode');
 
 const List = styled.div`
-
 `
 const Table = styled.table`
-
+        margin: 30px auto 0 auto;
+        background: rgba(255, 255, 255, 0.1);
+        max-width: 600px;
+        width: 100%;
+        height: 60vh;
+    
 `
 const Td = styled.td`
+    text-align: center;
+    color: white;
 
 `
 const Th = styled.th`
+    height: 30px;
+    color: silver;
+    border-bottom: 1px solid gray;
 
+`
+
+const NavigationWrap = styled.nav`
+
+    top: 0;
+    width: 100%;
+    height: 75px;
+    background: #0f0f0f;
+    display: flex;
+    align-items: center;
+
+`
+const Navigation = styled.div`
+    display: flex;
+    max-width: 1024px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: flex-end;
+    
+    > p {
+        color: yellow;
+        margin: 0 10px;
+        cursor: pointer;
+    }
 `
 
 class UserList extends Component {
@@ -21,8 +54,7 @@ class UserList extends Component {
         super(props);
         this.state = {
             username: '',
-            users: [],
-            canSee: false
+            users: []
          }
     }
 
@@ -61,6 +93,12 @@ onClick = () => {
 
     render() { 
         const usersTable = (
+            <div>
+             <NavigationWrap>
+                <Navigation>
+                    <p onClick = {this.onClick}>Logout</p>
+                </Navigation>
+            </NavigationWrap>
             <Table>
                 <thead>
                     <tr>
@@ -85,17 +123,12 @@ onClick = () => {
                     )}
                 </tbody>
             </Table>
+            </div>
         )
-        const CantSee = (
-            <div>
-        <h1>Loading contents</h1>
-        </div>
-        );
 
         return ( 
             <List>
-                {this.state.canSee ? usersTable : CantSee}
-                <button onClick = {this.onClick}>Logout</button>
+                {usersTable}
             </List>
          );
     }

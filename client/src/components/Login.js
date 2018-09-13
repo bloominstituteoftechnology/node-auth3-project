@@ -88,7 +88,7 @@ class Login extends Component {
 
 
     render() { 
-        
+        const LinkToRegister = <Link to='/register'>Register</Link>
         return ( 
                 <Form className="login" onSubmit={(event) => this.submitHandler(event, this.state.user)}>
                     <Input
@@ -111,9 +111,7 @@ class Login extends Component {
 
                     
                         <Button type="submit">Login</Button>
-                        <Text>Don't have an account?  
-                        <Link to='/register'> Register</Link>
-                        </Text>
+                        <Text>Don't have an account? {LinkToRegister}</Text>
                     
                 </Form>
          );

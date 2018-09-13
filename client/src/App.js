@@ -8,7 +8,7 @@ import Register from './components/Register';
 
 
 const Application = styled.div`
-
+ 
 
 `
 
@@ -18,11 +18,10 @@ class App extends Component {
     return (
       <Router>
       <Application>
-        <Switch>
+        <Switch> 
           <Route path='/users' component={UserList} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
-          
           <Redirect to='/users' />
         </Switch>
       </Application>
