@@ -1,10 +1,10 @@
 .card {
   border-radius: 3px;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
   padding: 5rem;
   max-width: 45rem;
   margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(38,50,56, 0.8);
   margin-top: 10rem;
 }
 
@@ -26,18 +26,18 @@
   display: block;
   font-size: inherit;
   font-family: inherit;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 1rem;
   border: none;
   border-radius: 2px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   transition: all 0.3s;
 }
 
 .input:focus {
   outline: none;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
-  border-bottom-color: #263238;
+  border-bottom-color: #2196F3;
 }
 
 .input:not(:placeholder-shown) + .label {
@@ -46,7 +46,7 @@
 }
 
 .input::placeholder {
-  color: #bdbdbd;
+  color: #999;
 }
 
 .label {
@@ -63,11 +63,11 @@
   padding: 1rem 1.5rem;
   font-size: inherit;
   font-family: inherit;
-  color: inherit;
+  color: #fafafa;
   border: none;
   border-radius: 2px;
   transition: all .3s;
-  background-color: #fafafa;
+  background-color: #2196F3;
   cursor: pointer;
 }
 
