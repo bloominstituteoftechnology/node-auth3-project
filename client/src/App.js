@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Link, Route } from "react-router-dom";
+import {  Route, withRouter } from "react-router-dom";
 
 import './App.css';
+
+import SignUp from './components/signUp';
+import SignIn from './components/signIn';
+import Users from './components/users';
 
 class App extends Component {
   render() {
@@ -9,13 +13,20 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to React</h1>
+          <div>
+            <button onClick={this.logout} >Logout</button>
+          </div>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
+  logout = event => {
+    localStorage.removeItem('jwt');
+    this.props.history.push('/signin');
+  };
 }
 
-export default App;
+export default withRouter(App);

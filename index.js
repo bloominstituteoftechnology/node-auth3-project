@@ -31,12 +31,12 @@ function protector(req, res, next) {
         // verify the token
         jwt.verify(token, secret, (err, decodedToken) => {
             if (err) {
-                // toekn is invalid
+                // token is invalid
                 res.status(401).json({ message: 'Invalid Token, dont bring that weak stuff here'});
             } else {
                 // token is valid
                 console.log(decodedToken);
-
+                req.user = { username: decodedToken.username };
                 next();
             }
         })
