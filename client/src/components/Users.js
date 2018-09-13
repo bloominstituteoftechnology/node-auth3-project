@@ -20,6 +20,8 @@ export default class extends Component {
         // console.log(response.data);
         if (!response.data.error) {
           this.setState({ users: response.data.users });
+        } else {
+          this.props.invalidateLogin();
         }
       })
       .catch(error => {
@@ -30,7 +32,11 @@ export default class extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <h1 className={styles.heading}>Users</h1>
+        <h1 className={styles.heading}>
+          Users{' '}
+          {this.state.users[0] &&
+            `in ${this.state.users[0].department} department`}
+        </h1>
         {this.state.users.map(user => (
           <div className={styles.user} key={user.username}>
             <div className={styles.userskew}>

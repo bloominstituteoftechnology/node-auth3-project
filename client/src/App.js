@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
+import { Link, Route, Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import './App.css';
@@ -14,6 +14,13 @@ class App extends Component {
     loggedIn: false,
   };
 
+  componentDidMount() {
+    if (localStorage.getItem('auth-token')) {
+      this.setState({ loggedIn: true });
+      this.props.history.push('/users');
+    }
+  }
+
   registerUser = ({ username, password, department }) => {
     this.setState({ status: 'Sending request...' });
     axios
@@ -27,6 +34,7 @@ class App extends Component {
         if (!response.data.error) {
           localStorage.setItem('auth-token', response.data.token);
           this.setState({ loggedIn: true });
+          this.props.history.push('/users');
         }
       })
       .catch(error => {
@@ -46,11 +54,17 @@ class App extends Component {
         if (!response.data.error) {
           localStorage.setItem('auth-token', response.data.token);
           this.setState({ loggedIn: true });
+          this.props.history.push('/users');
         }
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  logoutUser = () => {
+    localStorage.removeItem('auth-token');
+    this.setState({ loggedIn: false, status: 'Logout successful' });
   };
 
   getToken = () => {
@@ -63,15 +77,26 @@ class App extends Component {
     return (
       <div className="App">
         <header className={style.nav}>
-          <Link className={style.link} to="/">
-            Register
-          </Link>
-          <Link className={style.link} to="/login">
-            Login
-          </Link>
-          <Link className={style.link} to="/users">
-            Users
-          </Link>
+          {this.state.loggedIn ? (
+            <React.Fragment>
+              {' '}
+              <Link className={style.link} to="/users">
+                Users
+              </Link>
+              <a className={style.link} href="#" onClick={this.logoutUser}>
+                Logout
+              </a>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Link className={style.link} to="/">
+                Register
+              </Link>
+              <Link className={style.link} to="/login">
+                Login
+              </Link>
+            </React.Fragment>
+          )}
         </header>
         <Route
           exact
@@ -92,8 +117,11 @@ class App extends Component {
           path="/users"
           render={() => (
             <div>
-              {this.getToken() ? (
-                <Users token={this.getToken()} />
+              {this.state.loggedIn ? (
+                <Users
+                  token={this.getToken()}
+                  invalidateLogin={this.logoutUser}
+                />
               ) : (
                 <Redirect to="/login" />
               )}
@@ -105,4 +133,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
