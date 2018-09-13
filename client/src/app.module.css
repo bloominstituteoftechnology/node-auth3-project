@@ -1,0 +1,24 @@
+.nav {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 2rem 4rem;
+  color: #fafafa;
+  display: flex;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #fafafa;
+  transition: all 0.275s;
+}
+
+.link:hover {
+  opacity: 0.9;
+  border-bottom-color: #FF8A65;
+}
+
+.link:not(:last-child) {
+  margin-right: 3rem;
+}

@@ -1,0 +1,89 @@
+.card {
+  border-radius: 3px;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
+  padding: 5rem;
+  max-width: 45rem;
+  margin: 0 auto;
+  background-color: rgba(38,50,56, 0.8);
+  margin-top: 10rem;
+  position: relative;
+}
+
+.heading {
+  margin-bottom: 3rem;
+  color: #fafafa;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.inputGroup:not(:last-child) {
+  margin-bottom: 2.5rem;
+}
+
+.input {
+  width: 100%;
+  display: block;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1rem;
+  border: none;
+  border-radius: 2px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+  border-bottom-color: #2196F3;
+}
+
+.input:not(:placeholder-shown) + .label {
+  transform: translateY(-3rem) scale(0.8);
+  opacity: 1;
+  visibility: visible;
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
+  transform-origin: left;
+}
+
+.button {
+  padding: 1rem 1.5rem;
+  font-size: inherit;
+  font-family: inherit;
+  color: #fafafa;
+  border: none;
+  border-radius: 2px;
+  transition: all .3s;
+  background-color: #2196F3;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.status {
+  color: #fafafa;
+  position: absolute;
+  bottom: 1.8rem;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  font-size: 1.4rem;
+}
