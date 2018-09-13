@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-image: linear-gradient(to right, palevioletred , pink);
+}
+
+.loginpage {
+  background-image: url("https://images.pexels.com/photos/1068523/pexels-photo-1068523.jpeg?cs=srgb&dl=achievement-agreement-arms-1068523.jpg&fm=jpg");
+  height: 100vh;
+  border: solid black 1px;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  box-sizing: border-box;
+  padding: 5%;
+  width: 250px;
+  height: 250px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 200px;
+  background: rgba(255, 255, 255, 0.753);
+}
+
+.login > input {
+  height: 25px;
+  width: 180px;
+  font-size: 100%;
+  font-family: 'Noto Serif JP', sans-serif;
+  border-radius: 5px;
+  border: solid lightgrey 1px;
+}
+
+.login > button {
+  width: 70px;
+  height: 20px;
+  border-radius: 5px;
+  font-family: 'Noto Serif JP', sans-serif;
+  font-size: 80%;
+}
+
