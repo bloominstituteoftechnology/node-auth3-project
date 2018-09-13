@@ -20,12 +20,18 @@ class UsersList extends React.Component {
             }
         }
         axios.get('http://localhost:7001/api/users', requestOptions)
-        .then(response => {
-            console.log('response from userlist', response)
-            this.setState(function() {
-                return {users: response.data} 
+            .then(response => {
+                console.log('response from userlist', response)
+                this.setState(function() {
+                    return {users: response.data} 
+                })
             })
-        }) 
+            .catch(err => {
+                if(err) {
+                    alert('You do not have the authorization to view this content.');
+                    this.props.history.push('/login')
+                }
+            })
     }
     
     render() {
