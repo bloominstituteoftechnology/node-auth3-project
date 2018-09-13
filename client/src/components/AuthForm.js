@@ -35,7 +35,8 @@ const AuthForm = ({ submit,
           />
         </div>
       }
-      </form>
+      <button type="submit">Submit</button>
+    </form>
   );
 }
 

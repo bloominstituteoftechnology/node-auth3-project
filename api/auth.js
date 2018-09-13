@@ -22,7 +22,11 @@ router.post('/register', (req, res) => {
         .first()
         .then(user => {
           const token = jwt.generateToken(user);
-          res.status(201).json({ token });
+          res.status(201).json({
+                                username: user.username,
+                                department: user.department,
+                                token
+                              });
         })
         .catch(err => res.status(500).json(err));
       })
@@ -32,6 +36,7 @@ router.post('/register', (req, res) => {
 
 //login a user
 router.post('/login', (req,res) => {
+  console.log(req.body);
   const { username, password } = req.body;
   if(!username || !password){
     return res.status(422).json({ message: 'A username and password is required' });
@@ -42,7 +47,11 @@ router.post('/login', (req,res) => {
       .then(user => {
         if(user && bcrypt.compareSync(password, user.password)){
           const token = jwt.generateToken(user);
-          res.status(200).json({ token });
+          res.status(200).json({
+                                token,
+                                username: user.username,
+                                department: user.department
+                              });
         }else if(!user){
           res.status(404).json({ message: 'Invalid Username' });
         }else{

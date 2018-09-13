@@ -27,7 +27,7 @@ class Users extends Component{
     return(
       <React.Fragment>
         <h1>Hello {this.props.username}!</h1>
-        <h3>You are authorized to view the {this.props.department} users</h3>
+        <h3>You are authorized to view the {this.props.department} department users</h3>
         {this.state.users.map(user => <div key={user.id}>
                                         <p>{user.username}</p>
                                         <p>{user.department}</p>
@@ -40,6 +40,8 @@ class Users extends Component{
 const mapStateToProps = state => {
   return{
     token: state.token,
+    department: state.department,
+    username: state.username
   }
 }
 

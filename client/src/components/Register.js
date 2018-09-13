@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AuthForm from './AuthForm';
+import { register } from '../actions';
 
 class Login extends Component{
   state = {
@@ -16,7 +17,12 @@ class Login extends Component{
 
   handleSubmit = event => {
     event.preventDefault();
-    //handle send up
+    const user = {
+      username: this.state.username,
+      password: this.state.password,
+      department: this.state.department
+    }
+    this.props.register(user, () => this.props.history.push('/users'));
   }
 
   render(){
@@ -43,4 +49,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { register })(Login);

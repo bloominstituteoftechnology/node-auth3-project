@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout } from '../actions';
 
-const NavBar = ({ isLoggedIn, logout }) => {
-  return(
-    <div className="nav">
-      <Link to="/">Home</Link>
-      <Link to="/users">Users</Link>
-      {isLoggedIn ? <div className="logout" onClick={logout}>Log Out</div> :
-                    <Link to="/login">Log in</Link>}
-    </div>
-  );
+class NavBar extends Component {
+  logoutAndRedirect = () => {
+    this.props.logout();
+    this.props.history.push('/');
+  };
+
+  render(){
+    return(
+      <div className="nav">
+        <Link to="/">Home</Link>
+        <Link to="/users">Users</Link>
+        {this.props.isLoggedIn ? <div className="logout" onClick={this.logoutAndRedirect}>Log Out</div> :
+                      <React.Fragment>
+                        <Link to="/login">Log in</Link>
+                        <Link to="/signup">Sign up</Link>
+                      </React.Fragment>}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => {
@@ -20,4 +30,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { logout })(NavBar);
+export default withRouter(connect(mapStateToProps, { logout })(NavBar));
