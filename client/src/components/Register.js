@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import Typography from '@material-ui/core/Typography';
 
 class Register extends Component {
   constructor(props) {
@@ -29,26 +32,35 @@ class Register extends Component {
   render() {
     return (
       <div className='register'>
-        <h1>Register!</h1>
+        <Typography variant='headline' style={{ marginTop: '2rem' }}>Register!</Typography>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <Input
             type='text'
             name='username'
             onChange={this.handleInputChange}
+            placeholder='Username'
+            style= {{ marginBottom: '1rem', width: '40%' }}
           />
-          <input
+          <br />
+          <Input
             type='password'
             name='password'
             onChange={this.handleInputChange}
+            placeholder='Password'
+            style= {{ marginBottom: '1rem', width: '40%' }}
           />
-          <input
+          <br />
+          <Input
             type='text'
             name='department'
             onChange={this.handleInputChange}
+            placeholder='Department'
+            style= {{ marginBottom: '1rem', width: '40%' }}
           />
-          <button>
+          <br />
+          <Button variant='contained' color='primary' type='submit'>
             Register
-          </button>
+          </Button>
         </form>
       </div>
     );

@@ -23,6 +23,7 @@ export const registerUser = (user, history) => {
       })
       .then(() => history.push('/users'))
       .catch(err => {
+        console.log(err);
         dispatch({ type: ERROR, payload: err });
       });
   };
@@ -39,6 +40,7 @@ export const loginUser = (user, history) => {
       })
       .then(() => history.push('/users'))
       .catch(err => {
+        console.log(err);
         dispatch({ type: ERROR, payload: err });
       });
   };
@@ -49,7 +51,6 @@ export const fetchUsers = (token) => {
     dispatch({ type: FETCHING_USERS });
     axios.get(`${url}/users`, { headers: { Authorization: token } })
       .then(res => {
-        console.log(res);
         dispatch({ type: FETCHED_USERS, payload: res.data });
       })
       .catch(err => {

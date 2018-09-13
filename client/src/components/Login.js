@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import Typography from '@material-ui/core/Typography';
 
 class Login extends Component {
   constructor(props) {
@@ -22,26 +25,33 @@ class Login extends Component {
       username,
       password
     }, this.props.history);
+    console.log(this.props);
   }
 
   render() {
     return (
       <div className='login'>
-        <h1>Login!</h1>
+        <Typography variant='headline' style={{ marginTop: '2rem' }}>Login!</Typography>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <Input
             type='text'
             name='username'
             onChange={this.handleInputChange}
+            placeholder='Username'
+            style= {{ marginBottom: '1rem', width: '40%' }}
           />
-          <input
+          <br />
+          <Input
             type='password'
             name='password'
             onChange={this.handleInputChange}
+            placeholder='Password'
+            style= {{ marginBottom: '1rem', width: '40%' }}
           />
-          <button>
+          <br />
+          <Button variant='contained' color='primary' type='submit'>
             Login
-          </button>
+          </Button>
         </form>
       </div>
     );

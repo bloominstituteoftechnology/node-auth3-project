@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import './App.css';
 import * as actions from './actions';
 import Login from './components/Login';
@@ -15,17 +18,21 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <nav>
-          {
-            localStorage.getItem('token')
-              ? <Link to='/users'>View Users</Link>
-              : <React.Fragment>
-                  <Link to='/register'>Register</Link>
-                  <Link to='/login'>Login</Link>
-                </React.Fragment>
-          }
-          <a onClick={this.onLogout}>Sign Out</a>
-        </nav>
+        <AppBar position='static'>
+          <Toolbar style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {
+              localStorage.getItem('token')
+                ? <React.Fragment>
+                    <Button component={Link} to='/users' color='inherit'>View Users</Button>
+                    <Button onClick={this.onLogout} color='inherit'>Sign Out</Button>
+                  </React.Fragment>
+                : <React.Fragment>
+                    <Button component={Link} to='/register' color='inherit'>Register</Button>
+                    <Button component={Link} to='/login' color='inherit'>Login</Button>
+                  </React.Fragment>
+            }
+          </Toolbar>
+        </AppBar>
         <Route
           path='/register'
           render={ props => (
@@ -35,7 +42,7 @@ class App extends Component {
         <Route
           path='/login'
           render={ props => (
-            <Login {...props} loginUser={this.props.loginUser} />
+            <Login {...props} loginUser={this.props.loginUser} error={this.props.error} />
           )}
         />
         <Route
