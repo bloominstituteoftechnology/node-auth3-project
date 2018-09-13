@@ -76,7 +76,7 @@ server.post("/api/login", (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-server.get("/api/users", protected, (req, res)=>{
+server.get("/api/users", (req, res)=>{
     db("users")
     .select("id", "username", "password")
     .then(users => {
