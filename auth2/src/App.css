@@ -1,0 +1,31 @@
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.App {
+  text-align: center;
+}
+
+.header {
+  border-bottom: 1px solid black;
+  background-color: silver;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style-type: none;
+  width: 80%;
+}
+
+.header ul a {
+  text-decoration: none;
+  color: inherit;
+}
