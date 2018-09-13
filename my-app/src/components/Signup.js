@@ -21,6 +21,7 @@ class Signup extends Component {
       .post("http://localhost:8000/api/register", info)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
+        this.props.history.push("/users");
       })
       .catch(error => console.error("Error:", error));
 

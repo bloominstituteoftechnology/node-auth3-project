@@ -13,12 +13,24 @@ class App extends Component {
     };
   }
 
+  logOut = event => {
+    localStorage.removeItem("jwt");
+    this.props.history.push("/signin");
+  };
+
   render() {
     return (
-      <div className="App">
+      <div>
         <Link to="/signin">
-          <button>Sign in</button>{" "}
+          <button>Sign in page</button>{" "}
         </Link>
+        <Link to="/signup">
+          <button>Sign up page</button>{" "}
+        </Link>
+        <Link to="/users">
+          <button>Users</button>{" "}
+        </Link>
+        <button onClick={this.logOut}>Log out</button>
         <Route path="/signup" render={props => <Signup {...props} />} />
         <Route path="/signin" render={props => <Signin {...props} />} />
         <Route path="/users" render={props => <Users {...props} />} />

@@ -20,6 +20,7 @@ class Signin extends Component {
       .post(`http://localhost:8000/api/login`, info)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
+        this.props.history.push("/users");
       })
       .catch(error => console.error("Error:", error));
 
@@ -37,12 +38,14 @@ class Signin extends Component {
             placeholder="username"
             value={this.state.username}
             name="username"
+            type="text"
           />
           <input
             onChange={this.handleInputChange}
             placeholder="password"
             value={this.state.password}
             name="password"
+            type="password"
           />
           <button type="submit">Sign in</button>
         </form>

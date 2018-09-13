@@ -20,6 +20,10 @@ function protected(req, res, next) {
       if (err) {
         res.status(401).json({ message: "You shall not pass!" });
       } else {
+        req.user = {
+          username: decodedToken.username,
+          department: decodedToken.department
+        };
         next();
       }
     });
@@ -34,7 +38,8 @@ server.get("/", (req, res) => {
 
 function generateToken(user) {
   const payload = {
-    username: user.username
+    username: user.username,
+    department: user.department
   };
 
   const options = {
@@ -86,7 +91,10 @@ server.post("/api/login", (req, res) => {
 });
 
 server.get("/api/users", protected, (req, res) => {
+  const creds = req.user;
   db("users")
+    .where({ department: creds.department })
+    .select("id", "username", "department")
     .then(users => {
       res.json(users);
     })
