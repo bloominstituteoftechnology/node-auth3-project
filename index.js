@@ -45,7 +45,16 @@ server.post('/api/register',(req,res)=>{
 
     db('user')
         .insert(newUser)
-        .then(id=>res.status(201).json(id[0]))
+        .then(id=>{
+            const userId=id[0];
+            db('user')
+                .where({id:userId})
+                .then(res=>{
+                    const token=generateToken(response);
+                    res.status(201).json(token);
+                })
+                .catch(err=>res.status(500).json(err))
+        })
         .catch(err=>res.status(500).json(err));
 })
 server.post('/api/login',(req,res)=>{
