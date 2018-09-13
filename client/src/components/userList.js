@@ -35,6 +35,7 @@ class UserList extends React.Component{
         } else {
             return (
                 <div>
+                    <h1>Users in {this.state.users[0].department} department:</h1>
                     {this.state.users.map((e,i)=>
                     <div key={i} className='card'>
                         <p>{e.id}</p>
