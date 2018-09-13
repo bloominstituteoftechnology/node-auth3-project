@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "nodemon index.js",
-    "build": "cd client && yarn build",
+    "heroku-postbuild": "cd client && yarn && yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
