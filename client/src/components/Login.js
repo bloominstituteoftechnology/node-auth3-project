@@ -33,6 +33,7 @@ class Login extends Component{
                                     username={this.state.username}
                                     password={this.state.password}
                                   />}
+        {this.props.isLoggingIn && <h3>Please Wait...</h3>}
       </React.Fragment>
     );
   }
@@ -41,7 +42,8 @@ class Login extends Component{
 const mapStateToProps = state => {
   return{
     isLoggedIn: state.isLoggedIn,
-    username: state.username
+    username: state.username,
+    isLoggingIn: state.isLoggingIn
   }
 }
 

@@ -37,6 +37,7 @@ class Login extends Component{
                                     isRegistering
                                     department={this.state.department}
                                   />}
+        {this.props.isLoggingIn && <h3>Please Wait...</h3>}
       </React.Fragment>
     );
   }
