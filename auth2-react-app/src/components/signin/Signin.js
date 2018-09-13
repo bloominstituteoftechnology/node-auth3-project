@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 // export const Signin = props => {
@@ -11,7 +11,7 @@ import axios from "axios";
 //   );
 // };
 
-export class Signin extends React.Component {
+export class Signin extends Component {
   state = {
     username: "",
     password: "",
