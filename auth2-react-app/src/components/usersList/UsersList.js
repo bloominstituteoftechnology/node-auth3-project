@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 export class UsersList extends Component {
@@ -21,6 +22,7 @@ export class UsersList extends Component {
   }
   signoutHandler = () => {
     localStorage.removeItem("jwt");
+    this.props.history.push("/signin");
   };
   render() {
     return (
@@ -30,8 +32,10 @@ export class UsersList extends Component {
             <li key={user.id}>{user.username}</li>
           ))}
         </ul>
-        <button onSubmit={this.signoutHandler}>Sign Out</button>
+        <button onClick={this.signoutHandler}>Sign Out</button>
       </Fragment>
     );
   }
 }
+
+export default withRouter(UsersList);
