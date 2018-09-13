@@ -39,7 +39,6 @@ class Signin extends Component {
     );
   }
 
-
 handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -48,10 +47,16 @@ handleChange = event => {
 signin = event => {
     event.preventDefault();
 
-    
-    }
-
-
+    axios
+    .post('http://localhost:9000/api/login', this.state)
+    .then(res => {
+        console.log(res.data);
+        localStorage.setItem('jwt', res.data.token);
+    })
+    .catch(err => {
+        console.error('Axios Error', err);
+    });
+    };
 }
 
 export default Signin;
