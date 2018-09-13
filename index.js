@@ -15,7 +15,7 @@ app.use(cors());
 
 app.get('/', (req,res)=>{
     res.send('YOYO');
-})
+});
 
 const secret = 'somesecret';
 
@@ -30,6 +30,24 @@ function generateToken(user){
     return jwt.sign(payload, secret, options);
 }
 
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+    console.log(`35 - headers: ${token}`);
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: `Invalid token ${token}` })
+            } else {
+                console.log(`Decoded token: ${decodedToken}`);
+                req.user = { name: decodedToken.name };
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: `No token` });
+    }
+}
+
 app.post('/api/register', (req,res)=>{
     const creds = req.body;
     const hash = bcrypt.hashSync(creds.password, 10);
@@ -38,11 +56,15 @@ app.post('/api/register', (req,res)=>{
         .insert(creds)
         .then(ids => {
             const id = ids[0];
+            console.log(`41 ID: ${id}`);
+            
             db('users')
-                .where({'id':id})
+                .where({ id })
                 .first()
                 .then(user => {
                     const token = generateToken(user);
+                    console.log(`46 Token : ${token}`);
+                    
                     res.status(201).json({id: user.id, token})
                 })
                 .catch(err => {
@@ -52,53 +74,37 @@ app.post('/api/register', (req,res)=>{
         })
 });
 
-function protected(req, res, next){
-    const token = req.headers.authorization;
-    if(token){
-        jwt.verify(token, secret, (err, decodedPayload)=>{
-            if(err){
-                res.status(401).json({message: 'Invalid token'})
-            } else {
-                console.log(`Decoded token: ${decodedPayload}`);
-                req.user = { name: decodedPayload.name };
-                next();
-            }
-        })
-    } else {
-        res.status(401).json({message: 'Sorry, bub. No token was provided.'});
-    }
-}
-
 app.post('/api/login', (req,res)=>{
     const creds = req.body;
     db('users')
-        .where('name', creds.name)
+        .where({name: creds.name})
         .first()
         .then(user => {
-            if(user && bcrypt.compareSync(user.password, user.hash)){
+            if(user && bcrypt.compareSync(creds.password, user.password)){
                 const token = generateToken(user);
-                res.status(201).json({message: `Successful login, here have a token: ${token}`});
+                res.status(201).json({message: `Successful login, ${user.id} here have a token: ${token}`});
             } else {
                 res.status(401).json({message: `Invalid login info.`});
             }
         })
         .catch(err => {
-            console.log(`Error: ${err}`);
+            console.log(`${err}`);
             res.status(501).json({message: 'Sorry, '})
         });
 });
 
-app.get('api/users', protected, (req,res)=>{
-    // I don't understand -->  "Use this endpoint to verify that the password is hashed before it is saved."
+app.get('/api/users', protected, (req,res)=>{
+    console.log(req.headers);
+    
     db('users')
-        .select('name', 'department')
+        .select('name', 'department', 'password')
         .then(users => {
+            console.log(`Users...${users}`);
             res.status(200).json(users);
         })
         .catch(err => {
             res.status(500).json({message: `Sorry, unable to complete request for users`})
-        })
-})
+        });
+});
 
-app.listen(PORT, console.log(`Listening on port ${PORT}`)
-);
+app.listen(PORT, console.log(`Listening on port ${PORT}`));
