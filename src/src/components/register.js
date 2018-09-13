@@ -51,29 +51,33 @@ class Register extends Component {
     render(props){
         return (
             <div>
-                <h1>Register Component</h1>
                 <div className="register">
                     <h4>Register</h4>
-            
                     <form onSubmit={this.register}>
                         <input
-                        required
-                        autoFocus
-                        onChange={this.inputHandler}
-                        name="regusername"
-                        value={this.state.regusername}
-                        // value={this.state.[this.name]}
-                        // can I do something like the above?
-                        placeholder="Name"
-                        type="text"
+                            required
+                            autoFocus
+                            onChange={this.inputHandler}
+                            name="regusername"
+                            value={this.state.regusername}
+                            // value={this.state.[this.name]}
+                            // can I do something like the above?
+                            placeholder="Name"
+                            type="text"
                         >{this.value}</input>
                         <input
-                        required
-                        onChange={this.inputHandler}
-                        name="regpassword"
-                        value={this.state.regpassword}
-                        placeholder="Password"
-                        type="password"></input>
+                            required
+                            onChange={this.inputHandler}
+                            name="regpassword"
+                            value={this.state.regpassword}
+                            placeholder="Password"
+                            type="password"></input>
+                        <input
+                            onChange={this.inputHandler}
+                            name="department"
+                            value={this.state.department}
+                            placeholder="Department"
+                            type="text"></input>
                         <button>Submit</button>
                     </form>
                 </div>

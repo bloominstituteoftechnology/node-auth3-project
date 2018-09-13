@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 
 class Login extends Component {
     constructor(props){
@@ -53,8 +51,6 @@ class Login extends Component {
                         onChange={this.inputHandler}
                         name="username"
                         value={this.state.username}
-                        // value={this.state.[this.name]}
-                        // can I do something like the above?
                         placeholder="Name"
                         type="text"
                         >{this.value}</input>

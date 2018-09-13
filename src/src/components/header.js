@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
-    constructor(props){
-        super(props);
-    }
-
     logout = (e) => {
         e.preventDefault();
         localStorage.removeItem('token');
@@ -13,14 +9,14 @@ class Header extends Component {
         this.props.history.push('/')
       }
 
-    render(props){
+    render(){
         return (
             <div className="header">
                 {(this.props.location.pathname === '/login' ||       this.props.location.pathname === '/') ?
                     <Link to="register">register</Link>:
-                 null}
+                 <div></div>}
 
-                <Link to="/">Authorization App</Link>
+                <Link to="/"><h1>Authorization App</h1></Link>
                  
                 {this.props.location.pathname === '/users' ?
                  <Link to="/" onClick={this.logout}>Logout</Link> :
@@ -31,7 +27,7 @@ class Header extends Component {
                 null}
                 {this.props.location.pathname === '/register' ?
                 <Link to="login">login</Link> :
-                null}
+                <div></div>}
             </div>
         )
     }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Route, withRouter, Link } from 'react-router-dom';
-
+import { Route, withRouter } from 'react-router-dom';
 
 import Register from './components/register'
 import Home from './components/users'
@@ -16,18 +15,22 @@ class App extends Component {
     }
   }
 
-  render(props) {
+  render() {
     return (
       <div className="App">
         <AppDiv>
           <Route path="/" render={(props) => {
             return (<Header {...props} />)}} />
-          <Route path="/register" render={(props) => {
-            return (<Register {...props} imputHandler={this.inputHandler} />)}} />
-          <Route path="/login" render={(props) => {
-            return (<Login {...props} imputHandler={this.inputHandler} />)}} />
-          <Route path="/users" render={(props) => {
-            return (<Home {...props} />)}} />
+          <div className="main">
+            <Route path="/register" render={(props) => {
+              return (<Register {...props} imputHandler={this.inputHandler} />)}} />
+            <Route path="/login" render={(props) => {
+              return (<Login {...props} imputHandler={this.inputHandler} />)}} />
+            <Route path="/users" render={(props) => {
+              return (<Home {...props} />)}} />
+            <Route exact path="/" render={(props) => {
+              return (<div>Hello, use the links above to sign in or register </div>)}} />
+          </div>  
         </AppDiv>
       </div>
     );
@@ -38,17 +41,23 @@ export default withRouter(App);
 
 const AppDiv = styled.div`
   border: 1px solid red;
-  background: gray;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+  }
   .header { 
     border: 1px solid blue;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    button {
-      height: 50%;
+    height: 80px;
+    a {
+      text-decoration: none; 
     }
   }
 `;

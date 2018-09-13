@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 class Users extends Component {
     constructor(props){
@@ -39,24 +40,34 @@ class Users extends Component {
        }        
     }
 
-   
-
     render(props){
         console.log(this.state)
         return (
             <div>
-                
-                <h1>Users Page</h1>
-                <p>will return list of users</p>
-                <li>{this.state.users ? this.state.users.users.map(user => {
-                    return (
-                        <ul>{user.username}</ul>
-                    )}) : 
-                    null}
-                </li>
+                <UserDiv>
+                    <h1>List of Users</h1>
+                    <div>{this.state.users ? this.state.users.users.map(user => {
+                        return (
+                            <div className="user" key={user.id}>
+                                <p>id: {user.id} </p>
+                                <p>name: {user.username} </p>
+                                <p>department: {user.department}</p>
+                            </div>
+                        )}) : 
+                        null}
+                    </div>
+                </UserDiv>
             </div>
         )
     }
 }
 
 export default Users;
+
+const UserDiv = styled.div`
+    .user {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 3px;
+    }
+`;
