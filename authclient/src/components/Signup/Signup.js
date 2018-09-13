@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import '../login_signup_containers.css';
+
 class Signup extends Component {
   state = {
     username: '',
@@ -10,36 +12,39 @@ class Signup extends Component {
 
   render() {
     return (
-      <form onSubmit={this.register}>
-        <div>
-          <label>Username</label>
+      <form className="signup-container" onSubmit={this.register}>
+        <div className="input-container">
+          <label>Username:</label>
           <input
+            className="custom-input"
             name="username"
             value={this.state.username}
             onChange={this.handleChange}
             type="text"
           />
         </div>
-        <div>
-          <label>Password</label>
+        <div className="input-container">
+          <label>Password:</label>
           <input
+            className="custom-input"
             name="password"
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
           />
         </div>
-        <div>
-          <label>Department</label>
+        <div className="input-container">
+          <label>Department:</label>
           <input
+            className="custom-input"
             name="department"
             value={this.state.department}
             onChange={this.handleChange}
             type="text"
           />
         </div>
-        <div>
-          <button type="submit">Sign up</button>
+        <div className="button-container">
+          <button type="submit">SIGN UP</button>
         </div>
       </form>
     );

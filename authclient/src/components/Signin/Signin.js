@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import '../login_signup_containers.css';
+
 class Signin extends Component {
   state = {
     username: '',
@@ -9,27 +11,29 @@ class Signin extends Component {
 
   render() {
     return (
-      <form onSubmit={this.signin}>
-        <div>
-          <label>Username</label>
+      <form className="signup-container" onSubmit={this.signin}>
+        <div className="input-container">
+          <label>Username:</label>
           <input
+            className="custom-input"
             name="username"
             value={this.state.username}
             onChange={this.handleChange}
             type="text"
           />
         </div>
-        <div>
-          <label>Password</label>
+        <div className="input-container">
+          <label>Password:</label>
           <input
+            className="custom-input"
             name="password"
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
           />
         </div>
-        <div>
-          <button type="submit">Log In</button>
+        <div className="button-container">
+          <button type="submit">LOG IN</button>
         </div>
       </form>
     );
@@ -52,7 +56,9 @@ class Signin extends Component {
             this.props.history.push('/users');
         })
         .catch(err => {
-            console.error('Axios respose:', err)
+            this.props.history.push('/signin');
+            console.error('Axios response:', err);
+            
         })
   };
 }
