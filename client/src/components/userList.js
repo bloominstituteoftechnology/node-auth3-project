@@ -7,10 +7,11 @@ class UserList extends React.Component{
         super();
         this.state={
             users:[],
-            loading:true
+            loading:false
         }
     }
     componentDidMount() {
+        this.setState({loading:true},()=>{
         const token=localStorage.getItem('jwt');
         const reqOptions={
             headers:{
@@ -19,7 +20,8 @@ class UserList extends React.Component{
         }
         axios.get('http://localhost:9000/api/users',reqOptions)
         .then(res=>this.setState({users:res.data,loading:false}))
-        .catch(err=>console.log(err));
+        .catch(err=>this.setState({loading:false}));
+    })
     }
     signOut=()=>{
         localStorage.removeItem('jwt');
@@ -32,7 +34,7 @@ class UserList extends React.Component{
         this.props.history.push('/signin');
     }
     render() {
-        if (this.state.loading===true) {
+        if (this.state.loading===false && this.state.users.length===0) {
             return (
                 <div>
                     <h1>Sign in to access this content.</h1>
@@ -42,7 +44,7 @@ class UserList extends React.Component{
                     </div>
                 </div>
             )
-        } else {
+        } else if (this.state.loading===false) {
             return (
                 <div>
                     <h1>Users in {this.state.users[0].department} department:</h1>
@@ -54,7 +56,9 @@ class UserList extends React.Component{
                     </div>)}
                     <button onClick={this.signOut} className='btn waves-effect waves-light'>Sign Out</button>
                 </div>
-            )
+            ) 
+        } else {
+            return <div></div>
         }
     }
 }
