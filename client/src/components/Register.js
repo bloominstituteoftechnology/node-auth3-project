@@ -32,7 +32,7 @@ class Register extends React.Component {
         return(
             <div>
                 <h1>Register</h1>
-                <form onSubmit={this.submitForm} method="post">
+                <form onSubmit={this.submitForm} method="post" className="registerForm">
                     <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.changeHandler}/>
                     <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.changeHandler}/>
                     <input type="text" name="department"  placeholder="Department" value={this.state.department} onChange={this.changeHandler}/>
