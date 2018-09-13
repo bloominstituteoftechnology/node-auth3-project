@@ -94,7 +94,7 @@ server.get('/api/users', protector, (req, res) => {
     db('users')
         .select('id', 'username', 'password')
         .then(users => {
-            res.json({ users });
+            res.json( users );
         })
         .catch(err => res.send(err));
 });
