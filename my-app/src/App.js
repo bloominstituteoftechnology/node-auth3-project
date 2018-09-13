@@ -31,9 +31,10 @@ class App extends Component {
           <button>Users</button>{" "}
         </Link>
         <button onClick={this.logOut}>Log out</button>
-        <Route path="/signup" render={props => <Signup {...props} />} />
-        <Route path="/signin" render={props => <Signin {...props} />} />
-        <Route path="/users" render={props => <Users {...props} />} />
+        <h1>PLEASE CHOOSE AN OPTION ABOVE</h1>
+        <Route exact path="/signup" render={props => <Signup {...props} />} />
+        <Route exact path="/signin" render={props => <Signin {...props} />} />
+        <Route exact path="/users" render={props => <Users {...props} />} />
       </div>
     );
   }
