@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-
 const Form = styled.form``
 const Input = styled.input``
 const Text = styled.p``
@@ -12,13 +11,13 @@ const Text = styled.p``
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             user: {
                 username: '',
                 password: '',
                 department: ''
             }
-         }
+        }
     }
 
     componentDidMount() {
@@ -51,7 +50,7 @@ class Register extends Component {
 
 
     render() { 
-        const LinkToLogin = <Link to='/signin'>Login</Link>
+        const LinkToLogin = <Link to='/login'>Login</Link>
         return ( 
             <Form className="login-form" onSubmit={(e) => this.submitHandler(e, this.state.user)}>
                 <Input

@@ -88,7 +88,7 @@ onClick = () => {
         )
         const CantSee = (
             <div>
-        <h1>You are not authorized to see the contents.</h1>
+        <h1>Loading contents</h1>
         </div>
         );
 

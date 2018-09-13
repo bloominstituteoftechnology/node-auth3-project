@@ -3,10 +3,49 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-const Form = styled.form``
-const Input = styled.input``
-const Text = styled.p``
+const Form = styled.form`
 
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    width: 100%;
+    margin: 10px auto 0 auto;
+    border: 1px solid silver;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+
+`
+const Input = styled.input`
+
+    margin: 5px 0;
+    height: 30px;
+    max-width: 200px;
+    padding-left: 10px;
+    border-radius: 5px;
+`
+const Text = styled.p`
+
+    color: #fff;
+    > a {
+        text-decoration: none;
+        color: yellow;
+    }
+    
+`
+
+const Button = styled.button`
+    
+    margin-top: 10px;
+    width: 100px;
+    border: 1px solid lightgray;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: silver;
+    
+`
 
 
 
@@ -49,7 +88,7 @@ class Login extends Component {
 
 
     render() { 
-        const LinkToRegister = <Link to='/register'>Register</Link>
+        
         return ( 
                 <Form className="login" onSubmit={(event) => this.submitHandler(event, this.state.user)}>
                     <Input
@@ -70,10 +109,12 @@ class Login extends Component {
                         onChange={this.changeHandler}
                     />
 
-                    <div>
-                        <button type="submit">Login</button>
-                        <Text>Don't have an account? {LinkToRegister}</Text>
-                    </div>
+                    
+                        <Button type="submit">Login</Button>
+                        <Text>Don't have an account?  
+                        <Link to='/register'> Register</Link>
+                        </Text>
+                    
                 </Form>
          );
     }
