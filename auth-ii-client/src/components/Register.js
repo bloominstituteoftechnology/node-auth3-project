@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 class Register extends Component {
@@ -30,31 +31,37 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="SignIn">
-        <form onSubmit={this.submitHandler}>
-            <input
-            value={this.state.username}
-            onChange={this.inputChangeHandler}
-            type="text"
-            placeholder="username"
-            name="username"
-            />
-            <input
-            value={this.state.password}
-            onChange={this.inputChangeHandler}
-            type="password"
-            placeholder="password"
-            name="password"
-            />
-            <input
-            value={this.state.department}
-            onChange={this.inputChangeHandler}
-            type="text"
-            placeholder="department"
-            name="department"
-            />
-            <button type="submit">Signup</button>
-        </form>
+      <div className="outer-div">
+        <div className="link-buttons">
+            <Link to={`/`}>Login</Link>
+            <Link to={`/signup`}>Sign Up</Link>
+        </div>
+        <div className="inner-div">
+            <form className="form-div" onSubmit={this.submitHandler}>
+                <input
+                value={this.state.username}
+                onChange={this.inputChangeHandler}
+                type="text"
+                placeholder="username"
+                name="username"
+                />
+                <input
+                value={this.state.password}
+                onChange={this.inputChangeHandler}
+                type="password"
+                placeholder="password"
+                name="password"
+                />
+                <input
+                value={this.state.department}
+                onChange={this.inputChangeHandler}
+                type="text"
+                placeholder="department"
+                name="department"
+                />
+                <button type="submit">Create Account</button>
+            </form>
+        </div>
       </div>
     );
   }

@@ -26,21 +26,21 @@ class Users extends Component {
 
     logoutHandler = e => {
         localStorage.removeItem('token');
-        this.props.history.push('/login');
+        this.props.history.push('/');
       };
     
 
     render() {
         return (
-            <div className="Users">
-                <div>
+            <div>
+                <div className="logout-button">
                     {localStorage.getItem('token') && (
                     <button onClick={this.logoutHandler}>Logout</button>
                     )}
                 </div>
-                <div>
+                <div className="Users">
                     {this.state.users.map(user => 
-                        <div key={user.id}>
+                        <div className="name-card" key={user.id}>
                             <p>ID: {user.id}</p>
                             <p>Username: {user.username}</p>
                             <p>Department: {user.department}</p>

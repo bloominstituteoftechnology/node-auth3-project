@@ -2,4 +2,68 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  box-sizing: border-box;
+}
+.App {
+  width: 100%;
+  margin: auto;
+}
+
+.outer-div {
+  border: 1px solid gray;
+  height: 325px;
+  width: 500px;
+  margin: 50px auto auto;
+}
+
+.link-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 35px;
+  margin-bottom: 30px;
+}
+.link-buttons a {
+  border: 1px solid gray;
+  width: 100%;
+  height: 100%;
+  line-height: 200%;
+  text-align: center;
+  color: black;
+  text-decoration: none;
+}
+.inner-div {
+  width: 350px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.form-div {
+  display: flex;
+  flex-direction: column;
+}
+.form-div input {
+  margin-bottom: 30px;
+  line-height: 25px;
+}
+.form-div button {
+  height: 25px;
+}
+
+/* users */
+
+.Users {
+  width: 300px;
+  margin: auto;
+}
+.name-card {
+  border: 1px solid gray;
+  height: 175px;
+  margin-top: 30px;
+  padding-left: 20px;
+}
+.logout-button {
+  position: absolute;
+  right: 30px;
+  top: 15px;
 }
