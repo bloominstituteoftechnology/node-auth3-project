@@ -6,9 +6,10 @@ import axios from 'axios';
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    max-width: 300px;
+    max-width: 400px;
+    height: 400px;
     width: 100%;
-    margin: 10px auto 0 auto;
+    margin: 100px auto 0 auto;
     border: 1px solid silver;
     border-radius: 5px;
     justify-content: center;
