@@ -36,9 +36,9 @@ class Users extends Component {
             ?
             <div>
                 <button onClick = {this.logOut}>Sign Out</button>
-                {this.state.users.map(user => {
+                {this.state.users.map(user => 
                     <div key = {user.id}>{user.username}</div>
-                })}
+                )}
             </div>
             :
             <div>
