@@ -17,6 +17,7 @@ module.exports = function(req, res, next) {
         const user = await dbhelpers.userCheck(decoded.user);
         if (user[0].id) {
           res.locals.signedin = true;
+          res.locals.department = user[0].department;
           next();
         } else {
           return res.status(401).json({ error: "You shall not pass!" });

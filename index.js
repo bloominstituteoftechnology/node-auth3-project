@@ -48,7 +48,7 @@ server.post("/api/login", async (req, res) => {
 });
 
 server.get("/api/users", authcheck, async (req, res) => {
-  const results = await dbhelpers.getUsers();
+  const results = await dbhelpers.getUsers(res.locals.department);
   return res.status(200).json(results);
 });
 server.use("/", (req, res) =>

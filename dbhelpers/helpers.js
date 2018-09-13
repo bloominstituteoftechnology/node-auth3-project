@@ -10,8 +10,9 @@ module.exports = {
     return db("users")
     .where({user_name: body.user_name})
   },
-  getUsers: () => {
-    return db("users").select('user_name') 
+  getUsers: (departmentStr) => {
+    return db("users").select('user_name')
+    .where({department: departmentStr})
     .then(rows => {
       console.log(rows);
       return rows;
