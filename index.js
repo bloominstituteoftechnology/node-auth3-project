@@ -11,9 +11,22 @@ const server = express();
 
 server.use(helmet());
 server.use(express.json());
-server.use(cors());
+server.use(cors({ origin: "http://localhost:3000" }));
 
 const secret = 'secret';
+
+// ########## Generating token ###########
+function generateToken(user){
+    const payload = {
+        username: user.username
+    };
+
+    const options = {
+        expiresIn: '1h',
+        jwtid: '12345'
+    }
+    return jwt.sign(payload, secret, options);
+}
 
 // ####### Protected middleware ##########
 function protected(req, res, next) {
@@ -24,27 +37,14 @@ function protected(req, res, next) {
                 return res
                     .status(400)
                     .json({ Message: ' Invalid token' })
-            }
-            req.jwtToken = decodedToken;
+            } else {
+                req.user = { username: decodedToken.username }
             next()
+            }
         })
     } else {
         return res.status(400).json({ Message: 'No token found' })
     }
-}
-
-
-// ########## Generating token ###########
-function generateToken(user){
-    const payload = {
-        "username": user.username
-    }
-
-    const options = {
-        expiresIn: '1h',
-        jwtid: '12345'
-    }
-    return jwt.sign(payload, secret, options);
 }
 
 // ######### Server running ###########
@@ -95,7 +95,7 @@ server.post('/login', (req, res) => {
         .then(user => {
             if (user && bcrypt.compareSync(creds.password, user.password)) {
                 const token = generateToken(user);
-                res.status(200).json(`Hello ${user.username}, you are logged in!!!`)
+                res.status(200).json(token)
             } 
             else {
                 return res.status(400).json({Message: 'Wrong credentials'})

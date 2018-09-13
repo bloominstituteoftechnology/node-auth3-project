@@ -11,9 +11,10 @@ class App extends Component {
       <Router>
       <div className="App">
         <Switch>
+        <Route path='/users' component={UserList} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
-          <Route path='/users' component={UserList} />
+          
           <Redirect to='/users' />
         </Switch>
       </div>

@@ -17,8 +17,7 @@ class Login extends Component {
             user: {
                 username: '',
                 password: ''
-            },
-            incorrectCreds: false
+            }
          }
     }
 
@@ -44,7 +43,7 @@ class Login extends Component {
             localStorage.setItem('token', token);
             this.props.history.push('/users');
         } catch (error) {
-            this.setState({incorrectCreds: true})
+            console.log(error, 'Something went wrong.')
         }
     }
 
@@ -72,7 +71,7 @@ class Login extends Component {
                     />
 
                     <div>
-                        <button type="submit">Sign In</button>
+                        <button type="submit">Login</button>
                         <Text>Don't have an account? {LinkToRegister}</Text>
                     </div>
                 </Form>

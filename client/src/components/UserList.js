@@ -16,10 +16,6 @@ const Th = styled.th`
 
 `
 
-
-
-const url = 'http://localhost:4000/users/';
-
 class UserList extends Component {
     constructor(props) {
         super(props);
@@ -31,10 +27,10 @@ class UserList extends Component {
     }
 
 componentDidMount() {
-    this.fetchUsers();
+    this.getUsers();
 }
 
-fetchUsers = async () => {
+getUsers = async () => {
     const token = localStorage.getItem('token');
     if (!token){
         this.props.history.replace('/login');
@@ -43,7 +39,7 @@ fetchUsers = async () => {
     try {
         const response = await axios({
             method: 'get',
-            url: url,
+            url: 'http://localhost:4000/users/',
             headers: { authorization: token }
         });
 
@@ -64,30 +60,42 @@ onClick = () => {
 }
 
     render() { 
-
         const usersTable = (
             <Table>
                 <thead>
                     <tr>
-                        <Th>User</Th>
+                        <Th>ID</Th>
+                        <Th>Username</Th>
+                        <Th>Department</Th>
                     </tr>
                 </thead>
                 <tbody>
                     {this.state.users.map(user => 
                         <tr key={user.id}>
                             <Td>
+                                {user.id}
+                            </Td>
+                            <Td>
                                 {user.username}
+                            </Td>
+                            <Td>
+                                {user.department}
                             </Td>
                         </tr>
                     )}
                 </tbody>
             </Table>
         )
-        const CantSee = <h1>You are not authorized to see the contents.</h1>;
+        const CantSee = (
+            <div>
+        <h1>You are not authorized to see the contents.</h1>
+        </div>
+        );
 
         return ( 
             <List>
                 {this.state.canSee ? usersTable : CantSee}
+                <button onClick = {this.onClick}>Logout</button>
             </List>
          );
     }
