@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 
 class SignUp extends React.Component {
     constructor(){
@@ -13,14 +14,18 @@ class SignUp extends React.Component {
     onChangeHandler=(event)=>{
         return this.setState({[event.target.name]:event.target.value});
     }
-    onSubmitHandler=()=>{
+    onSubmitHandler=(e)=>{
+        e.preventDefault();
         const newUser={
             username:this.state.username,
             password:this.state.password,
             department:this.state.department
         }
         axios.post('http://localhost:9000/api/register',newUser)
-            .then(res=>localStorage.setItem('jwt',res.data))
+            .then(res=>{
+                localStorage.setItem('jwt',res.data);
+                this.props.history.push('/users')
+            })
             .catch(err=>console.log(err));
     }
     render() {
@@ -34,4 +39,4 @@ class SignUp extends React.Component {
         )
     }
 }
-export default SignUp;
+export default withRouter(SignUp);

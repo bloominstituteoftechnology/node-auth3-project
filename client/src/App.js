@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {withRouter,Route} from 'react-router-dom';
 import SignUp from './components/signUp';
+import UserList from './components/userList.js';
 
 class App extends Component {
   componentDidMount() {
@@ -10,7 +11,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-       <Route path='/signup' component={SignUp}/>
+       <Route exact path='/signup' component={SignUp}/>
+       <Route exact path='/users' component={UserList}/>
       </div>
     );
   }
