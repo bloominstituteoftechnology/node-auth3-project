@@ -25,7 +25,7 @@ function protect(req, res, next){//this makes sure that there is a valid token t
             } else {
                 req.user = {//this is when verification is needed but not a post request. so access
                     username: decodedToken.username,
-                    password: decodedToken.password,
+                    // password: decodedToken.password,
                     department: decodedToken.department
                 }
                 next();
@@ -36,12 +36,10 @@ function protect(req, res, next){//this makes sure that there is a valid token t
     }
 }
 
-
-
 function generateToken(user){
     const payload = {
         username: user.username,
-        password: user.password,
+        // password: user.password,
         department: user.department
     }
     const options = {
@@ -66,7 +64,6 @@ server.post('/api/register', (req, res) => {
         .insert(newUser)
         .then(ids => {
             const id = ids[0]
-            
             db('users')
                 .where({id})
                 .first()
@@ -98,7 +95,8 @@ server.post('/api/login',  (req, res) => {
 })
 
 server.get('/api/users', protect,  (req, res) => {//protected because we need to check if logged in
-    const roles = ['admin', 'Executive']// if their role is not on this list they get bounced
+    const roles = ['admin', 'Executive', null]
+    // if their role is not on this list they get bounced
     
     if(roles.includes(req.user.department)){
         db('users')
