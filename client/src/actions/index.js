@@ -42,3 +42,20 @@ export const login = user => dispatch => {
 			dispatch({ type: LOGIN_FAILURE });
 		});
 };
+
+export const fetchUsers = () => dispatch => {
+	dispatch({ type: LOGIN });
+	axios({
+		method: "GET",
+		url: `${URL}/restricted/users`,
+		headers: {
+			authorization: localStorage.getItem("token"),
+		},
+	}).then(response => {
+		dispatch({
+			type: FETCH_USERS_SUCCESS,
+			payload: response.data,
+		});
+		console.log(response);
+	});
+};

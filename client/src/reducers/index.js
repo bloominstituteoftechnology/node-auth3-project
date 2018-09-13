@@ -1,6 +1,6 @@
-import { LOGIN_SUCCESS } from "../actions";
+import { LOGIN_SUCCESS, FETCH_USERS_SUCCESS } from "../actions";
 
-const initialState = { loggedIn: false };
+const initialState = { loggedIn: false, users: [] };
 
 export default (state = initialState, action) => {
 	switch (action.type) {
@@ -8,6 +8,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedIn: true,
+			};
+		case FETCH_USERS_SUCCESS:
+			return {
+				...state,
+				users: action.payload,
 			};
 		default:
 			return state;
