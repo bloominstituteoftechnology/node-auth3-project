@@ -4,11 +4,13 @@ import axios from 'axios';
 
 import './App.css';
 import SignUp from './components/SignUp';
+import Login from './components/Login';
 import style from './app.module.css';
 
 class App extends Component {
   state = {
     status: '',
+    loggedIn: false,
   };
 
   registerUser = ({ username, password, department }) => {
@@ -21,8 +23,29 @@ class App extends Component {
       })
       .then(response => {
         this.setState({ status: response.data.message });
-        if (!response.data.error)
+        if (!response.data.error) {
           localStorage.setItem('auth-token', response.data.token);
+          this.setState({ loggedIn: true });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  loginUser = ({ username, password }) => {
+    this.setState({ status: 'Sending request...' });
+    axios
+      .post('http://localhost:5000/api/login', {
+        username,
+        password,
+      })
+      .then(response => {
+        this.setState({ status: response.data.message });
+        if (!response.data.error) {
+          localStorage.setItem('auth-token', response.data.token);
+          this.setState({ loggedIn: true });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -34,7 +57,7 @@ class App extends Component {
       <div className="App">
         <header className={style.nav}>
           <Link className={style.link} to="/">
-            Home
+            Register
           </Link>
           <Link className={style.link} to="/login">
             Login
@@ -48,6 +71,13 @@ class App extends Component {
           path="/"
           render={() => (
             <SignUp onSubmit={this.registerUser} status={this.state.status} />
+          )}
+        />
+        <Route
+          exact
+          path="/login"
+          render={() => (
+            <Login onSubmit={this.loginUser} status={this.state.status} />
           )}
         />
       </div>
