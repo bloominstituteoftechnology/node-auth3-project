@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 //import './Signin.css';
 
@@ -7,18 +8,27 @@ class Signin extends Component {
         username: '',
         password: '',
     };
-    
+
   render() {
     return (
       <div className="Signin">
         <form onSubmit = {this.signin}> 
             <div> 
                 <label> Username </label>
-                <input type = "text" />
+                <input 
+                    name = "username"
+                    value = {this.state.username}
+                    onChange = {this.handleChange}
+                    type = "text" 
+                />
             </div>
             <div> 
                 <label> Password </label>
-                <input type = "password" />
+                <input
+                    name = "password"
+                    value = {this.state.password}
+                    onChange = {this.handleChange} 
+                    type = "password" />
             </div>
             <div> 
                 <button type = "submit"> Sign in</button>
@@ -29,10 +39,19 @@ class Signin extends Component {
     );
   }
 
+
+handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+};
+
 signin = event => {
     event.preventDefault();
-    console.log(this.state);
+
+    
     }
+
+
 }
 
 export default Signin;
