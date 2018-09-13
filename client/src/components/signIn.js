@@ -24,7 +24,7 @@ class SignIn extends React.Component {
                 localStorage.setItem('jwt',res.data);
                 this.props.history.push('/users')
             })
-            .catch(err=>console.log(err));
+            .catch(err=>alert('Username or password is not valid.'));
     }
     redirect=()=>{
         this.props.history.push('/signup');
