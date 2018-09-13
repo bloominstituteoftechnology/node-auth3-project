@@ -13,8 +13,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="links-container">
-            <NavLink to="/signin">Log In</NavLink>
-            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/signin" className="nav-link">Log In</NavLink>
+            <NavLink to="/signup" className="nav-link">Sign Up</NavLink>
             <button onClick={ this.logout }>Logout</button>
           </div>
         </header>
