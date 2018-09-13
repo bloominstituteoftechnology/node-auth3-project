@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Users = (props) => {
+  if (!localStorage.getItem('token')) props.history.push('/signin');
   return (
     <div>
       {props.users.map(user => {

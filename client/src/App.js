@@ -12,19 +12,16 @@ class App extends Component {
 
   getUsers = () => {
     const token = localStorage.getItem('token');
-    axios.get(`${URL}/restricted/users`, { headers: { 'auth': token } })
-      .then(({ data }) => {
-        this.setState({ users: data })
-      })
-      .catch(err => {
-        if (err === 'Request failed with status code 401') return null;
-        else console.error(err);
-      });
+      axios.get(`${URL}/restricted/users`, { headers: { auth: token } })
+        .then(({ data }) => this.setState({ users: data }))
+        .catch(err => {
+          if (err === 'Request failed with status code 401') return null;
+          else console.error(err);
+        });
   };
 
   signOut = () => {
     localStorage.removeItem('token');
-    this.setState({ users: [] });
   };
 
   componentDidUpdate() {
