@@ -35,7 +35,7 @@ class Login extends Component {
         })
     }
 
-    render(props){
+    render(){
         return (
             <div>
                 <div className="login">

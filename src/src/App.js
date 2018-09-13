@@ -40,7 +40,6 @@ class App extends Component {
 export default withRouter(App);
 
 const AppDiv = styled.div`
-
   display: flex;
   flex-direction: column;
   .main{
