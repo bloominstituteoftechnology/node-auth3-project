@@ -11,16 +11,18 @@ class Users extends Component {
 	render() {
 		if (this.props.loggedIn === false) {
 			return <Redirect to="/" />;
+		} else if (this.props.users.length > 0) {
+			return (
+				<div>
+					{this.props.users.map(user => (
+						<p key={user.id}>{user.username}</p>
+					))}
+					<button onClick={this.props.logout}>Logout</button>
+				</div>
+			);
+		} else {
+			return <p>Loading Users</p>;
 		}
-		console.log(this.props);
-		return (
-			<div>
-				{this.props.users.map(user => (
-					<p key={user.id}>{user.username}</p>
-				))}
-				<button onClick={this.props.logout}>Logout</button>
-			</div>
-		);
 	}
 }
 

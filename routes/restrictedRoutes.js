@@ -9,14 +9,15 @@ function protected(req, res, next) {
 	const token = req.headers.authorization;
 
 	if (token) {
-		jwt.verify(token, secret, (err, decodedToekn) => {
+		jwt.verify(token, secret, (err, decodedToken) => {
 			if (err) {
-				return res.json({
-					error: true,
-					message: "You are not authorized to see this data",
-				});
+				console.log(err);
+				// return res.json({
+				// 	error: true,
+				// 	message: "You are not authorized to see this data",
+				// });
 			} else {
-				req.user = { username: decodedToekn.username };
+				req.user = { username: decodedToken.username };
 				next();
 			}
 		});

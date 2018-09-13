@@ -42,7 +42,10 @@ class SignUp extends Component {
 	}
 }
 
-const mapStateToProps = state => ({ loggedIn: state.loggedIn });
+const mapStateToProps = state => ({
+	loggedIn: state.loggedIn,
+	users: state.users,
+});
 
 export default withRouter(
 	connect(

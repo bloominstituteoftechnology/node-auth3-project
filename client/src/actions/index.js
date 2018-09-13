@@ -55,8 +55,8 @@ export const logout = () => {
 export const fetchUsers = () => dispatch => {
 	dispatch({ type: LOGIN });
 	axios({
-		method: "GET",
-		url: `${URL}/restricted/users`,
+		// method: "GET",
+		// url: `${URL}/restricted/users`,
 		headers: {
 			authorization: localStorage.getItem("token"),
 		},
