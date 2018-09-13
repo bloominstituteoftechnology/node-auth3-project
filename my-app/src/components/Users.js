@@ -24,7 +24,8 @@ class Users extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ marginTop: 30 + "px" }}>
+        <h1>USERS PAGE</h1>
         <ul />
         {this.state.users.map(user => (
           <li key={user.id}>

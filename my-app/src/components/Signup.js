@@ -33,7 +33,8 @@ class Signup extends Component {
   };
   render() {
     return (
-      <div>
+      <div style={{ marginTop: 30 + "px" }}>
+        <h1>SIGN UP PAGE</h1>
         <form onSubmit={this.signUp}>
           <input
             onChange={this.handleInputChange}
