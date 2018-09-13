@@ -16,10 +16,10 @@ const generateToken = ({ id, name }) => {
 };
 
 const protect = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers.auth;
   if (token) {
     jwt.verify(token, secret, (err, decoded) => {
-      if (err) res.status(401).json({ message: 'You shall not pass!' });
+      if (err) { res.status(401).json({ message: 'You shall not pass!' }); }
       else next();
     });
   } else {
@@ -30,7 +30,7 @@ const protect = (req, res, next) => {
 router.use('/restricted', protect);
 
 router.post('/register', (req, res) => {
-  let { name, pass } = req.body;
+  let { name, pass, department } = req.body;
   if (!name || !pass) {
     res.status(404).json({ message: 'You need to provide a unique username and password!' }).end();
   }
@@ -38,6 +38,25 @@ router.post('/register', (req, res) => {
   db('users').insert({ name, pass })
     .then(id => {
       id = id[0];
+      if (department) {
+        db('departments').where({ department }).first()
+          .then(dept => {
+            if (!dept || dept.length === 0) {
+              db('departments').insert({ department })
+                .then(deptId => {
+                  deptId = deptId[0];
+                  db('departments-for-users')
+                    .insert({ department_id: deptId, user_id: id })
+                    .catch(err => console.log(err));
+                })
+            } else {
+              db('departments-for-users')
+                .insert({ department_id: dept.id, user_id: id })
+                .catch(err => console.log(err));
+            }
+          })
+          .catch(err => console.error(err));
+      }
       const token = generateToken({ id, name });
       res.status(201).json({ id, token });
     })
@@ -55,7 +74,7 @@ router.post('/login', (req, res) => {
         res.status(401).json({ message: 'You shall not pass!' }).end();
       }
       const token = generateToken(user);
-      res.status(303).json({ token });
+      res.status(200).json({ token });
     })
     .catch(err => res.status(500).json({ error: 'Something went wrong when logging in.' }));
 });

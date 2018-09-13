@@ -4,21 +4,22 @@ body {
   font-family: sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 .App {
   text-align: center;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 100px;
   padding: 20px;
   color: white;
 }
 
 .App-title {
   font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
 }
