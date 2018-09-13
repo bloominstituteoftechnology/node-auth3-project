@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Button from './Button';
+import DropSelect from './DropSelect';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
@@ -24,6 +25,8 @@ const Form = ({
   handleSubmit,
   handleChange,
   type,
+  department,
+  departments,
 }) => (
   <StyledForm onSubmit={handleSubmit}>
     <Input
@@ -43,14 +46,22 @@ const Form = ({
       autoComplete="off"
     />
     {type === 'signUp' && (
-      <Input
-        name="password2"
-        type="password"
-        placeholder="re-enter password"
-        value={password2}
-        onChange={handleChange}
-        autoComplete="off"
-      />
+      <Fragment>
+        <Input
+          name="password2"
+          type="password"
+          placeholder="re-enter password"
+          value={password2}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        <DropSelect
+          name="department"
+          value={department}
+          handleChange={handleChange}
+          departments={departments}
+        />
+      </Fragment>
     )}
     <Button type="submit">Submit</Button>
   </StyledForm>

@@ -22,11 +22,21 @@ module.exports = {
     user.password = hash;
 
     return db('users')
-      .insert(user)
+      .insert({
+        username: user.username,
+        password: user.password,
+      })
       .then(ids => {
         const id = ids[0];
-        return (token = generateToken(id));
-      });
+        console.log(id);
+        db('user_department')
+          .insert({ user_id: id, department_id: user.department })
+          .then(res => {
+            if (res) return id;
+          })
+          .catch(next);
+      })
+      .catch(next);
   },
 
   login: function(user) {
