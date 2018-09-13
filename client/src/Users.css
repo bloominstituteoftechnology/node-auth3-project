@@ -1,0 +1,11 @@
+.user-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-list ul li{
+    padding: 15px;
+    font-size: 1.4rem;
+    
+}

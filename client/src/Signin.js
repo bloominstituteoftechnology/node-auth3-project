@@ -14,24 +14,25 @@ class Signin extends Component {
       <div className="Signin">
         <form onSubmit = {this.signin}> 
             <div> 
-                <label> Username </label>
                 <input 
                     name = "username"
                     value = {this.state.username}
                     onChange = {this.handleChange}
                     type = "text" 
+                    placeholder = "Username"
                 />
             </div>
             <div> 
-                <label> Password </label>
                 <input
                     name = "password"
                     value = {this.state.password}
                     onChange = {this.handleChange} 
-                    type = "password" />
+                    type = "password" 
+                    placeholder = "Password"
+                />
             </div>
             <div> 
-                <button type = "submit"> Sign in</button>
+                <button type = "submit">Submit</button>
             </div>
         </form>
       </div>

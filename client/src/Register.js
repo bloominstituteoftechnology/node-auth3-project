@@ -12,30 +12,30 @@ class Register extends Component {
     return (
       <form onSubmit={this.register}>
         <div>
-          <label>Username</label>
           <input
             name="username"
             value={this.state.username}
             onChange={this.handleChange}
             type="text"
+            placeholder = "Username"
           />
         </div>
         <div>
-          <label>Department</label>
           <input
             name="department"
             value={this.state.department}
             onChange={this.handleChange}
             type="text"
+            placeholder = "Department"
           />
         </div>
         <div>
-          <label>Password</label>
           <input
             name="password"
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
+            placeholder = "Password"
           />
         </div>
         <div>
