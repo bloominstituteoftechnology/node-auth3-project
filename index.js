@@ -63,8 +63,7 @@ server.post('/api/register', (req, res) =>{
 })
 
 server.post('/api/login', (req, res) => {
-    const creds = req.body;
-  
+    const creds = req.body;  
     db('users')
       .where({username: creds.username})
       .first()
