@@ -94,7 +94,7 @@ server.get('/api/users', protector, (req, res) => {
     db('users')
         .select('id', 'username', 'password')
         .then(users => {
-            res.json( users );
+            res.json({ users }); // or res.json( users ) if using this.setState({ users: res.data.users }) in the users.js file
         })
         .catch(err => res.send(err));
 });
