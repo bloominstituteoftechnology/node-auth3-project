@@ -7,14 +7,14 @@ const db = require('./database/dbConfig.js');
 
 const server = express();
 
-server.use(express.json());
 server.use(cors());
+server.use(express.json());
 
 const secret = 'seecreeettt';
 
 function generateToken(user) {
   const payload = {
-    username: user.username,
+    username: user.username
   };
   const options = {
     expiresIn: '1h',
@@ -23,38 +23,13 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-server.post('/api/register', (req, res) => {
-  const creds = req.body;
-  const hash = bcrypt.hashSync(creds.password, 10);
-  creds.password = hash;
-  db('users')
-    .insert(creds)
-    .then(ids => {
-      const id = ids[0];
-
-      db('users')
-        .where({ id })
-        .first()
-        .then(user => {
-          const token = generateToken(user);
-          res.status(201).json({ id: user.id, token });
-        })
-        .catch(err => res.status(500).send(err));
-    })
-    .catch(err => res.status(500).send(err));
-});
-
 function protected(req, res, next) {
-  // read the token string from the Authorization header
   const token = req.headers.authorization;
   if (token) {
-    // verify the token
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
-        // token is invalid
         res.status(401).json({ message: 'Invalid Token' });
       } else {
-        // token is valid
         req.user = { username: decodedToken.username };
         next();
       }
@@ -63,6 +38,31 @@ function protected(req, res, next) {
     res.status(401).json({ message: 'no token provided' });
   }
 }
+
+//routes
+server.post('/api/register', (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      const id = ids[0];
+      db('users')
+        .where({ id })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(201).json({ id: user.id, token });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send(err)});
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)});
+});
 
 server.post('/api/login', (req, res) => {
   const creds = req.body;
@@ -80,10 +80,9 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-// protect this route, only authenticated users should see it
 server.get('/api/users', protected, (req, res) => {
   db('users')
-    .select('id', 'username', 'password')
+    .select('id', 'username', 'department')
     .then(users => {
       res.json(users);
     })
