@@ -13,7 +13,13 @@ body {
   font-weight: 400;
   font-family: 'Nanum Gothic', sans-serif;
   color: #263238;
-  background-image: url(./back.jpg);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url('./back.jpg');
   background-size: cover;
-  background-position: top;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }

@@ -13,7 +13,6 @@ function generateToken(payload) {
 
 function jwtExtractor(req, res, next) {
   if (!req.headers.authorization) return next();
-
   const token = req.headers.authorization.split(' ')[1];
 
   if (!token) return next();

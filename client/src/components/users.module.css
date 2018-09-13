@@ -1,0 +1,27 @@
+.container {
+  margin: 5rem 0;
+}
+
+.heading {
+  margin-bottom: 3rem;
+  text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.user {
+  padding: 3rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
+  transform: skewX(-12deg);
+  border-radius: 3px;
+}
+
+.user:not(:last-child) {
+  margin-bottom: 5rem;
+}
+
+.userskew {
+  transform: skewX(12deg);
+}

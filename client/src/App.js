@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import './App.css';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import Users from './components/Users';
 import style from './app.module.css';
 
 class App extends Component {
@@ -52,6 +53,12 @@ class App extends Component {
       });
   };
 
+  getToken = () => {
+    const token = localStorage.getItem('auth-token');
+
+    return token;
+  };
+
   render() {
     return (
       <div className="App">
@@ -78,6 +85,19 @@ class App extends Component {
           path="/login"
           render={() => (
             <Login onSubmit={this.loginUser} status={this.state.status} />
+          )}
+        />
+        <Route
+          exact
+          path="/users"
+          render={() => (
+            <div>
+              {this.getToken() ? (
+                <Users token={this.getToken()} />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </div>
           )}
         />
       </div>
