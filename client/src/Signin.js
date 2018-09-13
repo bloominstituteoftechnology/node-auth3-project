@@ -50,7 +50,8 @@ signin = event => {
     .post('http://localhost:9000/api/login', this.state)
     .then(res => {
         console.log(res.data);
-        localStorage.setItem('jwt', res.data.token);
+        localStorage.setItem('jwt', res.data.token)
+        this.props.history.push('/users');
     })
     .catch(err => {
         console.error('Axios Error', err);
