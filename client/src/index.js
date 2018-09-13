@@ -6,12 +6,15 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
+import userInfo from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
-  /* reducer here */,
+  userInfo,
   applyMiddleware(thunk)
 );
+
+store.subscribe(() => localStorage.setItem('user', JSON.stringify(store.getState())));
 
 ReactDOM.render(
   <Provider store={store}>
