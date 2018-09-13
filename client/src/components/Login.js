@@ -24,10 +24,10 @@ class Login extends React.Component {
                 localStorage.setItem('jwt', response.data.token);
                 this.props.setToken(response.data.token)
                 localStorage.setItem('username', this.state.username)
+                this.props.history.push('/users');
             })
             .catch(err => console.log(err))
         
-        setTimeout(function() {this.props.history.push('/users')}.bind(this), 1000)
     }
 
     render() {
