@@ -28,7 +28,7 @@ function generateToken(user) {
 
 function protected(req, res, next){
   const token = req.headers.authorization;
-  if(token) {
+  if(token !== 'null') {
     jwt.verify(token, secret, (err, decodedToken) => {
       if(err) {
         res.status(401).json({ message: 'Invalid token.' });
@@ -38,7 +38,7 @@ function protected(req, res, next){
       }
     })
   } else {
-    res.status(401).json({ message: 'You shall not pass!' });
+    res.status(401).json({ message: 'Please log in.' });
   }
 }
 
@@ -54,7 +54,11 @@ server.post('/api/register', async (req, res) => {
     const token = generateToken(user);
     res.status(201).json({id: user.id, token})
   } catch(err) {
-    res.status(500).json(err);
+    if(err.errno === 19){
+      res.status(409).json({ message: 'Oh no! That username is taken. Please try another. '})
+    } else {
+      res.status(500).json(err);
+    }
   }
 })
 
@@ -68,7 +72,7 @@ server.post('/api/login', (req, res) => {
         const token = generateToken(user);
         res.status(200).json({ token });
       } else {
-        res.status(401).json({ message: 'You shall not pass.' });
+        res.status(401).json({ message: 'Invalid credentials.' });
       }
     })
     .catch(err => {
