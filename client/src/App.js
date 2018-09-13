@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
+import Register from './Register';
 import Signin from './Signin';
+import Users from './Users';
 
 import logo from './logo.svg';
 import './App.css';
@@ -15,7 +17,9 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
       
+        <Route path = "/register" component = { Register } />
         <Route path = "/signin" component = { Signin } />
+        <Route path = "/users" component = { Users } />
 
       </div>
     );
