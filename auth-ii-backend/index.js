@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const knex = require("knex");
+const cors = require('cors');
 
 const dbConfig = require("./knexfile.js");
 
@@ -9,7 +10,11 @@ const db = knex(dbConfig.development);
 
 const server = express();
 
+express.urlencoded({ extended: true });
+
 server.use(express.json());
+server.use(cors());
+server.use(express.urlencoded());
 
 const secret = "turn about is fair play";
 
@@ -93,7 +98,7 @@ server.get("api/users", protected, (req, res) => {
     .then(users => {
       res.json(users);
     })
-    .catch(err => res.send(err));
+    .catch(err => res.json(err));
 });
 
 server.listen(2100, () => console.log("\nrunning on port 2100\n"));
