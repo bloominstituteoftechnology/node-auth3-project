@@ -25,21 +25,15 @@ class UsersList extends React.Component {
             this.setState(function() {
                 return {users: response.data} 
             })
-        })
-        console.log('first string');  
+        }) 
     }
     
     render() {
         if (this.state.users.length > 0) {
                 return(
                     <div>
-                        <h1>Users List</h1>
+                        <h1>Users List for {this.state.users[0].department} Department</h1>
                         {this.state.users.map(user => <User user={user} key={user.id} />)}
-                        {/* {this.state.users.map(user => 
-                            <div>
-                            <p>{user.username}</p>
-                            <p>{user.department}</p>
-                            </div>)} */}
                     </div>
             )
         } else {

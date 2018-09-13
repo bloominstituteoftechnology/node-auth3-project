@@ -116,16 +116,26 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {
     const currentUser = req.user;
+    console.log('currentUser from index', currentUser)
     // select the information of all the users from the users database
     db('users')
-        // .where('users.department' === currentUser.department)
-        .select('id', 'username', 'department')
-        .then(users => {
-            res.status(200).json(users);
-        })
-        .catch(err => {
-            res.status(500).send(err);
-        })
-});
+        .where('username', currentUser.username)
+        .first()
+        .then(user => {
+            console.log('user from index', user)
+            db('users')
+                .where('department', user.department)
+                .select('id', 'username', 'department')
+                .then(users => {
+                    res.status(200).json(users);
+                })
+                .catch(err => {
+                    res.status(500).send(err);
+                })
+            })
+            .catch(err => {
+                res.status(500).send(err);
+            })
+    });
 
 server.listen(7001, () => console.log('\n-=- Server listening on port 7001 -=-\n'));
