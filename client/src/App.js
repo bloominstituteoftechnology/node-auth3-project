@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 import Register from './Register';
 import Signin from './Signin';
@@ -15,6 +15,9 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
+          <div>
+            <button onClick = {this.logout}> Sign Out </button>
+          </div>
         </header>
       
         <Route path = "/register" component = { Register } />
@@ -24,6 +27,11 @@ class App extends Component {
       </div>
     );
   }
+  
+  logout = event => {
+    localStorage.removeItem('jwt');
+    this.props.history.push('./signin');
+  };
 }
 
-export default App;
+export default withRouter(App);

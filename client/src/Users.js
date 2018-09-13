@@ -35,6 +35,7 @@ class Users extends Component {
         })
         .catch(err => {
             console.error('Axios Error:', err);
+            this.props.history.push('/signin');
         });
     }
 }
