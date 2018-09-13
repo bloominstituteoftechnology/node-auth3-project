@@ -19,24 +19,37 @@ class Signup extends React.Component {
     }
     render() {
         return (
-            <div>
-              <input type = 'text'
-              name = 'username'
-              placeholder = 'username'
-              onChange = {this.handleChange}
-              /><br />
-              <input type = 'text'
-              name = 'password'
-              placeholder = 'password'
-              onChange = {this.handleChange}
-              /><br />
-              <input type = 'text'
-              name = 'department'
-              placeholder = 'department'
-              onChange = {this.handleChange}
-              /><br />
-              <button>Submit</button>
-            </div>
+            <form onSubmit={this.submit}>
+                <div>
+                    <label>Username</label>
+                    <input 
+                        type = 'text'
+                        name = 'username'
+                        placeholder = 'username'
+                        value={this.state.username}
+                        onChange = {this.handleChange}
+                    />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input 
+                        type = 'password'
+                        name = 'password'
+                        placeholder = 'password'
+                        value = {this.state.password}
+                        onChange = {this.handleChange}
+                    />
+                </div>
+                <div>
+                <input type = 'text'
+                name = 'department'
+                placeholder = 'department'
+                value={this.state.department}
+                onChange = {this.handleChange}
+                />
+                </div>
+                <button type='submit'>Register</button>
+            </form>
         );
     }
 };

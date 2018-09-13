@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
 import Users from './components/Users';
@@ -11,13 +11,16 @@ class App extends Component {
       <div className="App">
         <Link to="/signup">Sign Up</Link>
         <Link to="/signin">Sign In</Link>
-        <Link to="/users" />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/users" component={Users} />
       </div>
     );
   }
+  logoutHandler = e => {
+    localStorage.removeItem('jwt');
+    this.props.history.push('/signin')
+  }
 }
 
-export default App;
+export default withRouter(App);
