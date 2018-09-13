@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-image: linear-gradient(to right, palevioletred , pink);
+}
+
+.login {
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px auto;
+}
+
+.login > input {
+  height: 20px;
+  width: 180px;
+}
+
+.login > button {
+  width: 70px;
+  height: 20px;
+}

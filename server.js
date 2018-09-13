@@ -3,8 +3,10 @@ const server = express();
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const db = require("./dbconfig.js");
+const cors = require ('cors');
 
 server.use(express.json());
+server.use(cors())
 
 const secret = "im cheating at scrabble!"
 
