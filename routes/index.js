@@ -10,11 +10,10 @@ const secret = "1234";
 function generateToken(user){
     const payload = {
         username: user.username,
-        // password: user.password,
         department: user.department
     }
     const options = {
-        expiresIn: '1h', 
+        expiresIn: '1d', 
         jwtid: '12345'
     }
     return jwt.sign(payload, secret, options);

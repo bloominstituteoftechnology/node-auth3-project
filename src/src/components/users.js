@@ -39,18 +39,13 @@ class Users extends Component {
        }        
     }
 
-    logout = (e) => {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        this.setState({loggedIn: false,})
-        this.props.history.push('/start')
-      }
+   
 
     render(props){
         console.log(this.state)
         return (
             <div>
-                <button onClick={this.logout}>Logout</button>
+                
                 <h1>Users Page</h1>
                 <p>will return list of users</p>
                 <li>{this.state.users ? this.state.users.users.map(user => {

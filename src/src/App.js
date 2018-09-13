@@ -6,6 +6,7 @@ import { Route, withRouter, Link } from 'react-router-dom';
 import Register from './components/register'
 import Home from './components/users'
 import Login from './components/login'
+import Header from './components/header'
 
 class App extends Component {
   constructor(props){
@@ -19,11 +20,8 @@ class App extends Component {
     return (
       <div className="App">
         <AppDiv>
-          <div className="header">
-            <h1>Authorization App</h1>
-          </div>
-          <Link to="login" >login</Link>
-
+          <Route path="/" render={(props) => {
+            return (<Header {...props} />)}} />
           <Route path="/register" render={(props) => {
             return (<Register {...props} imputHandler={this.inputHandler} />)}} />
           <Route path="/login" render={(props) => {
