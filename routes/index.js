@@ -24,7 +24,7 @@ router.get("/", function(req, res, next) {
 
 router.post("/register", async (req, res, next) => {
   try {
-    const salt = getRandomArbitrary(10, 50);
+    const salt = getRandomArbitrary(10, 20);
     const hash = await bcrypt.hash(req.body.password, salt);
     res.status(200).json(
       {status: true,
@@ -43,12 +43,12 @@ router.post("/login", async (req, res, next) => {
   try {
     const hashPass = await db(`users`)
       .where({ username: req.body.username })
-      .select("password");
+      .select("password", "department");
 
     if (await bcrypt.compare(req.body.password, hashPass[0].password))
       res
         .status(200)
-        .json({ status: true, token: genToken(req.body.username, req.body.department) });
+        .json({ status: true, token: genToken(req.body.username, hashPass[0].department) });
     else res.status(200).json({ status: false });
   } catch (err) {
     next(err);

@@ -10,6 +10,7 @@ function _protected(req, res, next) {
   if (token)
     jwt.verify(token, secret, (err, decodeToken) => {
       if (err) next(err);
+      console.log(decodeToken)
       req.username = decodeToken.username;
       req.department = decodeToken.department;
       next();
@@ -19,6 +20,7 @@ function _protected(req, res, next) {
 
 router.get("/", _protected, async (req, res, next) => {
   try {
+    //if (!req.department) req.department = 'engineering'
     res.status(200).json(
       await db(`users`)
         .where({ department: req.department })

@@ -3,6 +3,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import { withRouter, Route } from "react-router-dom";
 import axios from "axios";
+import SignUp from "./components/Signup";
+import Login from "./components/Login";
+import UsersList from "./components/UserList";
 axios.credentials = true;
 
 class App extends Component {
@@ -14,6 +17,11 @@ class App extends Component {
     users: []
   };
 
+  componentDidMount(){
+    const token = localStorage.getItem('jwt')
+    if (token) this.getUserData(token)
+  }
+
   handleInput = event => {
     if (!event.target.name) throw new Error("Event target name is not given");
 
@@ -23,6 +31,7 @@ class App extends Component {
   };
 
   handleSubmit = async event => {
+    event.preventDefault();
     if (!event.target.name) throw new Error("Event target name is not given");
     const { data } = await axios.post(
       `http://localhost:3000/${event.target.name}`,
@@ -32,15 +41,13 @@ class App extends Component {
         department: this.state.department
       }
     );
+    console.log(data);
 
     if (data.token) {
       localStorage.setItem("jwt", data.token);
       await this.getUserData(data.token);
-      this.state.users.length > 0
-        ? this.setState({
-            isLogged: true
-          })
-        : null;
+    } else if (data.status) {
+      this.props.history.push("/");
     }
   };
 
@@ -48,7 +55,7 @@ class App extends Component {
     try {
       const headers = {
         "Content-Type": "application/json",
-        "Authorization": token
+        Authorization: token
       };
 
       const { data } = await axios.get("http://localhost:3000/users", {
@@ -56,7 +63,8 @@ class App extends Component {
       });
       if (data)
         this.setState({
-          users: data
+          users: data,
+          isLogged: true
         });
     } catch (err) {
       console.log(err);
@@ -69,9 +77,34 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {this.state.isLogged ? (
+          <UsersList users={this.state.users} />
+        ) : (
+          <div>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Login
+                  {...props}
+                  inputHandler={this.handleInput}
+                  onSubmit={this.handleSubmit}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/register"
+              render={props => (
+                <SignUp
+                  {...props}
+                  inputHandler={this.handleInput}
+                  onSubmit={this.handleSubmit}
+                />
+              )}
+            />
+          </div>
+        )}
       </div>
     );
   }
