@@ -13,12 +13,12 @@ class NavBar extends Component {
     return(
       <div className="nav">
         <Link to="/">Home</Link>
-        <Link to="/users">Users</Link>
+        {this.props.isLoggedIn && <Link to="/users">Users</Link>}
         {this.props.isLoggedIn ? <div className="logout" onClick={this.logoutAndRedirect}>Log Out</div> :
-                      <React.Fragment>
+                      <div className="link-grouper">
                         <Link to="/login">Log in</Link>
                         <Link to="/signup">Sign up</Link>
-                      </React.Fragment>}
+                      </div>}
       </div>
     );
   }
