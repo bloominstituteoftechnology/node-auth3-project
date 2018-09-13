@@ -1,0 +1,26 @@
+.users {
+    margin: 100px 0;
+}
+
+.users ul {
+    background-color: #2D338B;
+    list-style: none;
+    margin: 0 10px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 3px;
+    box-shadow: 2px 2px 15px black;
+}
+
+.users ul .user-list {
+    width: 200px;
+    color:white;
+    text-decoration: none;
+    padding: 20px 10px;
+    text-align: start;
+    margin: 10px;
+    font-weight: lighter;
+    letter-spacing: 1px;
+}

@@ -1,0 +1,45 @@
+.signup-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 0 0;
+}
+
+.signup-container .new-container {
+    width: 400px;
+    background-color: #2D338B;
+    padding: 20px 10px;
+    color: white;
+    font-weight: lighter;
+    box-shadow: 2px 2px 15px black;
+}
+
+.signup-container .new-container .facebook-logo h1 {
+    font-size: 100px;
+}
+
+.signup-container .input-container {
+    padding: 10px 15px;
+    margin: 20px;
+
+}
+
+.signup-container .input-container .custom-input {
+    background-color: #2D338B;
+    border: 1px solid #2D338B;
+    border-bottom: 1px solid #464DD6;
+    width: 200px;
+    height: 20px;
+}
+
+.signup-container .button-container button {
+    padding: 10px 15px;
+    width: 80%;
+    background-color: #464DD6;
+    border: 1px solid #464DD6;
+    color: white;
+    border-radius: 3px;
+    box-shadow: 2px 2px 15px black;
+    font-size: 20px;
+    letter-spacing: 1px;
+
+}

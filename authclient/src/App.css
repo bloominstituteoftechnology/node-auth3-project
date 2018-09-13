@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+  background-color: #464DD6;
+  height: 100vh;
+  width: 100vw;
+}
+
+.App .links-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #2D338B;
+  padding: 20px 15px;
+  box-shadow: 2px 2px 15px black;
+}
+
+.App .links-container .nav-link {
+  margin-right: 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: lighter;
+}
+
+.App .links-container .nav-link:hover {
+  color: darkgray;
+}
+
+
+.App .links-container button {
+  background-color: #2D338B;
+  border: 1px solid #2D338B;
+  font-size: 18px;
+  font-weight: lighter;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 2px;
+}
+
+.App .links-container button:hover {
+  box-shadow: 2px 2px 5px black;
+  color: darkgray;
+}
