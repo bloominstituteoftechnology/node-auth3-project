@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+axios.credentials = true;
 
 class Users extends Component {
   state = {
@@ -8,14 +9,22 @@ class Users extends Component {
 
   render() {
     return (
-      <ul>
-        {this.state.users.map(user => {
-          return (
-            <li key={user.id}>{user.name}</li>
-          )
-        })}
-      </ul>
+      <div>
+        <ul>
+          {this.state.users.map(user => {
+            return (
+              <li key={user.id}>{user.userName}</li>
+            )
+          })}
+        </ul>
+        <button onClick={this.logout}>Log Out</button>
+      </div>
     )
+  }
+
+  logout = event => {
+    localStorage.removeItem('jwt');
+    this.props.history.push('/signin')
   }
 
   componentDidMount() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+axios.credentials = true;
 
 class SignIn extends Component {
   state = {
@@ -39,7 +40,7 @@ up
   signin = event => {
     event.preventDefault();
 
-    axios.post('http://localhost:3300/api/login', this.state).then(result => {
+    axios.post('http://localhost:8270/api/login', this.state).then(result => {
       localStorage.setItem('jwt', result.data.token);
       this.props.history.push('/users');
     }).catch(err => {

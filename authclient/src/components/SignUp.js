@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+axios.credentials = true;
+
 class SignUp extends Component {
   state = {
     userName: '',
@@ -39,7 +41,7 @@ class SignUp extends Component {
   signup = event => {
     event.preventDefault();
 
-    axios.post('http://localhost:3300/api/register', this.state).then(result => {
+    axios.post('http://localhost:8270/api/register', this.state).then(result => {
       console.log(result.data);
       localStorage.setItem('jwt', result.data.token);
       this.props.history.push('/users');
