@@ -50,6 +50,9 @@ const Button = styled.button`
     transition: all 0.5s;
     cursor: pointer;
     margin: 10px;
+    :hover {
+        background-color: rgba(244, 81, 30, 1);
+    }
     
 `
 
