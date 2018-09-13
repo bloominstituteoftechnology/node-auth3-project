@@ -1,4 +1,9 @@
-import { LOGIN_SUCCESS, FETCH_USERS_SUCCESS, LOGOUT_SUCCESS } from "../actions";
+import {
+	LOGIN_SUCCESS,
+	FETCH_USERS_SUCCESS,
+	LOGOUT_SUCCESS,
+	SIGN_UP_USER_SUCCESS,
+} from "../actions";
 
 const initialState = { loggedIn: false, users: [] };
 
@@ -18,6 +23,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedIn: false,
+			};
+		case SIGN_UP_USER_SUCCESS:
+			return {
+				...state,
+				loggedIn: true,
 			};
 
 		default:

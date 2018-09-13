@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import Form from "../Components/Form";
 import { signUp } from "../actions";
 
@@ -17,6 +17,9 @@ class SignUp extends Component {
 	};
 
 	render() {
+		if (this.props.loggedIn) {
+			return <Redirect to="/users" />;
+		}
 		return (
 			<div>
 				<Form
@@ -39,7 +42,11 @@ class SignUp extends Component {
 	}
 }
 
-export default connect(
-	null,
-	{ signUp },
-)(SignUp);
+const mapStateToProps = state => ({ loggedIn: state.loggedIn });
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		{ signUp },
+	)(SignUp),
+);
