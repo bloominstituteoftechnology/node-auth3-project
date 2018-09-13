@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Register from './components/Register';
+import Login from './components/Login';
+import Users from './components/Users';
 import axios from 'axios';
 import './App.css';
 
@@ -21,18 +23,33 @@ inputHandler = e => {
 
 onRegisterHandler = e => {
   e.preventDefault(); 
-  console.log( 'state at point of handler', this.state)
   axios
     .post("http://localhost:9800/api/register", this.state)
     .then(res => {
-        console.log('response', res.data);     
+        console.log('response', res); 
+        localStorage.setItem('jwt', res.data.token);
+        this.setState({username: '', password: '', department: ''}); 
     })
     .catch(err => {
         console.log(err);
     })
-
-  this.setState({username: '', password: '', department: ''});  
 }
+
+onLoginHandler = e => {
+  e.preventDefault(); 
+
+  axios
+    .post("http://localhost:9800/api/login", this.state)
+    .then(res => {
+        console.log('response', res); 
+        localStorage.setItem('jwt', res.data.token);
+        this.setState({username: '', password: '', department: ''}); 
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
 
 
   render() {
@@ -49,6 +66,28 @@ onRegisterHandler = e => {
               />
             )}
           />
+
+      <Route
+            path="/login"
+            render={props => (
+              <Login
+                {...props}
+                inputHandler={this.inputHandler}
+                onLoginHandler={this.onLoginHandler}
+              />
+            )}
+          />
+
+      <Route
+            path="/users"
+            render={props => (
+              <Users
+                {...props}
+              />
+            )}
+          />          
+
+
 
       </div>
     );
