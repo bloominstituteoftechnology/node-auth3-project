@@ -2,6 +2,21 @@ import React from 'react';
 import Button from './Button';
 import styled from 'styled-components';
 
+const StyledForm = styled.form`
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  ${'' /* align-items: center; */} justify-content: center;
+`;
+
+const Input = styled.input`
+  height: 55px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #e6e6e6;
+`;
+
 const Form = ({
   username,
   password,
@@ -10,8 +25,8 @@ const Form = ({
   handleChange,
   type,
 }) => (
-  <form onSubmit={handleSubmit}>
-    <input
+  <StyledForm onSubmit={handleSubmit}>
+    <Input
       name="username"
       type="text"
       placeholder="enter username"
@@ -19,7 +34,7 @@ const Form = ({
       onChange={handleChange}
       autoComplete="off"
     />
-    <input
+    <Input
       name="password"
       type="password"
       placeholder="enter password"
@@ -28,7 +43,7 @@ const Form = ({
       autoComplete="off"
     />
     {type === 'signUp' && (
-      <input
+      <Input
         name="password2"
         type="password"
         placeholder="re-enter password"
@@ -38,7 +53,7 @@ const Form = ({
       />
     )}
     <Button type="submit">Submit</Button>
-  </form>
+  </StyledForm>
 );
 
 export default Form;

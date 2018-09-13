@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import Form from '../components/Form';
+import { logIn } from '../actions';
+import AuthWrap from '../components/AuthWrap';
 import styled from 'styled-components';
 
 class LogInContainer extends Component {
@@ -10,22 +12,26 @@ class LogInContainer extends Component {
     password: '',
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.logIn(this.state);
+  };
+
   render() {
     return (
-      <div>
+      <AuthWrap>
         <Form
           username={this.state.username}
           password={this.state.password}
           handleChange={e => this.setState({ [e.target.name]: e.target.value })}
           handleSubmit={this.handleSubmit}
         />
-        <div>
-          <p>Don't Have an Account?</p>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      </div>
+      </AuthWrap>
     );
   }
 }
 
-export default connect()(LogInContainer);
+export default connect(
+  null,
+  { logIn },
+)(LogInContainer);

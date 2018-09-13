@@ -10,7 +10,12 @@ import logger from 'redux-logger';
 import { injectGlobal } from 'styled-components';
 
 injectGlobal`
+  body, html, #root {
+    width: 100%;
+    height: 100%;
+  }
   * {
+    font-size: 16px;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
