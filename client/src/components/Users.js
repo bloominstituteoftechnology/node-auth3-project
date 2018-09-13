@@ -11,6 +11,15 @@ class Users extends Component{
   componentDidMount(){
     if(!this.props.token){
       this.props.history.push('/');
+    }else if(this.props.department === 'Administration'){
+      const authOptions = {
+        headers: {
+          Authorization: this.props.token
+        }
+      };
+      axios.get('http://localhost:8000/api/users/admin', authOptions)
+            .then(res => this.setState({ users: res.data }))
+            .catch(err => console.log(err));
     }else{
       const authOptions = {
         headers: {
@@ -26,12 +35,14 @@ class Users extends Component{
   render(){
     return(
       <React.Fragment>
-        <h1>Hello {this.props.username}!</h1>
-        <h3>You are authorized to view the {this.props.department} department users</h3>
-        {this.state.users.map(user => <div key={user.id}>
-                                        <p>{user.username}</p>
-                                        <p>{user.department}</p>
-                                      </div>)}
+        {this.props.department === 'Administration' ? <h1>You are authorized to view all users</h1> :
+                                                      <h1>You are authorized to view the {this.props.department} department users</h1>}
+        <div className="users">
+          {this.state.users.map(user => <div key={user.id} className="user">
+                                          <p>{user.username}</p>
+                                          <p>{user.department}</p>
+                                        </div>)}
+        </div>
       </React.Fragment>
     );
   }
