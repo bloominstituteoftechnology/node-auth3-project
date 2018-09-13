@@ -25,11 +25,19 @@ class UserList extends React.Component{
         localStorage.removeItem('jwt');
         this.props.history.push('/');
     }
+    signUp=()=>{
+        this.props.history.push('/signup');
+    }
+    signIn=()=>{
+        this.props.history.push('/signin');
+    }
     render() {
         if (this.state.loading===true) {
             return (
                 <div>
                     <h1>Sign in to access this content.</h1>
+                    <button onClick={()=>this.signUp()} className='btn waves-effect waves-light'>Go to Sign Up Page</button>
+                    <button onClick={()=>this.signIn()} className='btn waves-effectd waves-light'>Go to Sign In Page</button>
                 </div>
             )
         } else {
