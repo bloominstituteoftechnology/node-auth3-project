@@ -6,6 +6,7 @@
   margin: 0 auto;
   background-color: rgba(38,50,56, 0.8);
   margin-top: 10rem;
+  position: relative;
 }
 
 .heading {
@@ -73,4 +74,13 @@
 
 .button:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.status {
+  color: #fafafa;
+  position: absolute;
+  bottom: 1.8rem;
+  left: 0;
+  text-align: center;
+  width: 100%;
 }

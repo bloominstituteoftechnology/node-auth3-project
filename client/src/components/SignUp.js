@@ -19,6 +19,7 @@ class SignUp extends React.Component {
           onSubmit={e => {
             e.preventDefault();
             this.props.onSubmit(this.state);
+            this.setState({ username: '', password: '', department: '' });
           }}
         >
           <div className={style.inputGroup}>
@@ -60,6 +61,7 @@ class SignUp extends React.Component {
           <button className={style.button} type="submit">
             Submit &rarr;
           </button>
+          <p className={style.status}>{this.props.status}</p>
         </form>
       </div>
     );
