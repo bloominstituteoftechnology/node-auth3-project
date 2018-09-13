@@ -46,6 +46,7 @@ class Register extends React.Component {
       })
       .catch(error => {
         console.error("Server Error", error);
+        return this.props.history.push("/signup");
       });
   };
   onSubmit = () => {

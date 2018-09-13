@@ -1,8 +1,10 @@
 const secret = "pair pare pear";
 const jwt = require("jsonwebtoken");
-const ls = require("local-storage");
+
+
 function verifyToken(req, res, next) {
-  const token = ls.get('token')
+  console.log(req)
+  const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {

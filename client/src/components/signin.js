@@ -1,10 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { withRouter} from 'react-router';
+import { withRouter } from "react-router";
 import axios from "axios";
-const ls = require("local-storage");
-
-
 
 class Signin extends React.Component {
   state = {
@@ -17,15 +14,17 @@ class Signin extends React.Component {
     const promise = axios.post("http://localhost:9000/api/login", loginBody);
     promise
       .then(response => {
-        if(response){
-          console.log(response)
-          ls.set('token', response.data.token)
-          return this.props.history.push("/showusers")
+        if (response) {
+          console.log(response);
+
+          localStorage.setItem("token", response.data.token);
+          return this.props.history.push("/showusers");
         }
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+        return this.props.history.push("/signin");
+      });
   };
 
   onChange = event => {
@@ -55,13 +54,13 @@ class Signin extends React.Component {
     return (
       <div>
         {errors.map((error, i) => {
-          <p key={i}>{error}</p>;
+          return <p key={i}>{error}</p>;
         })}
         <br />
         <label>Username:</label>
         <input
           onChange={this.onChange}
-          name = "username"
+          name="username"
           value={this.state.username}
           type="text"
           placeholder="Enter Username:"
@@ -70,15 +69,18 @@ class Signin extends React.Component {
         <label>Password :</label>
         <input
           onChange={this.onChange}
-          name ="password"
+          name="password"
           value={this.state.password}
           type="password"
           placeholder="Enter Password:"
         />
         <br />
-        <button onClick = {this.onSubmit}> <Link to="/">Login</Link></button>
+        <button onClick={this.onSubmit}>
+          {" "}
+          <Link to="/">Login</Link>
+        </button>
         <br />
-        <Link to="/register">Register</Link>
+        <Link to="/signup">Register</Link>
       </div>
     );
   }
