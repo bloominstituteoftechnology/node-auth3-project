@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withRouter} from 'react-router';
 import axios from "axios";
+const ls = require("local-storage");
+
+
 
 class Signin extends React.Component {
   state = {
@@ -16,6 +19,7 @@ class Signin extends React.Component {
       .then(response => {
         if(response){
           console.log(response)
+          ls.set('token', response.data.token)
           return this.props.history.push("/showusers")
         }
       })
