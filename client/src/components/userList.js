@@ -23,7 +23,7 @@ class UserList extends React.Component{
     }
     signOut=()=>{
         localStorage.removeItem('jwt');
-        this.props.history.push('/');
+        this.props.history.push('/signin');
     }
     signUp=()=>{
         this.props.history.push('/signup');
@@ -36,8 +36,10 @@ class UserList extends React.Component{
             return (
                 <div>
                     <h1>Sign in to access this content.</h1>
-                    <button onClick={()=>this.signUp()} className='btn waves-effect waves-light'>Go to Sign Up Page</button>
-                    <button onClick={()=>this.signIn()} className='btn waves-effectd waves-light'>Go to Sign In Page</button>
+                    <div className='btn-container'>
+                        <button onClick={()=>this.signUp()} className='btn waves-effect waves-light'>Go to Sign Up Page</button>
+                        <button onClick={()=>this.signIn()} className='btn waves-effectd waves-light'>Go to Sign In Page</button>
+                    </div>
                 </div>
             )
         } else {
@@ -46,9 +48,9 @@ class UserList extends React.Component{
                     <h1>Users in {this.state.users[0].department} department:</h1>
                     {this.state.users.map((e,i)=>
                     <div key={i} className='card'>
-                        <p className='text-flow'>{e.id}</p>
-                        <p className='text-flow'>{e.username}</p>
-                        <p className='text-flow'>{e.department}</p>
+                        <p className='text-flow'>User Id: {e.id}</p>
+                        <p className='text-flow'>Name: {e.username}</p>
+                        <p className='text-flow'>Department: {e.department}</p>
                     </div>)}
                     <button onClick={this.signOut} className='btn waves-effect waves-light'>Sign Out</button>
                 </div>

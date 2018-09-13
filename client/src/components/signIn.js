@@ -32,10 +32,13 @@ class SignIn extends React.Component {
     render() {
         return (
             <form>
+                <h1>Sign In</h1>
                 <input type='text' name='username' value={this.state.username} placeholder='Enter a username' onChange={this.onChangeHandler}/>
                 <input type='password' name='password' value={this.state.password} placeholder='Enter a password' onChange={this.onChangeHandler}/>
+                <div className='btn-container'>
                 <button type='submit' className='btn waves-effect waves-light' onClick={this.onSubmitHandler}>Sign In</button>
                 <button type='button' className='btn waves-effect waves-light' onClick={this.redirect}>Don't have an account?</button>
+                </div>
             </form>
         )
     }

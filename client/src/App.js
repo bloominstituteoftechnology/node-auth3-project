@@ -7,7 +7,10 @@ import SignIn from './components/signIn'
 
 class App extends Component {
   componentDidMount=()=>{
-    this.props.history.push('/signin');
+    console.log(this.props.history.location.pathname)
+    if (this.props.history.location.pathname!=='/users' && this.props.history.location.pathname!=='/signup') {
+      this.props.history.push('/signin');
+    }
   }
   render() {
     return (
