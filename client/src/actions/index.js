@@ -12,6 +12,9 @@ export const FETCH_USERS = "FETCH_USERS";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
 
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
+
 const URL = "http://localhost:8000/api";
 
 export const signUp = user => dispatch => {
@@ -41,6 +44,12 @@ export const login = user => dispatch => {
 		.catch(err => {
 			dispatch({ type: LOGIN_FAILURE });
 		});
+};
+
+export const logout = () => {
+	console.log("HEYOOOO");
+	localStorage.removeItem("token");
+	return { type: LOGOUT_SUCCESS };
 };
 
 export const fetchUsers = () => dispatch => {
