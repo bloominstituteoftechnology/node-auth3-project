@@ -24,7 +24,7 @@ class App extends Component {
   registerUser = ({ username, password, department }) => {
     this.setState({ status: 'Sending request...' });
     axios
-      .post('http://localhost:5000/api/register', {
+      .post('/api/register', {
         username,
         password,
         department,
@@ -45,7 +45,7 @@ class App extends Component {
   loginUser = ({ username, password }) => {
     this.setState({ status: 'Sending request...' });
     axios
-      .post('http://localhost:5000/api/login', {
+      .post('/api/login', {
         username,
         password,
       })

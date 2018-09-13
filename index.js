@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const db = require('knex')(require('./knexfile.js').development);
+const path = require('path');
 
 const app = express();
 const SALT_ROUNDS = 12;
@@ -43,6 +44,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(jwtExtractor);
+app.use(express.static(path.resolve(path.join(__dirname, 'client', 'build'))));
 
 app.post('/api/register', function(req, res, next) {
   let { username, password, department } = req.body;
@@ -109,6 +111,12 @@ app.get('/api/users', authenticate, function(req, res, next) {
       res.json({ error: false, message: 'Fetch successful', users })
     )
     .catch(next);
+});
+
+app.get('*', function(req, res) {
+  res.sendFile(
+    path.resolve(path.join(__dirname, 'client', 'build', 'index.html'))
+  );
 });
 
 app.use(function(err, _, res, _) {

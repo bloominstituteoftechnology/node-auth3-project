@@ -11,7 +11,7 @@ export default class extends Component {
   componentDidMount() {
     axios({
       method: 'GET',
-      url: 'http://localhost:5000/api/users',
+      url: '/api/users',
       headers: {
         authorization: `Bearer ${this.props.token}`,
       },
