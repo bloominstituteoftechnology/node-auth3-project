@@ -92,7 +92,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protector, (req, res) => {
     db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
         .then(users => {
             res.json({ users }); // or res.json( users ) if using this.setState({ users: res.data.users }) in the users.js file
         })
