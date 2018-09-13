@@ -27,15 +27,22 @@ class Users extends Component {
 
     logOut = () => {
         localStorage.removeItem('jwt')
+        this.props.history.push('/')
     }
 
     render() {console.log(this.state.users)
         return (
+            (this.state.users.length>0)
+            ?
             <div>
                 <button onClick = {this.logOut}>Sign Out</button>
                 {this.state.users.map(user => {
                     <div key = {user.id}>{user.username}</div>
                 })}
+            </div>
+            :
+            <div>
+                Loading List...
             </div>
         );
     }
