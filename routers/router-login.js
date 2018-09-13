@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const generateToken = require("../routers-middleware/generateToken.js");
+const ls = require("local-storage"); 
 const loginRouter = express.Router();
 
 const db = require("../db/dbConfig.js");
@@ -13,6 +14,7 @@ loginRouter.post("/", (req, res) => {
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
+        ls.set('token', token)
         res.status(200).json({ token });
       } else {
         res.status(401).json({ message: "You shall not pass!" });

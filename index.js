@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const morgan = require("morgan");
 // import routers
@@ -18,7 +16,7 @@ const secret = "pair pare pear";
 //middleware
 server.use(express.json());
 server.use(helmet());
-server.use(cors());
+server.use(cors({credentials: true, origin: "http://localhost:3000"}));
 server.use(morgan("short"));
 //middleware^^
 
