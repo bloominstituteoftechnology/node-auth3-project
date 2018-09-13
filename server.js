@@ -55,7 +55,7 @@ server.get('/', (req, res) => {
   res.send('hello');
 });
 
-
+/*
 server.get('/api/users', (req, res) => {
   db('users')
   .select('username as User', 'role_name as Role', 'department_name as Department')
@@ -90,7 +90,17 @@ server.get('/api/roles', (req, res) => {
   })
   .catch(err => console.log(err));
 });
+*/
 
+
+server.get('/api/roles', (req, res) => {
+  db('roles')
+  .select()
+  .then(roles => {
+    res.status(200).json(roles)
+  })
+  .catch(err => console.log(err));
+});
 
 
 /* === === === */
@@ -118,7 +128,7 @@ server.post('/api/register', (req, res) => {
         .first()
         .then(user => {
           const token = generateToken(user);
-          res.status(201).json({ id: user.userId, token });
+          res.status(201).json({ id: user.userId, user: user.username, token });
         })
         .catch(err => res.status(500).send('err 1'));
     })
