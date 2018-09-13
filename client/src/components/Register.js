@@ -18,9 +18,15 @@ class Register extends Component {
     return (
       <div>
         <form>
-          <input type="text" name="username" />
-          <input type="password" name="password" />
-          <input type="text" name="department" />
+          <label>Username:
+            <input type="text" name="username" />
+          </label>
+          <label>Password:
+            <input type="password" name="password" />
+          </label>
+          <label>Department:
+            <input type="text" name="department" />
+          </label>
           <button>register</button>
         </form>
       </div>
