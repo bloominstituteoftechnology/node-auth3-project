@@ -3,20 +3,25 @@ import axios from 'axios';
 import styled from 'styled-components';
 const jwtDecode = require('jwt-decode');
 
-const List = styled.div`
-`
+
 const Table = styled.table`
         margin: 30px auto 0 auto;
         background: rgba(255, 255, 255, 0.1);
         max-width: 600px;
         width: 100%;
-        height: 60vh;
-    
 `
 const Td = styled.td`
     text-align: center;
     color: white;
     border-bottom: 1px dashed #fff;
+`
+
+const Tr = styled.tr`
+    height: 50px;
+    :hover {
+        opacity: 0.7;
+    }
+
 
 `
 const Th = styled.th`
@@ -44,7 +49,7 @@ const Navigation = styled.div`
     justify-content: flex-end;
     
     > p {
-        color: yellow;
+        color: #f4511e;
         margin: 0 10px;
         cursor: pointer;
     }
@@ -79,11 +84,10 @@ getUsers = async () => {
         const decoded = jwtDecode(token);
         this.setState({
             username: decoded.username,
-            users: response.data,
-            canSee: true
+            users: response.data
         });
     } catch (error) {
-        this.setState({ canSee: false });
+        console.log(error, error.message)
     }
 }
 
@@ -93,7 +97,7 @@ onClick = () => {
 }
 
     render() { 
-        const usersTable = (
+        return ( 
             <div>
              <NavigationWrap>
                 <Navigation>
@@ -111,7 +115,7 @@ onClick = () => {
                 </thead>
                 <tbody>
                     {this.state.users.map(user => 
-                        <tr key={user.id}>
+                        <Tr key={user.id}>
                             <Td>
                                 {user.id}
                             </Td>
@@ -121,17 +125,11 @@ onClick = () => {
                             <Td>
                                 {user.department}
                             </Td>
-                        </tr>
+                        </Tr>
                     )}
                 </tbody>
             </Table>
             </div>
-        )
-
-        return ( 
-            <List>
-                {usersTable}
-            </List>
          );
     }
 }

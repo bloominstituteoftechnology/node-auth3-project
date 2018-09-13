@@ -24,27 +24,32 @@ const Input = styled.input`
     max-width: 200px;
     padding-left: 10px;
     border-radius: 5px;
-
+    
 `
 const Text = styled.p`
 
     color: #fff;
     > a {
         text-decoration: none;
-        color: yellow;
+        color: #f4511e;
     }
 
 `
 
 const Button = styled.button`
     
-    margin-top: 10px;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: rgba(244, 81, 30, 0.7);
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
     width: 100px;
-    border: 1px solid lightgray;
-    height: 30px;
+    transition: all 0.5s;
     cursor: pointer;
-    border-radius: 5px;
-    background: silver;
+    margin: 10px;
     
 `
 
