@@ -33,14 +33,15 @@ class Users extends Component{
   }
 
   render(){
+    const flag = this.props.department === 'Administration' ? true : false;
     return(
       <React.Fragment>
-        {this.props.department === 'Administration' ? <h1>You are authorized to view all users</h1> :
-                                                      <h1>You are authorized to view the {this.props.department} department users</h1>}
+        {flag ? <h1>You are authorized to view all users</h1> :
+                <h1>You are authorized to view the {this.props.department} department users</h1>}
         <div className="users">
           {this.state.users.map(user => <div key={user.id} className="user">
                                           <p>{user.username}</p>
-                                          <p>{user.department}</p>
+                                          {flag && <p>{user.department}</p>}
                                         </div>)}
         </div>
       </React.Fragment>
