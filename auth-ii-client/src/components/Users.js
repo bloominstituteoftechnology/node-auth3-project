@@ -21,6 +21,8 @@ class Users extends Component {
         })
         .catch(err => {
             console.error(err)
+            window.alert('Please login or create an account.');
+            this.props.history.push('/');
         });
     }
 
