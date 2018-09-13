@@ -32,7 +32,6 @@ class Register extends Component {
     return (
       <div className="SignIn">
         <form onSubmit={this.submitHandler}>
-        <label htmlFor="username">Username</label>
             <input
             value={this.state.username}
             onChange={this.inputChangeHandler}

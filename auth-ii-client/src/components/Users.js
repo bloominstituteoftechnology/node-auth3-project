@@ -38,11 +38,15 @@ class Users extends Component {
                     <button onClick={this.logoutHandler}>Logout</button>
                     )}
                 </div>
-                <ul>
+                <div>
                     {this.state.users.map(user => 
-                        <li key={user.id}>{user.username}</li>
+                        <div key={user.id}>
+                            <p>ID: {user.id}</p>
+                            <p>Username: {user.username}</p>
+                            <p>Department: {user.department}</p>
+                        </div>
                     )}
-                </ul>
+                </div>
             </div>
         )
     };
