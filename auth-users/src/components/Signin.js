@@ -18,7 +18,8 @@ class Signin extends React.Component {
         axios.post('http://localhost:8000/api/login', this.state)
             .then ( res => {
                 const token = res.data.token;
-                localStorage.setItem('jwt', token)
+                localStorage.setItem('jwt', token);
+                window.location.href='http://localhost:3000/users';
             })
             .catch (err => console.log( err.message ));
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Signup extends React.Component {
     constructor(props) {
@@ -15,7 +16,13 @@ class Signup extends React.Component {
     }
     submit = e => {
         e.preventDefault();
-        
+        axios.post('http://localhost:8000/api/register', this.state)
+        .then ( res => {
+            const token = res.data.token;
+            localStorage.setItem('jwt', token);
+            window.location.href='http://localhost:3000/users';
+        })
+        .catch ( err => console.log( err.message ));
     }
     render() {
         return (
@@ -41,11 +48,12 @@ class Signup extends React.Component {
                     />
                 </div>
                 <div>
-                <input type = 'text'
-                name = 'department'
-                placeholder = 'department'
-                value={this.state.department}
-                onChange = {this.handleChange}
+                    <label>Department</label>
+                    <input type = 'text'
+                    name = 'department'
+                    placeholder = 'department'
+                    value={this.state.department}
+                    onChange = {this.handleChange}
                 />
                 </div>
                 <button type='submit'>Register</button>
