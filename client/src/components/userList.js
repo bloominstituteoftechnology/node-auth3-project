@@ -41,7 +41,7 @@ class UserList extends React.Component{
                         <p>{e.username}</p>
                         <p>{e.department}</p>
                     </div>)}
-                    <button onClick={this.signOut}>Sign Out</button>
+                    <button onClick={this.signOut} className='btn waves-effect waves-light'>Sign Out</button>
                 </div>
             )
         }

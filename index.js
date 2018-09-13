@@ -75,8 +75,14 @@ server.post('/api/login',(req,res)=>{
 server.get('/api/users', protected, (req,res)=>{
     if (req.username) {
         db('user')
-            .select('username','password','department')
-            .then(users=>res.status(200).json(users))
+            .where({username:req.username})
+            .select('department')
+            .then(dpmt=>{
+                db('user')
+                    .where({department:dpmt[0].department})
+                    .then(users=>res.status(200).json(users))
+                    .catch(err=>res.status(500).json(err))
+            })
             .catch(err=>res.status(500).json(err));
     }
 })
