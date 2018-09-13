@@ -23,8 +23,7 @@ export const registerUser = (user, history) => {
       })
       .then(() => history.push('/users'))
       .catch(err => {
-        console.log(err);
-        dispatch({ type: ERROR, payload: err });
+        dispatch({ type: ERROR, payload: err.response.data.message });
       });
   };
 };
@@ -40,8 +39,7 @@ export const loginUser = (user, history) => {
       })
       .then(() => history.push('/users'))
       .catch(err => {
-        console.log(err);
-        dispatch({ type: ERROR, payload: err });
+        dispatch({ type: ERROR, payload: err.response.data.message });
       });
   };
 };
@@ -54,7 +52,7 @@ export const fetchUsers = (token) => {
         dispatch({ type: FETCHED_USERS, payload: res.data });
       })
       .catch(err => {
-        dispatch({ type: ERROR, payload: err });
+        dispatch({ type: ERROR, payload: err.response.data.message });
       });
   };
 };

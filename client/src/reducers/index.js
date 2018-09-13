@@ -19,7 +19,8 @@ export const usersReducer = (state = initialState, action) => {
   case actionTypes.REGISTERED_USER:
     return {
       ...state,
-      registeringUser: false
+      registeringUser: false,
+      error: null
     };
   case actionTypes.LOGGING_IN_USER:
     return {
@@ -29,7 +30,8 @@ export const usersReducer = (state = initialState, action) => {
   case actionTypes.LOGGED_IN_USER:
     return {
       ...state,
-      loggingInUser: false
+      loggingInUser: false,
+      error: null
     };
   case actionTypes.FETCHING_USERS:
     return {
@@ -40,7 +42,8 @@ export const usersReducer = (state = initialState, action) => {
     return {
       ...state,
       fetchingUsers: false,
-      users: action.payload
+      users: action.payload,
+      error: null
     };
   case actionTypes.LOGGING_OUT_USER:
     return {
@@ -51,7 +54,8 @@ export const usersReducer = (state = initialState, action) => {
     return {
       ...state,
       loggingOutUser: false,
-      users: action.payload
+      users: action.payload,
+      error: null
     };
   case actionTypes.ERROR:
     return {

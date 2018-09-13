@@ -58,6 +58,13 @@ class Register extends Component {
             style= {{ marginBottom: '1rem', width: '40%' }}
           />
           <br />
+          {
+            this.props.error
+            ? <React.Fragment>
+                <Typography color='error'>{this.props.error}</Typography><br />
+              </React.Fragment>
+            : null
+          }
           <Button variant='contained' color='primary' type='submit'>
             Register
           </Button>

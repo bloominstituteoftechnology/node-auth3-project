@@ -25,7 +25,6 @@ class Login extends Component {
       username,
       password
     }, this.props.history);
-    console.log(this.props);
   }
 
   render() {
@@ -49,6 +48,13 @@ class Login extends Component {
             style= {{ marginBottom: '1rem', width: '40%' }}
           />
           <br />
+          {
+            this.props.error
+            ? <React.Fragment>
+                <Typography color='error'>{this.props.error}</Typography><br />
+              </React.Fragment>
+            : null
+          }
           <Button variant='contained' color='primary' type='submit'>
             Login
           </Button>

@@ -36,7 +36,7 @@ class App extends Component {
         <Route
           path='/register'
           render={ props => (
-            <Register {...props} registerUser={this.props.registerUser} />
+            <Register {...props} registerUser={this.props.registerUser} error={this.props.error} />
           )}
         />
         <Route
@@ -48,7 +48,7 @@ class App extends Component {
         <Route
           path='/users'
           render={ props => (
-            <Users {...props} fetchUsers={this.props.fetchUsers} users={this.props.users} />
+            <Users {...props} fetchUsers={this.props.fetchUsers} users={this.props.users} error={this.props.error} />
           )}
         />
       </div>

@@ -23,21 +23,30 @@ class Users extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.cardContainer}>
-        {this.props.users.map(user => {
-          return (
-            <Card className={classes.card} key={user.id}>
-              <CardContent>
-                <Typography variant='headline'>
-                  {user.username}
-                </Typography>
-                <Typography variant='subheading'>
-                  {user.department}
-                </Typography>
-              </CardContent>
-            </Card>
-          );
-        })}
+      <div className='users'>
+        {
+          this.props.error
+          ? <React.Fragment>
+              <Typography variant='headline' color='error'>{this.props.error}</Typography><br />
+            </React.Fragment>
+          : null
+        }
+        <div className={classes.cardContainer}>
+          {this.props.users.map(user => {
+            return (
+              <Card className={classes.card} key={user.id}>
+                <CardContent>
+                  <Typography variant='headline'>
+                    {user.username}
+                  </Typography>
+                  <Typography variant='subheading'>
+                    {user.department}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
     );
   }
