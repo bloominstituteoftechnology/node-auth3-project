@@ -13,38 +13,40 @@ class Signup extends Component {
   render() {
     return (
       <form className="signup-container" onSubmit={this.register}>
-        <div className="input-container">
-          <label>Username:</label>
-          <input
-            className="custom-input"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            type="text"
-          />
-        </div>
-        <div className="input-container">
-          <label>Password:</label>
-          <input
-            className="custom-input"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </div>
-        <div className="input-container">
-          <label>Department:</label>
-          <input
-            className="custom-input"
-            name="department"
-            value={this.state.department}
-            onChange={this.handleChange}
-            type="text"
-          />
-        </div>
-        <div className="button-container">
-          <button type="submit">SIGN UP</button>
+        <div className="new-container">
+          <div className="input-container">
+            <label>Username:</label>
+            <input
+              className="custom-input"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+              type="text"
+            />
+          </div>
+          <div className="input-container">
+            <label>Password:</label>
+            <input
+              className="custom-input"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              type="password"
+            />
+          </div>
+          <div className="input-container">
+            <label>Department:</label>
+            <input
+              className="custom-input"
+              name="department"
+              value={this.state.department}
+              onChange={this.handleChange}
+              type="text"
+            />
+          </div>
+          <div className="button-container">
+            <button type="submit">SIGN UP</button>
+          </div>
         </div>
       </form>
     );

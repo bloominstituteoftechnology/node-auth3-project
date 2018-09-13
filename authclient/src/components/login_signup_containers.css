@@ -1,4 +1,10 @@
 .signup-container {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0;
+}
+
+.signup-container .new-container {
     width: 400px;
     background-color: #2D338B;
     padding: 20px 10px;

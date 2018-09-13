@@ -1,0 +1,28 @@
+.users {
+    margin: 100px 0;
+}
+
+.users ul {
+    list-style: none;
+    margin: 0 10px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 3px;
+}
+
+.users ul .user-list {
+    width: 200px;
+    border: 1px solid darkgray;
+    text-decoration: none;
+    padding: 20px 10px;
+    text-align: start;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.users ul .user-list:hover {
+    box-shadow: 3px 3px 3px #2D338B;
+}
