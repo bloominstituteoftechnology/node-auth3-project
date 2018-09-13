@@ -4,10 +4,12 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 const dbConfig = require("./knexfile");
+const cors = require('cors'); 
 
 const server = express();
 const db = knex(dbConfig.development);
 server.use(express.json());
+server.use(cors()); 
 
 const secret = 'secretkey'; 
 
@@ -21,8 +23,7 @@ function generateToken(username){
     }; 
 
     return jwt.sign(payload, secret, options); 
-}
-
+}; 
 
 
 server.post("/api/register", (req, res) => {
