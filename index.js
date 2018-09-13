@@ -49,8 +49,8 @@ server.post('/api/register',(req,res)=>{
             const userId=id[0];
             db('user')
                 .where({id:userId})
-                .then(res=>{
-                    const token=generateToken(response);
+                .then(response=>{
+                    const token=generateToken(response[0]);
                     res.status(201).json(token);
                 })
                 .catch(err=>res.status(500).json(err))

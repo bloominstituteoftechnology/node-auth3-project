@@ -14,16 +14,23 @@ class SignUp extends React.Component {
         return this.setState({[event.target.name]:event.target.value});
     }
     onSubmitHandler=()=>{
-
+        const newUser={
+            username:this.state.username,
+            password:this.state.password,
+            department:this.state.department
+        }
+        axios.post('http://localhost:9000/api/register',newUser)
+            .then(res=>localStorage.setItem('jwt',res.data))
+            .catch(err=>console.log(err));
     }
     render() {
         return (
-            <div>
+            <form>
                 <input type='text' name='username' value={this.state.username} placeholder='Enter a username' onChange={this.onChangeHandler}/>
                 <input type='password' name='password' value={this.state.password} placeholder='Enter a password' onChange={this.onChangeHandler}/>
                 <input type='text' name='department' value={this.state.department} placeholder='Enter a department' onChange={this.onChangeHandler}/>
-                <button type='submit' className='btn waves-effect waves-light' onSubmit={this.onSubmitHandler}>Sign Up</button>
-            </div>
+                <button type='submit' className='btn waves-effect waves-light' onClick={this.onSubmitHandler}>Sign Up</button>
+            </form>
         )
     }
 }
