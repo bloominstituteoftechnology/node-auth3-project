@@ -27,9 +27,9 @@ class LoginPage extends React.Component{
                 username: "", 
                 password: "", 
             })
-            console.log(response); 
             const token = response.data.token; 
-            localStorage.setItem('jwt', token)
+            localStorage.setItem('jwt', token); 
+            this.props.history.push('/users');  // navigates to the users route when successfully logged in
         }).catch(err => {
             console.log(err); 
         })

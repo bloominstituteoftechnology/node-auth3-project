@@ -25,6 +25,22 @@ function generateToken(username){
     return jwt.sign(payload, secret, options); 
 }; 
 
+function protected(req, res, next){
+    const token  = req.headers.authorization; 
+    if(token){
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err){
+                res.status(401).json({message: "Invalid Token"})
+            } else {
+                req.user = {username: decodedToken.username}; 
+                next();
+            }
+        })
+    }else{
+        res.status(401).json({message: "No token provided!"}); 
+    }
+}
+
 
 server.post("/api/register", (req, res) => {
   const creds = req.body;
@@ -57,12 +73,17 @@ server.post("/api/register", (req, res) => {
     });
 });
 
-server.get("/api/users", (req, res) => {
-  db("users").then(users => {
-      res.status(200).json(users); 
-  }).catch(err => {
-      res.status(500).json(err); 
-  })
+server.get("/api/users", protected,  (req, res) => {
+    if(req.user){
+        db("users").then(users => {
+            res.status(200).json(users); 
+        }).catch(err => {
+            res.status(500).json(err); 
+        })
+    }else {
+        res.status(401).json({message:"Denied access!"})
+    }
+ 
 });
 
 server.post("/api/login", (req, res) => {

@@ -31,7 +31,8 @@ class SignupPage extends React.Component{
                 department: ""
             })
             const token = response.data.token; 
-            localStorage.setItem('jwt', token)
+            localStorage.setItem('jwt', token); 
+            this.props.history.push('/users'); 
         }).catch(err => {
             console.log(err); 
         })
