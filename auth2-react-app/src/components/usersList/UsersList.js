@@ -29,7 +29,6 @@ export class UsersList extends Component {
       <Fragment>
         <ul>
           {this.state.users.map(user => (
-            // let subKey = user.department.concat(user.id)
             <Fragment key={user.id}>
               <li>{user.username}</li>
               <ul className="departmentSubList">

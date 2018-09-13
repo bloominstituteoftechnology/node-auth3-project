@@ -1,27 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-// export const Signin = props => {
-//   return (
-//     <div>
-//       <div>
-//         <h1>Welcome to the Signin page.</h1>
-//       </div>
-//     </div>
-//   );
-// };
-
 export class Signin extends Component {
   state = {
     username: "",
     password: "",
   };
-
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
-
   signinHandler = event => {
     event.preventDefault();
     axios
@@ -54,7 +42,7 @@ export class Signin extends Component {
           />
         </div>
         <div>
-          <button type="submit">Signin</button>
+          <button type="submit">Sign In</button>
         </div>
       </form>
     );
