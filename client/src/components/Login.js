@@ -20,14 +20,14 @@ class Login extends React.Component {
         event.preventDefault();
         axios.post('http://localhost:7001/api/login', this.state)
             .then(response => {
-                console.log('response', response.data);
+                console.log('response from login', response.data);
                 localStorage.setItem('jwt', response.data.token);
                 this.props.setToken(response.data.token)
                 localStorage.setItem('username', this.state.username)
             })
             .catch(err => console.log(err))
         
-        this.props.history.push('/users');
+        setTimeout(function() {this.props.history.push('/users')}.bind(this), 1000)
     }
 
     render() {

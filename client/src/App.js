@@ -13,7 +13,9 @@ class App extends Component {
   }
 
   setTokenState = (inputToken) => {
-    this.setState({token: inputToken})
+    this.setState(function () {
+      return {token: inputToken}
+    })
   }
 
   render() {

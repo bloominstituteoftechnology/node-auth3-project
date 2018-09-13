@@ -12,8 +12,8 @@ class UsersList extends React.Component {
     }
 
     componentDidMount = () => {
-        // const token = localStorage.getItem('jwt');
-        const token = this.props.token;
+        const token = localStorage.getItem('jwt');
+        // const token = this.props.token;
         const requestOptions = {
             headers: {
                 Authorization: token
@@ -22,10 +22,11 @@ class UsersList extends React.Component {
         axios.get('http://localhost:7001/api/users', requestOptions)
         .then(response => {
             console.log('response from userlist', response)
-            this.setState({users: response.data})
+            this.setState(function() {
+                return {users: response.data} 
+            })
         })
         console.log('first string');  
-        setTimeout(this.forceUpdate(), 1000)      
     }
     
     render() {
@@ -33,8 +34,12 @@ class UsersList extends React.Component {
                 return(
                     <div>
                         <h1>Users List</h1>
-                        {/* {this.state.users.map(user => <User user={user} key={user.id} />)} */}
-                        {this.state.users.map(user => <li>{user.username}</li>)}
+                        {this.state.users.map(user => <User user={user} key={user.id} />)}
+                        {/* {this.state.users.map(user => 
+                            <div>
+                            <p>{user.username}</p>
+                            <p>{user.department}</p>
+                            </div>)} */}
                     </div>
             )
         } else {
