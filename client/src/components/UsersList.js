@@ -12,7 +12,8 @@ class UsersList extends React.Component {
     }
 
     componentDidMount = () => {
-        const token = localStorage.getItem('jwt');
+        // const token = localStorage.getItem('jwt');
+        const token = this.props.token;
         const requestOptions = {
             headers: {
                 Authorization: token
@@ -23,15 +24,22 @@ class UsersList extends React.Component {
             console.log('response from userlist', response)
             this.setState({users: response.data})
         })
+        console.log('first string');  
+        setTimeout(this.forceUpdate(), 1000)      
     }
     
     render() {
-            return(
-                <div>
-                    <h1>Users List</h1>
-                    {this.state.users.map(user => <User user={user} key={user.id} />)}
-                </div>
-        )
+        if (this.state.users.length > 0) {
+                return(
+                    <div>
+                        <h1>Users List</h1>
+                        {/* {this.state.users.map(user => <User user={user} key={user.id} />)} */}
+                        {this.state.users.map(user => <li>{user.username}</li>)}
+                    </div>
+            )
+        } else {
+            return (<div>Loading...</div>)
+        }
     }
 }
 

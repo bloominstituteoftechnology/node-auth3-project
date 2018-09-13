@@ -22,9 +22,11 @@ class Login extends React.Component {
             .then(response => {
                 console.log('response', response.data);
                 localStorage.setItem('jwt', response.data.token);
+                this.props.setToken(response.data.token)
                 localStorage.setItem('username', this.state.username)
             })
             .catch(err => console.log(err))
+        
         this.props.history.push('/users');
     }
 

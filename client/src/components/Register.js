@@ -21,7 +21,7 @@ class Register extends React.Component {
         event.preventDefault();
         axios.post('http://localhost:7001/api/register', this.state)
             .then(response => {
-                console.log('response', response);
+                console.log('response from register', response);
                 localStorage.setItem('username', this.state.username)
             })
             .catch(err => console.log(err))

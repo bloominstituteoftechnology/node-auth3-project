@@ -5,7 +5,6 @@ const User = (props) => {
         <div>
             <p>User ID: {props.user.id}</p>
             <p>Username: {props.user.username}</p>
-            <p>Password: {props.user.password}</p>
             <p>Department: {props.user.department}</p>
             <hr/>
         </div>
