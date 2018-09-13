@@ -12,7 +12,7 @@ class Users extends Component {
         <div>
             <ul>
                 {this.state.users.map(user => (
-                    <li key = {user.id}>{user.username}</li>
+                    <li key = {user.id}>{user.username}, {user.department} </li>
                 ))}
             </ul>
         </div> 
@@ -21,11 +21,15 @@ class Users extends Component {
 
 
     componentDidMount() {
-
-        
+        const token = localStorage.getItem('jwt');
+        const resOptions = {
+            headers: {
+                Authorization: token,
+            },
+        };
 
         axios
-        .get('http://localhost:9000/api/users')
+        .get('http://localhost:9000/api/users', resOptions)
         .then(res => {
             this.setState({users: res.data});
         })
