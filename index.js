@@ -79,7 +79,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {    
     db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username')
         .then(users => {
             res.json(users);
         })

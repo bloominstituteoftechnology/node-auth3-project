@@ -19,7 +19,7 @@ class Login extends Component {
         axios
             .post('http://localhost:3300/api/login', this.state)
             .then(res => {
-                console.log(res.data);
+                localStorage.setItem('jwt', res.data.token);
             })
             .catch(err => {
                 console.err(err);
