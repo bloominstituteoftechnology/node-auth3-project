@@ -27,6 +27,9 @@ class ShowUsers extends React.Component {
         console.log(error, error.message);
       });
   };
+  removeLocalStorage = () => {
+    ls.remove('token')
+  }
 
   render() {
     console.log(this.state);
@@ -34,7 +37,7 @@ class ShowUsers extends React.Component {
       const users = this.state.users.slice();
       return (
         <div>
-            <h1>Welcome {this.state.username}</h1> <button>Sign Out</button>
+            <h1>Welcome {this.state.username}</h1> <button onClick = {this.removeLocalStorage}>Sign Out</button>
           {users.map((user, i) => {
             return (
               <div key={i + 100}>
