@@ -46,9 +46,9 @@ class UserList extends React.Component{
                     <h1>Users in {this.state.users[0].department} department:</h1>
                     {this.state.users.map((e,i)=>
                     <div key={i} className='card'>
-                        <p>{e.id}</p>
-                        <p>{e.username}</p>
-                        <p>{e.department}</p>
+                        <p className='text-flow'>{e.id}</p>
+                        <p className='text-flow'>{e.username}</p>
+                        <p className='text-flow'>{e.department}</p>
                     </div>)}
                     <button onClick={this.signOut} className='btn waves-effect waves-light'>Sign Out</button>
                 </div>

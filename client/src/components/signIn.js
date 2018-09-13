@@ -26,12 +26,16 @@ class SignIn extends React.Component {
             })
             .catch(err=>console.log(err));
     }
+    redirect=()=>{
+        this.props.history.push('/signup');
+    }
     render() {
         return (
             <form>
                 <input type='text' name='username' value={this.state.username} placeholder='Enter a username' onChange={this.onChangeHandler}/>
                 <input type='password' name='password' value={this.state.password} placeholder='Enter a password' onChange={this.onChangeHandler}/>
                 <button type='submit' className='btn waves-effect waves-light' onClick={this.onSubmitHandler}>Sign In</button>
+                <button type='button' className='btn waves-effect waves-light' onClick={this.redirect}>Don't have an account?</button>
             </form>
         )
     }

@@ -28,6 +28,9 @@ class SignUp extends React.Component {
             })
             .catch(err=>console.log(err));
     }
+    redirect=()=>{
+        this.props.history.push('/signin');
+    }
     render() {
         return (
             <form>
@@ -35,6 +38,7 @@ class SignUp extends React.Component {
                 <input type='password' name='password' value={this.state.password} placeholder='Enter a password' onChange={this.onChangeHandler}/>
                 <input type='text' name='department' value={this.state.department} placeholder='Enter a department' onChange={this.onChangeHandler}/>
                 <button type='submit' className='btn waves-effect waves-light' onClick={this.onSubmitHandler}>Sign Up</button>
+                <button type='button' className='btn waves-effect waves-light' onClick={this.redirect}>Already have an account?</button>
             </form>
         )
     }

@@ -6,7 +6,9 @@ import UserList from './components/userList';
 import SignIn from './components/signIn'
 
 class App extends Component {
-  
+  componentDidMount=()=>{
+    this.props.history.push('/signin');
+  }
   render() {
     return (
       <div className="App">
