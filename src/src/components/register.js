@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import Redirect from 'react';
+import {Redirect} from 'react-router';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -16,26 +17,33 @@ class Register extends Component {
       }
 
     register = (event) => {
-    event.preventDefault();
-    axios.post('http://localhost:4400/api/register/', {
-        "username": this.state.regusername, 
-        "password": this.state.regpassword
-    }).then(res => {
-        console.log('data sent')
-        if (res){
-        this.setState({
-            loggedIn: true, 
-            regusername: '',
-            regpassword: '',
-        })
-        console.log(res)
-        localStorage.setItem("token", res.data.token);
-        console.log(localStorage.getItem('token'))
-        
-        }
+        event.preventDefault();
+        axios.post('http://localhost:4400/api/register/', {
+            "username": this.state.regusername, 
+            "password": this.state.regpassword
+        }).then(res => {
+            console.log('data sent')
+            if (res){
+            this.setState({
+                loggedIn: true, 
+                regusername: '',
+                regpassword: '',
+            })
+            console.log(res)
+            localStorage.setItem("token", res.data.token);
+            console.log(localStorage.getItem('token'))
+            
+            console.log(this.props)
+            this.props.history.push('/welcome')
+            this.goToWelcome()
+            }
+        }).catch(err => console.log(err))
     }
-    ).catch(err => console.log(err))
 
+    goToWelcome = (props) => {
+        console.log('go to welcome', this.props)
+        
+        return <Link to="/welcome" />
     }
 
     inputHandler = (event) => {

@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import Redirect from 'react';
 import axios from 'axios';
 
 
-class Register extends Component {
+class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -13,29 +12,6 @@ class Register extends Component {
           password: '',
           regpassword: '',
         }
-      }
-
-    register = (event) => {
-    event.preventDefault();
-    axios.post('http://localhost:4400/api/register/', {
-        "username": this.state.regusername, 
-        "password": this.state.regpassword
-    }).then(res => {
-        console.log('data sent')
-        if (res){
-        this.setState({
-            loggedIn: true, 
-            regusername: '',
-            regpassword: '',
-        })
-        console.log(res)
-        localStorage.setItem("token", res.data.token);
-        console.log(localStorage.getItem('token'))
-        
-        }
-    }
-    ).catch(err => console.log(err))
-
     }
 
     inputHandler = (event) => {
@@ -44,14 +20,17 @@ class Register extends Component {
     })
     }
 
+    //check for token 
+    //component did mount 
+
     render(props){
         return (
             <div>
-                <h1>hello usernmae</h1>
-                
+                <h1>welcome page once logged in</h1>
+                <p>will return list of users</p>
             </div>
         )
     }
 }
 
-export default Register;
+export default Home;

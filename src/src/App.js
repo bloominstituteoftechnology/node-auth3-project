@@ -16,11 +16,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <AppDiv>
-          <Route path="/register" render={() => {
-            return (<Register imputHandler={this.inputHandler} />)}} />
-          <Route path="/" render={() => {
-            return (<Home />)
+        <AppDiv>APP
+          <Route path="/register" render={(props) => {
+            return (<Register {...props} imputHandler={this.inputHandler} />)}} />
+          <Route path="/welcome" render={(props) => {
+            return (<Home {...props} />)
           }} />
         </AppDiv>
       </div>
