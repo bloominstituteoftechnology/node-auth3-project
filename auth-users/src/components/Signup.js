@@ -1,5 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Label = styled.label`
+    font-weight: 900;
+    color: white;
+    padding: 0.5rem;
+`;
+
+const Field = styled.div`
+    padding: 1rem;
+`;
 
 class Signup extends React.Component {
     constructor(props) {
@@ -27,8 +38,8 @@ class Signup extends React.Component {
     render() {
         return (
             <form onSubmit={this.submit}>
-                <div>
-                    <label>Username</label>
+                <Field>
+                    <Label>Username</Label><br />
                     <input 
                         type = 'text'
                         name = 'username'
@@ -36,9 +47,9 @@ class Signup extends React.Component {
                         value={this.state.username}
                         onChange = {this.handleChange}
                     />
-                </div>
-                <div>
-                    <label>Password</label>
+                </Field>
+                <Field>
+                    <Label>Password</Label><br />
                     <input 
                         type = 'password'
                         name = 'password'
@@ -46,16 +57,16 @@ class Signup extends React.Component {
                         value = {this.state.password}
                         onChange = {this.handleChange}
                     />
-                </div>
-                <div>
-                    <label>Department</label>
+                </Field>
+                <Field>
+                    <Label>Department</Label><br />
                     <input type = 'text'
                     name = 'department'
                     placeholder = 'department'
                     value={this.state.department}
                     onChange = {this.handleChange}
                 />
-                </div>
+                </Field><br />
                 <button type='submit'>Register</button>
             </form>
         );

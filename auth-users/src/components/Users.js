@@ -1,5 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Div = styled.div`
+    font-weight: 700;
+    color: white;
+`;
 
 class Users extends React.Component {
     constructor(props) {
@@ -17,16 +23,19 @@ class Users extends React.Component {
         }
         axios.get('http://localhost:8000/api/users', reqOptions)
         .then ( res => this.setState({ users: res.data }))
-        .catch ( err => console.log( err.message ));
+        .catch ( err => {
+            console.log( err.message )
+            this.props.history.push("/signin");
+        });
     }
     render(){
         return (
             <div>
                 {this.state.users.map( user => {
                     return (
-                    <div key={user.id}>
-                        <li>{user.username}</li>
-                    </div>
+                    <Div key={user.id}>
+                        <ul>{user.username}</ul>
+                    </Div>
                 )})}
             </div>
         )
