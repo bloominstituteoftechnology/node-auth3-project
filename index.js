@@ -16,12 +16,12 @@ server.use(cors({ credentials: true,
 server.use(express.json());// this needs to be .json()
 
 function protect(req, res, next){//this makes sure that there is a valid token that provides identity and passes that info
-    console.log('protect')
+    console.log('protect', req.headers)
     const token = req.headers.authorization
     if (token){
         jwt.verify(token, secret, (err, decodedToken) => {
             if (err) {
-                res.status(200).json({message: "you have submitted an invalid token. or are not logged in"})
+                res.status(200).json({message: "error in middleware", err: err})
             } else {
                 req.user = {//this is when verification is needed but not a post request. so access
                     username: decodedToken.username,
@@ -96,6 +96,7 @@ server.post('/api/login',  (req, res) => {
 
 server.get('/api/users', protect,  (req, res) => {//protected because we need to check if logged in
     const roles = ['admin', 'Executive', null]
+    //null because I don't have an input field yet 
     // if their role is not on this list they get bounced
     
     if(roles.includes(req.user.department)){

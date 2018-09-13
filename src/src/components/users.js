@@ -23,14 +23,12 @@ class Users extends Component {
        if(localStorage.getItem('token')){
             const token = localStorage.getItem('token')
             const authHeader = {
-                header: {
-                    token: {token}
+                headers: {
+                    Authorization: token
                 }
             }
-            console.log(authHeader)
             axios.get('http://localhost:4400/api/users', authHeader)
                 .then(res => {
-                    console.log("got users", res.data)
                     this.setState({users: res.data})
                 })
                 .catch(err => {
@@ -38,11 +36,8 @@ class Users extends Component {
                 })
        } else {
            this.props.history.push('/start')
-       }
-        
+       }        
     }
-    //check for token 
-    //component did mount 
 
     logout = (e) => {
         e.preventDefault();
@@ -52,11 +47,18 @@ class Users extends Component {
       }
 
     render(props){
+        console.log(this.state)
         return (
             <div>
                 <button onClick={this.logout}>Logout</button>
                 <h1>Users Page</h1>
                 <p>will return list of users</p>
+                <li>{this.state.users ? this.state.users.users.map(user => {
+                    return (
+                        <ul>{user.username}</ul>
+                    )}) : 
+                    null}
+                </li>
             </div>
         )
     }
