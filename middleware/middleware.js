@@ -1,10 +1,13 @@
 "use strict";
 // dependencies
 const express = require("express");
+const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 // routes
 const userRoutes = require("../routes/userRoutes.js");
+// port
+const PORT = 3001;
 
 const errorHandler = (err, req, res, next) => {
   console.log(err);
@@ -35,6 +38,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = server => {
+  server.use(cors({ credentials: true, origin: `http://localhost:${PORT}` }));
   server.use(helmet());
   server.use(express.json());
   server.use(morgan("dev"));
