@@ -11,7 +11,9 @@ const db = knex(dbConfig.development);
 
 const server = express();
 
+server.use(cors());
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
 const secret = 'shhhhh don\'t tell my secret';
 
