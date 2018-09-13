@@ -17,14 +17,12 @@ class Login extends Component {
             "username": this.state.username, 
             "password": this.state.password
         }).then(res => {
-            console.log('data sent')
             if (res){
                 this.setState({
                     loggedIn: true, 
                     username: '',
                     password: '',
                 })
-                console.log(res)
                 localStorage.setItem("token", res.data.token);
                 this.props.history.push('/users')
             }
@@ -40,7 +38,6 @@ class Login extends Component {
     render(props){
         return (
             <div>
-                <h1>Login Component</h1>
                 <div className="login">
                     <h4>Login</h4>
             

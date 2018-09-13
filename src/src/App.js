@@ -40,7 +40,7 @@ class App extends Component {
 export default withRouter(App);
 
 const AppDiv = styled.div`
-  border: 1px solid red;
+
   display: flex;
   flex-direction: column;
   .main{
@@ -50,7 +50,8 @@ const AppDiv = styled.div`
     min-height: 100px;
   }
   .header { 
-    border: 1px solid blue;
+    background: lightgray;
+    border: 1px solid black;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -59,5 +60,9 @@ const AppDiv = styled.div`
     a {
       text-decoration: none; 
     }
+  }
+  form{ 
+    display: flex;
+    flex-direction: column
   }
 `;

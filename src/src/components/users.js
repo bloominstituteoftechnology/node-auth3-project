@@ -40,13 +40,12 @@ class Users extends Component {
        }        
     }
 
-    render(props){
-        console.log(this.state)
+    render(){
         return (
             <div>
                 <UserDiv>
                     <h1>List of Users</h1>
-                    <div>{this.state.users ? this.state.users.users.map(user => {
+                    <div className="users">{this.state.users ? this.state.users.users.map(user => {
                         return (
                             <div className="user" key={user.id}>
                                 <p>id: {user.id} </p>
@@ -65,9 +64,17 @@ class Users extends Component {
 export default Users;
 
 const UserDiv = styled.div`
-    .user {
+    text-align: center;
+   .users{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+   } 
+   .user {
         border: 1px solid black;
         padding: 10px;
         margin: 3px;
     }
+    
 `;
