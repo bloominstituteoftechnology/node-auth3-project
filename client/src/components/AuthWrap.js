@@ -28,7 +28,7 @@ const LinkWrap = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  padding-left: 2px;
+  padding-left: 5px;
   text-decoration: none;
   color: #5e985c;
   font-weight: bold;

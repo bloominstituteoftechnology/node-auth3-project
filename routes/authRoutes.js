@@ -17,7 +17,7 @@ router.post('/login', (req, res, next) => {
     .login(body)
     .then(response => {
       if (response) {
-        res.status(200).send(response);
+        res.status(200).send(response, body.username);
       } else next({ code: 400 });
     })
     .catch(next);

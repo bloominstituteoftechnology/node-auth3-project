@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import LogInContainer from './containers/LogInContainer';
 import SignUpContainer from './containers/SignUpContainer';
+import Home from './components/Home';
 import styled from 'styled-components';
 
 const Wrap = styled.div`
@@ -15,6 +16,7 @@ class App extends Component {
     return (
       <Wrap>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={LogInContainer} />
           <Route exact path="/signup" component={SignUpContainer} />
         </Switch>
