@@ -30,6 +30,7 @@ export class Signup extends Component {
             name="username"
             value={this.state.username}
             onChange={this.handleSignupChange}
+            style={{ width: "8rem" }}
             type="text"
           />
         </div>
@@ -39,6 +40,7 @@ export class Signup extends Component {
             name="department"
             value={this.state.department}
             onChange={this.handleSignupChange}
+            style={{ width: "8rem" }}
             type="text"
           />
         </div>
@@ -48,6 +50,7 @@ export class Signup extends Component {
             name="password"
             value={this.state.password}
             onChange={this.handleSignupChange}
+            style={{ width: "8rem" }}
             type="password"
           />
         </div>

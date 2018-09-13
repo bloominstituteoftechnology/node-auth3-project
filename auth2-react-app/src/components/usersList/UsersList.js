@@ -27,13 +27,19 @@ export class UsersList extends Component {
   render() {
     return (
       <Fragment>
-        <ul>
+        <ul style={{ margin: "1rem 0" }}>
           {this.state.users.map(user => (
             <Fragment key={user.id}>
-              <li>{user.username}</li>
-              <ul className="departmentSubList">
-                <li>{user.department}</li>
-              </ul>
+              <li
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "2rem",
+                  margin: ".5rem 0",
+                }}
+              >
+                {user.username}
+              </li>
+              <li>-{user.department}-</li>
             </Fragment>
           ))}
         </ul>
