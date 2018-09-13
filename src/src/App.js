@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Link } from 'react-router-dom';
 
 
 import Register from './components/register'
@@ -22,9 +22,11 @@ class App extends Component {
           <div className="header">
             <h1>Authorization App</h1>
           </div>
-          <Route path="/start" render={(props) => {
+          <Link to="login" >login</Link>
+
+          <Route path="/register" render={(props) => {
             return (<Register {...props} imputHandler={this.inputHandler} />)}} />
-          <Route path="/start" render={(props) => {
+          <Route path="/login" render={(props) => {
             return (<Login {...props} imputHandler={this.inputHandler} />)}} />
           <Route path="/users" render={(props) => {
             return (<Home {...props} />)}} />

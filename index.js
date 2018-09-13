@@ -1,5 +1,4 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
 const server = express();
@@ -17,9 +16,6 @@ server.get('/', (req, res) => {
     res.status(200).send('Auth-ii -- Server is running.')
 });
 
-
-
-
 const PORT = 4400;
 
-server.listen(PORT, () => console.log(`\n == Server running on port &{PORT} == \n`))
+server.listen(PORT, () => console.log(`\n== Server running on port ${PORT} ==\n`))

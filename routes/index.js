@@ -21,7 +21,7 @@ function generateToken(user){
 }
 
 function protect(req, res, next){
-    //this makes sure that there is a valid token that provides identity and passes that info
+    //this makes sure that there is a valid token that provides identity and passes that info, excluding the password
     const token = req.headers.authorization
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => {
@@ -29,10 +29,7 @@ function protect(req, res, next){
                 res.status(200).json({message: "error in middleware", err: err})
             } else {
                 req.user = {
-                    //this is when verification is needed but not a post request. so access
                     username: decodedToken.username,
-                    // password: decodedToken.password,
-                    // dont include password
                     department: decodedToken.department
                 }
                 next();
@@ -44,8 +41,7 @@ function protect(req, res, next){
 }
 
 router.post('/register', (req, res) => {
-    const newUser = req.body; ///because you can't use dot notation in a then statemnet WebGLUniformLocation.
-    console.log(newUser);
+    const newUser = req.body; 
     const hash = bcrypt.hashSync(newUser.password, 3);
     newUser.password = hash;
     
@@ -64,7 +60,6 @@ router.post('/register', (req, res) => {
         }).catch(err => {
             res.status(500).send(err)
         })
-    
 })
 
 router.post('/login',  (req, res) => {
@@ -72,7 +67,7 @@ router.post('/login',  (req, res) => {
     const request = req.body
     db('users')
         .where({username: request.username})
-        .first()//returns an item instead of an Array
+        .first()
         .then(dbUser => {
             if (dbUser && bcrypt.compareSync(request.password, dbUser.password)){
                const token = generateToken(dbUser)
@@ -83,10 +78,9 @@ router.post('/login',  (req, res) => {
         })
 })
 
-router.get('/users', protect,  (req, res) => {//protected because we need to check if logged in
+router.get('/users', protect,  (req, res) => {
     const roles = ['admin', 'Executive', null]
-    //null because I don't have an input field yet 
-    // if their role is not on this list they get bounced
+    //null because I don't have an input field yet in registration
     if(roles.includes(req.user.department)){
         db('users')
         .then(users => {
