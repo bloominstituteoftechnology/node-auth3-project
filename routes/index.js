@@ -27,11 +27,12 @@ router.post("/register", async (req, res, next) => {
     const salt = getRandomArbitrary(10, 50);
     const hash = await bcrypt.hash(req.body.password, salt);
     res.status(200).json(
-      await db(`users`).insert({
+      {status: true,
+      data: await db(`users`).insert({
         username: req.body.username,
         password: hash,
         department: req.body.department
-      })
+      })}
     );
   } catch (err) {
     next(err);
