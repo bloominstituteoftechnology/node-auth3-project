@@ -11,16 +11,32 @@ const server=express();
 
 server.use(morgan('dev')).use(helmet()).use(cors()).use(express.json());
 
+const secret='I see dead people.';
+
 generateToken=(user)=>{
     const payload={
         username:user.username
     }
-    const secret='I see dead people.'
     const options={
         expiresIn:'24h',
         subject:user.id.toString()
     }
     return jwt.sign(payload,secret,options);
+}
+protected=(req,res,next)=>{
+    const token=req.headers.authorization;
+    if (token) {
+        jwt.verify(token, secret,(err,decodedToken)=>{
+            if (err) {
+                res.status(401).json({message:'invalid token.'})
+            } else {
+                req.username=decodedToken.username;
+                next()
+            };
+        });
+    } else {
+        res.status(401).json({message:'no token provided'});
+    }
 }
 server.post('/api/register',(req,res)=>{
     const newUser=req.body;
@@ -46,6 +62,12 @@ server.post('/api/login',(req,res)=>{
             }
         })
         .catch(err=>res.status(500).send('You shall not pass!'))
+})
+server.get('/api/users',(req,res)=>{
+    db('user')
+        .select('username','password','department')
+        .then(users=>res.status(200).json(users))
+        .catch(err=>res.status(500).json(err));
 })
 const port=9000;
 server.listen(port,()=>console.log('Engines firing server starting new horizons venturing.'));
