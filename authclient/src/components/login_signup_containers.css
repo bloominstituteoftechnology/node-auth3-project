@@ -1,7 +1,7 @@
 .signup-container {
     display: flex;
     justify-content: center;
-    margin: 100px 0;
+    margin: 30px 0 0 0;
 }
 
 .signup-container .new-container {
@@ -11,6 +11,10 @@
     color: white;
     font-weight: lighter;
     box-shadow: 2px 2px 15px black;
+}
+
+.signup-container .new-container .facebook-logo h1 {
+    font-size: 100px;
 }
 
 .signup-container .input-container {

@@ -3,6 +3,7 @@
 }
 
 .users ul {
+    background-color: #2D338B;
     list-style: none;
     margin: 0 10px;
     padding: 10px;
@@ -10,19 +11,16 @@
     flex-wrap: wrap;
     justify-content: center;
     border-radius: 3px;
+    box-shadow: 2px 2px 15px black;
 }
 
 .users ul .user-list {
     width: 200px;
-    border: 1px solid darkgray;
+    color:white;
     text-decoration: none;
     padding: 20px 10px;
     text-align: start;
     margin: 10px;
-    font-weight: bold;
-    border-radius: 3px;
-}
-
-.users ul .user-list:hover {
-    box-shadow: 3px 3px 3px #2D338B;
+    font-weight: lighter;
+    letter-spacing: 1px;
 }

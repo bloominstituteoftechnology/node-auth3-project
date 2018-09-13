@@ -14,6 +14,9 @@ class Signup extends Component {
     return (
       <form className="signup-container" onSubmit={this.register}>
         <div className="new-container">
+          <div className="facebook-logo">
+            <h1>f</h1>
+          </div>
           <div className="input-container">
             <label>Username:</label>
             <input
