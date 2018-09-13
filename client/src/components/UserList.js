@@ -16,6 +16,7 @@ const Table = styled.table`
 const Td = styled.td`
     text-align: center;
     color: white;
+    border-bottom: 1px dashed #fff;
 
 `
 const Th = styled.th`
@@ -96,6 +97,7 @@ onClick = () => {
             <div>
              <NavigationWrap>
                 <Navigation>
+                    <p>Welcome {this.state.username} | </p>
                     <p onClick = {this.onClick}>Logout</p>
                 </Navigation>
             </NavigationWrap>

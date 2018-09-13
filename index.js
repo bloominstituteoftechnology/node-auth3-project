@@ -18,7 +18,8 @@ const secret = 'secret';
 // ########## Generating token ###########
 function generateToken(user){
     const payload = {
-        username: user.username
+        username: user.username,
+        department: user.department
     };
 
     const options = {
@@ -38,7 +39,7 @@ function protected(req, res, next) {
                     .status(400)
                     .json({ Message: ' Invalid token' })
             } else {
-                req.user = { username: decodedToken.username }
+                req.user = { username: decodedToken.username, department: decodedToken.department }
             next()
             }
         })
@@ -55,6 +56,8 @@ server.get('/', (req, res) => {
 // ########## Getting the users ############
 server.get('/users', protected, (req, res) => {
     db('users')
+        .select('id', 'username', 'department')
+        .where({department: req.user.department})
         .then(users => {
             res.status(200).json(users)
         })
