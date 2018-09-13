@@ -3,8 +3,8 @@ import { withRouter } from "react-router";
 import axios from "axios";
 const ls = require('local-storage');
 
-const instance = axios.create()
-instance.defaults.headers.common['Authorization'] = ls.get('token')
+// const instance = axios.create()
+// instance.defaults.headers.common['Authorization'] = ls.get('token')
 
 class ShowUsers extends React.Component {
   state = {
@@ -13,15 +13,7 @@ class ShowUsers extends React.Component {
   };
 
   componentWillMount() {
-    const promise = axios.get("http://localhost:9000/api/users");
-    promise
-      .then(response => {
-        console.log(response);
-        this.setState({ users: response.data, username: "someone" });
-      })
-      .catch(error => {
-        console.error(error, error.message);
-      });
+    this.fetchUsers()
   }
 
   fetchUsers = () => {
@@ -29,7 +21,7 @@ class ShowUsers extends React.Component {
     promise
       .then(response => {
         console.log(response);
-        this.setState({ users: response.data, username: "someone" });
+        this.setState({ users: response.data.users, username: response.data.loggedIn.username });
       })
       .catch(error => {
         console.log(error, error.message);
@@ -42,6 +34,7 @@ class ShowUsers extends React.Component {
       const users = this.state.users.slice();
       return (
         <div>
+            <h1>Welcome {this.state.username}</h1> <button>Sign Out</button>
           {users.map((user, i) => {
             return (
               <div key={i + 100}>

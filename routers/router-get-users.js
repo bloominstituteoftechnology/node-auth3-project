@@ -10,7 +10,10 @@ usersRouter.get("/", verifyToken, (req, res) => {
     .select("id", "username", "department")
     .then(users => {
       if (users) {
-        res.status(200).json(users);
+        console.log(req.user)
+        users.loggedIn = req.user; 
+        console.log(users)
+        res.status(200).json({users, loggedIn: req.user});
       } else {
         res.status(500).json({ errorMessage: "Problems with your request" });
       }
