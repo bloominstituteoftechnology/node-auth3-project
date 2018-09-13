@@ -18,7 +18,6 @@ class Signup extends Component {
     })
     .then( (response) => {
       this.props.history.push('/signin')
-      console.log(response);
     })
     .catch(function (error) {
       console.log(error);

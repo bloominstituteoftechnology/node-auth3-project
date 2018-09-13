@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const authcheck = require("./middleware/authcheck");
 const secret = require("./config.js");
 const jwt = require("jsonwebtoken");
-var cors = require('cors')
+const cors = require('cors')
 
 const server = express();
 
