@@ -15,9 +15,10 @@ class Signin extends Component {
             .post('http://localhost:8000/api/login', this.state)
             .then(res => {
                 console.log(res.data);
+                localStorage.setItem('jwt', res.data.token)
             })
             .catch(err => {
-                console.log(err);
+                console.error(err);
             });
     }
 
