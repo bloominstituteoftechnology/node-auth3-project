@@ -10,10 +10,9 @@ import {
 
 export const rolesFetching = () => dispatch => {
   dispatch({ type: ROLES_FETCHING });
-  axios.get('/api/roles')
-    .then(roles => {
-      console.log(roles);
-      dispatch({type: ROLES_SUCCESS, payload: roles});
+  axios.get('http://localhost:3300/api/roles')
+    .then(response => {
+      dispatch({type: ROLES_SUCCESS, payload: response.data});
     })
     .catch(err => {
       dispatch({type: ROLES_FAILURE, payload: err});
@@ -23,10 +22,10 @@ export const rolesFetching = () => dispatch => {
 
 export const registerFetching = (userCreds) => dispatch => {
   dispatch({ type: REGISTER_FETCHING });
-  axios.post('/api/register', userCreds)
-    .then(userInfo => {
-      console.log(userInfo);
-      dispatch({type: REGISTER_SUCCESS, payload: userInfo});
+  axios.post('http://localhost:3300/api/register', userCreds)
+    .then(response => {
+      console.log(response.data);
+      dispatch({type: REGISTER_SUCCESS, payload: response.data});
     })
     .catch(err => {
       dispatch({type: REGISTER_FAILURE, payload: err});
@@ -36,10 +35,10 @@ export const registerFetching = (userCreds) => dispatch => {
 
 export const loginFetching = (userCreds) => dispatch => {
   dispatch({ type: LOGIN_FETCHING });
-  axios.post('/api/login', userCreds)
-    .then(token => {
-      console.log(token);
-      dispatch({type: LOGIN_SUCCESS, payload: token})
+  axios.post('http://localhost:3300/api/login', userCreds)
+    .then(response => {
+      localStorage.setItem('jwt', response.data.token)
+      dispatch({type: LOGIN_SUCCESS})
     })
     .catch(err => {
       dispatch({type: LOGIN_FAILURE, payload: err})
@@ -47,12 +46,12 @@ export const loginFetching = (userCreds) => dispatch => {
 }
 
 
-export const usersFetching = () => dispatch => {
+export const usersFetching = (reqOptions) => dispatch => {
   dispatch({ type: USERS_FETCHING });
-  axios.get('/api/protected/users')
-    .then(users => {
-      console.log(users);
-      dispatch({type: USERS_SUCCESS, payload: users})
+  axios.get('http://localhost:3300/api/protected/users', reqOptions)
+    .then(response => {
+      console.log(response);
+      dispatch({type: USERS_SUCCESS, payload: response.data})
     })
     .catch(err => {
       dispatch({type: USERS_FAILURE, payload: err})

@@ -10,75 +10,73 @@ import {
 const initialState = {
   users: [],
   roles: [],
-  rolesFetching: false,
-  rolesFailure: null,
-  registerFetching: false,
-  registerFailure: null,
-  loginFetching: false,
-  loginFailure: null,
-  userFetching: false,
-  userFailure: null,
+  isRolesFetching: false,
+  isRolesFailure: null,
+  isRegisterFetching: false,
+  isRegisterFailure: null,
+  isLoginFetching: false,
+  isLoginFailure: null,
+  isUserFetching: false,
+  isUserFailure: null,
 }
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ROLES_FETCHING:
       return Object.assign({}, state, {
-        rolesFetching: true,
+        isRolesFetching: true,
       });
     case ROLES_SUCCESS:
       return Object.assign({}, state, {
         roles: action.payload,
-        rolesFetching: false,
+        isRolesFetching: false,
       });
     case ROLES_FAILURE:
       return Object.assign({}, state, {
-        rolesFailure: true,
+        isRolesFailure: true,
       });
 
 
     case REGISTER_FETCHING:
       return Object.assign({}, state, {
-        registerFetching: true,
+        isRegisterFetching: true,
       });
     case REGISTER_SUCCESS:
       return Object.assign({}, state, {
-        users: action.payload,
-        registerFetching: false,
+        isRegisterFetching: false,
       });
     case REGISTER_FAILURE:
       return Object.assign({}, state, {
-        registerFailure: true,
+        isRegisterFailure: true,
       });
 
 
     case LOGIN_FETCHING:
       return Object.assign({}, state, {
-        loginFetching: true,
+        isLoginFetching: true,
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        users: action.payload,
-        loginFetching: false,
+        isLoginFetching: false,
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
-        loginFailure: true,
+        isLoginFailure: true,
       });
 
 
     case USERS_FETCHING:
       return Object.assign({}, state, {
-        userFetching: true,
+        isUserFetching: true,
       });
     case USERS_SUCCESS:
       return Object.assign({}, state, {
         users: action.payload,
-        userFetching: false,
+        isUserFetching: false,
       });
     case USERS_FAILURE:
       return Object.assign({}, state, {
-        userFailure: true,
+        isUserFailure: true,
       });
     default:
       return state;

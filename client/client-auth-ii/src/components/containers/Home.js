@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { rolesFetching } from '../../store/actions';
+
+import logo from '../../logo.svg';
 
 
 class Home extends Component {
 
   componentDidMount() {
-    // action to get roles
+    this.props.rolesFetching();
   }
 
   render() {
@@ -14,17 +19,30 @@ class Home extends Component {
         <header>
           <h1>Welcome</h1>
         </header>
-        <section>
-          <div>
-            <NavLink path="/register">Register</NavLink>
-          </div>
-          <div>
-            <NavLink path="/login">Log In</NavLink>
-          </div>
-        </section>
+
+        {this.props.isRolesFetching && this.props.isUserFetching ?
+          <img src={logo} className="App-logo" alt="logo" />
+          :
+          <section>
+            <div>
+              <NavLink to="/register">Register</NavLink>
+            </div>
+            <div>
+              <NavLink to="/login">Log In</NavLink>
+            </div>
+          </section>
+        }
       </main>
     )
   }
 }
 
-export default Home;
+
+// const mapStateToProps = state => ({
+//   roles: state.roles
+// });
+
+export default connect(
+  null,
+  { rolesFetching }
+)(Home);

@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+
+import { loginFetching } from '../../../store/actions';
 
 class Login extends Component {
   state = {
@@ -8,10 +11,21 @@ class Login extends Component {
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value })
 
+  submitLogin = e => {
+    e.preventDefault();
+    const userCreds = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    this.props.loginFetching(userCreds);
+    this.setState({username: '', password: ''})
+    // route to profile page
+  }
+
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.submitLogin}>
           <label htmlFor="username">
             <input
               id="username"
@@ -30,11 +44,18 @@ class Login extends Component {
               onChange={this.handleChange}
             />
           </label>
-          <button type="submit"></button>
+          <button type="submit">Log In</button>
         </form>
       </div>
     )
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+
+  loginFetching: userCreds => {
+    dispatch(loginFetching(userCreds));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(Login);

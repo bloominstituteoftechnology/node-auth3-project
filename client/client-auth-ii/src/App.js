@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Home from './components/containers/Home';
 import Users from './components/containers/Users';
@@ -18,30 +19,44 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <section>
-              <NavLink path="/users"></NavLink>
+              <NavLink to="/users"></NavLink>
             </section>
             <section>
               <div>
-                <NavLink><img src={logo} className="App-logo" alt="logo" /></NavLink>
+                <NavLink to="/"><img src={logo} className="App-logo" alt="logo" /></NavLink>
               </div>
               <div>
                 <h1 className="App-title">Welcome to React</h1>
               </div>
             </section>
             <section>
-              <NavLink path="/users/:id"></NavLink>
+              <NavLink to="/users/:id"></NavLink>
             </section>
           </header>
 
           {/*Routes*/}
-          <Route path="/" render={props => <Home {...props} /> } />
-          <Route path="/register" render={props => <Register {...props} /> } />
+          <Route exact path="/" render={props => 
+            <Home 
+              {...props} 
+              roles={this.props.roles} 
+              isRolesFetching={this.props.isRolesFetching}
+              isUserFetching={this.props.isUserFetching}
+            /> }
+          />
+          <Route path="/register" render={props => <Register {...props} roles={this.props.roles} /> } />
           <Route path="/login" render={props => <Login {...props} /> } />
-          <Route path="/users" render={props => <Users {...props} /> } />
+          <Route exact path="/users" render={props => <Users {...props} users={this.props.users} /> } />
         </div>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  roles: state.roles,
+  isRolesFetching: state.isRolesFetching,
+  users: state.users,
+  isUserFetching: state.isUserFetching
+});
+
+export default connect(mapStateToProps, {})(App);
