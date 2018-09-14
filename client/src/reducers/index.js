@@ -24,11 +24,11 @@ export default (state = initialState, action) => {
 				...state,
 				loggedIn: false,
 			};
-		case SIGN_UP_USER_SUCCESS:
-			return {
-				...state,
-				loggedIn: true,
-			};
+		// case SIGN_UP_USER_SUCCESS:
+		// 	return {
+		// 		...state,
+		// 		loggedIn: true,
+		// };
 
 		default:
 			return state;

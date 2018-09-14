@@ -22,9 +22,9 @@ export const signUp = user => dispatch => {
 	axios
 		.post(`${URL}/register`, user)
 		.then(response => {
+			// localStorage.setItem("token", response.data.token);
 			dispatch({ type: SIGN_UP_USER_SUCCESS });
 			console.log(response);
-			localStorage.setItem("token", response.data.token);
 		})
 		.catch(err => {
 			dispatch({ type: SIGN_UP_USER_FAILURE });
@@ -37,9 +37,9 @@ export const login = user => dispatch => {
 	axios
 		.post(`${URL}/login`, user)
 		.then(response => {
+			localStorage.setItem("token", response.data.token);
 			dispatch({ type: LOGIN_SUCCESS });
 			console.log(response);
-			localStorage.setItem("token", response.data.token);
 		})
 		.catch(err => {
 			dispatch({ type: LOGIN_FAILURE });
@@ -55,8 +55,8 @@ export const logout = () => {
 export const fetchUsers = () => dispatch => {
 	dispatch({ type: LOGIN });
 	axios({
-		// method: "GET",
-		// url: `${URL}/restricted/users`,
+		method: "GET",
+		url: `${URL}/restricted/users`,
 		headers: {
 			authorization: localStorage.getItem("token"),
 		},
