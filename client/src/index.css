@@ -1,0 +1,20 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 1.6rem;
+	font-weight: 400;
+	font-family: "Nanum Gothic Coding", sans-serif;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+a {
+	text-decoration: none;
+}
+
+.App {
+	text-align: center;
+}
