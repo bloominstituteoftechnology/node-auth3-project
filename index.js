@@ -1,11 +1,11 @@
 const express = require("express");
-
-
+const cors = require('cors');
 
 const userRoutes = require("./routes/userRoutes");
 const server = express();
-server.use(express.json())
 
+server.use(express.json())
+server.use(cors());
 server.use("/users", userRoutes);
 
 server.get("/", (req, res) => {

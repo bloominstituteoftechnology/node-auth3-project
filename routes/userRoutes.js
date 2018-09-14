@@ -20,7 +20,6 @@ function protected(req, res, next) {
   const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
-      console.log(decodedToken);
       if (err) {
         return res.status(401).json({ message: "You shall not pass!" });
       } else {
@@ -33,10 +32,6 @@ function protected(req, res, next) {
     return res.status(401).json({ message: "You shall not pass!" });
   }
 }
-
-// router.get("/", (req, res) => {
-//   res.send("router working");
-// });
 
 router.post("/register", (req, res) => {
   const creds = req.body;
