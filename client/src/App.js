@@ -11,9 +11,9 @@ class App extends Component {
 		return (
 			<div className="App">
 				<header>
-					<Link to="/">Home</Link>
+					{/* <Link to="/">Home</Link>
 					<Link to="/login">Login</Link>
-					<Link to="/users">Users</Link>
+					<Link to="/users">Users</Link> */}
 				</header>
 				<Route exact path="/" render={() => <Login />} />
 				<Route exact path="/signup" render={() => <SignUp />} />

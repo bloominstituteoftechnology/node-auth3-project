@@ -23,12 +23,13 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedIn: false,
+				users: [],
 			};
-		// case SIGN_UP_USER_SUCCESS:
-		// 	return {
-		// 		...state,
-		// 		loggedIn: true,
-		// };
+		case SIGN_UP_USER_SUCCESS:
+			return {
+				...state,
+				loggedIn: true,
+			};
 
 		default:
 			return state;

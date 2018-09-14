@@ -12,10 +12,10 @@ function protected(req, res, next) {
 		jwt.verify(token, secret, (err, decodedToken) => {
 			if (err) {
 				console.log(err);
-				// return res.json({
-				// 	error: true,
-				// 	message: "You are not authorized to see this data",
-				// });
+				return res.json({
+					error: true,
+					message: "You are not authorized to see this data",
+				});
 			} else {
 				req.user = { username: decodedToken.username };
 				next();

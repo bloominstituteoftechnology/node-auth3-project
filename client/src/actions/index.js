@@ -22,7 +22,7 @@ export const signUp = user => dispatch => {
 	axios
 		.post(`${URL}/register`, user)
 		.then(response => {
-			// localStorage.setItem("token", response.data.token);
+			localStorage.setItem("token", response.data.token);
 			dispatch({ type: SIGN_UP_USER_SUCCESS });
 			console.log(response);
 		})
