@@ -20,7 +20,7 @@ const cors = require ('cors')
       expiresIn: "2hr",
       jwtid: "54321"
     };
-    return kwt.sign(payload, secret, options);
+    return jwt.sign(payload, secret, options);
   }
 
  server.get('/', (req, res) => {
@@ -46,6 +46,40 @@ server.post("/api/register", (req, res) => {
       })
       .catch(err => res.status(500).send(err));
   });
+
+  function protected(req, res, next){
+    const token = req.headers.authorization;
+    if(token){
+        jwt.verify(token, secret, (err, decodedToken)=>{
+            if(err){
+                res.status(401).json({message: "Invalid Token"});
+            }else{
+                req.user = { username: decodedToken.username}; 
+                next(); 
+            }
+        })
+    }else{
+        res.status(401).json({message: "no token provided"});
+    }
+}
+
+server.post("/api/login", (req, res)=> {
+    const creds = req.body; 
+
+    db("users")
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if(user && bcrypt.compareSync(creds.password, user.password)){
+                const token = generateToken(user); 
+
+                res.status(200).json({token}); 
+            }else{
+                res.status(401).json({message: "you shall not come in"})
+            }
+        })
+        .catch(err => res.status(500).send(err)); 
+})
 
  server.listen(3000, () => {
     console.log("Server is listening on PORT 3000"); 
