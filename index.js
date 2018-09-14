@@ -4,11 +4,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); 
 const dbConfig = require('./knexfile'); 
 const cors = require ('cors')
-
  const server = express(); 
+ 
  const db = knex(dbConfig.development); 
  
+ 
  server.use(express.json()); 
+ server.use(cors());
 
  const secret = 'secret'
  
@@ -42,9 +44,9 @@ server.post("/api/register", (req, res) => {
             const token = generateToken(user);
             res.status(201).json({ id: user.id, token });
           })
-          .catch(err => res.status(500).send(err));
+          .catch(err => res.status(500).send(err.message));
       })
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send(err.message));
   });
 
   function protected(req, res, next){
@@ -81,7 +83,7 @@ server.post("/api/login", (req, res)=> {
         .catch(err => res.status(500).send(err)); 
 })
 
-server.get("/api/users", (req, res)=>{
+server.get("/api/users",protected, (req, res)=>{
     db("users")
     .select("id", "username", "password")
     .then(users => {
