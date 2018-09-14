@@ -2,14 +2,11 @@ import React from "react";
 import axios from "axios";
 
 class SignupPage extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      username: "",
-      password: "",
-      department: ""
-    };
-  }
+  state = {
+    username: "",
+    password: "",
+    department: ""
+  };
 
   onInputChangeHandler = event => {
     this.setState({
@@ -25,7 +22,7 @@ class SignupPage extends React.Component {
       department: this.state.department
     };
     axios
-      .post("http://localhost:4400/api/register", userProfile)
+      .post("http://localhost:3000/api/register", userProfile)
       .then(response => {
         this.setState({
           username: "",
