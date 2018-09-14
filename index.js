@@ -17,8 +17,8 @@ const cors = require ('cors')
       username: user.username
     };
     const options = {
-      expiresIn: "2hr",
-      jwtid: "54321"
+      expiresIn: "2h",
+      jwtid: "54321",
     };
     return jwt.sign(payload, secret, options);
   }
@@ -80,6 +80,15 @@ server.post("/api/login", (req, res)=> {
         })
         .catch(err => res.status(500).send(err)); 
 })
+
+server.get("/api/users", (req, res)=>{
+    db("users")
+    .select("id", "username", "password")
+    .then(users => {
+        res.json(users);
+    })
+    .catch(err => res.send(err));
+}); 
 
  server.listen(3000, () => {
     console.log("Server is listening on PORT 3000"); 
