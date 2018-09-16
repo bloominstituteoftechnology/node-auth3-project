@@ -43,7 +43,7 @@ import axios from 'axios';
    signin = event => {
     event.preventDefault();
     axios
-        .post('http://localhost:3900/api/login', this.state)
+        .post('http://localhost:3000/api/login', this.state)
         .then(res => {
             console.log('data', res.data);
             localStorage.setItem('jwt', res.data.token);
