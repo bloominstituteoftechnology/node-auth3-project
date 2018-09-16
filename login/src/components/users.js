@@ -12,7 +12,7 @@ import axios from 'axios';
       <div>
           <ul>
               {this.state.users.map(user => (
-              <li key={user.id}>{user.username}</li>
+              <li key={user.id}>{user.username} from {user.department}</li>
               ))}
           </ul>
       </div>
@@ -29,7 +29,7 @@ import axios from 'axios';
         .get('http://localhost:3000/api/users', reqOptions)
         .then(res => {
             console.log('users data:', res.data);
-            this.setState({ users: res.data });
+            this.setState({ users: res.data.users });
         })
         .catch(err => {
             console.error('Axios Failed', err ); 
