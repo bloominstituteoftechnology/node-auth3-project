@@ -1,6 +1,7 @@
 // import packages
 const express = require('express')
 const knex = require('knex')
+const cors = require('cors')
 const knexConfig = require('./knexfile')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -10,7 +11,7 @@ const server = express()
 const db = knex(knexConfig.development)
 
 server.use(express.json())
-
+server.use(cors())
 // for development
 const secret = 'secret'
 
@@ -41,7 +42,7 @@ server.post('/api/register', (req, res) => {
       // send client token
       res.status(200).json(token)
     })
-    .catch(error => res.status(500).json({ message: error }))
+    .catch(error => res.status(401).json({ message: error }))
 })
 
 // a user login
@@ -52,7 +53,6 @@ server.post('/api/login', (req, res) => {
   // check whether username exists
   db('user').where({ username }).first()
     .then(user => {
-      console.log(user)
       // if yes and password matches
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user, user.id)
@@ -75,8 +75,8 @@ const checkToken = (req, res, next) => {
       if (error) {
         res.status(401).json({ message: `Token is invalid` })
       } else {
-        // can do things with decodedToken here
-        console.log(decodedToken)
+        // add department into req.body for filtering
+        req.body.department = decodedToken.department
         next()
       }
     })
@@ -85,10 +85,21 @@ const checkToken = (req, res, next) => {
   }
 }
 
+// for signout using fake token
+server.get('/api/signout', (req, res) => {
+  const fakeToken = 'this is a fake token intentionally'
+
+  res.status(200).json(fakeToken)
+})
+
 // for accessing database
 server.get('/api/users', checkToken, (req, res) => {
   db('user').select()
+    .where({ department: req.body.department })
     .then(users => {
+        // const departmentOnly = users.department.filter(user => {
+        //   return user.department === tokenDepartment
+        // })
         res.status(200).json(users)
       })
     .catch(error => res.status(500).json({ message: error }))

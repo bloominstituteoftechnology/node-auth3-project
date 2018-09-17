@@ -1,31 +1,7 @@
 {
-  "name": "auth-ii",
-  "version": "1.0.0",
-  "description": "## Topics",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sliw/auth-ii.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sliw/auth-ii/issues"
-  },
-  "homepage": "https://github.com/sliw/auth-ii#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "connect-session-knex": "^1.4.0",
-    "create-react-app": "^1.5.2",
-    "express": "^4.16.3",
-    "jsonwebtoken": "^8.3.0",
-    "knex": "^0.15.2",
-    "nodemon": "^1.18.4",
-    "sqlite3": "^4.0.2"
+    "axios": "^0.18.0",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0"
   }
 }
