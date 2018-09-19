@@ -30,7 +30,22 @@ function generateToken(user) {
 // global middleware to restrict routes to logged in users only
 function protect(req, res, next) {
   // use jwt instead of sessions here
-  next();
+  // read the token string from the authorization header
+  const token = req.headers.authorization
+  // verify the token
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+        // if i get an err, token invalid else not
+        if (err) {
+            res.status(401).json({message: "token is invalid."})
+        } else {
+            // token is valid
+            next();
+        }
+    });
+  } else {
+    res.status(401).json({message: "token not provided."})
+  }
 }
 
 // register
@@ -74,9 +89,9 @@ server.post("/api/login", (req, res) => {
       // check creds
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         // generate a token
-
+        const token = generateToken(user);
         //attach that token to the response
-        res.status(200).send(`Welcome ${user.username}`);
+        res.status(200).json({ token });
       } else {
         res.status(401).json({ message: "You shall not pass!" });
       }
