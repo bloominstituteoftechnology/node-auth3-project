@@ -31,17 +31,23 @@ function newToken(user){
   }
 }
 
-//proteced middleware for protected route:
+//proteced middleware using token verification
 function protected (req, res, next) {
   const token = req.headers.authorization;
-  if(token) {
-    jwt.verify(token, sceret, (err, token) => {
+  if (token) {
+    jwt.verify(token, secret, (err, passedToken) => {
       if(err){
-        return res.status(401).json(error: 'unauthorized token')
+        return res.status(401).json(error: 'Unauthorized Access')
       }
-    }
-    req.token = token;
-    next();
+      else{
+        req.user = {username:passedToken.username, derpatment_id: passedToken.department_id}
+        next()
+      }
+    })
+  }
+  else{
+    return res.status(401).json({error: 'no Token received'})
+  }
 }
 
 //------Endpoints------//
@@ -71,7 +77,7 @@ server.post("/api/register", (req, res) => {
 //login
 server.post("/api/login", (req, res) => {
  const credentials = req.body;
- db("credentials")
+ db("auth")
    .where({ username: credentials.username })
    .first()
    .then(user => {
@@ -90,6 +96,20 @@ server.post("/api/login", (req, res) => {
    })
    .catch(err => res.status(500).send(err));
 });
+
+//--Get--//
+server.get('/api/users', protected, (req,res) => {
+  db('auth')
+  .select('id', 'username,' 'department_id')
+  .where({department_id: req.user.department_id})
+  .then(user => {
+    res.status(200).json(user)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({message: 'user not found'})
+  })
+})
 
 //-------Listener--------//
 const port = 8000;
