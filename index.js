@@ -17,6 +17,48 @@ server.get('/', (req, res) => {
   });
   
 
+  const secret = 'kitties are cool';
+
+  function generateToken(user) {
+    const payload = {
+      username: user.username,
+    };
+    const options = {
+      expiresIn: '1h',
+      jwtid: '12345', 
+    };
+    return jwt.sign(payload, secret, options);
+  }
+
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+  
+    if (token) {
+      jwt.verify(token, secret, (err, decodedToken) => {
+        if (err) {
+          res.status(401).json({ message: 'Nope!' });
+        } else {
+          console.log(decodedToken);
+          req.user = { username: decodedToken.username };
+  
+          next();
+        }
+      });
+    } else {
+      res.status(401).json({ message: 'Nope!' });
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
 
 const port = 6600;
 server.listen(port, function() {
