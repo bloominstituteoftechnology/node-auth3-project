@@ -14,22 +14,6 @@ const db = knex(dbConfig.development);
 //server config
 const server = express();
 
-//middleware configuration:
-server.use(express.json());
-server.use(helmet());
-//generate jwt token
-function newToken(user){
-  const payload = {
-    username: user.username
-  }
-  const secret = 'monkey'
-  const options = {
-    expiresIn: '1h',
-    jwtid: '45678'
-  }
-  return jwt.sign(payload, secret, options);
-  }
-}
 
 //proteced middleware using token verification
 function protected (req, res, next) {
@@ -37,8 +21,10 @@ function protected (req, res, next) {
   if (token) {
     jwt.verify(token, secret, (err, passedToken) => {
       if(err){
-        return res.status(401).json(error: 'Unauthorized Access')
+
+       return res.status(401).json({error: 'Unauthorized Access'})
       }
+
       else{
         req.user = {username:passedToken.username, derpatment_id: passedToken.department_id}
         next()
@@ -49,6 +35,24 @@ function protected (req, res, next) {
     return res.status(401).json({error: 'no Token received'})
   }
 }
+//generate jwt token
+function newToken(user){
+  const payload = {
+    username: user.username
+  }
+  const secret = 'monkey'
+
+  const options = {
+    expiresIn: '1h',
+    jwtid: '45678'
+  }
+  return jwt.sign(payload, secret, options);
+  }
+}
+
+//middleware configuration:
+server.use(express.json());
+server.use(helmet());
 
 //------Endpoints------//
 //----POST ------//
