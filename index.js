@@ -69,7 +69,7 @@ function protected(req, res, next) {
 //==========GET USERS ENDPOINT==========//
 server.get("/api/users", protected, (req, res) => {
   db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "password", "department")
     .then(users => {
       res.json(users);
     })
