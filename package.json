@@ -2,9 +2,9 @@
   "name": "auth-ii",
   "version": "1.0.0",
   "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
-  "main": "index.js",
+  "main": "knexfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,17 @@
     "url": "https://github.com/CASDFJ/auth-ii/issues"
   },
   "homepage": "https://github.com/CASDFJ/auth-ii#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^1.4.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "knex": "^0.15.2"
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
   }
 }
