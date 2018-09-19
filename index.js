@@ -137,3 +137,20 @@ server.post("/api/login", (req, res) => {
     });
 });
 //========POST LOGIN ENDPOINT========//
+
+//========GET LOGOUT ENDPOINT=======//
+server.get("/api/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send("Error With Logging Out");
+      } else {
+        res.send("Good-Bye!");
+      }
+    });
+  }
+});
+//========GET LOGOUT ENDPOINT=======//
+
+
+server.listen(6500, () => console.log("\n====Running On Port 6500====\n"));
