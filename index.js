@@ -91,6 +91,16 @@ function protected(req, res, next) {
   });
  
 
+  server.get('/api/users', protected, (req, res) => {
+
+    db('users')
+    .select('id', 'username','password')
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(err => res.status(500).json({message: 'error has occured'}))
+  })
+
 
 
 
