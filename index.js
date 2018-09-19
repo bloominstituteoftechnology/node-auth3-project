@@ -12,6 +12,10 @@ server.use(express.json());
 server.use(cors());
 
 
+server.get('/', (req, res) => {
+    res.send('Hello!');
+  });
+  
 
 
 const port = 6600;
