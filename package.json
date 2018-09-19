@@ -1,0 +1,27 @@
+{
+  "name": "auht-i",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "3": "^2.1.0",
+    "bcryptjs": "^2.4.3",
+    "expres": "^0.0.5",
+    "install": "^0.12.1",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "npm": "^6.4.1",
+    "package.json": "^2.0.1",
+    "sqlite": "^3.0.0",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
