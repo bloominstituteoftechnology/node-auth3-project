@@ -32,8 +32,8 @@ server.get('/', (req, res) => {
 
 
 function protected(req, res, next) {
+    console.log('===', req.headers.authorization)
     const token = req.headers.authorization;
-  
     if (token) {
       jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
@@ -96,9 +96,9 @@ function protected(req, res, next) {
     db('users')
     .select('id', 'username','password')
     .then(users => {
-      res.status(200).json(users)
+      res.json(users)
     })
-    .catch(err => res.status(500).json({message: 'error has occured'}))
+    .catch(err => res.send(err));
   })
 
 
