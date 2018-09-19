@@ -73,6 +73,25 @@ function protected(req, res, next) {
   });
 
 
+  server.post('/api/login', (req ,res) => {
+    const creds = req.body;
+  
+     db('users')
+    .where({username: creds.username})
+    .first()
+    .then(user => {
+     if (user && bcrypt.compareSync(creds.password, user.password)) {
+     const token = generateToken(user);
+     res.send(200).json({ token });
+        } else {
+          res.status(401).json({ message: 'incorrect login' });
+        }
+    })
+    .catch(err => res.status(500).json(err))
+  });
+ 
+
+
 
 
 
