@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const knex = require ('knex');
 
-const dbConfig = require('./dbConfig.js')
+// const dbConfig = require('./dbConfig.js')
 
-const db = knex('dbConfig.development');
+const db = require('./dbConfig.js')
 
 const server = express();
 
@@ -16,7 +16,7 @@ server.use(cors());
 const secret = 'apples and bananas';
 
 function generateToken(user) {
-    const playload = {
+    const payload = {
         username: user.username,
     };
     const options = {
@@ -27,10 +27,23 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
-    const token = req.heards.authorization;
+    const token = req.headers.authorization;
     if(token) {
-     jwt.verify(token, secret, (err, decoded))
+ 
+    jwt.verify(token, secret, (err, decoded) => {
+                if (err) {
+                console.log('jwt.verify',err)
+                res.status(401).send('invalid token')
+                }
+                else {
+                 next()  
+                }
+          
+        })
     }
+   
+        
+    
 }
 
 // endpoints
@@ -52,7 +65,9 @@ server.post('/api/register', (req,res) => {
      .where({ id })
      .first()
      .then(user => {
+         console.log('user',user);
          const token = generateToken(user);
+         console.log('token', token);
          res.status(201).json({id: user.id, token});
      })
      .catch(err => {
@@ -87,7 +102,7 @@ server.post('/api/login', (req,res) => {
      })
 });
 
-server.get('api/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     db('users')
     .select('id','username','password')
     .then(users => {
