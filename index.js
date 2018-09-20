@@ -14,7 +14,7 @@ server.use(express.json());
 //server.use(cors({ origin: "http://localhost:3000" }));
 
 
-
+const secret = "parts unknown";
 //Generate token 
 function genToken(user){
     const payload = {
@@ -30,27 +30,27 @@ function genToken(user){
 }
 
 //  Protected middleware
-function protected(req, res, next) {
-
-    next()
-             }
 // function protected(req, res, next) {
-//     const token = req.headers.authorization;
-//     if (token) {
-//         jwt.verify(token, secret, (error, decodedToken) => {
-//             if (error) {
-//                 return res
-//                     .status(400)
-//                     .json({ Message: ' Invalid token' })
-//             } else {
-//                 req.user = { username: decodedToken.username, department: decodedToken.department }
-//             next()
-//             }
-//         })
-//     } else {
-//         return res.status(400).json({ Message: 'No token found' })
-//     }
-// }
+
+//     next()
+            //  }
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, secret, (error, decodedToken) => {
+            if (error) {
+                return res
+                    .status(400)
+                    .json({ Message: ' Invalid token' })
+            } else {
+                req.user = { username: decodedToken.username, department: decodedToken.department }
+            next()
+            }
+        })
+    } else {
+        return res.status(400).json({ Message: 'No token found' })
+    }
+}
 
 
 server.get('/', (req, res) => {
@@ -112,7 +112,7 @@ server.post('/api/login', (req, res) => {
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(creds.password, user.password)) {
-                const token = generateToken(user);
+                const token = genToken(user);
                 res.status(200).json({token})
             } 
             else {
