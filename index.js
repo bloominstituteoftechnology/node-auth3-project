@@ -17,7 +17,8 @@ const secret = 'apples and bananas';
 
 function generateToken(user) {
     const payload = {
-        username: user.username,
+        username: user.username
+       
     };
     const options = {
         expiresIn: '1h',
