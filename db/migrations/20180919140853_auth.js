@@ -10,10 +10,8 @@ exports.up = function(knex, Promise) {
     .string('password', 24)
     .notNullable();
     t
-    .integer('department_id')
+    .string('department')
     .notNullable()
-    .references('id')
-    .inTable('department');
   })
 };
 

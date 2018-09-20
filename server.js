@@ -80,11 +80,11 @@ server.post("/api/register", (req, res) => {
               const token = newToken(user)
 
 
-              res.status(200).send({
+              res.status(200).json({
                 token
               });
               //send dat token back
-
+              //not sure why
             } else {
               res.status(401).json({
                 message: "They wanna see me go AY, all you gotta do is speak on ye!"
@@ -93,7 +93,7 @@ server.post("/api/register", (req, res) => {
           })
           .catch(err => res.status(500).send(err));
       });
-
+//proteced middleware
       function protected(req, res, next) {
         const token = req.headers.authorization;
         if (token) {
@@ -106,7 +106,7 @@ server.post("/api/register", (req, res) => {
             } else {
               req.user = {
                 username: passedToken.username,
-                derpatment_id: passedToken.department_id
+                derpatment: passedToken.department
               }
               next()
             }
@@ -121,9 +121,9 @@ server.post("/api/register", (req, res) => {
       //--Get--//
       server.get('/api/users', protected, (req, res) => {
         db('auth')
-          .select('id', 'username', 'department_id')
+          .select('id', 'username', 'department')
           .where({
-            department_id: req.user.department_id
+            department: req.user.department
           })
           .then(user => {
             res.status(200).json(user)
@@ -135,7 +135,7 @@ server.post("/api/register", (req, res) => {
             })
           })
       });
-      
+
       //-------Listener--------//
       const port = 8000;
       server.listen(port, function() {
