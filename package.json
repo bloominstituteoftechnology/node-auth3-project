@@ -4,6 +4,7 @@
   "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,12 +19,16 @@
   },
   "homepage": "https://github.com/Noah-Amar/auth-ii#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "init": "^0.1.2",
+    "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
-    "nodemon": "^1.18.4",
     "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
   }
 }
