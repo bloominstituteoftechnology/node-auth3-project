@@ -2,8 +2,9 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors')
 
 
 
@@ -14,29 +15,16 @@ const db = knex(dbConfig.development);
 //server config
 const server = express();
 
+//middleware configuration:
+server.use(express.json());
+server.use(helmet());
+
 
 //proteced middleware using token verification
-function protected (req, res, next) {
-  const token = req.headers.authorization;
-  if (token) {
-    jwt.verify(token, secret, (err, passedToken) => {
-      if(err){
 
-       return res.status(401).json({error: 'Unauthorized Access'})
-      }
 
-      else{
-        req.user = {username:passedToken.username, derpatment_id: passedToken.department_id}
-        next()
-      }
-    })
-  }
-  else{
-    return res.status(401).json({error: 'no Token received'})
-  }
-}
 //generate jwt token
-function newToken(user){
+function newToken(user) {
   const payload = {
     username: user.username
   }
@@ -47,76 +35,109 @@ function newToken(user){
     jwtid: '45678'
   }
   return jwt.sign(payload, secret, options);
-  }
-}
+};
 
-//middleware configuration:
-server.use(express.json());
-server.use(helmet());
+
+
 
 //------Endpoints------//
 //----POST ------//
 //register
+
 server.post("/api/register", (req, res) => {
- const credentials = req.body;
- const hashnum = bcrypt.hashSync(credentials.password, 14);
- credentials.password = hashnum;
+      const credentials = req.body;
+      const hashnum = bcrypt.hashSync(credentials.password, 14);
+      credentials.password = hashnum;
 
- db("auth")
-   .insert(credentials)
-   .then(users => {
-         const id = users[0];
-         db('auth')
-         .where(id)
-         .first()
-         .then( user=> {
-           const jswebtkn = newToken(user);
-           res.status(201).json(id);}})
-         })
+      db("auth")
+        .insert(credentials)
+        .then(users => {
+          const id = users[0];
+          db('auth')
+            .where(id)
+            .first()
+            .then(user => {
+              const jswebtkn = newToken(user);
+              res.status(201).json(id);
 
-   })
-   .catch(err => res.status(500).send(err));
-});
+            })
 
-//login
-server.post("/api/login", (req, res) => {
- const credentials = req.body;
- db("auth")
-   .where({ username: credentials.username })
-   .first()
-   .then(user => {
-     if (user && bcrypt.compareSync(credentials.password, user.password) ) {
-       //pulling username off user into the cookie
-       const token = newToken(user)
+            .catch(err => res.status(500).send(err));
+        });
+    })
+
+      //login
+      server.post("/api/login", (req, res) => {
+        const credentials = req.body;
+        db("auth")
+          .where({
+            username: credentials.username
+          })
+          .first()
+          .then(user => {
+            if (user && bcrypt.compareSync(credentials.password, user.password)) {
+              //pulling username off user into the cookie
+              const token = newToken(user)
 
 
-       res.status(200).send({token});
-       //send dat token back
+              res.status(200).send({
+                token
+              });
+              //send dat token back
 
-     }
-     else {
-       res.status(401).json({ message: "They wanna see me go AY, all you gotta do is speak on ye!" });
-     }
-   })
-   .catch(err => res.status(500).send(err));
-});
+            } else {
+              res.status(401).json({
+                message: "They wanna see me go AY, all you gotta do is speak on ye!"
+              });
+            }
+          })
+          .catch(err => res.status(500).send(err));
+      });
 
-//--Get--//
-server.get('/api/users', protected, (req,res) => {
-  db('auth')
-  .select('id', 'username,' 'department_id')
-  .where({department_id: req.user.department_id})
-  .then(user => {
-    res.status(200).json(user)
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(500).json({message: 'user not found'})
-  })
-})
+      function protected(req, res, next) {
+        const token = req.headers.authorization;
+        if (token) {
+          jwt.verify(token, secret, (err, passedToken) => {
+            if (err) {
 
-//-------Listener--------//
-const port = 8000;
-server.listen(port, function() {
-  console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
-});
+              return res.status(401).json({
+                error: 'Unauthorized Access'
+              })
+            } else {
+              req.user = {
+                username: passedToken.username,
+                derpatment_id: passedToken.department_id
+              }
+              next()
+            }
+          })
+        } else {
+          return res.status(401).json({
+            error: 'no Token received'
+          })
+        }
+      };
+
+      //--Get--//
+      server.get('/api/users', protected, (req, res) => {
+        db('auth')
+          .select('id', 'username', 'department_id')
+          .where({
+            department_id: req.user.department_id
+          })
+          .then(user => {
+            res.status(200).json(user)
+          })
+          .catch(err => {
+            console.log(err)
+            res.status(500).json({
+              message: 'user not found'
+            })
+          })
+      });
+      
+      //-------Listener--------//
+      const port = 8000;
+      server.listen(port, function() {
+        console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
+      });
