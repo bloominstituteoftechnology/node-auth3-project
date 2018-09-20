@@ -21,20 +21,20 @@ server.use(express.json());
 server.use(helmet());
 
 
-//proteced middleware using token verification
+
 
 
 //generate jwt token
 function newToken(user) {
   const payload = {
     username: user.username
-  }
-  const secret = 'monkey'
+  };
 
+const secret = 'monkey';
   const options = {
     expiresIn: '1h',
     jwtid: '45678'
-  }
+  };
   return jwt.sign(payload, secret, options);
 };
 
@@ -58,7 +58,7 @@ server.post("/api/register", (req, res) => {
             .where({id})
             .first()
             .then(user => {
-              const jswebtkn = newToken(user);
+              const token = newToken(user);
               res.status(201).json({id: user.id, jswebtkn});
 
             })
@@ -94,7 +94,7 @@ server.post("/api/register", (req, res) => {
           })
           .catch(err => res.status(500).send(err));
       });
-//proteced middleware
+//proteced middleware using token verification
       function protected(req, res, next) {
         const token = req.headers.authorization;
         if (token) {
