@@ -29,7 +29,22 @@ const generateToken = user => {
     return token
 }
 
+const protected = (req, res, next) => {
 
+    const token = req.headers.authorization
+
+    token ? 
+        jwt.verify(token, secret, (err, decodedToken) => {
+            err ?
+            res.status(401).json({message: 'invalid token'})
+            :
+            req.username = decodedToken.username
+            next()
+        })
+        :
+        res.status(401).json({message: 'no token provided'})
+    
+}
 
 server.get('/', (req, res) => {
     res.send('Api Online')
@@ -51,7 +66,7 @@ server.post('/api/register', (req, res) => {
             res.status(201).json({id: user.id, token})
         })
         .catch(err => {
-            console.log('/api/register err ', err)
+            console.log('post error ', err)
             res.status(500).json({'message': err })
         })
     })
