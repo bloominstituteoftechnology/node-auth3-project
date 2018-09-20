@@ -3,9 +3,10 @@ const knex = require('knex');
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const knexConfig = require('./knexfile');
-const session = require('express-session');
 const cors = require('cors');
-const KnexSessionStore = require('connect-session-knex')(session);
+
+//change to token
+const jwt = require('jsonwebtoken');
 
 // Instantiations
 const server = express();
@@ -13,36 +14,39 @@ const db = knex(knexConfig.development);
 
 // Middleware
 
-
-const sessionConfig = {
-    name: 'lovebird', // default is connect.sid
-    secret: 'lovey lovebirds!',
-    cookie: {
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-        secure: false, // only set cookies over https. Server will not send back a cookie over http.
-    }, // 1 day in milliseconds
-    httpOnly: true, // don't let JS code access cookies. Browser extensions run JS code on your browser!
-    resave: false,
-    saveUninitialized: false,
-    store: new KnexSessionStore({
-        tablename: 'sessions',
-        sidfieldname: 'sid',
-        knex: db,
-        createtable: true,
-        clearInterval: 1000 * 60 * 60,
-    })
-};
+//change to token
+const secret = "lovey lovebirds"
+   function generateToken(user) {
+    const payload = {
+        username: user.username
+    };
+    const options = {
+        expiresIn: '1h',
+        jwtid: '12345',
+    }
+    return jwt.sign(payload, secret, options)
+}
 
 
-server.use(session(sessionConfig));
+
 server.use(express.json());
 server.use(cors());
 
 function restricted(req, res, next) {
-    if (req.session && req.session.username) {
-        next();
+
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err) {
+                res.status(401).json({message: "token invalid"})
+            } else {
+                req.user = {username: decodedToken.username};
+                next();
+        }
+    })
     } else {
-        res.status(401).json({ message: 'You shall not pass!!' });
+    res.status(401).json({message: "no token"})
     }
 }
 
@@ -52,9 +56,12 @@ function restricted(req, res, next) {
 // });
 
 server.get('/', (req, res) => {
-    req.session.name = 'auth ii project';
+    req.token.name = 'auth ii project';
     res.send('doing the thing');
 });
+
+
+
 
 server.post('/api/register', (req, res) => {
     const creds = req.body;
@@ -78,21 +85,12 @@ server.post('/api/register', (req, res) => {
 
 server.get('/api/users', restricted, (req, res) => {
     
-    if(req.session && req.session.username){
-
-    
         db('users').select('id', 'username', 'password', 'department').then(users => {
             res.status(201).json(users);
         }).catch(err => {
             console.log("error:", err);
             res.status(500).json(err);
         })
-    
-        }else {
-    
-        res.status(401).json({message: 'Not authorized'});
-        }
-
     
 });
 
@@ -107,8 +105,8 @@ server.post('/api/login', (req, res) => {
     .then(user => {
         //check creds
         if (user && bcrypt.compareSync(creds.password, user.password)){
-            req.session.username = user.username;
-            res.status(200).send(`Welcome ${req.session.username}`);
+            const token = generateToken(user);
+            res.status(200).json({ token });
         } else {
             res.status(401).json({message: 'You shall not pass!'});
         }
@@ -116,13 +114,6 @@ server.post('/api/login', (req, res) => {
         console.log('/api/login Post error:', err);
         res.status(500).send(err, "Everything failed")});
 });
-
-
-
-
-
-
-
 
 
 
