@@ -8,7 +8,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const secret = "WoW is the best game ever"; // the secret usually will come from teh environmental variable or the server than be hardcoded
+const secret = "y"; // the secret usually will come from teh environmental variable or the server than be hardcoded
 function generateToken(user) {
   const payload = {
     username: user.username,
@@ -102,7 +102,7 @@ server.get("/api/users", protected, (req, res) => {
   // if (req.user.roles.includes("admin")) {
   // }
   db("users")
-    .select("id", "username", "password", "dept")
+    .select("id", "username", "dept")
     .then(users => {
       res.json(users);
     })
