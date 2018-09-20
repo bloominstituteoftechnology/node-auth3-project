@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 
 
 class Signin extends Component {
@@ -41,6 +41,15 @@ class Signin extends Component {
   };
   signin = event => {
       event.preventDefault();
+
+      axios.post('http://localhost:1234/api/login', this.state)
+      .then( res => {
+        console.log(res.data);
+        localStorage.setItem('jwt', res.data.token);
+      })
+      .catch(err => {
+          console.err(err);
+      })
     
   };
 }
