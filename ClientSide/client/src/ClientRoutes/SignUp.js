@@ -17,15 +17,15 @@ class SignUp extends Component {
     <form onSubmit={this.signup}>
       <div>
         <label>Username</label>
-        <input value={this.state.username} onChange={this.handleChange} type='text' />
+        <input name="username" value={this.state.username} onChange={this.handleChange} type='text' />
       </div>
       <div>
           <label>Password</label>
-          <input value={this.state.password} onChange={this.handleChange} type='text' />
+          <input name="password" value={this.state.password} onChange={this.handleChange} type='text' />
       </div>
       <div>
           <label>Department</label>
-          <input value={this.state.department} onChange={this.handleChange} type='text' />
+          <input name="department" value={this.state.department} onChange={this.handleChange} type='text' />
       </div>
       <div>
           <button type="Submit">Sign In</button>

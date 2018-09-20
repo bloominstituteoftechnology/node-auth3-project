@@ -16,11 +16,11 @@ class SignIn extends Component {
     <form onSubmit={this.signin}>
       <div>
         <label>Username</label>
-        <input value={this.state.username} onChange={this.handleChange} type='text' />
+        <input name="username" value={this.state.username} onChange={this.handleChange} type='text' />
       </div>
       <div>
           <label>Password</label>
-          <input value={this.state.password} onChange={this.handleChange} type='text' />
+          <input name="password" value={this.state.password} onChange={this.handleChange} type='text' />
       </div>
       <div>
           <button type="Submit">Sign In</button>
@@ -43,6 +43,7 @@ class SignIn extends Component {
        .then(res => {
            console.log(res.data);
            localStorage.setItem('jwt', res.data.token);
+           this.props.history.push('/users')
        })
        .catch(err => {
            console.error("Axios Error:", err);
