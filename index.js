@@ -4,6 +4,7 @@ const knex = require('knex');
 const knexConfig = require('./knexfile.js')
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const secret = "secret";
 const KnexSessionStore = require('connect-session-knex')(session);
 const db = knex(knexConfig.development);
 const server = express();
@@ -12,10 +13,10 @@ server.use(express.json());
 server.use(cors());
 
 function generateToken(user) {
+    
     const payload = {
         username: user.username
     }
-    const secret = 'itsasecret';
 
     const options = {
         expiresIn: '1h',
@@ -26,12 +27,21 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
-    if (payload.username && user.username) {
-      next();
-    } else {
-      res.status(401).json({ message: "Unauthorized" });
-    }
-  }
+const token = req.headers.authorization;
+
+
+if(token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+        if (err) {
+            res.status(401).json({message: 'invalid token'});
+        } else {
+            next();
+        }
+    });
+} else {
+    res.status(401).json({message: 'no token provided'})
+}
+}
 
 // endpoints
 
@@ -65,8 +75,8 @@ server.get("/api/users", protected, (req, res) => {
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(creds.password, user.password)) {
-          generateToken(user.username)
-          res.status(200).send(`Welcome, ${user.username}`);
+          const token = generateToken(user.username)
+          res.status(200).send({token});
         } else {
           res.status(401).json({ message: "Username or password is incorrect" });
         }
