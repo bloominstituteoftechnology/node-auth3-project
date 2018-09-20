@@ -5,10 +5,11 @@ class SignIn extends Component {
   render() {
     return (
       <div className="App">
+      
         <form>
-            Username <input type='text'> </input>
-            Password <input type='text'> </input>
-            <input type='submit'>Sign In</input>
+            Username <input type='text' />
+            Password <input type='text' />
+            <button type='submit'>Sign In</button>
         </form>
 
         
