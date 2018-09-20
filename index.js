@@ -94,7 +94,7 @@ function protected(req, res, next) {
   server.get('/api/users', protected, (req, res) => {
 
     db('users')
-    .select('id', 'username','password')
+    .select('id', 'username','department','password')
     .then(users => {
       res.json(users)
     })
@@ -110,7 +110,7 @@ function protected(req, res, next) {
 
 
 
-const port = 6600;
+const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
