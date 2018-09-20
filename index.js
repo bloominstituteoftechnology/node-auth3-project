@@ -11,13 +11,12 @@ server.use(express.json());
 server.use(cors());
 
 // generate json web token
+const secret = "uzi";
 function generateToken(user) {
   const payload = {
     username: user.username,
     department: user.department
   };
-
-  const secret = "uzi";
 
   const options = {
     expiresIn: "1h",
@@ -40,6 +39,7 @@ function protect(req, res, next) {
             res.status(401).json({message: "token is invalid."})
         } else {
             // token is valid
+            console.log(decodedToken)
             next();
         }
     });
