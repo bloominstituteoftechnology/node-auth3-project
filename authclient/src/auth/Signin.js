@@ -10,7 +10,7 @@ class Signin extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.signin}>
+        <form onSubmit={this.handleSignin}>
           <div>
             <label>Username</label>
             <input
@@ -38,7 +38,7 @@ class Signin extends Component {
   } // end render
 
   // signin handler
-  signin = event => {
+  handleSignin = event => {
     event.preventDefault();
     axios
       .post("http://localhost:3300/api/login", this.state)
