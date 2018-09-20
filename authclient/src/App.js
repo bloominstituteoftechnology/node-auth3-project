@@ -15,12 +15,17 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
+          <button onClick={this.logout}>Logout</button>
         </header>
         <Route path="/signin" component={Signin} />
         <Route path="/signup" component={Signup} />
         <Route path="/users" component={Users} />
       </div>
     );
+  }
+
+  logout = event => {
+    localStorage.removeItem('jwt');
   }
 }
 
