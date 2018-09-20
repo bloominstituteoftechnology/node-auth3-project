@@ -7,9 +7,10 @@ const db = require("./db/dbConfig.js")
 server.use(express.json());
 server.use(cors());
 
+const secret = "2co517";
+
 const tokenGeneration = username => {
   const payload = { username };
-  const secret = "2co517";
   const options = {
     expiresIn: "2h",
     jwtid: "9876"
