@@ -33,17 +33,17 @@ const protected = (req, res, next) => {
 
     const token = req.headers.authorization
 
-    token ? 
+    token ?
         jwt.verify(token, secret, (err, decodedToken) => {
             err ?
-            res.status(401).json({message: 'invalid token'})
-            :
-            req.username = decodedToken.username
+                res.status(401).json({ message: 'invalid token' })
+                :
+                req.username = decodedToken.username
             next()
         })
         :
-        res.status(401).json({message: 'no token provided'})
-    
+        res.status(401).json({ message: 'no token provided' })
+
 }
 
 server.get('/', (req, res) => {
@@ -58,24 +58,38 @@ server.post('/api/register', (req, res) => {
     creds.password = hash
 
     db('user').insert(req.body)
-    .then(ids => {
-        const id = ids[0]
-        db('user').where({id}).first()
-        .then(user => {
-            const token =generateToken(user)
-            res.status(201).json({id: user.id, token})
+        .then(ids => {
+            const id = ids[0]
+            db('user').where({ id }).first()
+                .then(user => {
+                    const token = generateToken(user)
+                    res.status(201).json({ id: user.id, token })
+                })
+                .catch(err => {
+                    console.log('post error ', err)
+                    res.status(500).json({ message: err })
+                })
         })
         .catch(err => {
-            console.log('post error ', err)
-            res.status(500).json({'message': err })
+            console.log('post error', err)
+            res.status(500).json(err)
         })
-    })
-    .catch(err => {
-        console.log('post error', err)
-        res.status(500).json(err)
-    })
 })
 
+server.post('/api/login', (req, res) => {
+    const creds = req.body
+
+    db('user').where({ username: creds.username }).first()
+        .then(user => {
+            if (user || brcypt.compareSync(creds.password, user.password)) {
+                const token = generateToken(user)
+                return res.status(200).json(`Welcome ${user.username}`)
+            } else {
+                return res.status(401).json({error: 'Invalid username or password'})
+            }
+        })
+        .catch(err => res.status(500).json({message: err}))
+})
 
 
 
