@@ -1,35 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
-// const session = require("express-session");
 const jwt = require("jsonwebtoken");
-// const KnexSessionStore = require("connect-session-knex")(session);
 const db = require("./db/dbConfig.js");
 
 const server = express();
 
-//========Session/Cookie Configuration=====//
-// const sessionsConfig = {
-//   name: "monkey",
-//   secret: "nobody tosses a dwarf!",
-//   cookie: {
-//     maxAge: 1 * 24 * 60 * 60 * 1000,
-//     secure: false
-//   },
-//   httpOnly: true,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: new KnexSessionStore({
-//     tablename: "sessions",
-//     sidfieldname: "sid",
-//     knex: db,
-//     createtable: true,
-//     clearInterval: 1000 * 60 * 60
-//   })
-// };
-//========Session/Cookie Configuration=====//
-
-// server.use(session(sessionsConfig));
 server.use(express.json());
 server.use(cors());
 
@@ -123,9 +99,6 @@ server.post("/api/login", (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({ id: user.id, token });
-        // req.session.username = user.username;
-        // res.status(200)
-        //   .send(`Welcome ${req.session.username} To Lambda School`);
       } else {
         res.status(401).json({ Error: "Cannot Authorize" });
       }
