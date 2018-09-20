@@ -123,10 +123,9 @@ server.post("/api/login", (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({ id: user.id, token });
-        req.session.username = user.username;
-        res
-          .status(200)
-          .send(`Welcome ${req.session.username} To Lambda School`);
+        // req.session.username = user.username;
+        // res.status(200)
+        //   .send(`Welcome ${req.session.username} To Lambda School`);
       } else {
         res.status(401).json({ Error: "Cannot Authorize" });
       }
