@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-//const cors = require('cors');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -11,7 +11,7 @@ const server = express();
 
 server.use(helmet());
 server.use(express.json());
-//server.use(cors({ origin: "http://localhost:3000" }));
+server.use(cors({ origin: "http://localhost:3000" }));
 
 
 const secret = "parts unknown";
