@@ -29,7 +29,7 @@ const reqOptions = {
 };
 
 axios
-    .get('http://localhost:3300/api/users', reqOptions)
+    .get('http://localhost:3000/api/users', reqOptions)
     .then(res => {
      console.log('Users Data:', res.data);
      this.setState({users: res.data});

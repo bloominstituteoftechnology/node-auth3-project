@@ -1,17 +1,18 @@
-const knex = require("knex");
-const dbConfig = require("../../knexfile");
+exports.up = function(knex, Promise) {
+  return knex.schema.createTable("users", tbl => {
+    tbl.increments();
 
-const db = knex(dbConfig.development);
+    tbl
+      .string("username", 128)
+      .notNullable()
+      .unique();
 
-module.exports = {
-  register: function(creds) {
-    let query = db("users");
-    return query.insert(creds).then(user => {
-      res.send(`show me something ${user}`);
-    });
-  },
+    tbl.string("password", 128).notNullable();
+    
+    tbl.string("department", 128).notNullable();
+  });
+};
 
-  login: function(creds) {
-    let query = db("users");
-  }
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExsists("users");
 };

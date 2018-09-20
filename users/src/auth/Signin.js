@@ -45,7 +45,7 @@ class Signin extends Component {
     event.preventDefault();
 
     axios
-      .post('http://localhost:3300/api/login', this.state)
+      .post('http://localhost:3000/api/login', this.state)
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         this.props.history.push('/users');
