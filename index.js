@@ -3,7 +3,10 @@ const server = express();
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const db = require("./dbconfig.js");
- server.use(express.json());
+const cors = require ('cors');
+
+server.use(express.json());
+server.use(cors())
  const secret = "welcome to goodburger"
    function generateToken(user) {
     const payload = {
@@ -15,7 +18,8 @@ const db = require("./dbconfig.js");
     }
     return jwt.sign(payload, secret, options)
 }
- function protected(req, res, next) {
+
+function protected(req, res, next) {
     const token = req.headers.authorization;
     if(token) {
         jwt.verify(token, secret, (err, decodedToken) => {
@@ -30,9 +34,12 @@ const db = require("./dbconfig.js");
         res.status(401).json({message: "no token"})
     }
   }
- server.get("/", (req, res) => {
-  res.send("hello there! this page is empty");
+
+  server.get("/", (req, res) => {
+  res.send("Uh, this page is empty!");
 });
+
+
  server.post("/register", (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 3);
@@ -45,11 +52,12 @@ const db = require("./dbconfig.js");
           const token = generateToken(user);
           res.status(201).json({id: user.id, token});
       }).catch(err => res.status(500).send(err))
-      
+
     })
     .catch(err => res.status(500).send(err));
 });
- server.get("/users", protected, (req, res) => {
+
+server.get("/users", protected, (req, res) => {
   db("users")
     .select("id", "username", "department")
     .then(users => {
@@ -57,7 +65,8 @@ const db = require("./dbconfig.js");
     })
     .catch(err => res.send(err));
 });
- server.post("/login", (req, res) => {
+
+server.post("/login", (req, res) => {
     const creds = req.body;
   db("users")
     .where("username", creds.username)
@@ -74,5 +83,5 @@ const db = require("./dbconfig.js");
 });
 
  server.listen(4000, () =>
-  console.log("\n~~~~~~ Listening on port 4000 ~~~~~~\n")
+  console.log("\nListening on port 4000\n")
 );
