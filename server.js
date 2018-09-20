@@ -3,6 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 const bcrypt = require('bcryptjs');
+const sessions = require('express-sessions')
 const jwt = require('jsonwebtoken');
 const cors = require('cors')
 
@@ -54,11 +55,11 @@ server.post("/api/register", (req, res) => {
         .then(users => {
           const id = users[0];
           db('auth')
-            .where(id)
+            .where({id})
             .first()
             .then(user => {
               const jswebtkn = newToken(user);
-              res.status(201).json(id);
+              res.status(201).json({id: user.id, jswebtkn});
 
             })
 
@@ -84,7 +85,7 @@ server.post("/api/register", (req, res) => {
                 token
               });
               //send dat token back
-              //not sure why
+              //not sure why I can't get
             } else {
               res.status(401).json({
                 message: "They wanna see me go AY, all you gotta do is speak on ye!"
@@ -100,7 +101,7 @@ server.post("/api/register", (req, res) => {
           jwt.verify(token, secret, (err, passedToken) => {
             if (err) {
 
-              return res.status(401).json({
+               res.status(401).json({
                 error: 'Unauthorized Access'
               })
             } else {
@@ -112,7 +113,7 @@ server.post("/api/register", (req, res) => {
             }
           })
         } else {
-          return res.status(401).json({
+          res.status(401).json({
             error: 'no Token received'
           })
         }
@@ -122,9 +123,9 @@ server.post("/api/register", (req, res) => {
       server.get('/api/users', protected, (req, res) => {
         db('auth')
           .select('id', 'username', 'department')
-          .where({
-            department: req.user.department
-          })
+          // .where({
+          //   department: req.user.department
+          // })
           .then(user => {
             res.status(200).json(user)
           })
