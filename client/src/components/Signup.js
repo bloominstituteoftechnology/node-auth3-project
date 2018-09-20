@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 
-class Signin extends Component {
+class Signup extends Component {
     state = {
         username: '',
         password: '',
+        department:''
     };
   render() {
     return (
-      <form onSubmit={this.signin}>
+      <form onSubmit={this.register}>
           <div>
             <label>Username</label>
             <input
@@ -29,7 +30,16 @@ class Signin extends Component {
             />
           </div>
           <div>
-            <button type = "submit">Signin</button>
+            <label>Department</label>
+              <input
+              name="department"
+              value={this.state.department}
+              onChange={this.handleChange}
+              type="text"
+              />
+          </div>
+          <div>
+            <button type = "submit">Submit</button>
           </div>
       </form>
     );
@@ -39,15 +49,14 @@ class Signin extends Component {
 
       this.setState({ [name]: value });
   };
-  signin = event => {
+  register = event => {
       event.preventDefault();
 
-      axios.post('http://localhost:1234/api/login', this.state)
+      axios.post('http://localhost:1234/api/register', this.state)
       .then( res => {
         console.log(res.data);
         localStorage.setItem('jwt', res.data.token);
-        this.props.history.push('/users');
-      })
+       })
       .catch(err => {
           console.err(err);
       })
@@ -55,4 +64,4 @@ class Signin extends Component {
   };
 }
 
-export default Signin;
+export default Signup;

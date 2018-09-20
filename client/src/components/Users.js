@@ -22,8 +22,8 @@ class Users extends Component {
     const token = localStorage.getItem("jwt");
     const reqOptions = {
       headers: {
-        Authorization: token
-      }
+        Authorization: token,
+      },
     };
    
     axios
