@@ -1,41 +1,42 @@
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 
 const db = require('./dbAccess');
 
 const server = express();
-const knexSessionStore = require('connect-session-knex')(session);
-const sessionConfig = {
-    name: 'snickerdoodle',
-    secret: "don't try this at home",
-    cookie: {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        secure: false,
-    },
-    httpOnly: true,
-    resave: false,
-    saveUninitialized: false,
-    store: new KnexSessionStore ({
-        tablename: 'sessions',
-        sidfieldname: 'sid',
-        knex: db,
-        createtable: true,
-        clearInterval: 1000 * 60 * 60,
-    })
-};
 
-server.use(session(sessionConfig));
+const secret = "Product-placement is what separates us from the animals."
 
 server.use(express.json());
 server.use(cors());
 
+function generateToken(user) {
+    const payload = {
+        username: user.username,
+    };
+    const options = {
+        expiresIn: '1h',
+        jwtid: '12345',
+    };
+    return jwt.sign(payload, secret, options);
+}
+
 function protected(req, res, next) {
-    if(req.session && req.session.username) {
-        next();
+    const token = req.headers.authorization;
+    if(token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err) {
+                res.status(401).json({ message: 'Invalid Token' });
+            } else {
+                console.log(decodedToken);
+                req.user = {username: decodedToken.username};
+                next();
+            }
+        });
     } else {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(401).json({ message: 'No token provided' });
     }
 }
 
@@ -48,12 +49,23 @@ server.post('/api/register', (req, res) => {
         .insert(creds)
         .then(ids => {
             const id = ids[0];
-            res.status(201).json(id);
+            
+            db('users')
+                .where({ id })
+                .first()
+                .then(user => {
+                    const token = generateToken(user);
+                    res.status(201).json({ id: user.id, token });
+                })
+                .catch(err => {
+                    console.log('/api/register POST error:', err);
+                    res.status(500).send('Please try again later.');
+                });
         })
         .catch(err => {
             console.log('/api/register POST error:', err);
             res.status(500).send('Please try again later.');
-        });
+        });        
 });
 
 server.post('/api/login', (req, res) => {
@@ -64,8 +76,8 @@ server.post('/api/login', (req, res) => {
         .first()
         .then(user => {
             if(user && bcrypt.compareSync(creds.password, user.password )) {
-                req.session.username = user.username;
-                res.status(200).send(`Welcome ${req.session.username}`);
+                const token = generateToken(user);
+                res.status(200).json({ token });
             } else {
                 res.status(401).json({ message: 'Unauthorized' });
             }
@@ -76,41 +88,7 @@ server.post('/api/login', (req, res) => {
         });
 });
 
-server.get('/api/logout', (req, res) => {
-    if(req.session) {
-        req.session.destroy(err => {
-            if(err) {
-                res.send('Error logging out');
-            } else {
-                res.send('Goodbye');
-            }
-        });
-    }
-});
-
-server.get('/setname', (req, res) => {
-    req.session.name = 'Alex';
-    res.send('got it');
-});
-
-server.get('/greet', (req, res) => {
-    const name = req.session.username;
-    res.send(`Hello ${name}`);
-});
-
 server.get('/api/users', protected, (req, res) => {
-    db('users')
-        .select('id', 'username', 'password')
-        .then(users => {
-            res.json(users);
-        })
-        .catch(err => {
-            console.log('/api/users GET error:', err);
-            res.status(500).send('Please try again later.');
-        });
-});
-
-server.get('/api/admin', protected, (req, res) => {
     db('users')
         .select('id', 'username', 'password')
         .then(users => {
