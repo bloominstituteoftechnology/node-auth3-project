@@ -13,19 +13,23 @@ class Signup extends Component {
   }
   signup = event => {
     event.preventDefault();
-
+    const {username, password, department} = this.state
+    const user = {username, password, department} 
+    if (this.state.password === this.state.password2) {
     axios
-      .post("http://localhost:7000/api/register", this.state)
+      .post("http://localhost:7000/api/register", user)
       .then(res => {
-        if (this.state.password === this.state.password2) {
           localStorage.setItem("jwt", res.data.token);
           this.props.history.push("/users");
-        }
+        
       })
       .catch(err => {
         console.error("Axios Error:", err);
       });
-  };
+  } else {
+      return console.log('Passwords do not match')
+  }
+}
 
   handleChange = event => {
     const { name, value } = event.target;

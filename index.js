@@ -50,7 +50,7 @@ server.post("/api/register", (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 14);
   creds.password = hash;
-
+  console.log(creds)
   db("users")
     .insert(creds)
     .then(ids => {
