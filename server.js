@@ -28,9 +28,11 @@ const secret = "lovey lovebirds"
 }
 
 
-
 server.use(express.json());
+
 server.use(cors());
+
+
 
 function restricted(req, res, next) {
 
@@ -64,12 +66,13 @@ server.get('/', (req, res) => {
 
 
 server.post('/api/register', (req, res) => {
+    //3 steps to hash
     const creds = req.body;
-
     const hash = bcrypt.hashSync(creds.password, 8);
-
     creds.password = hash;
 
+
+    //
     db('users')
         .insert(creds)
         .then(ids => {
@@ -95,14 +98,14 @@ server.get('/api/users', restricted, (req, res) => {
 });
 
 server.post('/api/login', (req, res) => {
-    //grab creds
+    //grab creds / verify password
     const creds = req.body;
 
     //find the user
     db('users')
     .where({username: creds.username})
     .first()
-    .then(user => {
+    .then(user => { 
         //check creds
         if (user && bcrypt.compareSync(creds.password, user.password)){
             const token = generateToken(user);
