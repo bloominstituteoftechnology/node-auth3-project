@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
       .then(res => {
         console.log(res.data);
         localStorage.setItem("jwt", res.data.token);
+        this.props.history.push("/users");
       })
       .catch(error => {
         console.error("Server Error", error);

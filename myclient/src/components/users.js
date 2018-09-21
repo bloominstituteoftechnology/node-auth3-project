@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
     axios
       .get("http://localhost:4000/users", reqOptions)
       .then(res => {
+        console.log(res.data);
         this.setState({ users: res.data });
       })
       .catch(error => {
@@ -32,7 +33,7 @@ import { Link } from "react-router-dom";
       <div>
         <div>
           {this.state.users.map(user => (
-            <div>{user.username}</div>
+            <div key={user.id}>{user.username}</div>
           ))}
         </div>
         {this.state.users.length === 0 ? (
