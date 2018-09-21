@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Signin extends Component {
   state = {
@@ -29,7 +30,7 @@ class Signin extends Component {
           />
         </div>
         <div>
-          <button type="submit">Signin</button>
+         <Link to='/users'><button type="submit">Signin</button></Link>
         </div>
       </form>
     );

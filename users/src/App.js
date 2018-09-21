@@ -4,6 +4,7 @@ import { Route, withRouter} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
+import Signup from './auth/Signup';
 import Signin from './auth/Signin';
 import Users from './users/Users';
 
@@ -19,6 +20,7 @@ class App extends Component {
           </div>
         </header>
 
+        <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
         <Route path="/users" component={Users} />
       </div>
