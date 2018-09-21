@@ -1,0 +1,22 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/AI2EJAY/auth-ii.git",
+  "author": "AI2EJAY <JHammett1314@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
