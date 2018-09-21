@@ -28,7 +28,7 @@ class SignUp extends Component {
           <input name="department" value={this.state.department} onChange={this.handleChange} type='text' />
       </div>
       <div>
-          <button type="Submit">Sign In</button>
+          <button type="Submit">Sign Up</button>
       </div>
     </form>   
     );
@@ -48,6 +48,7 @@ class SignUp extends Component {
        .then(res => {
            console.log(res.data);
            localStorage.setItem('jwt', res.data.token);
+          this.props.history.push('/users')
        })
        .catch(err => {
            console.error("Axios Error:", err);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 
 
@@ -12,6 +13,7 @@ class SignIn extends Component {
 
 
   render() {
+      console.log(this.props.history);
     return (
     <form onSubmit={this.signin}>
       <div>
@@ -23,7 +25,7 @@ class SignIn extends Component {
           <input name="password" value={this.state.password} onChange={this.handleChange} type='text' />
       </div>
       <div>
-          <button type="Submit">Sign In</button>
+         <Link to="/users"> <button type="Submit">Sign In</button></Link>
       </div>
     </form>   
     );
@@ -35,20 +37,19 @@ class SignIn extends Component {
   };
 
 
-  signin = event => {
-      event.preventDefault();
-
-      axios
-       .post('http://localhost:3300/api/login', this.state)
-       .then(res => {
-           console.log(res.data);
-           localStorage.setItem('jwt', res.data.token);
-           this.props.history.push('/users')
-       })
-       .catch(err => {
-           console.error("Axios Error:", err);
-       });
-    };
+  signup = event => {
+    event.preventDefault();
+    const user = {...this.state};
+    axios
+     .post('http://localhost:3300/api/login', user)
+     .then(res => {
+         console.log(res.data);
+         localStorage.setItem('jwt', res.data.token);
+     })
+     .catch(err => {
+         console.error("Axios Error:", err);
+     });
+  };
 
   
 }

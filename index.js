@@ -37,8 +37,9 @@ function protected(req, res, next) {
     if (token) {
       jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
-          res.status(401).json({ message: 'Nope!' });
-        } else {
+          res.status(401).send('token is invalid');
+        } 
+        else {
           console.log(decodedToken);
           req.user = { username: decodedToken.username };
   
@@ -82,7 +83,7 @@ function protected(req, res, next) {
     .then(user => {
      if (user && bcrypt.compareSync(creds.password, user.password)) {
      const token = generateToken(user);
-     res.send(200).json({ token });
+     res.sendStatus(200).json({ token });
         } else {
           res.status(401).json({ message: 'incorrect login' });
         }

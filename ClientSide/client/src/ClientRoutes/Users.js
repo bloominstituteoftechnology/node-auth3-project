@@ -32,7 +32,8 @@ class Users extends Component {
         axios
           .get('http://localhost:3300/api/users', reqOptions)
           .then(res => {
-              console.log(res.data);
+            
+    
               this.setState({ users: res.data});
           })
           .catch(err => {
