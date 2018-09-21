@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
@@ -17,7 +17,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
           <div><br /><br /><br /><br />
-            <button onClick={this.logout}>Logout</button>
+            <Link to="/signin"><button onClick={this.logout}>Logout</button></Link>
           </div>
         </header>
         <Route path="/signup" component={Signup} />

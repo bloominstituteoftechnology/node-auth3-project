@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import axios from 'axios';
 
 
@@ -33,10 +34,11 @@ class Signin extends Component {
                 type ="password"/>
             </div>
             <div>
-                <button 
-                value={this.state.password} 
-                onChange={this.handleChange} type="submit">Submit</button>
+                    <button 
+                    value={this.state.password} 
+                    onChange={this.handleChange} type="submit">Submit</button>
             </div>
+            
         </form>
     );
     }
@@ -55,9 +57,11 @@ class Signin extends Component {
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('jwt', res.data.token);
+                this.props.history.push('/users')
             })
             .catch(err => {
                 console.log(err, 'err')
+                this.props.history.push('/signup')
     });
 
     };

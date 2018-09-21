@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -7,10 +8,10 @@ import axios from 'axios';
 class Signup extends Component {
     
     
-    state ={
+    state = {
         username: '',
         password: '',
-        department: ''
+        department: '',
     }
 
 
@@ -42,9 +43,13 @@ class Signup extends Component {
                 type ="text"/>
             </div>
             <div>
+                
                 <button 
-                value={this.state.password} 
-                onChange={this.handleChange} type="submit">Submit</button>
+                    // value={this.state.password} 
+                    onChange={this.handleChange} 
+                    type="submit" 
+                    >Submit</button>
+                
             </div>
         </form>
     );
@@ -64,19 +69,14 @@ class Signup extends Component {
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('jwt', res.data.token);
+                this.props.history.push('/users')
             })
             .catch(err => {
                 console.log(err, 'err')
     });
 
     };
-
-
-
-
-
-
-    
+ 
 
 }
 

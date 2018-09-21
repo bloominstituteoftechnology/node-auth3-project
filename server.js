@@ -74,8 +74,8 @@ server.post('/api/register', (req, res) => {
         .insert(creds)
         .then(ids => {
             const id = ids[0];
-
-            res.status(201).json(id);
+            const token = generateToken(creds);
+            res.status(201).json({ token, id });
         })
         .catch(err => {
             console.log('/api/register POST error:', err);
