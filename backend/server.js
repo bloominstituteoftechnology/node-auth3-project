@@ -1,3 +1,4 @@
+//this is all serverside code, no headers or request changes here, you simply configure the requests.
 //module import
 const express = require('express');
 const helmet = require('helmet');
@@ -19,18 +20,20 @@ const server = express();
 //middleware configuration:
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
 
 
 
 
 //generate jwt token
+const secret = 'monkey';
 function newToken(user) {
   const payload = {
     username: user.username
   };
 
-const secret = 'monkey';
+
   const options = {
     expiresIn: '1h',
     jwtid: '45678'
@@ -59,7 +62,7 @@ server.post("/api/register", (req, res) => {
             .first()
             .then(user => {
               const token = newToken(user);
-              res.status(201).json({id: user.id, jswebtkn});
+              res.status(201).json({id: user.id, token});
 
             })
 
