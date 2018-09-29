@@ -12,13 +12,22 @@ class Users extends Component {
     return (
       <div className="Users">
         <h1> Users page </h1>
-        {this.state.users.map(user => {
+        {/* {this.state.users.map(user => {
             <ul>
                 <li key = {user.id}>
                     {user.username}
                 </li>
             </ul>
-        })}        
+        })}         */}
+        <ul>
+            {this.state.users.map(
+                user => {
+                    <li key = {user.id}>
+                        {user.username}
+                    </li>
+                }
+            )}
+        </ul>
       </div>
     );
   }
