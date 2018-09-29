@@ -91,7 +91,7 @@ db('users')
     .insert(user)
     // .into('users')
     .then(ids => {
-        console.log(user)
+
         db('users')
             .where({id: ids[0]})
             .first()
@@ -107,9 +107,7 @@ db('users')
             // })
             .then(user => {
                 // generate the web token
-                console.log(user)
                 const token =generateToken(user);
-                console.log(token)
                 // req.session.username = user.username
 
                 //attach token to the response
@@ -126,22 +124,41 @@ db('users')
 server.post('/api/login', (req,res) => {
 //to verify a password
 const credentials = req.body;
+console.log(credentials)
 
 db('users')
     .where({username:credentials.username})
     .first()
-    .then(function(user) {
+    .then(user => {
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
             // generate web token
             const token = generateToken(user);
+            // console.log(token)
             // req.session.username = user.username;
 
             //attach token to the response
-            res.send(token);
+            res.send(token)
         } else {
+            console.log(user)
             return res.status(401).json({error: 'Incorrect credentials'});
         }
     })
+
+    // .then(function(user) {
+    //     console.log('hello')
+    //     if (user && bcrypt.compareSync(credentials.password, user.password)) {
+    //         // generate web token
+    //         const token = generateToken(user);
+    //         // console.log(token)
+    //         // req.session.username = user.username;
+
+    //         //attach token to the response
+    //         res.send(token);
+    //     } else {
+    //         return res.status(401).json({error: 'Incorrect credentials'});
+    //     }
+    // })
+    
     .catch(error => {
         res.status(500).json({error});
     })
