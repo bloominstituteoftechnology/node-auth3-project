@@ -5,19 +5,20 @@ import axios from 'axios'
 
 class Users extends Component {
   state = {
-      users: ''
+    //   users: ''
+    users: []
   }  
   render() {
     return (
       <div className="Users">
         <h1> Users page </h1>
-        {/* {this.state.users.map(users => {
+        {this.state.users.map(user => {
             <ul>
                 <li key = {user.id}>
                     {user.username}
                 </li>
             </ul>
-        })}         */}
+        })}        
       </div>
     );
   }
