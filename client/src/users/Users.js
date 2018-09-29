@@ -12,14 +12,14 @@ class Users extends Component {
     return (
       <div className="Users">
         <h1> Users page </h1>
-        {/* {this.state.users.map(user => {
+        {this.state.users.map(user => {
             <ul>
                 <li key = {user.id}>
                     {user.username}
                 </li>
             </ul>
-        })}         */}
-        <ul>
+        })}        
+        {/* <ul>
             {this.state.users.map(
                 user => {
                     <li key = {user.id}>
@@ -27,7 +27,7 @@ class Users extends Component {
                     </li>
                 }
             )}
-        </ul>
+        </ul> */}
       </div>
     );
   }
@@ -46,7 +46,7 @@ class Users extends Component {
         .get('http://localhost:9000/api/users', this.state)
         .then(res =>{
             this.setState({users: res.data})
-        }).catch()
+        })
         .catch(err => {
             console.error('Axios failed')
         })
