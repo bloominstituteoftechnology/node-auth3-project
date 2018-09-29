@@ -4,7 +4,7 @@
 
 
 const express = require('express');
-// const session = require('express-session');
+const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const bcrypt  = require('bcryptjs')
 const knex = require('knex');
@@ -35,7 +35,6 @@ const secret = 'nobody tosses a dwarf!';
 function protected(req, res, next) {
     const token = req.headers.authorization;
 
-
     // if (req.session && req.session.username === 'Adrian27') {
     //   next();
     // } else {
@@ -44,11 +43,9 @@ function protected(req, res, next) {
 
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => { //this decodedToken callback is "the key"
-
             if (err) {
                 return res.status(401).json({ message: 'Incorrect credentials - token invalid' });
             }
-
             req.jwtToken = decodedToken; //Not required. See 1:19:08 in the json web token lecture. 
             next();
             })
@@ -56,7 +53,6 @@ function protected(req, res, next) {
     else {
         res.status(401).json({ message: 'Incorrect credentials - no token' }); 
     }
-
   }
 
 function roles(req,res,next) {
@@ -71,34 +67,6 @@ function roles(req,res,next) {
     };
 }
 
-// REGISTER
-// Creates a user using the information sent inside the body of the request. Hash the password before saving the user to the database.
-server.post('/api/register', (req,res) => {
-const user = req.body; 
-
-//hash password
-const hash = bcrypt.hashSync(user.password, 10);
-user.password = hash;
-
-db('users')
-    .insert(user)
-    .then(ids => {
-        db('users')
-            .where({id: ids[0]})
-            .first()
-            .then(user => {
-                // generate the web token
-                const token =generateToken(user);
-                // req.session.username = user.username
-
-                //attach token to the response
-                res.status(201).json(token);
-            });
-    })
-    .catch(err => res.status(500).json({err}));
-});
-
-
 function generateToken(user) {
     const payload = {
         username: user.username
@@ -109,6 +77,50 @@ function generateToken(user) {
     };
     return jwt.sign(payload, secret, options);
 }
+
+// REGISTER
+// Creates a user using the information sent inside the body of the request. Hash the password before saving the user to the database.
+server.post('/api/register', (req,res) => {
+const user = req.body; 
+// console.log(user)
+//hash password
+const hash = bcrypt.hashSync(user.password, 10);
+user.password = hash;
+ 
+db('users')
+    .insert(user)
+    // .into('users')
+    .then(ids => {
+        console.log(user)
+        db('users')
+            .where({id: ids[0]})
+            .first()
+            // .then(function(user) {
+            //     // generate the web token
+            //     console.log(user)
+            //     const token =generateToken(user);
+            //     console.log(token)
+            //     // req.session.username = user.username
+
+            //     //attach token to the response
+            //     res.status(201).json(token);
+            // })
+            .then(user => {
+                // generate the web token
+                console.log(user)
+                const token =generateToken(user);
+                console.log(token)
+                // req.session.username = user.username
+
+                //attach token to the response
+                res.status(201).json(token);
+            });
+    })
+    .catch(err => res.status(500).json({err}));
+});
+
+
+
 
 //LOGIN
 server.post('/api/login', (req,res) => {

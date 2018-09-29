@@ -6,12 +6,13 @@ exports.up = function(knex, Promise) {
 //The user schema should include: username, password and department. The department should be a string used to group the users. No need for a departments table or setting up relationships.
     
     tbl
-        .string('department', 128)
-        .notNullable();
+        .string('department', 128);
+        // .notNullable();
     
     tbl
         .string('username', 128)
-        .notNullable();
+        .notNullable()
+        .unique();
 
     tbl 
         .string('password', 128)
