@@ -54,7 +54,7 @@ function protected(req, res, next) {
         res.status(401).json({ message: 'Incorrect credentials - no token' }); 
     }
   }
-
+// 
 function roles(req,res,next) {
     return function(roles) {
         if (req.session && req.session.username == 'Adrian27') {
@@ -177,7 +177,7 @@ db('users')
 server.get('/api/users', protected, (req, res) => {
     console.log('token', req.jwtToken)
     db('users')
-        // .select('id','username')     // for the purposes of the client for access to the /api/users data.
+        .select('id','username')     // for the purposes of the client for access to the /api/users data.
         .then(users => {
             res.json(users);
         })
