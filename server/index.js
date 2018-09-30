@@ -40,7 +40,8 @@ function protected(req, res, next) {
     // } else {
     //   res.status(401).json({ message: 'Incorrect credentials' });
     // }
-
+    console.log('jeepers')
+    console.log(token)
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => { //this decodedToken callback is "the key"
             if (err) {
@@ -124,7 +125,6 @@ db('users')
 server.post('/api/login', (req,res) => {
 //to verify a password
 const credentials = req.body;
-console.log(credentials)
 
 db('users')
     .where({username:credentials.username})
@@ -139,7 +139,6 @@ db('users')
             //attach token to the response
             res.send(token)
         } else {
-            console.log(user)
             return res.status(401).json({error: 'Incorrect credentials'});
         }
     })
@@ -170,19 +169,25 @@ db('users')
 // }
 
 // db.insert()
-});
+}); 
 
 
 // GET	    /api/users	    If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'. Use this endpoint to verify that the password is hashed before it is saved.
-server.get('/api/users', protected, (req, res) => {
+// server.get('/api/users', protected, (req, res) => {
+server.get('/api/users', (req, res) => {
     console.log('token', req.jwtToken)
+    console.log('bleep')
     db('users')
         .select('id','username')     // for the purposes of the client for access to the /api/users data.
         .then(users => {
             res.json(users);
         })
-        .catch(err => res.send(err));
-});
+        .catch(err => {
+            console.log('hello')
+            res.send(err)
+        });
+        
+}); 
 
 //add the basic code to create our Express server and have a default / endpoint we can use to test that our server is responding to requests.
 server.use('/', (req, res) => res.send('API up and running!'));

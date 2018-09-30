@@ -54,6 +54,7 @@ class Login extends Component {
             // console.log('data', res.data)
             const token = res.data;
             localStorage.setItem('jwt', token);
+            console.log('token server responds with: ',token)
         }).catch()
         .catch(err => {
             console.error('Axios failed')
