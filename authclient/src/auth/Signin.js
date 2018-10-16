@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Contain, MainH1, FlexForm, BTN, SubmitBtn, BTNDiv } from './css';
+
 
 class Signin extends React.Component {
 	constructor(props){
@@ -8,10 +11,6 @@ class Signin extends React.Component {
 			username: '',
 			password: '',
 		};
-	}
-
-	componentDidMount(){
-
 	}
 
 	handleChange = event => {
@@ -30,33 +29,33 @@ class Signin extends React.Component {
  		.catch(error => {
  			console.log(error)
  		})
-
  	}
-
 
 	render() {
 		return (
 			<div>
-				
-				<form>
-					<input
-						type="text"
-						placeholder='username'
-						onChange={this.handleChange}
-						name="username"
-						value={this.state.username}
-					/>
-					<input
-						type="password"
-						placeholder='password'
-						onChange={this.handleChange}
-						name="password"
-						value={this.state.password}
-					/>
-				</form>
-				<button onClick={this.signin}>Signin</button>
+				<Contain>
+					<MainH1>Welcome User Sign in here!</MainH1>
+					<FlexForm>
+						<input
+							type="text"
+							placeholder='username'
+							onChange={this.handleChange}
+							name="username"
+							value={this.state.username}
+						/>
+						<input
+							type="password"
+							placeholder='password'
+							onChange={this.handleChange}
+							name="password"
+							value={this.state.password}
+						/>
+						<SubmitBtn onClick={this.signin}>Signin</SubmitBtn>
+					</FlexForm>
 
-
+				</Contain>
+				<Link to='signup'><BTNDiv><BTN>No account Sign up here!</BTN></BTNDiv></Link>
 			</div>
 		)
 	}

@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Contain, MainH1, FlexForm, BTN, SubmitBtn, BTNDiv, Errors } from './css';
 
 class SignUp extends React.Component {
 	constructor(){
@@ -17,6 +19,7 @@ class SignUp extends React.Component {
  	}
 
  	register = event => {
+ 		event.preventDefault()
 
  		const newUser = {
  			username: this.state.username,
@@ -42,36 +45,40 @@ class SignUp extends React.Component {
 
  	}
 
-
 	render() {
 		return (
 			<div>
-				<h1>SignUp</h1>
-				<form>
-					<input
-						type="text"
-						placeholder='username'
-						onChange={this.handleChange}
-						name="username"
-						value={this.state.username}
-					/>{this.state.errorUsername}<br />
-					<input
-						type="password"
-						placeholder='password'
-						onChange={this.handleChange}
-						name="password"
-						value={this.state.password}
-					/>{this.state.errorPassword}<br />
-					<select name="department" value={this.state.department} onChange={this.handleChange}>
-					  <option value='IT'>IT</option>
-					  <option value="Sales">Sales</option>
-					  <option value="Accounting">Accounting</option>
-					  <option value="Management">Management</option>
-					</select>
-				</form>
-				<button onClick={this.register}>Submit</button>
-				<p>{this.state.error.error1}</p>
-				<p>{this.state.error.error2}</p>
+				<Contain>
+					<MainH1>Welcome user sign up here!</MainH1>
+					<FlexForm>
+						<input
+							type="text"
+							placeholder='username'
+							onChange={this.handleChange}
+							name="username"
+							value={this.state.username}
+						/>{this.state.errorUsername}
+						<input
+							type="password"
+							placeholder='password'
+							onChange={this.handleChange}
+							name="password"
+							value={this.state.password}
+						/>{this.state.errorPassword}
+						<select name="department" value={this.state.department} onChange={this.handleChange}>
+						  <option value='IT'>IT</option>
+						  <option value="Sales">Sales</option>
+						  <option value="Accounting">Accounting</option>
+						  <option value="Management">Management</option>
+						</select>
+						<SubmitBtn onClick={this.register}>Submit</SubmitBtn>
+					</FlexForm>
+				</Contain>
+				<Link to='/'><BTNDiv><BTN>Need to go back click here!</BTN></BTNDiv></Link>
+				<Errors>
+					<p>{this.state.error.error1}</p>
+					<p>{this.state.error.error2}</p>
+				</Errors>
 			</div>
 		)
 	}

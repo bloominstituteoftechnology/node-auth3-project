@@ -1,5 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import User from './User';
+import styled from 'styled-components'
+
+const EmploySort = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`
+
+const LogBTN = styled.button`
+	margin-left: 2%;
+`
 
 class Users extends React.Component {
 	constructor(){
@@ -27,22 +38,22 @@ class Users extends React.Component {
 			})
 			.catch(error => {
 				console.log(error)
-				this.props.history.push('/signin')
+				///this.props.history.push('/')
 			})
 	}
 
 	logout = event => {
     localStorage.removeItem('jwt');
-    this.props.history.push('/signin')
+    this.props.history.push('/')
   }
 
 	render() {
 		return (
 			<div>
-				<ul>
-					{this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
-				</ul>
-				<button onClick={this.logout}>logout</button>
+			<LogBTN onClick={this.logout}>logout</LogBTN>
+				<EmploySort>
+						{this.state.users.map(user => <User key={user.id} user={user}/>)}
+				</EmploySort>
 			</div>
 		)
 	}
