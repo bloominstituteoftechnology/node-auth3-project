@@ -26,8 +26,6 @@ function generateToken(user){
 		//could have default roles on the user
 	};
 
-
-
 	const options = {
 		expiresIn: '1h',
 		jwtid: '12345' //jti
@@ -60,31 +58,54 @@ function protected(req, res, next){
 
 server.post('/api/register', (req, res) => {
 	const creds = req.body
-	const hash = bcrypt.hashSync(creds.password, 10);
-	creds.password = hash;
+	
+	let e1 = '';
+	let e2 = '';
+	let bol = false;
 
-	db('users')
-		.insert(creds)
-		.then(ids => {
-			const id = ids[0]
-			
-			db('users') 
-				.where({id})
-				.first()
-				.then(user => {
-					const token = generateToken(user);
-					res.status(201).json({id: user.id, token})	
-				})
-				.catch(err => {
-					console.log(err)
-					res.status(500).json({msg: 'error generating token'})
-				})
-		})
-		.catch(err => {
-			console.log(err);
-			res.status(500).json({msg: "there was an error registering user"})
-		})
+	if (creds.password.length < 5){
+		e1 = 'password must be 5 characters in length';
+		bol = true;
+	}
 
+	if (creds.username.length < 5){
+		e2 = 'username must be 5 characters in length';
+		bol = true;
+	}
+
+	//if form not filled out correctly end and send error msg
+	if (bol === true){
+		res.status(400).json({error1: e1, error2: e2})
+	}
+
+	//if form is filled out correctly add user and give token
+	if (bol === false){
+
+		const hash = bcrypt.hashSync(creds.password, 10);
+		creds.password = hash;
+
+		db('users')
+			.insert(creds)
+			.then(ids => {
+				const id = ids[0]
+				
+				db('users') 
+					.where({id})
+					.first()
+					.then(user => {
+						const token = generateToken(user);
+						res.status(200).json({token})	
+					})
+					.catch(err => {
+						console.log(err)
+						res.status(500).json({msg: 'error generating token'})
+					})
+			})
+			.catch(err => {
+				console.log(err);
+				res.status(500).json({msg: "there was an error registering user"})
+			})
+	}
 })
 
 server.post('/api/login', (req, res) => {
@@ -106,28 +127,37 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {
 	//return console.log(req.username);
+	// db('users')
+	// 	.where({username: req.username})
+	// 	.first()
+	// 	.then(user => {
+	// 		if (user.username === 'marshall'){
+	// 			console.log('your in marshall')
+	// 			console.log(jwt)
+	// 			db('users')
+	// 				.then(response => {
+	// 					res.status(200).json(response)
+	// 				})
+	// 				.catch(error => {
+	// 					console.log(error)
+	// 					res.status(500).json({msg: 'error viewing users'})
+	// 				})
+	// 		} else {
+	// 			res.status(401).json({msg: 'not permited to view users'})
+	// 		}
+	// 	})
+	// 	.catch(error => {
+	// 		console.log(error)
+	// 		res.status(500).json({msg: 'there was an error'})
+	// 	})
+
 	db('users')
-		.where({username: req.username})
-		.first()
-		.then(user => {
-			if (user.username === 'marshall'){
-				console.log('your in marshall')
-				console.log(jwt)
-				db('users')
-					.then(response => {
-						res.status(200).json(response)
-					})
-					.catch(error => {
-						console.log(error)
-						res.status(500).json({msg: 'error viewing users'})
-					})
-			} else {
-				res.status(401).json({msg: 'not permited to view users'})
-			}
+		.then(response => {
+			res.status(200).json(response)
 		})
 		.catch(error => {
 			console.log(error)
-			res.status(500).json({msg: 'there was an error'})
+			res.status(200).json(error)
 		})
 })
 
