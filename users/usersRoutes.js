@@ -1,13 +1,25 @@
 const express = require("express");
-const cors = require("cors");
 
-const server = express();
+const knex = require("knex");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
 
-server.use(express.json());
-server.use(cors());
+const knexConfig = require("../knexfile.js");
 
-const usersRoutes = require("./users/usersRoutes.js");
+const db = knex(knexConfig.development);
 
-server.use("/api", usersRoutes);
+function makeToken(user) {
+  const payload = {
+    username: user.username
+  };
 
-server.listen(3300, () => console.log("\nrunning on port 3300\n"));
+  const secret = "shhhhh";
+
+  const options = {
+    expiresIn: "1h",
+    jwtid: "54321"
+  };
+  const token = jwt.sign(payload, secret, options);
+}
+
+module.exports = router;
