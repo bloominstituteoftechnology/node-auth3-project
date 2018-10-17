@@ -66,8 +66,9 @@ server.post('/api/login', (req, res) => {
 });
 
 //===== Get users =====
-server.get('/api/users', protected, (req, res) => {
+server.get('/api/users/', protected, checkRole(), (req, res) => {
   db('users')
+    .where({ department: req.dep })
     .then(users => {
       if (users.length < 1) {
         res.status(401).json({ message: 'There are no users.' });
@@ -94,6 +95,18 @@ function protected(req, res, next) {
   } else {
     res.status(401).json({ message: 'You have no power here!' });
   }
+}
+
+//===== Check department and only show same department =====
+function checkRole() {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.department) {
+      req.dep = req.decodedToken.department;
+      next();
+    } else {
+      res.status(403).json({ message: 'You have no permission!' });
+    }
+  };
 }
 
 server.listen(port, console.log(`===Server running on ${port} port===\n`));
