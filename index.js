@@ -40,7 +40,7 @@ function generateToken(user) {
     roles: ['admin', 'root'],
   };
 
-  const jwtSecret = 'nobody tosses a dwarf!';
+  
 
   const jwtOptions = {
     expiresIn: '1h',
@@ -110,4 +110,6 @@ function checkRole(role) {
   };
 }
 
-server.listen(3300, () => console.log('\nrunning on port 3300\n'));
+const port = 3300;
+
+server.listen(port, () => console.log(`\nrunning on port ${port}\n`));
