@@ -9,12 +9,14 @@ const knexConfig = require("../knexfile.js");
 
 const db = knex(knexConfig.development);
 
+//JWT Secret
+const secret = "shhhhh";
+
+//Function to make a JSON Web Token
 function makeToken(user) {
   const payload = {
     username: user.username
   };
-
-  const secret = "shhhhh";
 
   const options = {
     expiresIn: "1h",
@@ -23,6 +25,24 @@ function makeToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+//Middleware to restrict protected content
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "Invalid token" });
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "No token provided" });
+  }
+}
+
+//Register a new user
 router.post("/register", (req, res) => {
   const { username, password, department } = req.body;
   const creds = { username, password, department };
@@ -46,6 +66,7 @@ router.post("/register", (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
+//Login a registered user
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
   const creds = { username, password };
