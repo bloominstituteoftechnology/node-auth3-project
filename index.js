@@ -15,8 +15,7 @@ server.use(express.json());
 function generateToken(user) {
     const jwtPayload = {
         ...user,
-        cohort: 'FSW13',
-        role: 'student'
+        subject: `${user.id}`
     };
 
     const jwtSecret = "hello I am a horse ! ! !";
@@ -24,7 +23,7 @@ function generateToken(user) {
     const jwtOptions = {
         expiresIn: '1m'
     }
-
+    console.log(jwtPayload);
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
@@ -85,11 +84,9 @@ server.post('/api/login', (request, response) => {
 
 // user list and logout GET requests
 server.get('/api/users', (request, response) => {
-    request.session.name = '12345';
-    const sessionName = request.session.name;
 
     db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
         .then(users => {
             return response
                 .status(200)
