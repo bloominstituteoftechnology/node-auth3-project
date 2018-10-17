@@ -31,5 +31,39 @@ server.post('/register', (req, res) => {
       });
 });
 
+const jwtSecret = 'Coffee is in my DNA';
+
+function generateToken(user) {
+    const jwtPayload = {
+        ...user, 
+        hello: 'User',
+        role: 'admin'
+    };
+
+    const jwtOptions = {
+        expiresIn: '5m',
+    }
+
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
+
+server.post('/login', (req, res) => {
+    const creds = req.body;
+
+    db('users')
+      .where({ username: creds.username })
+      .first()
+      .then(user => {
+          if(user && bcrypt.compareSync(creds.password, user.password)) {
+              const token = generateToken(user);
+              res.status(200).json({ welcome: user.username, token });
+          } else {
+              res.status(401).json({ message: 'You have been denied access' });
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ err })
+      });
+});
 
 server.listen(3300, () => console.log('\nrunning on port 3300\n'));
