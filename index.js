@@ -14,6 +14,22 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 
+server.post('/register', (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      const id = ids[0];
+      res.status(201).json({ newUserId: id });
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 server.get('/', (req, res) => res.json('Server is up and running!'));
 
 const port = 6000;
