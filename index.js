@@ -17,8 +17,23 @@ const bcrypt = require('bcryptjs');
 const server = express();
 
 const cookieTime = (req, res, next) => {
+    const token = req.headers.authorization;
 
-    next();
+    if(token) {
+        jwt.verify(token, jwtSecret, (err, decodedToken) => {
+            if(err) {
+                res.status(401).json({ message: "Invalid toke, Take another"})
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        })
+    }
+    else {
+        res.status(401).json({message: 'Take a toke.'})
+    }
+
+    // next();
 //   if (req.session && req.session.username) {
 //     next();
 //     } else {
@@ -46,6 +61,9 @@ const cookieTime = (req, res, next) => {
 //     }),
 // };
 
+
+const jwtSecret = 'quikbrownfox';
+
 function generateToken(user) {
     
     const jwtPayload = { 
@@ -54,7 +72,7 @@ function generateToken(user) {
         role: 'admin'
     };
 
-    const jwtSecret = 'quikbrownfox';
+    // const jwtSecret = 'quikbrownfox';
 
     const jwtOptions = {
         expiresIn: '1m',
@@ -96,7 +114,7 @@ server.post('/login', (req, res) => {
     .where({username: creds.username})
     .first()
     .then(user => {
-        console.log(user.password);
+        // console.log(user.password);
         if (user && bcrypt.compareSync(creds.password, user.password)) {
     //   req.session.username = user.username;
         const token = generateToken(user);
