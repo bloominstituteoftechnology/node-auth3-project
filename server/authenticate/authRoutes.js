@@ -40,7 +40,7 @@ router.post('/login', (req, res) => {
 
 router.get('/users', restricted, (req, res) => {
   db('users')
-    .select('id', 'username')
+    .select('id', 'username', 'department')
     .then((users) => {
       res.json({ users });
     })
