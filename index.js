@@ -90,7 +90,26 @@ function protected(req, res, next) {
   next();
 }
 
+// POST for user login
 
+server.post('/api/login', (req, res) => {
+  const credentials = req.body;
+
+  db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(user => {
+      if(user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = createToken(user);
+        res.status(200).json({ welcome: user.username }); // test with returning token and password as well
+      } else {
+        res.status(401).json({ message: 'Access denied.' });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+});
 
 
 
