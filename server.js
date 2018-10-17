@@ -18,9 +18,9 @@ configureMiddleware(server);
 const jwtSecret = "I'm a secret! Shhh!";
 
 function generateToken(user) {
-	const jwtPayload = user.id;
+	const jwtPayload = { user: user.id };
 	const jwtOptions = {
-		expiresIn: '20s' // 20 seconds for testing purposes
+		expiresIn: '1m' // 1 minute for testing purposes
 	};
 
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);

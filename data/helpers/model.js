@@ -15,7 +15,6 @@ function getUsers() {
 }
 
 function addUser(user) {
-	console.log(user);
 	return db('users')
 		.insert(user)
 		.then(id => {
@@ -26,7 +25,7 @@ function addUser(user) {
 
 function login(credentials) {
 	return db('users')
-		.where({ name: credentials.name })
+		.where({ username: credentials.username })
 		.then(([user]) => {
 			if (user && bcrypt.compareSync(credentials.password, user.password)) {
 				return user;
