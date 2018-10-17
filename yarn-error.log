@@ -1,0 +1,42 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add bcryptjs cors express helmet sqlite3 jsonwebtoken
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  8.11.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/timh1203/lambdaSchool/week13authentication/lsw13iii-iv-authII/package.json: Unexpected token } in JSON at position 261
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:1136:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:109:13
+      at <anonymous>
+
+npm manifest: 
+  {
+    "name": "lsw13iii-iv-authII",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/timh1203/lsw13iii-iv-authII.git",
+    "author": "Timothy Hoang <timh1203@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+      "start": "nodemon"
+    },
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
