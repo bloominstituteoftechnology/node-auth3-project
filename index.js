@@ -11,6 +11,7 @@ const port = 5000;
 
 server.use(express.json(), cors(), helmet());
 
+//===== Make token =====
 const jwtSecret = 'Doctor who?';
 
 function generateToken(user) {
@@ -23,7 +24,8 @@ function generateToken(user) {
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
-server.post('/register', (req, res) => {
+//===== Register the user =====
+server.post('/api/register', (req, res) => {
   const credentials = req.body;
 
   const hash = bcrypt.hashSync(credentials.password, 10);
@@ -43,8 +45,28 @@ server.post('/register', (req, res) => {
     });
 });
 
-//Get users
-server.get('/users', (req, res) => {
+//===== Login user =====
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
+
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({ id: user.id, username: user.username, token });
+      } else {
+        res.status(401).json({ message: 'You shall not pass!' });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+});
+
+//===== Get users =====
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .then(users => {
       if (users.length < 1) {
@@ -55,5 +77,23 @@ server.get('/users', (req, res) => {
     })
     .catch(err => console.log(err));
 });
+
+//===== Check if User logged in =====
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: 'invalid tokem' });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'You have no power here!' });
+  }
+}
 
 server.listen(port, console.log(`===Server running on ${port} port===\n`));
