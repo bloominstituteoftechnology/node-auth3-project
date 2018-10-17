@@ -18,6 +18,7 @@ server.get('/', (req, res) => {
 });
 
 server.get('/api/users', protected, (req, res) => {
+    console.log('\n*** decoded token information***\n', req.decodedToken);
     db('users')
       .select('id', 'username', 'department')
       .then(users => {
@@ -64,6 +65,7 @@ function generateToken(user) {
 
     const jwtPayload = {
         ...user,
+        hello: 'FSW13'
     };
 
 
