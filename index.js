@@ -40,8 +40,6 @@ function generateToken(user) {
     roles: ['admin', 'root'],
   };
 
-  
-
   const jwtOptions = {
     expiresIn: '1h',
   };
