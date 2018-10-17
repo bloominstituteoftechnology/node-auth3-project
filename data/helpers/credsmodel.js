@@ -4,26 +4,26 @@ const db = require('../dbconfig');
 // find(userId) -> {id: int, username: 'string'}
 const find = (id) => {
     if(id) {
-        return db('users')
+        return db('employees')
             .select('id', 'username')
             .where({id})
             .first();
     } else {
-        return db('users')
+        return db('employees')
             .select('id', 'username');
     }
 };
 
 // addNewUser({username: 'string', password: 'hashed string'}) -> [id: int]
 const addNewUser = (userObj) => {
-    return db('users')
+    return db('employees')
         .insert(userObj)
-        .into('users');
+        .into('employees');
 };
 
 // authUser({username: 'string'}) -> {id: int, username: 'string', password: 'hashed string'}
 const authUser = (userObj) => {
-    return db('users')
+    return db('employees')
 		.where({username: userObj.username})
 		.first();
 };

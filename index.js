@@ -28,7 +28,7 @@ const protected = (req, res, next) => {
             req.decodedToken = verified.payload;
             next();
         } else {
-            next(["h401", "Invalid token!"]);
+            next(["h401", verified.error]);
         }
 	} else {
 		next(["h401", "No token provided."]);
@@ -76,6 +76,7 @@ server.post('/api/login', (req, res, next) => {
 	usersTable.authUser(credentials)
 		.then((user) => {
 			if(user && bcrypt.compareSync(credentials.password, user.password)) {
+                console.log('User:', user);
                 const token = tokenHelper.generateToken(user);
 				res.status(200).json({"message": 'Welcome home. Country roads.', token});
 			} else {

@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 
-const jwtSecret = 'mother, I killed a man!';
+const jwtSecret = `-MRUjQV"vsua!:}h?LmR},&t(zXe)a@b:z4ZpUHMd!WjKG:M@*<T(A^5#.,%'&@!`;
 
 const generateToken = (user) => {
-	// no PII/sensitive data in the payload
-	const jwtPayload = {...user, hello: 'FSW13', role: 'admin'};
+	// no PII/sensitive data in the payload!
+	const jwtPayload = {...user};
 	const jwtOptions = {
-		expiresIn: '1m'
+		expiresIn: '3m'
 	};
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 };
