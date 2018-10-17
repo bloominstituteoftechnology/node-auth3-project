@@ -60,17 +60,31 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.status(500).json({err}));
 })
 
+server.get('/api/logout', protected, (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                res.send("I'm sorry, I'm afraid I can't let you do that")
+            } else {
+                res.send('Signing off...');
+            }
+        });
+    }
+});
+
 const jwtSecret = 'nobody tosses a dwarf!';
 function generateToken(user) {
 
     const jwtPayload = {
         ...user,
-        hello: 'FSW13'
+        hello: 'FSW13',
+        role: 'admin'
     };
 
 
     const jwtOptions = {
-        expiresIn: '1h'
+        expiresIn: '1h',
+        
     }
 
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
