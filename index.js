@@ -41,7 +41,7 @@ function generateToken(user) {
   };
 
   const jwtSecret = 'nobody tosses a dwarf!';
-  
+
   const jwtOptions = {
     expiresIn: '1h',
   };
@@ -69,7 +69,7 @@ server.post('/api/login', (req, res) => {
 });
 
 // protect this route, only authenticated users should see it
-server.get('/api/users', protected, checkRole('other'), (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -77,6 +77,8 @@ server.get('/api/users', protected, checkRole('other'), (req, res) => {
     })
     .catch(err => res.send(err));
 });
+
+// checkRole('other')
 
 function protected(req, res, next) {
   // authentication tokens are normally sent as a header instead of the body
