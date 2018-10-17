@@ -23,7 +23,7 @@ const sessionConfig = {
     sidfieldname: 'sid',
     knex: db,
     createtable: true,
-    clearInterval: 1000 * 60 * 60,
+    clearInterval: 1000 * 60 * 3,
   })
 };
 
@@ -48,7 +48,7 @@ server.post('/register', (req, res) => {
     .insert(credentials)
     .then(ids => {
       const id = ids[0];
-      res.status(201).json({ newUserId: id });
+      res.status(201).json({ newUserId: id, message: `Welcome to the database, ${credentials.username}` });
     })
     .catch(err => {
       res.status(500).json(err);
@@ -66,7 +66,7 @@ function generateToken(user) {
     role: 'admin'
   };
   const jwtOptions = {
-    expiresIn: '5m',
+    expiresIn: '2m',
   };
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
@@ -97,7 +97,7 @@ server.post('/login', (req, res) => {
 server.get('/users', protected, (req, res) => {
   console.log('\n*** DECODED TOKEN INFO ***\n', req.decodedToken);
   db('users')
-    .select('id', 'username', 'password')
+    .select('id', 'username', 'password', 'department')
     .then(users => {
       res.json({ users });
     })
