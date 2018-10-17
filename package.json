@@ -5,6 +5,9 @@
   "repository": "https://github.com/cornielleandres/auth-ii.git",
   "author": "<cornielleandres@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "knex": "^0.15.2",
