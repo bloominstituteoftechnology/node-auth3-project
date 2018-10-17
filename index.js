@@ -10,6 +10,22 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+
+
+generateToken=(user)=>{
+    const jwtPayload={
+        username:user.username
+    }
+    
+    const jwtSecret= 'It is a party'
+
+    const jwtOptions={
+        expiresIn:'1h',
+        
+    }
+    return jwt.sign(jwtPayload,jwtSecret,jwtOptions);
+}
+
 server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
