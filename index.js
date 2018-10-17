@@ -49,7 +49,7 @@ server.post('/register', (req, res) => {
 
 server.post('/login', (req, res) => {
     const creds = req.body;
-     db('users')
+    db('users')
     .where({username: creds.username})
     .first()
     .then(user => {
@@ -62,5 +62,33 @@ server.post('/login', (req, res) => {
     })
     .catch(err => res.status(500).json({err}));
 })
+
+server.get('/users', protected, (req, res) => {
+    db('users')
+      .select('id', 'username', 'department')
+      .then(users => {
+        res.status(200).json({ users });
+      })
+      .catch(err => res.status(500).send(err));
+});
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, jwtSecret, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: 'invalid token!' });
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: 'no token provided' })
+    }
+    
+}
+
 
 server.listen(6000, () => console.log('\nrunning on port 6000\n'));
