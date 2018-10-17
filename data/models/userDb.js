@@ -9,7 +9,7 @@ module.exports = {
 	getUser: function(username) {
 		let query = db('users')
 		return query
-			.select('id', 'username', 'department')
+			.select('id', 'username', 'password', 'department')
 			.where({ username: username });
 	},
 	insertNewUser: function(user) {

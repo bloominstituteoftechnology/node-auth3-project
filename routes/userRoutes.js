@@ -1,8 +1,22 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const userDb = require('../data/models/userDb.js');
+const express	= require('express');
+const bcrypt	= require('bcryptjs');
+const jwt		= require('jsonwebtoken');
+const userDb	= require('../data/models/userDb.js');
 
-const router = express.Router();
+const router	= express.Router();
+
+const jwtSecret = 'this-is.a-secret!';
+const generateJwtToken = user => {
+	const jwtPayload = {
+		userId: user.id,
+		username: user.username,
+		department: user.department,
+	};
+	const jwtOptions = {
+		expiresIn: 1000 * 60 * 5 // 5 mins
+	};
+	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+};
 
 // get list of all users
 router.get('/', (req, res) => {
@@ -32,6 +46,7 @@ router.post('/register', (req, res) => {
 			// if username does not exist, you may register it
 			if (!user.length) {
 				return bcrypt
+					// has the password first
 					.hash(credentials.password, 12, function(bcryptErr, hash) {
 						if (bcryptErr) {
 							return res.status(500).json({ error: `Bcrypt hashing failed: ${ bcryptErr }` });
@@ -47,6 +62,35 @@ router.post('/register', (req, res) => {
 			return res.status(403).json({ error: `Username ${ credentials.username } already exists. Please register with a new username.` });
 		})
 		.catch(err => res.status(500).json({ error: `Server failed to GET user: ${ err }` }));
+});
+
+// login a user
+router.post('/login', (req, res) => {
+	const credentials = req.body;
+	if (!credentials.username) {
+		return res.status(401).json({ error: 'Username cannot be empty.' });
+	}
+	if (!credentials.password) {
+		return res.status(401).json({ error: 'Password cannot be empty.' });
+	}
+	return userDb
+		.getUser(credentials.username)
+		.then(user => {
+			// if user exists in the db, you may log in
+			if (user.length) {
+				return bcrypt
+					.compare(credentials.password, user[0].password)
+					.then((match) => {
+						if (match) {
+							const jwtToken = generateJwtToken(user[0]);
+							return res.status(201).json({ welcome: credentials.username, jwtToken: jwtToken });
+						}
+						return res.status(401).json({ error: 'You shall not pass!' });
+					});
+			}
+			return res.status(401).json({ error: 'You shall not pass!' });
+		})
+		.catch(err => res.status(500).json({ error: `Server failed to POST login for a user: ${ err }` }));
 });
 
 module.exports = router;
