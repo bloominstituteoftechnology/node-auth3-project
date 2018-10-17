@@ -15,7 +15,7 @@ const generateToken = user => {
   const jwtPayload = {
     ...user,
     hello: "FSW13",
-    role: "admin"
+    roles: "admin"
   };
   const jwtOptions = {
     expiresIn: "1h"
@@ -81,10 +81,10 @@ server.post("/api/login", (req, res) => {
     });
 });
 
-server.get("/api/users", protected, checkRole("other"), (req, res) => {
+server.get("/api/users", protected, checkRole("admin"), (req, res) => {
   console.log(req.decoded);
   db("users")
-    .then(users => res.status(200).json(users))
+    .then(users => res.status(200).json({ users }))
     .catch(err => res.status(500).json(err));
 });
 
