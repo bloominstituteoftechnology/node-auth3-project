@@ -1,5 +1,10 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const {
+  secret,
+  tokenGenerator,
+  restrictionMiddleware
+} = require("../middleware");
 const db = require("../data/dbConfig.js");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -15,20 +20,20 @@ server.post("/api/signup", async (req, res) => {
     const credentials = req.body;
     const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
-    const newUser = await db("users").insert(credentials);
+    const newUserId = await db("users").insert(credentials);
     try {
       const user = await db("users")
-        .where({ id: newUser[0] })
+        .where({ id: newUserId[0] })
         .first();
-      req.session.username = user.username;
-      return res.status(201).json(user);
+      const token = tokenGenerator(user);
+      return res.status(201).send(token);
     } catch (error) {
-      return res
-        .status(404)
-        .json({ message: "User is broken.", error: error.message });
+      return res.status(404).json({ message: "the user does not exist" });
     }
   } catch (error) {
-    return res.status(500).json({ message: "User could not be registered." });
+    return res
+      .status(500)
+      .json({ message: "the user could not be registered" });
   }
 });
 
