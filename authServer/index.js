@@ -1,11 +1,13 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../data/dbConfig.js");
+const morgan = require("morgan");
 const cors = require("cors");
 const port = 9001;
 const server = express();
 
 server.use(express.json());
+server.use(morgan("dev"));
 server.use(cors());
 
 server.post("/api/signup", async (req, res) => {
