@@ -15,7 +15,7 @@ server.use(express.json());
 server.use(morgan("dev"));
 server.use(cors());
 
-server.post("/api/signup", async (req, res) => {
+server.post("/api/register", async (req, res) => {
   try {
     const credentials = req.body;
     const hash = bcrypt.hashSync(credentials.password, 14);
@@ -37,7 +37,7 @@ server.post("/api/signup", async (req, res) => {
   }
 });
 
-server.post("/api/signin", async (req, res) => {
+server.post("/api/login", async (req, res) => {
   try {
     const credentials = req.body;
     const user = await db("users")
@@ -58,7 +58,7 @@ server.post("/api/signin", async (req, res) => {
   }
 });
 
-server.get("/users", restrictionMiddleware, async (req, res) => {
+server.get("/api/users", restrictionMiddleware, async (req, res) => {
   try {
     const allUsers = await db("users").select("id", "username", "department");
     return res.status(200).json(allUsers);
