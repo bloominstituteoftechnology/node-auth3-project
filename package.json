@@ -5,6 +5,9 @@
   "repository": "https://github.com/jeanfern5/auth-ii.git",
   "author": "JeanetteFernandez <jeanfern555@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
