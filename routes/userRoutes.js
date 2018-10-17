@@ -13,13 +13,26 @@ const generateJwtToken = user => {
 		department: user.department,
 	};
 	const jwtOptions = {
-		expiresIn: 1000 * 60 * 5 // 5 mins
+		expiresIn: 1000 * 60 * 5, // 5 mins
 	};
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 };
 
+// middleware
+function checkLogin(req, res, next) {
+	const token = req.headers.authorization;
+	if (token) {
+		return jwt.verify(token, jwtSecret, (err, decodedToken) => {
+			if (err) return res.status(401).json({ error: 'You shall not pass!' });
+			req.decodedToken = decodedToken;
+			return next();
+		});
+	}
+	return res.status(401).json({ error: 'You shall not pass!' });
+};
+
 // get list of all users
-router.get('/', (req, res) => {
+router.get('/', checkLogin, (req, res) => {
 	return userDb
 		.getAllUsers()
 		.then(users => {
