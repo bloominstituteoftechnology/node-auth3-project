@@ -1,6 +1,7 @@
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const helmet = require("helmet");
+const express = require("express");
 const knex = require("knex");
 const knexConfig = require("./knexfile.js");
 const server = express();
@@ -20,6 +21,10 @@ function generateToken(user) {
 	};
 
 	const jwtSecret = "dontforgettolikeandsubscribe";
+
+	const JwtOptions = {
+		expiresIn: "10m"
+	};
 
 	return jwt.sign(payload, jwtSecret, JwtOptions);
 }
@@ -47,7 +52,7 @@ server.post("/api/login", (req, res) => {
 		.then(user => {
 			if (user && bcrypt.compareSync(creds.password, user.password)) {
 				const token = generateToken(user);
-				res.status(201).json({ welcome: user.username });
+				res.status(201).json({ welcome: user.username, token });
 			} else {
 				res
 					.status(500)
