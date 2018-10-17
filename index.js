@@ -1,10 +1,10 @@
-const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const helmet = require("helmet");
 const knex = require("knex");
 const knexConfig = require("./knexfile.js");
 const server = express();
+const jwt = require("jsonwebtoken");
 
 const db = knex(knexConfig.development);
 
@@ -12,9 +12,17 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.get("/", (req, res) => {
-	res.send("Its Alive!");
-});
+function generateToken(user) {
+	const payload = {
+		...user.username,
+		hello: "Welcome",
+		role: "admin"
+	};
+
+	const jwtSecret = "dontforgettolikeandsubscribe";
+
+	return jwt.sign(payload, jwtSecret, JwtOptions);
+}
 
 server.post("/api/register", (req, res) => {
 	const credentials = req.body;
@@ -38,6 +46,7 @@ server.post("/api/login", (req, res) => {
 		.first()
 		.then(user => {
 			if (user && bcrypt.compareSync(creds.password, user.password)) {
+				const token = generateToken(user);
 				res.status(201).json({ welcome: user.username });
 			} else {
 				res
