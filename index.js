@@ -13,7 +13,7 @@ server.use(express.json(), helmet(), cors())
 
 server.route('/')
     .get((req, res) => {
-        return res.send('It works')
+        res.send('It works')
     })
 
 server.listen(port, () => {
