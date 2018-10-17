@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Contain, MainH1, FlexForm, BTN, SubmitBtn, BTNDiv } from './css';
+import { Contain, MainH1, FlexForm, BTN, SubmitBtn, BTNDiv, LogErr } from './css';
 
 
 class Signin extends React.Component {
@@ -10,6 +10,7 @@ class Signin extends React.Component {
 		this.state = {
 			username: '',
 			password: '',
+			error: localStorage.getItem("error"),
 		};
 	}
 
@@ -31,9 +32,14 @@ class Signin extends React.Component {
  		})
  	}
 
+ 	clear = event => {
+ 		localStorage.removeItem('error');
+ 	}
+
 	render() {
 		return (
 			<div>
+				<LogErr>{this.state.error}</LogErr>
 				<Contain>
 					<MainH1>Welcome User Sign in here!</MainH1>
 					<FlexForm>
@@ -55,7 +61,7 @@ class Signin extends React.Component {
 					</FlexForm>
 
 				</Contain>
-				<Link to='signup'><BTNDiv><BTN>No account Sign up here!</BTN></BTNDiv></Link>
+				<Link to='signup'><BTNDiv onClick={this.clear}><BTN>No account Sign up here!</BTN></BTNDiv></Link>
 			</div>
 		)
 	}

@@ -7,12 +7,10 @@ export const Contain = styled.div`
 	background-color: lightblue;
 	margin-bottom: 20px;
 `
-
 export const MainH1 = styled.h1`
 	text-align: center;
 	font-size: 20px
 `
-
 export const FlexForm = styled.form`
 	display: flex;
 	flex-direction: column;
@@ -30,7 +28,6 @@ export const BTN = styled.button`
 		cursor: pointer;
 	}
 `
-
 export const SubmitBtn = styled.button`
 	&:hover {
 		cursor: pointer
@@ -38,7 +35,6 @@ export const SubmitBtn = styled.button`
 		border: solid grey 1px;
 	}
 `
-
 export const BTNDiv = styled.div`
 	display: flex;
 	justify-content: center;
@@ -48,4 +44,11 @@ export const Errors = styled.div`
 	color: red;
 	text-align: center;
 	font-size: 20px;
-`
+`;
+
+export const LogErr = styled.p`
+	text-align: center;
+	margin-top: 20px;
+	color: red;
+`;
+

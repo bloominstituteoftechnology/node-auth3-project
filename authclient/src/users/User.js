@@ -5,8 +5,8 @@ const EmployeeDiv = styled.div`
 	border:solid black 1px;
 	max-width: 600px;
 	margin: 10px auto;
-	width: 25%;
-	padding: 2%;
+	width: 40%;
+	padding: 2.8%;
 	background-color: lightgreen;
 `
 

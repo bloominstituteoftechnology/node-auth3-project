@@ -38,11 +38,13 @@ class Users extends React.Component {
 			})
 			.catch(error => {
 				console.log(error)
-				///this.props.history.push('/')
+				localStorage.setItem("error", "Please Log In");
+				this.props.history.push('/')
 			})
 	}
 
 	logout = event => {
+		localStorage.removeItem('error');
     localStorage.removeItem('jwt');
     this.props.history.push('/')
   }

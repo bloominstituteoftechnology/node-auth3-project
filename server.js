@@ -46,7 +46,6 @@ function protected(req, res, next){
 			} else {
 				//token is valid
 				req.username = decodedToken.username;
-
 				next()
 			}
 		});
@@ -126,38 +125,21 @@ server.post('/api/login', (req, res) => {
 })
 
 server.get('/api/users', protected, (req, res) => {
-	//return console.log(req.username);
-	// db('users')
-	// 	.where({username: req.username})
-	// 	.first()
-	// 	.then(user => {
-	// 		if (user.username === 'marshall'){
-	// 			console.log('your in marshall')
-	// 			console.log(jwt)
-	// 			db('users')
-	// 				.then(response => {
-	// 					res.status(200).json(response)
-	// 				})
-	// 				.catch(error => {
-	// 					console.log(error)
-	// 					res.status(500).json({msg: 'error viewing users'})
-	// 				})
-	// 		} else {
-	// 			res.status(401).json({msg: 'not permited to view users'})
-	// 		}
-	// 	})
-	// 	.catch(error => {
-	// 		console.log(error)
-	// 		res.status(500).json({msg: 'there was an error'})
-	// 	})
 
 	db('users')
-		.then(response => {
-			res.status(200).json(response)
-		})
-		.catch(error => {
-			console.log(error)
-			res.status(200).json(error)
+		.where({username: req.username})
+		.first()
+		.then(user => {
+			const department = user.department
+			db('users')
+				.where('department', department )
+				.then(filteredUsers => {
+					res.status(200).json(filteredUsers)
+				})
+				.catch(error => {
+					console.log(error)
+					res.status(500).json({msg: 'error viewing users'})
+				})
 		})
 })
 
