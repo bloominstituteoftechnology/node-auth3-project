@@ -59,7 +59,7 @@ server.post('/api/register', (req, res) => {
 
 // GET all users in the database
 
-server.get('/api/users', protected, (req, res) => {
+server.get('/api/users', (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
