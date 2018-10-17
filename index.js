@@ -5,8 +5,7 @@ const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 const usersTable = require('./data/helpers/credsmodel');
 const errorHandler = require('./api/ErrorHandler/errorhandler');
-const generateToken = require('./data/tokens');
-const verifyToken = require('./data/tokens');
+const tokenHelper = require('./data/tokens');
 
 
 
@@ -24,7 +23,7 @@ const protected = (req, res, next) => {
 	const token = req.headers.authorization;
 	
 	if(token) {
-        const verified = verifyToken(token);
+        const verified = tokenHelper.verifyToken(token);
         if(verified.valid) {
             req.decodedToken = verified.payload;
             next();
@@ -77,7 +76,7 @@ server.post('/api/login', (req, res, next) => {
 	usersTable.authUser(credentials)
 		.then((user) => {
 			if(user && bcrypt.compareSync(credentials.password, user.password)) {
-                const token = generateToken(user);
+                const token = tokenHelper.generateToken(user);
 				res.status(200).json({"message": 'Welcome home. Country roads.', token});
 			} else {
 				next(["h401", "You shall not pass!"]);
