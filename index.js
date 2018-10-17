@@ -12,19 +12,39 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+const jwtSecret = "hello I am a horse ! ! !";
 function generateToken(user) {
     const jwtPayload = {
         ...user,
         subject: `${user.id}`
     };
 
-    const jwtSecret = "hello I am a horse ! ! !";
-
     const jwtOptions = {
-        expiresIn: '1m'
+        expiresIn: '5m'
     }
-    console.log(jwtPayload);
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
+
+function protected(request, response, next) {
+    const token = request.headers.authorization;
+    
+    if(!token) {
+        return response
+            .status(401)
+            .json({ message: "No token provided." })
+    } else {
+        jwt.verify(token, jwtSecret, (err, decodedToken) => {
+            if(err) {
+                return response
+                    .status(401)
+                    .json({ message: "Invalid token." })
+            } else {
+                request.decodedToken = decodedToken;
+                console.log(request.decodedToken);
+                next();
+            }
+        });
+    }
 }
 
 const port = 8000;
@@ -83,10 +103,10 @@ server.post('/api/login', (request, response) => {
 });
 
 // user list and logout GET requests
-server.get('/api/users', (request, response) => {
+server.get('/api/users', protected, (request, response) => {
 
     db('users')
-        .select('id', 'username', 'password', 'department')
+        .select('id', 'username', 'department')
         .then(users => {
             return response
                 .status(200)
@@ -100,8 +120,8 @@ server.get('/api/users', (request, response) => {
 });
 
 server.get('/api/logout', (request, response) => {
-    if (request.session) {
-        request.session.destroy();
+    if (token) {
+        token.destroy();
         return response
             .status(200)
             .json({ message: "User logged out." });
