@@ -1,6 +1,7 @@
 // Import node modules
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const usersRoutes = require('./routes/usersRoutes.js');
 

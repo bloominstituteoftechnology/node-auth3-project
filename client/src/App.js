@@ -2,7 +2,28 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import axios from 'axios';
+
+import UsersList from './components/UsersList.js';
+
 class App extends Component {
+  state = {
+    users: [],
+    username: ''
+  }
+
+  componentDidMount() {
+    axios
+      .get(`http://localhost:4000/api/users`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ users: response.data.users });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <div className="App">
@@ -20,6 +41,9 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <div>
+          <UsersList users = {this.state.users} />
+        </div>
       </div>
     );
   }
