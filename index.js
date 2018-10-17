@@ -6,6 +6,8 @@ const express = require('express');
 
 // const KnexSessionStore = require('connect-session-knex')(session);
 
+const jwt = require('jsonwebtoken');
+
 const cors = require('cors');
 
 const db = require('./database/dbConfig.js');
@@ -14,13 +16,13 @@ const bcrypt = require('bcryptjs');
 
 const server = express();
 
-const cookieTime = (req, res, next) => {
-  if (req.session && req.session.username) {
-    next();
-    } else {
-      res.status(401).send('Not authorized');
-    }
-  }
+// const cookieTime = (req, res, next) => {
+//   if (req.session && req.session.username) {
+//     next();
+//     } else {
+//       res.status(401).send('Not authorized');
+//     }
+//   }
 
 
 // const sessionConfig = {
@@ -45,7 +47,7 @@ const cookieTime = (req, res, next) => {
 server.use(
   express.json(), 
   cors(),
-  session(sessionConfig),
+//   session(sessionConfig),
 );
 
 server.get('/', (req, res) => {
@@ -60,7 +62,7 @@ server.post('/register', (req, res) => {
 
   db('users').insert(credentials).then(ids => {
     const id = ids[0];
-    req.session.username = credentials.username;  
+    // req.session.username = credentials.username;  
     res.status(201).json({ newUserId: id})
   })
    .catch(err => {
@@ -76,7 +78,7 @@ server.post('/login', (req, res) => {
     .first()
     .then(user => {
     if (user && bcrypt.compareSync(creds.password, user.password)) {
-      req.session.username = user.username;
+    //   req.session.username = user.username;
       res.status(200).json({welcome: user.username})
     }
     else {
@@ -88,27 +90,27 @@ server.post('/login', (req, res) => {
 })
 ////////Per the notes from lecture.
 // protect this route, only authenticated users should see it
-server.get('/users', cookieTime, (req, res) => {
+server.get('/users', (req, res) => {
     db('users')
       .select('id', 'username', 'password')
       .then( users => {
-        res.json(users);
+        res.json({users});
       })
       .catch(err => res.send(err));
 });
 
-server.get('/logout', (req, res) => {
-  if(req.session) {
-    req.session.destroy(err => {
-      if(err) {
-        res.send('You will stay.')
-      }
-      else {
-        res.send('See ya');
-      }
-    });
-  }
-});
+// server.get('/logout', (req, res) => {
+//   if(req.session) {
+//     req.session.destroy(err => {
+//       if(err) {
+//         res.send('You will stay.')
+//       }
+//       else {
+//         res.send('See ya');
+//       }
+//     });
+//   }
+// });
 
 //////Day 2
 // server.get('/getname', (req, res) => {
