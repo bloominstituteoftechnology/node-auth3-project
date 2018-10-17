@@ -56,7 +56,6 @@ function generateToken(user) {
   };
 
   const jwtOptions = {
-    subject: jwtid,
     expiresIn: '3m',
   }
 
