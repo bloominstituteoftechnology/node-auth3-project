@@ -5,7 +5,7 @@ const secret =
 
 const tokenGenerator = user => {
   const payload = { username: user.username };
-  const options = { expiresIn: "2h" };
+  const options = { expiresIn: 60 * 60 };
   return jwt.sign(payload, secret, options);
 };
 
@@ -25,5 +25,5 @@ const restrictionMiddleware = (req, res, next) => {
 };
 
 module.exports.secret = secret;
-module.exports.generateToken = tokenGenerator;
-module.exports.checkRestricted = restrictionMiddleware;
+module.exports.tokenGenerator = tokenGenerator;
+module.exports.restrictionMiddleware = restrictionMiddleware;

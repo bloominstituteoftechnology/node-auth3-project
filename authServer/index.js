@@ -4,8 +4,8 @@ const {
   secret,
   tokenGenerator,
   restrictionMiddleware
-} = require("../middleware");
-const db = require("../data/dbConfig.js");
+} = require("./middleware");
+const db = require("./data/dbConfig.js");
 const morgan = require("morgan");
 const cors = require("cors");
 const port = 9001;
@@ -44,18 +44,26 @@ server.post("/api/signin", async (req, res) => {
       .where({ username: credentials.username })
       .first();
     if (user && bcrypt.compareSync(credentials.password, user.password)) {
-      // added session username
-      req.session.username = user.username;
-      return res.status(200).json({ message: `${user.username} logged in.` });
+      const token = tokenGenerator(user);
+      return res.status(200).send(token);
     } else {
       return res
         .status(404)
-        .json({ message: "You shall not pass your attempt was logged!" });
+        .json({ message: "You shall not pass! Attempt was logged!" });
     }
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "An error occurred during the login." });
+      .json({ message: "an error occurred during the login process" });
+  }
+});
+
+server.get("/users", restrictionMiddleware, async (req, res) => {
+  try {
+    const allUsers = await db("users").select("id", "username", "department");
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    return res.status(500).json({ message: "Users could not be fetched." });
   }
 });
 
