@@ -26,22 +26,26 @@ server.get('/', (req, res) => {
 // TODO
 
 // /api/register POST
-server.post('/api/register', (req, res) => {
+server.post('/api/register', async (req, res) => {
+    try {
     const credentials = req.body;
-  
     const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
   
-    db('users')
-      .insert(credentials)
-      .then(ids => {
-        const id = ids[0];
-        res.status(201).json({ newUserId: id });
-      })
-      .catch(err => {
-        res.status(500).json(err);
-      });
-  });
+    const newUserId = await db('users').insert(credentials);
+    // log user in on registration by passing a new token for the new user
+    try {
+        const newUser = await db('users').where({id: newUserId[0]}).first();
+        const token = generateToken(newUser);
+        return res.status(201).json({ token });
+    } catch(err) {
+        return res.status(404).json(err);
+    }
+
+    } catch(err) {
+    return res.status(500).json({err});
+    }
+})
 
   // setup for jwt creation
   const jwtSecret = 'now$this&is@podracing';
