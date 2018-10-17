@@ -1,19 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
-
-const session = require('express-session');
-const sessionConfig = {
-    name: 'session',
-    secret: "Hello I am a horse",
-    cookie: {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        secure: false
-    },
-    httpOnly: true,
-    resave: false,
-    saveUninitialized: false
-};
+const jwt = require('jsonwebtoken');
 
 const knex = require('knex');
 const knexConfig = require('./knexfile.js');
@@ -23,7 +11,22 @@ const server = express();
 
 server.use(helmet());
 server.use(express.json());
-server.use(session(sessionConfig));
+
+function generateToken(user) {
+    const jwtPayload = {
+        ...user,
+        cohort: 'FSW13',
+        role: 'student'
+    };
+
+    const jwtSecret = "hello I am a horse ! ! !";
+
+    const jwtOptions = {
+        expiresIn: '1m'
+    }
+
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
 
 const port = 8000;
 server.listen(port, () => console.log(`API running on port ${port}`));
@@ -44,10 +47,9 @@ server.post('/api/register', (request, response) => {
         .insert(credentials)
         .then(ids => {
             const id = ids[0];
-            request.session.username = credentials.username;
             return response
                 .status(201)
-                .json({ newUserId: id });
+                .json({ newUserInfo: credentials });
         })
         .catch(() => {
             return response
@@ -68,10 +70,10 @@ server.post('/api/login', (request, response) => {
                     .status(401)
                     .json({ message: "You shall not pass!" });
             } else {
-                request.session.username = user.username;
+                const token = generateToken(user);
                 return response
                     .status(200)
-                    .json({ message: `${credentials.username} logged in...` });
+                    .json({ message: `${credentials.username} logged in... ${token}` });
             }
         })
         .catch(() => {
@@ -82,7 +84,7 @@ server.post('/api/login', (request, response) => {
 });
 
 // user list and logout GET requests
-server.get('/api/users', protected, (request, response) => {
+server.get('/api/users', (request, response) => {
     request.session.name = '12345';
     const sessionName = request.session.name;
 
