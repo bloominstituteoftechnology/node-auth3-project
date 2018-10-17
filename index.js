@@ -45,6 +45,17 @@ app.route('/api/login')
       .catch(err => res.status(500).json(err));
   })
 
+app.route('/api/users')
+  .get(protected, (req, res) => {
+    console.log('\n** decoded token information **\n', req.decodedToken);
+    db('users')
+      .select('id', 'username', 'password', 'department')
+      .then(users => {
+        return res.json({ users });
+      })
+      .catch(err => res.send(err));
+  })
+
 function generateToken(user) {
   const jwtPayload = {
     ...user,
@@ -56,4 +67,23 @@ function generateToken(user) {
   }
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
+
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({ Message: 'Invalid Token' })
+      }
+      else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    })
+  }
+  else {
+    return res.status(401).json({ Message: 'No token provided!' });
+  }
+}
+
 app.listen(port, () => console.log(`\n===${port} is live!===\n`))
