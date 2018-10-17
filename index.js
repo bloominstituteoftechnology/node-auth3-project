@@ -30,13 +30,13 @@ server.post('/register', (req, res) => {
     });
 });
 
-const jwtSecret = 'Coffee is in my DNA';
+const jwtSecret = 'I love Spikeball';
 
 function generateToken(user) {
   const jwtPayload = {
     ...user,
     hello: 'User',
-    role: 'admin'
+    role: 'Admin'
   };
 
   const jwtOptions = {
@@ -63,6 +63,41 @@ server.post('/login', (req, res) => {
     .catch(err => {
       res.status(500).json({ err });
     });
+});
+
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: 'Invalid token' });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'No token provided' });
+  }
+}
+
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.role.includes(role)) {
+      next();
+    } else {
+      res.status(403).json({ message: 'You do not have access.' });
+    }
+  };
+}
+
+server.get('/users', protected, checkRole('Admin'), (req, res) => {
+  db('users')
+    .select('id', 'username', 'password', 'department')
+    .then(users => {
+      res.json({ users });
+    })
+    .catch(err => res.send(err));
 });
 
 server.get('/', (req, res) => res.json('Server is up and running!'));
