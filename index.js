@@ -25,7 +25,7 @@ const jwtOptions = {
 }
 //
 
-// middleware to handled protected parts of server
+// middleware to handle protected parts of server
 function protected(req, res, next) {
   const token = req.headers.authorization;
    if (token) {
@@ -48,16 +48,14 @@ server.get('/', (req, res) => {
 });
 
 server.get('/api/users', protected, (req, res) => {
-  db('users')
-    .then(users => {
-      if (users.length < 1) {
-        res.status(401).json({ message: 'No users found.' });
-      } else {
-        res.status(200).json(users);
-      }
-    })
-    .catch(err => console.log(err));
-});
+  db('users').select('id', 'username', 'department').then(users => {
+      res.json(users);
+  })
+  .catch(err => {
+      console.log(err);
+      res.json({error: err});
+  })
+})
 ////////
 
 // POST //
