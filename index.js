@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 const usersTable = require('./data/helpers/credsmodel');
 const errorHandler = require('./api/ErrorHandler/errorhandler');
+const generateToken = require('./data/tokens');
+const verifyToken = require('./data/tokens');
 
 
 
@@ -19,7 +21,19 @@ server.use(cors());
 // Middleware
 // ~~ Targeted protected route ~~ //
 const protected = (req, res, next) => {
-	next();
+	const token = req.headers.authorization;
+	
+	if(token) {
+        const verified = verifyToken(token);
+        if(verified.valid) {
+            req.decodedToken = verified.payload;
+            next();
+        } else {
+            next(["h401", "Invalid token!"]);
+        }
+	} else {
+		next(["h401", "No token provided."]);
+	}
 };
 
 // ~~ Global restricted routes ~~ //
@@ -58,12 +72,13 @@ server.post('/api/register', (req, res, next) => {
 // ~~ User login ~~ //
 // authUser({username: 'string'}) -> {id: int, username: 'string', password: 'hashed string'}
 server.post('/api/login', (req, res, next) => {
-	const credentials = req.body;
+    const credentials = req.body;
 
 	usersTable.authUser(credentials)
 		.then((user) => {
 			if(user && bcrypt.compareSync(credentials.password, user.password)) {
-				res.status(200).json({"message": 'Welcome home. Country roads.'});
+                const token = generateToken(user);
+				res.status(200).json({"message": 'Welcome home. Country roads.', token});
 			} else {
 				next(["h401", "You shall not pass!"]);
 			}
