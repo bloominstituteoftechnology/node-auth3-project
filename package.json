@@ -5,11 +5,17 @@
   "repository": "https://github.com/ecarlstrom/auth-ii",
   "author": "Evan Carlstrom <evan.carlstrom@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.4",
     "helmet": "^3.14.0",
     "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
     "nodemon": "^1.18.4"
   }
 }
