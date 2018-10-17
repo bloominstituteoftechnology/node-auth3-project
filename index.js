@@ -111,7 +111,7 @@ function protected(req, res, next) { // send cookie back in header because any d
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
         // token verification failed
-        res.status(401).json({ message: `invalid token` });
+        res.status(401).json({ message: `You shall not pass!` });
       } else {
         // token is valid
         req.decodedToken = decodedToken; // any sub-sequent middleware of route handlers have access to this
