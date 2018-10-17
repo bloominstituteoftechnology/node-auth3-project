@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route, withRouter } from "react-router-dom";
+import SignIn from "./auth/SignIn";
+
+import logo from "./logo.svg";
+import "./App.css";
 
 class App extends Component {
   render() {
@@ -20,9 +23,10 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <Route exact path="/signin" component={SignIn} />
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
