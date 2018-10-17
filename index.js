@@ -12,8 +12,6 @@ app.use(helmet());
 app.use(cors());
 
 app.route('/')
-  .get((req, res) => {
-    return res.send('En Vivo!')
-  })
+  .get((req, res) => res.send('En Vivo!'))
 
 app.listen(port, () => console.log(`\n===${port} is live!===\n`))
