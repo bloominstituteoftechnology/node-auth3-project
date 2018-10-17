@@ -1,30 +1,10 @@
 const express = require('express');
 const db = require('../data/dbConfig.js');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+
+const { generateToken, protected } = require('../middleware');
 
 const router = express.Router();
-
-// CUSTOM MIDDLEWARE
-function protected(req, res, next) {
-  //authentication tokens are normally sent as a header instead of the body
-  const token = req.headers.authorization;
-
-  if (token) {
-    jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if (err) {
-        // token verification failed
-        res.status(401).json({ message: 'invalid token'});
-      } else {
-        // token is valid
-        req.decodedToken = decodedToken; // sub-agent middleware of route handler have access to this
-        next();
-      }
-    });
-  } else {
-    res.status(401).json({ message: 'no token provided'});
-  }
-}
 
 // ROUTES/ENDPOINTS
 
@@ -45,22 +25,6 @@ router.post('/register', (req, res) => {
       res.status(500).json(err);
     });
 });
-
-// Custom Function for token generation
-const jwtSecret = 'nobody tosses a dwarf!';
-function generateToken(user) {
-  const jwtPayload = {
-    ...user,
-    company: 'MyCorp',
-    roles: 'admin',
-  };
-
-  const jwtOptions = {
-    expiresIn: '3m',
-  }
-
-  return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
-}
 
 // Add POST ROUTE HANDLER to protect GET ROUTE HANDLER to access all users
 // so that only authenticated users can see it
