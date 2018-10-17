@@ -99,3 +99,5 @@ function checkRole(role) {
         };
     };
 }
+
+server.listen(9000, () => console.log('\nRunning on port 9000\n'));
