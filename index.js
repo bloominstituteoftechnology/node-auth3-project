@@ -16,13 +16,15 @@ const bcrypt = require('bcryptjs');
 
 const server = express();
 
-// const cookieTime = (req, res, next) => {
+const cookieTime = (req, res, next) => {
+
+    next();
 //   if (req.session && req.session.username) {
 //     next();
 //     } else {
 //       res.status(401).send('Not authorized');
 //     }
-//   }
+  }
 
 
 // const sessionConfig = {
@@ -43,6 +45,23 @@ const server = express();
 //       clearIntervale: 1000 * 60 * 60,
 //     }),
 // };
+
+function generateToken(user) {
+    
+    const jwtPayload = { 
+        ...user,
+        hello: 'FSW13',
+        role: 'admin'
+    };
+
+    const jwtSecret = 'quikbrownfox';
+
+    const jwtOptions = {
+        expiresIn: '1m',
+    };
+    
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
+};
 
 server.use(
   express.json(), 
@@ -77,27 +96,33 @@ server.post('/login', (req, res) => {
     .where({username: creds.username})
     .first()
     .then(user => {
-    if (user && bcrypt.compareSync(creds.password, user.password)) {
+        console.log(user.password);
+        if (user && bcrypt.compareSync(creds.password, user.password)) {
     //   req.session.username = user.username;
-      res.status(200).json({welcome: user.username})
+        const token = generateToken(user);
+            res.status(200).json({welcome: user.username, token });
     }
-    else {
-      res.status(401).json({message: 'You just cannot enter. That is all.'})
+        else {
+            res.status(401).json({message: 'You just cannot enter. That is all.'})
     }
   })
-  .catch(err => req.status(500).json({ message: 'Something went wrong...on our end.'}));
+        .catch(err => {req.status(500).json({ message: 'Something went wrong...on our end.'})
+    });
+});
 
-})
+
 ////////Per the notes from lecture.
 // protect this route, only authenticated users should see it
-server.get('/users', (req, res) => {
+server.get('/users', cookieTime, (req, res) => {
     db('users')
       .select('id', 'username', 'password')
       .then( users => {
-        res.json({users});
+        res.json({ users });
       })
       .catch(err => res.send(err));
 });
+
+
 
 // server.get('/logout', (req, res) => {
 //   if(req.session) {
