@@ -11,6 +11,7 @@ class Signin extends React.Component {
 			username: '',
 			password: '',
 			error: localStorage.getItem("error"),
+			failedLogin: '',
 		};
 	}
 
@@ -25,10 +26,16 @@ class Signin extends React.Component {
  		.then(response => {
  			console.log(response.data)
  			localStorage.setItem('jwt', response.data.token);
+ 			this.setState({
+ 				failedLogin: ''
+ 			})
  			this.props.history.push('/users')
  		})
  		.catch(error => {
- 			console.log(error)
+ 			console.log(error.response.data)
+ 			this.setState({
+ 				failedLogin: error.response.data.msg
+ 			})
  		})
  	}
 
@@ -62,6 +69,7 @@ class Signin extends React.Component {
 
 				</Contain>
 				<Link to='signup'><BTNDiv onClick={this.clear}><BTN>No account Sign up here!</BTN></BTNDiv></Link>
+				<LogErr>{this.state.failedLogin}</LogErr>
 			</div>
 		)
 	}

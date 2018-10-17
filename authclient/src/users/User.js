@@ -10,7 +10,6 @@ const EmployeeDiv = styled.div`
 	background-color: lightgreen;
 `
 
-
 const User = (props) => {
 	return (
 		<EmployeeDiv>
