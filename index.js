@@ -50,7 +50,7 @@ server.post('/api/register', (req, res) => {
     .insert('credentials')
     .then(ids => {
       const id = ids[0];
-      res.status(201).json({ newUserId generated: id });
+      res.status(201).json({ newUserId: id });
     })
     .catch(err => {
       res.status(500).json(err.message);
@@ -77,7 +77,7 @@ function protected(req, res, next) {
     jwt.verify(token, jwtSecret, (err, plainToken) => {
       if(err) {
         // token verification failed
-        res.status(401).json({ error: 'The provided token is invalid. '});
+        res.status(401).json({ error: 'The provided token is invalid.'});
       } else {
         // valid token, grant access
         req.plainToken = plainToken;
@@ -85,7 +85,7 @@ function protected(req, res, next) {
       }
     })
   } else {
-    res.status(400).json({ error: 'Please provide a token. '}) // don't include this, generally speaking
+    res.status(400).json({ error: 'Please provide a token.'}) // don't include this, generally speaking
   }
   next();
 }
