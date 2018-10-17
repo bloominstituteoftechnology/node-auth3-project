@@ -8,10 +8,12 @@
   "repository": "https://github.com/kinghuthman/auth-ii.git",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
+    "nodemon": "^1.18.4",
     "sqlite3": "^4.0.2"
   }
 }
