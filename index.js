@@ -47,7 +47,7 @@ server.post('/api/register', (req, res) => {
   credentials.password = hash;
 
   db('users')
-    .insert('credentials')
+    .insert(credentials)
     .then(ids => {
       const id = ids[0];
       res.status(201).json({ newUserId: id });
@@ -59,7 +59,7 @@ server.post('/api/register', (req, res) => {
 
 // GET all users in the database
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
@@ -110,11 +110,6 @@ server.post('/api/login', (req, res) => {
       res.status(500).json({ err });
     });
 });
-
-
-
-
-
 
 // server instantiation
 
