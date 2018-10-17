@@ -66,4 +66,30 @@ server.post('/login', (req, res) => {
       });
 });
 
+server.get('/users', protected, (req, res) => {
+    db('users')
+      .select('id', 'username', 'password')
+      .then(users => {
+          res.json({ users });
+      })
+      .catch(err => res.send(err));
+});
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+
+    if(token) {
+        jwt.verify(token, jwtSecret, (err, decodedToken) => {
+            if(err) {
+                res.status(401).json({ message: 'invalid Token' });
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: 'no token has been provided' });
+    }
+}
+
 server.listen(3300, () => console.log('\nrunning on port 3300\n'));
