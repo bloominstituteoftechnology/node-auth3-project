@@ -36,6 +36,15 @@ server.post('/register', (req, res) => {
 });
 
 
+server.get('/users', (req, res) => {
+  db('users')
+    .select('id', 'username', 'password', 'department')
+    .then(users => {
+      res.json({ users });
+    })
+    .catch(err => res.send(err));
+})
+
 
 port = 8675;
 server.listen(port, () => console.log(`\n= = Running on port ${port} = =\n`))
