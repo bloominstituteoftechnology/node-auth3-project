@@ -18,11 +18,34 @@ server.get('/', (req, res) => {
 });
 
 server.post('/api/register', (req, res) => {
+    const credentials = req.body;
 
+    // hash password
+    const hash = bcrypt.hashSync(credentials.password, 14);
+    credentials.password = hash;
+    // save user
+    db('users').insert(credentials).then(ids => {
+        const id = ids[0];
+        res.status(201).json({ newUserId: id });
+    })
+    .catch(err => {
+        res.status(500).json({err});
+    })
 })
 
 function generateToken(user) {
 
+    const jwtPayload = {
+        ...user,
+    };
+
+    const jwtSecret = 'nobody tosses a dwarf!';
+
+    const jwtOptions = {
+        expiresIn: '1h'
+    }
+
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
 }
 
 function protected(req, res, next) {
