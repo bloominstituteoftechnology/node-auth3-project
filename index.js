@@ -36,7 +36,11 @@ server.post('/register', (req, res) => {
 });
 
 
-server.get('/users', (req, res) => {
+const jwtSecret = 'that/s.my.secret.Cap,I/m.always.angry';
+
+
+
+server.get('/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
@@ -45,6 +49,24 @@ server.get('/users', (req, res) => {
     .catch(err => res.send(err));
 })
 
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        // token verif failed
+        res.status(401).json({ message: 'Invalid Token' });
+      } else {
+        // token valid
+        req.decodedToken = decodedToken;
+        console.log('\n== decodedToken info ==\n', req.decodedToken);
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'No token provided.' });
+  }
+}
 
 port = 8675;
 server.listen(port, () => console.log(`\n= = Running on port ${port} = =\n`))
