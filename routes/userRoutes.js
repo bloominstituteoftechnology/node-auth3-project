@@ -91,13 +91,17 @@ router.post('/login', (req, res) => {
 		.getUser(credentials.username)
 		.then(user => {
 			// if user exists in the db, you may log in
-			if (user.length) {
+			if (user) {
 				return bcrypt
-					.compare(credentials.password, user[0].password)
+					.compare(credentials.password, user.password)
 					.then((match) => {
 						if (match) {
-							const jwtToken = generateJwtToken(user[0]);
-							return res.status(201).json({ welcome: credentials.username, jwtToken: jwtToken });
+							const jwtToken = generateJwtToken(user);
+							return res.status(201).json({
+								username: credentials.username,
+								department: user.department,
+								jwtToken: jwtToken,
+							});
 						}
 						return res.status(401).json({ error: 'You shall not pass!' });
 					});

@@ -47,7 +47,30 @@ const AppDiv = styled.div`
 `;
 
 class App extends Component {
+	state = {
+		signedIn: false,
+	};
+
+	goTo = path => {
+		return this.props.history.push(path);
+	};
+
+	handleSignout = e => {
+		e.preventDefault();
+		localStorage.removeItem('jwtToken');
+		this.setState({ signedIn: false }, () => this.goTo('/'));
+	};
+
+	componentDidUpdate() {
+		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
+		// if you are signed out and there is a token in localStorage, sign in
+		if (!this.state.signedIn && localToken) {
+			return this.setState({ signedIn: true });
+		}
+	};
+
 	render() {
+		const { signedIn } = this.state;
 		return (
 			<AppDiv>
 				<header className = 'App-header'>
@@ -58,6 +81,7 @@ class App extends Component {
 						<Link to = 'signin'>Sign In</Link>
 						<Link to = 'signup'>Sign Up</Link>
 						<Link to ='/users'>User List</Link>
+						{ signedIn && <button onClick = { this.handleSignout }>Sign Out</button> }
 					</div>
 				</header>
 
@@ -65,9 +89,9 @@ class App extends Component {
 
 				<Route path = '/signup' component = { Signup } />
 
-				<Route path = '/signin' component = { Signin } />
+				<Route path = '/signin' render = { () => <Signin goTo = { this.goTo } /> } />
 
-				<Route path = '/users' component = { Users } />
+				<Route path = '/users' render = { () => <Users goTo = { this.goTo } /> } />
 			</AppDiv>
 		);
 	}

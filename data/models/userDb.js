@@ -11,6 +11,7 @@ module.exports = {
 		let query = db('users')
 		return query
 			.select('id', 'username', 'password', 'department')
+			.first()
 			.where({ username: username });
 	},
 	insertNewUser: function(user) {

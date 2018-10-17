@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 // Styles
 import styled from 'styled-components';
@@ -19,7 +20,18 @@ export default class Signin extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
+		return axios
+			.post('http://localhost:5000/api/users/login', this.state)
+			.then(res => {
+				const localToken = {
+					username: res.data.username,
+					department: res.data.department,
+					token: res.data.jwtToken,
+				};
+				localStorage.setItem('jwtToken', JSON.stringify(localToken));
+				this.props.goTo('/users');
+			})
+			.catch(err => console.log(err));
 	};
 
 	render() {
