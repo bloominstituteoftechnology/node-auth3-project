@@ -25,16 +25,16 @@ function conjureToken(user) {
 }
 
 function protector(req, res, next) {
-    // read the token string from the Authorization header
+    
     const token = req.headers.authorization;
     if (token) {
-        // verify the token
+        
         jwt.verify(token, secret, (err, decodedToken) => {
             if (err) {
-                // token is invalid
+              
                 res.status(401).json({ message: 'Invalid Token' });
             } else {
-                // token is valid
+              
                 console.log(decodedToken);
                 req.user = { username: decodedToken.username };
                 next();
@@ -54,7 +54,7 @@ server.post('/api/register', (req, res) => {
     const creds = req.body;
 
     const hash = bcrypt.hashSync(creds.password, 11);
-    // replace user's password with the hash
+    
     creds.password = hash;
     db('users')
         .insert(creds)
@@ -94,7 +94,7 @@ server.get('/api/users', protector, (req, res) => {
     db('users')
         .select('id', 'username', 'password', 'department')
         .then(users => {
-            res.json({ users }); // or res.json( users ) if using this.setState({ users: res.data.users }) in the users.js file
+            res.json({ users });
         })
         .catch(err => res.send(err));
 });
