@@ -48,7 +48,8 @@ const AppDiv = styled.div`
 
 class App extends Component {
 	state = {
-		signedIn: false,
+		username: '',
+		department: '',
 	};
 
 	goTo = path => {
@@ -58,19 +59,28 @@ class App extends Component {
 	handleSignout = e => {
 		e.preventDefault();
 		localStorage.removeItem('jwtToken');
-		this.setState({ signedIn: false }, () => this.goTo('/'));
+		this.setState({
+			username: '',
+			department: '',
+		}, () => this.goTo('/'));
 	};
 
 	componentDidUpdate() {
 		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
 		// if you are signed out and there is a token in localStorage, sign in
-		if (!this.state.signedIn && localToken) {
-			return this.setState({ signedIn: true });
+		if (!this.state.username && localToken) {
+			return this.setState({
+				username: localToken.username,
+				department: localToken.department,
+			});
 		}
 	};
 
 	render() {
-		const { signedIn } = this.state;
+		const {
+			username,
+			department,
+		} = this.state;
 		return (
 			<AppDiv>
 				<header className = 'App-header'>
@@ -81,11 +91,11 @@ class App extends Component {
 						<Link to = 'signin'>Sign In</Link>
 						<Link to = 'signup'>Sign Up</Link>
 						<Link to ='/users'>User List</Link>
-						{ signedIn && <button onClick = { this.handleSignout }>Sign Out</button> }
+						{ username && <button onClick = { this.handleSignout }>Sign Out</button> }
 					</div>
 				</header>
 
-				<Route exact path = '/' component = { Home} />
+				<Route exact path = '/' render = { () => <Home username = { username } department = { department } /> } />
 
 				<Route path = '/signup' component = { Signup } />
 

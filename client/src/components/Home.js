@@ -18,12 +18,22 @@ const HomeDiv = styled.div`
 	}
 `;
 
-const Home = () => {
+const Home = props => {
+	const {
+		username,
+		department,
+	} = props;
 	return(
 		<HomeDiv>
 			<h1>Welcome to the Lambda Users DB</h1>
 
-			<h2>Sign in or sign up to view content</h2>
+			{
+				username
+				?
+				<h2>You are signed in as { username }. You work in the { department } department.</h2>
+				:
+				<h2>Sign in or sign up to view content</h2>
+			}
 		</HomeDiv>
 	);
 };
