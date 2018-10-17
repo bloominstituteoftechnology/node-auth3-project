@@ -14,4 +14,18 @@ app.use(cors());
 app.route('/')
   .get((req, res) => res.send('En Vivo!'))
 
+app.route('/api/register')
+  .post((req, res) => {
+    const user = req.body
+    const hash = bcrypt.hashSync(user.password, 14);
+    user.password = hash;
+    db('users')
+      .insert(user)
+      .then(ids => {
+        const id = ids[0]
+        return res.status(201).json({ newUserId: id });
+      })
+      .catch(err => res.status(500).json(err));
+  })
+
 app.listen(port, () => console.log(`\n===${port} is live!===\n`))
