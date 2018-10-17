@@ -31,10 +31,11 @@ function checkLogin(req, res, next) {
 	return res.status(401).json({ error: 'You shall not pass!' });
 };
 
-// get list of all users
+// get list of all users within department of logged in user
 router.get('/', checkLogin, (req, res) => {
+	const { department } = req.decodedToken;
 	return userDb
-		.getAllUsers()
+		.getAllUsers(department)
 		.then(users => {
 			if (users.length) {
 				return res.status(200).json(users);
