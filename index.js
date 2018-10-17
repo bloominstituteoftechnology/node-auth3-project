@@ -3,8 +3,10 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const knex = require('knex');
 
-const db = require('./data/dbConfig.js');
+const knexConfig = require('./knexfile.js');
+const db = knex(knexConfig.development);
 
 const server = express();
 
