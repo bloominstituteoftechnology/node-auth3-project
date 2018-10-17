@@ -1,0 +1,43 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add jsonwebtokens
+
+PATH: 
+  C:\Users\Junior\bin;F:\Program Files\Git\mingw64\bin;F:\Program Files\Git\usr\local\bin;F:\Program Files\Git\usr\bin;F:\Program Files\Git\usr\bin;F:\Program Files\Git\mingw64\bin;F:\Program Files\Git\usr\bin;C:\Users\Junior\bin;C:\Program Files\Oculus\Support\oculus-runtime;C:\programdata\oracle\java\javapath;C:\windows\system32;C:\windows;C:\windows\system32\wbem;C:\windows\system32\windowspowershell\v1.0;C:\program files (x86)\ati technologies\ati.ace\core-static;C:\program files (x86)\amd\ati.ace\core-static;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Python;E:\Program Files (x86)\OpenVPN\bin;C:\Users\Junior\AppData\Local\Microsoft\WindowsApps;C:\adb;E:\Program Files\nodejs;E:\Program Files (x86)\Brackets\command;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;F:\Program Files (x86)\Brackets\command;C:\WINDOWS\System32\OpenSSH;F:\Program Files\Git\cmd;F:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\nodejs;F:\Ruby25-x64\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Python;E:\Program Files (x86)\OpenVPN\bin;C:\Users\Junior\AppData\Local\Microsoft\WindowsApps;F:\Program Files\heroku\bin;C:\Users\Junior\AppData\Local\Yarn\bin;C:\Users\Junior\AppData\Roaming\npm;F:\Program Files\Git\usr\bin\vendor_perl;F:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.9.4
+
+Node version: 
+  10.11.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/jsonwebtokens: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:64202:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:137468:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:138440:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:138362:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1092:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "auth-ii",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/bennyo27/auth-ii",
+    "author": "Benny Oseguera <oseguerabenny27@gmail.com>",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
