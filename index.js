@@ -6,6 +6,6 @@ const userRoutes = require('./routes/userRoutes.js');
 const server = express();
 const port = 5000;
 
-server.use('/api/user/', userRoutes);
+server.use('/api/users/', userRoutes);
 
 server.listen(port, () => { console.log(`\n=== Listening on port ${ port } ===`) });
