@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 const usersTable = require('./data/helpers/credsmodel');
 const errorHandler = require('./api/ErrorHandler/errorhandler');
-const tokenHelper = require('./data/tokens');
+const tokenHelper = require('./data/helpers/tokens');
 
 
 
@@ -35,50 +35,46 @@ const protected = (req, res, next) => {
 	}
 };
 
-// ~~ Global restricted routes ~~ //
-// const restricted = (req, res, next) => {
-// 	if(req.url.includes('/api/restricted')) {
-// 		if(req.session && req.session.username) {
-// 			next();
-// 		} else {
-// 			next(["h401", "Not authorized!"]);
-// 		}
-// 	} else {
-// 		next();
-// 	}
-// };
-// server.use(restricted);
-
 
 
 // Routes
 // ~~ User registration ~~ //
-// addNewUser({username: 'string', password: 'hashed string'}) -> [id: int]
+// addNewUser({username: 'string', password: 'hashed string', department: 'string'}) -> [id: int]
 server.post('/api/register', (req, res, next) => {
-    const credentials = req.body;
-    const hash = bcrypt.hashSync(credentials.password, 13);
-    credentials.password = hash;
+    if(req.body.username && req.body.password && req.body.department) {
+        const newUser = {
+            username: req.body.username, 
+            password: req.body.password, 
+            department: req.body.department
+        };
+        const hash = bcrypt.hashSync(newUser.password, 13);
+        newUser.password = hash;
 
-    usersTable.addNewUser(credentials)
-        .then((id) =>{
-            res.status(201).json({"newUserId": id[0]});
-        })
-        .catch((err) => {
-            next(["h500", err]);
-        });
+        usersTable.addNewUser(newUser)
+            .then((id) =>{
+                res.status(201).json({"newUserId": id[0]});
+            })
+            .catch((err) => {
+                next(["h500", err]);
+            });
+    } else {
+        next(["h400", "Missing properties!"]);
+    }
 });
 
 // ~~ User login ~~ //
-// authUser({username: 'string'}) -> {id: int, username: 'string', password: 'hashed string'}
+// authUser({username: 'string', password: 'string}) -> {id: int, username: 'string', password: 'hashed string', department: 'string'}
 server.post('/api/login', (req, res, next) => {
-    const credentials = req.body;
+    const credentials = {
+        username: req.body.username, 
+        password: req.body.password
+    };
 
 	usersTable.authUser(credentials)
 		.then((user) => {
 			if(user && bcrypt.compareSync(credentials.password, user.password)) {
-                console.log('User:', user);
-                const token = tokenHelper.generateToken(user);
-				res.status(200).json({"message": 'Welcome home. Country roads.', token});
+                const token = tokenHelper.generateToken(user.id);
+				res.status(200).json({"message": `Affirmative, ${user.username}. I read you.`, token});
 			} else {
 				next(["h401", "You shall not pass!"]);
 			}
@@ -89,7 +85,7 @@ server.post('/api/login', (req, res, next) => {
 });
 
 // ~~ A targeted protected route ~~ //
-// find() -> [{id: int, username: 'string'}, ..., {id: int, username: 'string'}]
+// find() -> [{id: int, username: 'string', department: 'string'}, ..., {id: int, username: 'string', department: 'string'}]
 server.get('/api/users', protected, (req, res, next) => {
     usersTable.find()
         .then((users) => {
@@ -99,18 +95,6 @@ server.get('/api/users', protected, (req, res, next) => {
             next(["h500", err]);
         });
 });
-
-// ~~ A global restricted route ~~ //
-// find() -> [{id: int, username: 'string'}, ..., {id: int, username: 'string'}]
-// server.get('/api/restricted/users', (req, res, next) => {
-//     usersTable.find()
-//         .then((users) => {
-//             res.status(200).json(users);
-//         })
-//         .catch((err) => {
-//             next(["h500", err]);
-//         });
-// });
 
 // ~~ Catch-all 404 ~~ //
 server.use((req, res, next) => {

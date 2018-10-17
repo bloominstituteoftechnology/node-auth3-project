@@ -1,0 +1,49 @@
+// jsonwebtoken (npm)
+
+const generateToken = (user) => {
+	// no PII/sensitive data in the payload
+	const jwtPayload = {...user, hello: 'FSW13', role: 'admin'};
+	const jwtSecret = 'mother, I killed a man!';
+	const jwtOptions = {
+		expiresIn: '1m'
+	};
+	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+};
+
+get('/login'...
+const token = generateToken(user);
+res.status(200).json({welcome: user, token});
+
+get('/api/users', protected, checkRole('admin'), ...
+console.log(req.decodedToken);
+
+const protected = (req, res, next) => {
+	const token = req.headers.authorization;
+	
+	if(token) {
+		jwt.verify(token, secret, (err, decodedToken) => {
+			if(err) {
+				// token verification failed
+				next(["h401", "Invalid token!"]);
+			} else {
+				// token is valid
+				req.decodedToken = decodedToken;
+				next();
+			}
+		});
+	} else {
+		next(["h401", "No token provided."]);
+	}
+};
+
+
+// bonus middleware!
+function checkRole(role) {
+	return function(req, res, next) {
+		if(req.decodedToken && req.decodedToken.roles.includes(role)) {
+			next();
+		} else {
+			next(["h403", 'Nope!']);
+		}
+	}
+}
