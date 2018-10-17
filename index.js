@@ -12,15 +12,13 @@ const db = knex(knexConfig.development);
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
-
+const jwtSecret = "dontforgettolikeandsubscribe";
 function generateToken(user) {
 	const payload = {
 		...user.username,
 		hello: "Welcome",
-		role: "admin"
+		department: "IT"
 	};
-
-	const jwtSecret = "dontforgettolikeandsubscribe";
 
 	const JwtOptions = {
 		expiresIn: "10m"
@@ -61,7 +59,7 @@ server.post("/api/login", (req, res) => {
 		});
 });
 
-server.get("/api/users", (req, res) => {
+server.get("/api/users", protected, checkRole("IT"), (req, res) => {
 	db("users")
 		.select("id", "username", "password")
 		.then(users => {
@@ -69,5 +67,32 @@ server.get("/api/users", (req, res) => {
 		})
 		.catch(err => res.send(err));
 });
+
+function protected(req, res, next) {
+	const token = req.headers.authorization;
+	jwt.verify(token, jwtSecret, (err, decodedToken) => {
+		if (err) {
+			res.status(401).json({ message: "Invalid Token" });
+		} else {
+			req.decodedToken = decodedToken;
+			next();
+		}
+	});
+
+	if (token) {
+	} else {
+		res.status(401).json({ message: "No token provided" });
+	}
+}
+
+function checkRole(department) {
+	return function(req, res, next) {
+		if (req.decodedToken && req.decodedToken.department === department) {
+			next();
+		} else {
+			res.status(403).json({ message: "you shall not pass" });
+		}
+	};
+}
 
 server.listen(3300, () => console.log("\nrunning on port 3300\n"));
