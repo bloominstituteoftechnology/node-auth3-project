@@ -7,6 +7,7 @@ class Register extends Component {
         password: '',
         department: '',
         error: '',
+        isError: false,
     };
 
     handleInput = e => {
@@ -18,14 +19,19 @@ class Register extends Component {
         e.preventDefault();
 
         const endpoint = 'http://localhost:4000/api/register';
-        axios.post(endpoint, this.state).then(res => {
+        const username = {username: this.state.username};
+        const password = {password: this.state.password};
+        const department = {department: this.state.department};
+        const user = Object.assign(username, password, department);
+        
+        axios.post(endpoint, user).then(res => {
             localStorage.setItem('jwt', res.data.token);
             this.props.setDepartment(this.state.department);
-            
+
             this.props.history.push('/users');
         }).catch(err => {
-            console.log('REGISTER ERROR', err.response.data.message);
-            this.setState({error: err.response.data.message});
+            console.log('REGISTER ERROR', err.response);
+            this.setState({error: err.response.data.message, isError: true});
         });
     };
 
@@ -49,7 +55,7 @@ class Register extends Component {
                     <button type="submit">Register</button>
                 </div>
                 <div>
-                    <h2>{!this.state.error === null || !this.state.error === '' ? `` : `${this.state.error}`}</h2>
+                    <h2>{this.state.isError ? `${this.state.error}` : ``}</h2>
                 </div>
             </form>
         );
