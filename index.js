@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -11,7 +12,7 @@ server.use(express.json());
 const db = require('./data/dbConfig.js'); // database configuration file location
 
 // CONFIG: server settings
-const serverPort = 7100; // server port
+const serverPort = process.env.PORT || 7100; // server port
 const serverName = `auth-i`; // Name of server to display at "/" endpoint 
 const projectPullRequest = `https://github.com/LambdaSchool/auth-ii/pull/215`;
 
@@ -27,7 +28,7 @@ server.get('/', (req, res) => { // sanity check root endpoint
   res.send(`${serverName} running on port ${serverPort}<br>More information: <a href="${projectPullRequest}">GitHub Repo</a>`);
 });
 
-const jwtSecret = 'this.is.a.secret.to.everyboday'; // Secret encryption key that won't allow malicious use of the cookie
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';
 
 function generateToken(user) { // Generates token for cookie
 
@@ -49,7 +50,6 @@ server.post('/api/login', (req, res) => { // api login endpoint
   db('users').where({ username: creds.username }) // search users db for username
     .first() // return first result
     .then(user => {
-      console.log(user)
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user); // LOOK BACK AT THIS (might change to username)
         // check if user exists and user bcrypt hashed password with submitted password
