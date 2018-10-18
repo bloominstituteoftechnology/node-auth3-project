@@ -6,28 +6,15 @@ import Users from '../components/Users';
 class UsersView extends Component {
     constructor(props) {
         super(props);
+    }
         state = {
             users: [],
         };
 
-    }
-    componentDidMount() {
-        const endpoint = 'http://localhost:3300/api/users';
     
-        axios
-          .get(endpoint)
-          .then(res => {
-            console.log(res.data);
-            this.setState({ users: res.data.users })
-          })
-          .catch(err => {
-            console.error('ERROR', err);
-          });
-      }
-
-      render() {
+        render() {
           return (
-              <Users {...props} users={this.state.users} />
+              <Users {...this.props} users={this.state.users} />
           )
       }
 
@@ -40,6 +27,15 @@ class UsersView extends Component {
                   Authorization: token,
               },
           };
+          axios
+          .get(endpoint, options)
+          .then(res => {
+              console.log(res.data);
+              this.setState({ users: res.data.users });
+          })
+          .catch(err => {
+              console.error('ERROR', err);
+          });
       }
     }
     

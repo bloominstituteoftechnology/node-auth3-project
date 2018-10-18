@@ -4,11 +4,13 @@ import axios from 'axios';
 import Home from '../components/Home';
 
 class HomeView extends Component {
-    constructor(props)
+    constructor(props) {
+        super(props);
+    }
     
     render() {
         return (
-            <Home {...props} />
+            <Home {...this.props} />
         )
     }
 }

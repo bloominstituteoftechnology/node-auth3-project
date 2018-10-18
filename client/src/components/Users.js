@@ -6,9 +6,9 @@ export default function Users(props) {
        <div>
            <h2>List of users</h2>
            <ul>
-               props.users.map(u => {
-                   <li key={u.id}>u.username</li>
-               })
+               {props.users.map(u => (
+                   <li key={u.id}>{u.username}</li>
+               ))}
            </ul>
       </div>
     );
