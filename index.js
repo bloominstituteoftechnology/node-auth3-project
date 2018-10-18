@@ -13,7 +13,7 @@ const db = require('./data/dbConfig.js'); // database configuration file locatio
 // CONFIG: server settings
 const serverPort = 7100; // server port
 const serverName = `auth-i`; // Name of server to display at "/" endpoint 
-const serverPullRequest = `https://github.com/LambdaSchool/auth-ii/pull/215`;
+const projectPullRequest = `https://github.com/LambdaSchool/auth-ii/pull/215`;
 
 // CONFIG: endpoint routing
 // const users = require('./data/routes/usersRoutes');
@@ -24,7 +24,7 @@ const users = require('./data/models/usersModels');
 
 // ENDPOINTS
 server.get('/', (req, res) => { // sanity check root endpoint
-  res.send(`${serverName} running on port ${serverPort}<br>More information: <a href="${serverPullRequest}">GitHub Repo</a>`);
+  res.send(`${serverName} running on port ${serverPort}<br>More information: <a href="${projectPullRequest}">GitHub Repo</a>`);
 });
 
 const jwtSecret = 'this.is.a.secret.to.everyboday'; // Secret encryption key that won't allow malicious use of the cookie
@@ -49,6 +49,7 @@ server.post('/api/login', (req, res) => { // api login endpoint
   db('users').where({ username: creds.username }) // search users db for username
     .first() // return first result
     .then(user => {
+      console.log(user)
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user); // LOOK BACK AT THIS (might change to username)
         // check if user exists and user bcrypt hashed password with submitted password
