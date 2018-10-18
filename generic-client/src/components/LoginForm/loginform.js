@@ -11,6 +11,13 @@ class LoginForm extends Component {
 		event.preventDefault();
 	};
 
+	inputHandler = (event) => {
+		this.setState({
+			...this.state,
+			[event.EventTarget.name]: event.target.value
+		});
+	};
+
 	render() {
 		return (
 			<div>
