@@ -1,28 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route, NavLink, withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import HomeView from './views/HomeView';
+import LoginView from './views/LoginView';
+import UsersView from './views/UsersView';
+
 import './App.css';
+
+const Button = styled.button`
+  text-align: center;
+  background-color: #24B8BD;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  width: 200px;
+  height: 3rem;
+  margin: 0.5rem 0;
+`
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <NavLink to="/login" activeClassName="activeNavButton">
+          <Button>
+            Log In
+            </Button>
+            </NavLink>
+            <NavLink to="/users" activeClassName="activeNavButton">
+          <Button>
+            Users List
+            </Button>
+            </NavLink>
         </header>
+        <Route exact path="/" render={() => <HomeView {...this.props} />} />
+        <Route path="/users" render={() => <UsersView {...this.props} />} />
+        <Route path="/login" render={() =><LoginView {...this.props} />} />
       </div>
     );
   }
+
+  signout = () => {
+    localStorage.removeItem('jwt');
+  };
 }
 
-export default App;
+export default withRouter(App);
