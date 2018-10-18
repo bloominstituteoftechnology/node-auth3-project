@@ -14,7 +14,7 @@ server.get('/', (req, res) => {
     res.send('Its Alive!');
 });
 
-const jwtSecret = 'everybody*goes$kung&fu@fight!!';
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';;
 
 function generateToken(user) {
     const jwtPayload = {
@@ -48,7 +48,6 @@ server.post('/api/login', (req, res) => {
         .where({ username: creds.username })
         .first()
         .then(user => {
-            console.log(creds.password);
             if (user && bcrypt.compareSync(creds.password, user.password)) {
                 const token = generateToken(user);
                 res.status(200).json({ welcome: user.username, token });
@@ -110,4 +109,5 @@ function checkRole(role){
 //     }
 //   });
 
-server.listen(3300, () => console.log('\nrunning on port 3300\n'));
+const port = process.env.PORT || 3300;
+server.listen(port, () => console.log('\nrunning on port 3300\n'));
