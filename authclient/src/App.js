@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, NavLink } from "react-router-dom";
 import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 import Users from "./components/Users";
 import Home from "./components/Home";
 
@@ -18,6 +19,7 @@ class App extends Component {
             <NavLink to="/" exact>
               Home
             </NavLink>
+            &nbsp;&nbsp;
             <NavLink to="/users" exact>
               Users
             </NavLink>
@@ -28,6 +30,7 @@ class App extends Component {
         </header>
         <Route exact path="/" component={Home} />
         <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
         <Route exact path="/users" component={Users} />
       </div>
     );
