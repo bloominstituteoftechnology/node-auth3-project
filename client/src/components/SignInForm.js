@@ -17,6 +17,7 @@ class SignInForm extends Component {
       .then(response => {
         console.log(response.data);
         localStorage.setItem('jwt', response.data.token);
+        this.props.history.push('/users');
         })
         
       .catch(err => {

@@ -6,74 +6,67 @@ class SignUpForm extends Component {
     username: '',
     password: '',
     department: ''
-  }
+  };
 
   userSignUp = event => {
-    // event.preventDefault();
-
-    const user = { username: this.state.username, password: this.state.password, department: this.state.department };
-
+    event.preventDefault();
+  
+    console.log(this.state);
     axios
-      .post('http://localhost:4000/api/register', user)
+      .post('http://localhost:4000/api/register', this.state)
 
-      .then(response =>
-        this.setState({ user: response.data.users })
-      )
-
+      .then(response => {
+        console.log(response.data);
+        localStorage.setItem('jwt', response.data.token);
+        this.props.history.push('/users');
+        })
+        
       .catch(err => {
         console.log(err);
       });
-
-    this.setState({
-      username: '',
-      password: '',
-      department: ''
-    });
   };
 
   handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
   render() {
     return (
-      <div className="SignUpForm">
-        <form onSubmit={this.userSignUp}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              onChange={this.handleInputChange}
-              placeholder="username"
-              value={this.state.username}
-              name="username"
-            />
-          </div>
-          <div>
-            <label htmlFor="department">Department</label>
-            <input
-              onChange={this.handleInputChange}
-              placeholder="department"
-              value={this.state.department}
-              name="department"
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={this.handleInputChange}
-              placeholder="password"
-              value={this.state.password}
-              name="password"
-            />
-          </div>
-          <div>
-            <button type="submit">Sign Up</button>
-          </div>
-        </form>
-      </div>
+      <form onSubmit={this.userSignUp}>
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            name="username"
+            value={this.state.username}
+            onChange={this.handleInputChange}
+            type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="department">Department</label>
+          <input
+            name="department"
+            value={this.state.department}
+            onChange={this.handleInputChange}
+            type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            type="password"
+          />
+        </div>
+        <div>
+          <button type="submit">Sign Up</button>
+        </div>
+      </form>
     );
   }
 }
 
 export default SignUpForm;
-

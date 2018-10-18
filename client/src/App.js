@@ -2,41 +2,43 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import axios from 'axios';
+import { NavLink, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
+import Home from './components/Home';
 import UsersList from './components/UsersList';
 import SignUpForm from './components/SignUpForm';
 import SignInForm from './components/SignInForm';
 
 class App extends Component {
-  state = {
-    users: [],
-    username: ''
-  }
+  // state = {
+  //   users: [],
+  //   username: ''
+  // }
 
   userSignOut = () => {
     localStorage.removeItem('jwt');
   };
 
-  componentDidMount() {
-    const token = localStorage.getItem('jwt');
+  // componentDidMount() {
+  //   const token = localStorage.getItem('jwt');
 
-    const options = {
-      headers: {
-        Authorization: token,
-      },
-    };
+  //   const options = {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   };
 
-    axios
-      .get(`http://localhost:4000/api/users`, options)
-      .then(response => {
-        console.log(response.data);
-        this.setState({ users: response.data.users });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  //   axios
+  //     .get(`http://localhost:4000/api/users`, options)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       this.setState({ users: response.data.users });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 
   render() {
     return (
@@ -46,33 +48,42 @@ class App extends Component {
           <p>
             Authentication w/ JWTs
           </p>
+          <nav>
+            <NavLink to="/" exact>
+              Home
+            </NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to="/users">Users</NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to="/signin">Sign In</NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to="/signup">Sign Up</NavLink>
+            &nbsp;|&nbsp;
+            
+            <span onClick={this.userSignOut}>Sign Out</span>
+          </nav>
         </header>
-        <div>
-          <UsersList users = {this.state.users} />
-        </div>
-        <div>
-        <SignUpForm 
-          name={this.state.username} 
-          password={this.state.password} 
-          department={this.state.department} 
-          userSignUp={this.userSignUp}
-          handleInputChange={this.handleInputChange}
-        />  
-        </div>
-        <div>
-        <SignInForm 
-          name={this.props.username} 
-          password={this.props.password} 
-          userSignIn={this.props.userSignIn}
-          handleInputChange={this.props.handleInputChange}
-        />  
-        </div>
-        <div>
-        <button onClick={this.userSignOut}>Sign Out</button>
-        </div>
+
+        <main>
+        <Route path="/" component={Home} exact />
+
+        <Route
+          path="/users"
+          component={UsersList} />
+
+        <Route
+          path="/signup"
+          component={SignUpForm}/>  
+
+
+        <Route
+          path="/signin"
+          component={SignInForm}/>
+        </main>
+        
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
