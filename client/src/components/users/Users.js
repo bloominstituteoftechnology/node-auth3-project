@@ -45,7 +45,6 @@ class Users extends Component {
     };
 
     handleUsers = (arr) => {
-        console.log('Users', this.props.department);
         const users = arr.filter(user => user.department === this.props.department);
         this.setState({users, error: '', isError: false});
     }

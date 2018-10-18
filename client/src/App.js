@@ -10,7 +10,7 @@ import './App.css';
 
 const Home = props => {
   return (
-    <div>
+    <div className="home">
       <h1>Home Component</h1>
     </div>
   );
@@ -23,13 +23,12 @@ class App extends Component {
 
   setDepartment = (dept) => {
     this.setState({department: dept});
-    console.log('APP', dept);
   };
 
   render() {
     return (
       <div className="App">
-        <header>
+        <header className="nav-header">
           <Navigation {...this.props} />
         </header>
         <main>

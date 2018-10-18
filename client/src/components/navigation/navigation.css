@@ -1,0 +1,16 @@
+nav {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    font-size: 20px;
+}
+nav .left {
+    width: 100%;
+    margin-left: 43.5%;
+}
+
+nav .right {
+    position: relative;
+    width: 15%;
+    right: 0;
+}
