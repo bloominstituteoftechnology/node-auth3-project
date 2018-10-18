@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, Route } from "react-router-dom";
-
+import { withRouter } from "react-router";
 import Users from "../Users";
 import Signin from "../Auth/Signin";
 
@@ -23,11 +23,11 @@ class App extends Component {
             <NavLink to="/" exact>
               Home
             </NavLink>
-            &nbsp;|&nbsp;
+            &nbsp;&nbsp;
             <NavLink to="/users">Users</NavLink>
-            &nbsp;|&nbsp;
+            &nbsp;&nbsp;
             <NavLink to="/signin">Signin</NavLink>
-            &nbsp;|&nbsp;
+            &nbsp;&nbsp;
             <button onClick={this.signout}>Signout</button>
           </nav>
           <main>
@@ -42,10 +42,11 @@ class App extends Component {
 
   signout = () => {
     localStorage.removeItem("jwt");
+    this.props.history.push("/");
   };
 }
 
-export default App;
+export default withRouter(App);
 
 // white-list: keep a list of valid tokens on the db
 

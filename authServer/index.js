@@ -1,73 +1,114 @@
-require("dotenv").config;
+require("dotenv").config();
+
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const {
-  secret,
-  tokenGenerator,
-  restrictionMiddleware
-} = require("./middleware");
-const db = require("./data/dbConfig.js");
-const morgan = require("morgan");
 const cors = require("cors");
-const port = 9001;
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const db = require("./data/dbConfig.js");
+
 const server = express();
 
 server.use(express.json());
-server.use(morgan("dev"));
 server.use(cors());
 
-server.post("/api/register", async (req, res) => {
-  try {
-    const credentials = req.body;
-    const hash = bcrypt.hashSync(credentials.password, 14);
-    credentials.password = hash;
-    const newUserId = await db("users").insert(credentials);
-    try {
-      const user = await db("users")
-        .where({ id: newUserId[0] })
-        .first();
-      const token = tokenGenerator(user);
-      return res.status(201).send(token);
-    } catch (error) {
-      return res.status(404).json({ message: "the user does not exist" });
-    }
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "the user could not be registered" });
-  }
+// implemented this
+server.post("/api/register", (req, res) => {
+  const credentials = req.body;
+
+  const hash = bcrypt.hashSync(credentials.password, 10);
+  credentials.password = hash;
+
+  db("users")
+    .insert(credentials)
+    .then(ids => {
+      const id = ids[0];
+      // query the database to get the user
+      const token = generateToken({ username: credentials.username });
+      res.status(201).json({ newUserId: id, token });
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
-server.post("/api/login", async (req, res) => {
-  try {
-    const credentials = req.body;
-    const user = await db("users")
-      .where({ username: credentials.username })
-      .first();
-    if (user && bcrypt.compareSync(credentials.password, user.password)) {
-      const token = tokenGenerator(user);
-      return res.status(200).send(token);
+const jwtSecret =
+  process.env.JWT_SECRET || "add a secret to your .env file with this key";
+
+function generateToken(user) {
+  const jwtPayload = {
+    ...user,
+    hello: "FSW13",
+    roles: ["admin", "root"]
+  };
+  const jwtOptions = {
+    expiresIn: "1h"
+  };
+
+  console.log("token from process.env", jwtSecret);
+  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
+
+server.post("/api/login", (req, res) => {
+  const creds = req.body;
+
+  db("users")
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user); // new line
+        res.status(200).json({ welcome: user.username, token });
+      } else {
+        res.status(401).json({ message: "you shall not pass!" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+});
+
+// protect this route, only authenticated users should see it
+server.get("/api/users", protected, checkRole("admin"), (req, res) => {
+  db("users")
+    .select("id", "username", "password")
+    .then(users => {
+      res.json({ users });
+    })
+    .catch(err => res.send(err));
+});
+
+function protected(req, res, next) {
+  // authentication tokens are normally sent as a header instead of the body
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        // token verification failed
+        res.status(401).json({ message: "invalid token" });
+      } else {
+        // token is valid
+        req.decodedToken = decodedToken; // any sub-sequent middleware of route handler have access to this
+        console.log("\n** decoded token information **\n", req.decodedToken);
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "no token provided" });
+  }
+}
+
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+      next();
     } else {
-      return res
-        .status(404)
-        .json({ message: "You shall not pass! Attempt was logged!" });
+      res.status(403).json({ message: "you shall not pass! forbidden" });
     }
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "an error occurred during the login process" });
-  }
-});
+  };
+}
 
-server.get("/api/users", restrictionMiddleware, async (req, res) => {
-  try {
-    const allUsers = await db("users").select("id", "username", "department");
-    return res.status(200).json(allUsers);
-  } catch (error) {
-    return res.status(500).json({ message: "Users could not be fetched." });
-  }
-});
+const port = process.env.PORT || 9001;
+server.listen(port, () => console.log("\nrunning on port 9001\n"));
 
-server.listen(port, () =>
-  console.log(`\n === API running on port ${port} ===\n`)
-);
+// Unhandled rejection Error: Can't set headers after they are sent.

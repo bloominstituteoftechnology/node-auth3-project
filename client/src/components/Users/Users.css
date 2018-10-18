@@ -1,0 +1,13 @@
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+li {
+  margin: 30px;
+  background: #333;
+  padding: 30px;
+  border: 2px solid #fff;
+}
