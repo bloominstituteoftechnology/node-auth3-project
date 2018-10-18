@@ -14,7 +14,7 @@ class Users extends Component {
             <div>
                 <h1>List of Users</h1>
                 <h2>{this.state.isError ? `You are not authorized to view this page.` : ''}</h2>
-                {this.state.isError ? <NavLink to="/register">Register</NavLink> : ''}
+                <span>{this.state.isError ? <NavLink to="/register">Register</NavLink> : ''} Or {this.state.isError ? <NavLink to="/login">Login</NavLink> : ''}</span>
                 <ul>
                     {this.state.users.map(u => (<li key={u.id}>{u.username}</li>))}
                 </ul>
