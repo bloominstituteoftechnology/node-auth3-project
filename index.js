@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const helmet = require('helmet');
 const knex = require('knex');
 
 const knexConfig = require('./knexfile.js');
@@ -14,10 +15,11 @@ const port = 3300;
 
 server.use(cors());
 server.use(morgan('combined'));
+server.use(helmet());
 server.use(express.json());
 
 
-const secret = 'high fiving a million angels';
+const secret = process.env.SECRET;
 
 function restricted(req, res, next) {
     const token = req.headers.authorization;
