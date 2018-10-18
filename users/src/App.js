@@ -3,6 +3,7 @@ import { NavLink, Route } from 'react-router-dom';
 
 import Users from './users/Users';
 import Signin from './auth/Signin';
+import Register from './auth/Register';
 
 import './App.css';
 
@@ -27,6 +28,8 @@ class App extends Component {
             &nbsp;|&nbsp;
             <NavLink to="/users">Users</NavLink>
             &nbsp;|&nbsp;
+            <NavLink to="/register">Register</NavLink>
+            &nbsp;|&nbsp;
             <NavLink to="/signin">Sign In</NavLink>
             &nbsp;|&nbsp;
             <NavLink to="/signin" onClick={this.signout}>Sign Out</NavLink>
@@ -36,6 +39,7 @@ class App extends Component {
             <Route path="/" component={Home} exact />
             <Route path="/users" component={Users} />
             <Route path="/signin" component={Signin} />
+            <Route path="/register" component={Register} />
           </main>
         
       </div>

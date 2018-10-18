@@ -42,7 +42,6 @@ class Signin extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
     const endpoint = 'http://localhost:3300/api/login';
     console.log(this.state);
     axios
