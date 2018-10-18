@@ -6,16 +6,13 @@ module.exports = {
     client: 'sqlite3',
     connection: {
       filename: './data/db.sqlite3'
-    }
+    },
+    useNullAsDefault: true,
   },
-  useNullAsDefault: true, // used to avoid warning on console
   migrations: {
     directory: './data/migrations',
   },
   seeds: { 
     directory: './data/seeds' 
   },
-
-
-
 };

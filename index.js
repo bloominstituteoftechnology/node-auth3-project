@@ -14,7 +14,7 @@ server.get('/', (req, res) => {
   res.send('Welcome!');
 });
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const creds = req.body;
 
   const hash = bcrypt.hashSync(creds.password, 10);
@@ -38,9 +38,41 @@ server.post('/register', (req, res) => {
 
 const jwtSecret = 'that/s.my.secret.Cap,I/m.always.angry';
 
+function generateToken(user) {
+  const jwtPayload = {
+    ...user,
+    roles: ['admin', 'root'],
+  };
+  const jwtOptions = {
+    expiresIn: '1m',
+  };
+  
+  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
 
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
 
-server.get('/users', protected, (req, res) => {
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res
+          .status(200)
+          .json({
+            welcome: user.username, token
+          });
+      } else {
+        res
+          .status(401)
+          .json({ message: 'Nope.' })
+      }
+    })
+})
+
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
@@ -68,5 +100,5 @@ function protected(req, res, next) {
   }
 }
 
-port = 8675;
+port = 3300;
 server.listen(port, () => console.log(`\n= = Running on port ${port} = =\n`))
