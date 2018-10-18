@@ -53,6 +53,7 @@ class Login extends Component {
       .post(endpoint, this.state)
       .then(res => {
           console.log(res.data);
+          localStorage.setItem("jwt", res.data.token)
       })
       .catch(err => {
           console.error("We got us an error here", err);
