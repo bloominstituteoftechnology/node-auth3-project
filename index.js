@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -5,8 +7,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./db/dbConfig.js');
 const app = express();
-const port = 9000;
-const jwtSecret = 'Aho,Mitakuye.Oyasin/1017';
+const jwtSecret = process.env.JWT_SECRET
 
 app.use(express.json());
 app.use(helmet());
@@ -86,4 +87,5 @@ function protected(req, res, next) {
   }
 }
 
+const port = process.env.PORT || 9000;
 app.listen(port, () => console.log(`\n===${port} is live!===\n`))
