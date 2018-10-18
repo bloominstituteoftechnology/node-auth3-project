@@ -52,7 +52,7 @@ const GlobalStyle = createGlobalStyle`
   h3 {
     font-size: 2rem;
   }
-  p, a {
+  p, a, input, label, form {
     font-size: 1.6rem;
   }
 `
