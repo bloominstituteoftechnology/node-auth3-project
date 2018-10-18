@@ -9,8 +9,9 @@ class Signin extends Component {
 
   render() {
     return (
+        <div className='center'>
       <form onSubmit={this.handleSubmit}>
-        <div>
+        <div className='form-item'>
           <label htmlFor="username">Username</label>
           <input
             name="username"
@@ -19,7 +20,7 @@ class Signin extends Component {
             type="text"
           />
         </div>
-        <div>
+        <div className='form-item'>
           <label htmlFor="password">Password</label>
           <input
             name="password"
@@ -32,6 +33,7 @@ class Signin extends Component {
           <button type="submit">Signin</button>
         </div>
       </form>
+      </div>
     );
   }
 
