@@ -10,7 +10,7 @@ class SignInView extends Component {
   render() {
     return (
         <div>
-            <h1>Sign Up User</h1>
+            <h1>Sign In</h1>
             <form onSubmit={this.handleSubmit}>
                 <div>
                 <label htmlFor="username">Username</label>
@@ -31,7 +31,7 @@ class SignInView extends Component {
                 />
                 </div>
                 <div>
-                <button type="submit">Signin</button>
+                <button type="submit">Sign in</button>
                 </div>
             </form>
         </div>

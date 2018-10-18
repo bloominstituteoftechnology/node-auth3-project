@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './view.css';
 
 class Users extends Component {
   state = {
@@ -15,9 +16,12 @@ class Users extends Component {
             <li key={u.id}>{u.username}</li>
           ))}
         </ul>
+        <h3 className="alertMessage">You have not signed in to view the users</h3>
       </div>
     );
   }
+
+  alertMessage = document.getElementsByClassName('alertMessage');
 
   componentDidMount() {
     const token = localStorage.getItem('jwt');
@@ -35,6 +39,7 @@ class Users extends Component {
         this.setState({ users: res.data.users });
       })
       .catch(err => {
+        this.alertMessage[0].style.display = "block";
         console.error('ERROR', err);
       });
   }

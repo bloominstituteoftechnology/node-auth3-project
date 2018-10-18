@@ -14,21 +14,22 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h1 className="App-title">User List</h1>
-          <nav className="navigation-panel">
-              <button onClick={() => this.props.history.push("/")}
+            <h1 className="App-title">User List</h1>
+            <nav className="navigation-panel">
+                <button onClick={() => this.props.history.push("/")}
                       className="Home-button">
                       Home</button>
-              <button onClick={() => this.props.history.push("/signup")}  
+                <button onClick={() => this.props.history.push("/signup")}  
                       className="signup-button">
                       Sign Up</button>
-              <button onClick={() => this.props.history.push("/signin")}  
+                <button onClick={() => this.props.history.push("/signin")}  
                       className="signin-button">
                       Sign In</button>
-              <button onClick={() => this.props.history.push("/users")}  
+                <button onClick={() => this.props.history.push("/users")}  
                       className="users-button">
                       Users</button>
-          </nav>
+                <button onClick={this.signout}>Signout</button>
+           </nav>
         </div>
         <div className="display-panel">
             <Route  exact
@@ -44,6 +45,12 @@ class App extends Component {
         
       </div>
     );
+  }
+  signout = ()=>{
+        localStorage.removeItem('jwt');
+        return (
+                <h3>You have been signed out.</h3>
+        )
   }
 }
 

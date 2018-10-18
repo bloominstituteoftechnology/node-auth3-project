@@ -10,7 +10,7 @@ class SignUpView extends Component {
   render() {
     return (
       <div>
-        <h1>Sign Up User</h1>
+        <h1>Sign Up New User</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="username">Username</label>
@@ -31,12 +31,15 @@ class SignUpView extends Component {
             />
           </div>
           <div>
-            <button type="submit">Signin</button>
+            <button type="submit">Sign up</button>
           </div>
         </form>
+        <h3 className="alertMessage">{`${this.state.username} is now a user`}</h3>
       </div>
     );
   }
+
+  signedUpMessage = document.getElementsByClassName('alertMessage');
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -52,6 +55,7 @@ class SignUpView extends Component {
       .then(res => {
         console.log(res.data);
         localStorage.setItem('jwt', res.data.token);
+        this.signedUpMessage[0].style.display = 'block';
       })
       .catch(err => {
         console.error('ERROR', err);
