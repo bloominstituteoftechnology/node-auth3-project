@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Router, Link } from "react-router-dom";
 import axios from "axios";
 
 class SignUp extends Component {
@@ -10,38 +11,44 @@ class SignUp extends Component {
 
   render() {
     return (
-      <form onSubmit={this.signUp}>
-        <div>
-          <label>Username</label>
-          <input
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            type="text"
-          />
-        </div>
-        <div>
-          <label>Department</label>
-          <input
-            name="department"
-            value={this.state.department}
-            onChange={this.handleChange}
-            type="text"
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </div>
-        <div>
-          <button type="submit">Register</button>
-        </div>
-      </form>
+      <div>
+        <form onSubmit={this.signUp}>
+          <div>
+            <label>Username</label>
+            <input
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+              type="text"
+            />
+          </div>
+          <div>
+            <label>Department</label>
+            <input
+              name="department"
+              value={this.state.department}
+              onChange={this.handleChange}
+              type="text"
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              type="password"
+            />
+          </div>
+          <div>
+            <button type="submit">Register</button>
+          </div>
+        </form>
+        <h3>
+          {" "}
+          Already registered? Sign in <Link to="/signin">here!</Link>
+        </h3>
+      </div>
     );
   }
 

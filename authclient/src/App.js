@@ -14,19 +14,25 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1>Welcome!</h1>
-          <nav>
-            <NavLink to="/" exact>
+          <h1>Client Side Authentication</h1>
+          <nav className="main-nav">
+            <NavLink className="app-link" to="/" exact>
               Home
             </NavLink>
             &nbsp;&nbsp;
-            <NavLink to="/users" exact>
+            <NavLink className="app-link" to="/users" exact>
               Users
             </NavLink>
+            &nbsp;&nbsp;
+            <NavLink
+              onClick={this.logout}
+              className="app-link"
+              to="/signin"
+              exact
+            >
+              Log Out
+            </NavLink>
           </nav>
-          <div>
-            <button onClick={this.logout}>Log Out</button>
-          </div>
         </header>
         <Route exact path="/" component={Home} />
         <Route exact path="/signin" component={SignIn} />

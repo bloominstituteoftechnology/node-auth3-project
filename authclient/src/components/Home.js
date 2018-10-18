@@ -6,7 +6,15 @@ const Home = props => {
     <div>
       <h1>Welcome!</h1>
       <h2>
-        <Link to="/signin"> Sign In</Link> or <Link to="/signup"> Sign Up</Link>
+        <Link className="app-link" to="/signin">
+          {" "}
+          Sign In
+        </Link>{" "}
+        or{" "}
+        <Link className="app-link" to="/signup">
+          {" "}
+          Sign Up
+        </Link>
         !
       </h2>
     </div>
