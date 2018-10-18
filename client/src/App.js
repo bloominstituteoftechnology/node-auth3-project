@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import UsersView from './views/UsersView';
+import RegisterView from './views/RegisterView';
 
 import './App.css';
 
@@ -24,7 +25,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <NavLink to="/login" activeClassName="activeNavButton">
+          <NavLink to="/signin" activeClassName="activeNavButton">
           <Button>
             Log In
             </Button>
@@ -34,10 +35,16 @@ class App extends Component {
             Users List
             </Button>
             </NavLink>
+            <NavLink to="/signup" activeClassName="activeNavButton">
+          <Button>
+            Register
+            </Button>
+            </NavLink>
         </header>
         <Route exact path="/" render={() => <HomeView {...this.props} />} />
         <Route path="/users" render={() => <UsersView {...this.props} />} />
-        <Route path="/login" render={() =><LoginView {...this.props} />} />
+        <Route path="/signin" render={() =><LoginView {...this.props} />} />
+        <Route path="/signup" render={() => <RegisterView {...this.props} />} />
       </div>
     );
   }

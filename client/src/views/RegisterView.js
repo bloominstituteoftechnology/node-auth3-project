@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import Register from '../components/Register';
 
-class LoginView extends Component {
+class RegisterView extends Component {
     constructor(props) {
         super(props);
     }
@@ -30,7 +30,7 @@ handleSubmit = (event) => {
         .then(res => {
             console.log(res.data);
             localStorage.setItem('jwt', res.data.token);
-            this.props.history.push('/');
+            this.props.history.push('/users');
         })
         .catch(err => {
             console.error('ERROR', err);

@@ -36,7 +36,8 @@ server.post('/api/register', (req, res) => {
     // save user
     db('users').insert(credentials).then(ids => {
         const id = ids[0];
-        res.status(201).json({ newUserId: id });
+        const token = generateToken({ username: credentials.username })
+        res.status(201).json({ newUserId: id, token });
     })
     .catch(err => {
         res.status(500).json({err});

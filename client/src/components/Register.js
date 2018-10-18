@@ -22,6 +22,15 @@ export default function Register(props) {
                     onChange={props.handleChange} />
            </div>
            <div>
+               <label htmlFor="department">
+               Department
+               </label>
+               <input type="text"
+                    name="department"
+                    value={props.department}
+                    onChange={props.handleChange} />
+           </div>
+           <div>
                <button type="submit">Signin</button>
            </div>
        </form> 
