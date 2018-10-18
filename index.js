@@ -119,15 +119,16 @@ server.get('/api/users', protected, (request, response) => {
         });
 });
 
-server.get('/api/logout', (request, response) => {
-    if (token) {
-        token.destroy();
-        return response
-            .status(200)
-            .json({ message: "User logged out." });
-    } else {
-        return response
-            .status(500)
-            .json({ message: "Unable to log out." });
-    }
-});
+// server.get('/api/logout', protected, (request, response) => {
+//     let token = request.headers.authorization;
+//     if (token) {
+//         token.destroy();
+//         return response
+//             .status(200)
+//             .json({ message: "User logged out." });
+//     } else {
+//         return response
+//             .status(500)
+//             .json({ message: "Unable to log out." });
+//     }
+// });
