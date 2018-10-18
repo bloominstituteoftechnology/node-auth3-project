@@ -40,8 +40,9 @@ class App extends Component {
     );
   }
   signout = () => {
-    localStorage.removeItem('jwt')
+    localStorage.removeItem('jwt');
   }
 }
-// whitelist or blacklist tokens
+// whitelist or blacklist tokens or refresh token
+// access token (short live) + refresh token (long live) 
 export default App;

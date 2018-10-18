@@ -39,7 +39,7 @@ function generateToken(user) { // Generates token for cookie
   };
 
   jwtOptions = {
-    expiresIn: '20s'
+    expiresIn: '1m'
   };
 
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
@@ -47,6 +47,7 @@ function generateToken(user) { // Generates token for cookie
 
 server.post('/api/login', (req, res) => { // api login endpoint
   const creds = req.body; // store body of post request in credentials variable
+
   db('users').where({ username: creds.username }) // search users db for username
     .first() // return first result
     .then(user => {
