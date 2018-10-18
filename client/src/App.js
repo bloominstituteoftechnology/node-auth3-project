@@ -4,8 +4,9 @@ import './App.css';
 
 import axios from 'axios';
 
-import UsersList from './components/UsersList.js';
+import UsersList from './components/UsersList';
 import SignUpForm from './components/SignUpForm';
+import SignInForm from './components/SignInForm';
 
 class App extends Component {
   state = {
@@ -14,8 +15,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const token = localStorage.getItem('jwt');
+
+    const options = {
+      headers: {
+        Authorization: token,
+      },
+    };
+
     axios
-      .get(`http://localhost:4000/api/users`)
+      .get(`http://localhost:4000/api/users`, options)
       .then(response => {
         console.log(response.data);
         this.setState({ users: response.data.users });
@@ -44,6 +53,14 @@ class App extends Component {
           department={this.state.department} 
           userSignUp={this.userSignUp}
           handleInputChange={this.handleInputChange}
+        />  
+        </div>
+        <div>
+        <SignInForm 
+          name={this.props.username} 
+          password={this.props.password} 
+          userSignIn={this.props.userSignIn}
+          handleInputChange={this.props.handleInputChange}
         />  
         </div>
       </div>
