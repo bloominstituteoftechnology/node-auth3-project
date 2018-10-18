@@ -38,7 +38,7 @@ class UserList extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.error ? (
+				{this.state.error && this.state.error.httpStatus ? (
 					<p>{`HTTP ${this.state.error.httpStatus}: ${
 						this.state.error.title
 					}`}</p>

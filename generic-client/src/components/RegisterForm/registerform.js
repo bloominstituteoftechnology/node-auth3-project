@@ -12,6 +12,13 @@ class RegisterForm extends Component {
 		event.preventDefault();
 	};
 
+	inputHandler = (event) => {
+		this.setState({
+			...this.state,
+			[event.EventTarget.name]: event.target.value
+		});
+	};
+
 	render() {
 		return (
 			<div>
@@ -26,9 +33,9 @@ class RegisterForm extends Component {
 						<input name="department" type="text" />
 					</label>
 					<br />
-					<label htmlFor="new-password">
+					<label htmlFor="password">
 						Password:
-						<input name="new-password" type="password" />
+						<input name="password" type="password" />
 					</label>
 					<br />
 					<input type="submit" value="Register" />
