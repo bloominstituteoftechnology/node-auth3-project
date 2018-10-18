@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {withRouter, NavLink, Route} from 'react-router-dom';
+import { Route, NavLink } from "react-router-dom";
 import UserList from './components/UserList';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -30,7 +30,8 @@ const Home = (props) => {
             <NavLink to = '/users'>Users</NavLink>
             <NavLink to = '/login'>Login</NavLink>
             <NavLink to ='/register'>Register</NavLink>
-            <NavLink to = '/' exact onClick={this.handleLogout}>Logout</NavLink>
+            <NavLink to = '/' exact onClick={this.handleLogout}>Logout
+            </NavLink>
           </nav>
         </header>
         <main>
@@ -46,4 +47,4 @@ const Home = (props) => {
   }
 }
 
- export default withRouter(App);
+ export default App;

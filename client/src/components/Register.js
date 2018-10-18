@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {withRouter} from 'react-router-dom';
  
 class Register extends React.Component {
   constructor(props){
@@ -55,4 +54,4 @@ class Register extends React.Component {
   }
 }
  
-export default withRouter(Register); 
+export default Register; 
