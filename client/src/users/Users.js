@@ -11,7 +11,7 @@ class Users extends Component {
       <div>
         <h2>List of Users</h2>
         <ul>
-          {this.state.users.map(user => <li key={user.id}>user.username</li>)}
+          {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
         </ul>
       </div>
     );
@@ -19,7 +19,8 @@ class Users extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('jwt');
-    const endpoint = 'http://localhost:3300/api/users';
+
+    const endpoint = 'http://localhost:7100/api/users';
     const options = {
       headers: {
         Authorization: token,
@@ -29,7 +30,7 @@ class Users extends Component {
       .get(endpoint, options)
       .then(res => {
         console.log(res.data);
-        this.setState({ users: res.data.users })
+        this.setState({ users: res.data })
       })
       .catch(err => {
         console.error('ERROR', err);
