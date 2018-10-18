@@ -1,4 +1,7 @@
+require("dotenv").config();
+
 const express = require("express");
+
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const knex = require("knex");
@@ -19,7 +22,7 @@ server.listen(9000, () => {
 });
 
 //token secret key
-const secret = "this.is%my^secret-key";
+const secret = process.env.JWT_SECRET;
 
 //Routes
 server.post("/api/register", (req, res) => {
@@ -62,6 +65,7 @@ server.post("/api/login", (req, res) => {
 
 function protected(req, res, next) {
   const token = req.headers.authorization;
+  console.log(req.headers);
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
@@ -73,7 +77,7 @@ function protected(req, res, next) {
       }
     });
   } else {
-    res.status(401).json({ error: "Not authorized" });
+    res.status(401).json({ error: "Not authorized, no token" });
   }
 }
 
