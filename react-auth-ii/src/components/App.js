@@ -1,13 +1,16 @@
 // Dependencies
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Components
-import ExampleComponent from './ExampleComponent';
+import HomePage from './HomePage';
+import SignupPage from './SignupPage';
+import LoginPage from './LoginPage';
+import UsersPage from './UsersPage';
 
 //Styles
-const AppContainer = styled.div`
+const AppDiv = styled.div`
 	display: flex;
 	max-width: 880px;
 	height: 100vh;
@@ -16,12 +19,29 @@ const AppContainer = styled.div`
 `;
 
 class App extends Component {
+	logout = () => {
+		localStorage.removeItem('jwt');
+	};
+
 	render() {
 		return (
-			<AppContainer>
-				{/* <Navbar /> */}
-				<Route exact path="/" component={ExampleComponent} />
-			</AppContainer>
+			<AppDiv>
+				<header className="nav-bar">
+					<nav>
+						<NavLink exact to="/">
+							Home
+						</NavLink>
+						<NavLink to="/users">Users</NavLink>
+						<NavLink to="/login">Login</NavLink>
+						<NavLink to="/signup">Sign Up</NavLink>
+						<button onClick={this.logout}>Logout</button>
+					</nav>
+				</header>
+				<Route exact path="/" component={HomePage} />
+				<Route path="/users" component={UsersPage} />
+				<Route path="/login" component={LoginPage} />
+				<Route path="/signup" component={SignupPage} />
+			</AppDiv>
 		);
 	}
 }
