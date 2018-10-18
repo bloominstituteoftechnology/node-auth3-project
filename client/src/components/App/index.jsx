@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { NavLink, Route } from "react-router-dom";
 
-import Users from "./components/Users";
-import Signin from "./components/Auth/Signin";
+import Users from "../Users";
+import Signin from "../Auth/Signin";
 
 import "./App.css";
 
 const Home = props => {
   return (
     <div>
-      <h1>Home Component</h1>
+      <h2>Home Component</h2>
     </div>
   );
 };
