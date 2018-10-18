@@ -5,7 +5,7 @@ import {withRouter, NavLink, Route} from 'react-router-dom';
 
 import UserList from './components/UserList';
 import Login from './components/Login';
-
+import Register from './components/Register';
 const Home = (props) => {
   return (
     <div>
@@ -22,14 +22,16 @@ class App extends Component {
         <header>
           <nav>
             <NavLink to = '/' exact>Home</NavLink>
-            <NavLink to = '/users'></NavLink>
+            <NavLink to = '/users'>Users</NavLink>
             <NavLink to = '/login'>Login</NavLink>
+            <NavLink to ='/register'>Register</NavLink>
           </nav>
         </header>
         <main>
           <Route exact path = '/' component = {Home} />
           <Route path = '/users' component = {UserList} />
           <Route path = '/login' component = {Login} />
+          <Route path = '/register' component = {Register} />
         </main>
       </div>
     );

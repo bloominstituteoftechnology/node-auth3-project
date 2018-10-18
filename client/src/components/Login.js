@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { spawn } from 'child_process';
-import { link } from 'fs';
+import {withRouter} from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props){
@@ -39,10 +38,11 @@ class Login extends React.Component {
         .catch(err => {
             console.error(err)
         })
-
+        setTimeout(() => {
+            this.props.history.replace('/users');
+        }, 1000)
     }
-
-
+        
     render() {
         return (
             <div>
@@ -58,4 +58,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);

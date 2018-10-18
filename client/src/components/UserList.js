@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
+
 
 class UserList extends React.Component {
     componentDidMount(){
@@ -28,7 +30,6 @@ class UserList extends React.Component {
             users: []
         }
 
-
     }
     render(){
         return(
@@ -36,7 +37,11 @@ class UserList extends React.Component {
                 <h2> List of users</h2>
                 <div>
                     {this.state.users.map(user => {
-                        return <div key = {user.id}>{user.username}</div>
+                        return <div key = {user.id}>
+                        <span>UserID:{user.id}</span>
+                        <span>Username:{user.username}</span>
+                        <span>Department:{user.department}</span>
+                        </div>
                     })}
                 </div>
             </div>
@@ -44,4 +49,4 @@ class UserList extends React.Component {
     }
 }
 
-export default UserList;
+export default withRouter(UserList);
