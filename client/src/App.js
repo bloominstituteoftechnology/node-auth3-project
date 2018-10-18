@@ -9,8 +9,9 @@ import {
 	Users,
 } from './components/index.js';
 
-// Styles
+// Styles and Animations
 import styled from 'styled-components';
+import TweenMax, { TimelineMax } from 'gsap';
 
 const AppDiv = styled.div`
 	background-color: #444;
@@ -44,16 +45,25 @@ const AppDiv = styled.div`
 			}
 		}
 	}
+
+	.message {
+		text-align: center;
+	}
 `;
 
 class App extends Component {
 	state = {
 		username: '',
 		department: '',
+		message: '',
+		sendMessage: false,
 	};
 
-	goTo = path => {
-		return this.props.history.push(path);
+	// reference to the DOM node for GSAP use
+	messageElem = null;
+
+	goTo = (path, message) => {
+		return this.setState({ message: message, sendMessage: true }, () => this.props.history.push(path));
 	};
 
 	handleSignout = e => {
@@ -65,17 +75,32 @@ class App extends Component {
 		}, () => this.goTo('/'));
 	};
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState) {
 		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
-		// if you are not signed in and there is a token in localStorage, sign in
-		if (!this.state.username && localToken) {
+		// if message changes, animate it
+		if (this.state.sendMessage) {
+			this.setState({ sendMessage: false }, () => {
+			// kill all the animations first
+			TweenMax.killAll();
+			// add a timeline
+			const messageTimeline = new TimelineMax({});
+			messageTimeline
+				.to(this.messageElem, 0, { opacity: 0 })
+				.to(this.messageElem, 2, { opacity: 1 })
+				.to(this.messageElem, 1, { opacity: 0 });
+			});
+		}
+		// if there is a token and no user info stored in state, store the info
+		// from the token in the state
+		if (localToken && !this.state.username) {
 			return this.setState({
 				username: localToken.username,
 				department: localToken.department,
 			});
 		}
-		// if you are signed in and there is no token in localStorage, sign out
-		if (this.state.username && !localToken) {
+		// if there is no token, but user info is stored in state, remove that info
+		// from the state
+		if (!localToken && this.state.username) {
 			return this.setState({
 				username: '',
 				department: '',
@@ -87,6 +112,7 @@ class App extends Component {
 		const {
 			username,
 			department,
+			message,
 		} = this.state;
 		return (
 			<AppDiv>
@@ -102,13 +128,15 @@ class App extends Component {
 					</div>
 				</header>
 
+				<p ref = { p => this.messageElem = p } className = 'message'>{ message }</p>
+
 				<Route exact path = '/' render = { () => <Home username = { username } department = { department } /> } />
 
 				<Route path = '/signup' render = { () => <Signup goTo = { this.goTo } /> } />
 
 				<Route path = '/signin' render = { () => <Signin goTo = { this.goTo } /> } />
 
-				<Route path = '/users' render = { () => <Users goTo = { this.goTo } /> } />
+				<Route path = '/users' render = { () => <Users goTo = { this.goTo } signout = { this.handleSignout } /> } />
 			</AppDiv>
 		);
 	}

@@ -27,11 +27,19 @@ export default class Signin extends Component {
 					username: res.data.username,
 					department: res.data.department,
 					token: res.data.jwtToken,
+					tokenExp: res.data.tokenExp,
 				};
 				localStorage.setItem('jwtToken', JSON.stringify(localToken));
-				this.props.goTo('/users');
+				this.props.goTo('/users', 'Thanks for logging in. Here is the list of users in your department.');
 			})
 			.catch(err => console.log(err));
+	};
+
+	componentDidMount() {
+		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
+		if (localToken) {
+			this.props.goTo('/', 'You are already signed in.');
+		}
 	};
 
 	render() {
