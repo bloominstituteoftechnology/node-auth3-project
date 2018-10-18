@@ -46,7 +46,7 @@ class App extends Component {
       </div>
     );
   }
-  signout = ()=>{
+  signout = () =>{
         localStorage.removeItem('jwt');
         return (
                 <h3>You have been signed out.</h3>
