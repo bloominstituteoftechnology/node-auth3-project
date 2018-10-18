@@ -14,6 +14,11 @@ const Home = () => {
 }
 
 class App extends Component {
+  signOut = () => {
+    localStorage.removeItem('jwt')
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div className="App">
@@ -25,6 +30,8 @@ class App extends Component {
         <NavLink to="/signin">Signin</NavLink>
         &nbsp; | &nbsp;
         <NavLink to="/signup">Signup</NavLink>
+        &nbsp; | &nbsp;
+        <button onClick={this.signOut}>Signout</button>
 
         <Route path="/" component={Home} exact />
         <Route path="/users" component={Users} />
