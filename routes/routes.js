@@ -48,13 +48,16 @@ router.post('/login', (req, res)=>{
 
 router.get('/users', protected, (req, res)=>{
     users.getUsers()
-        .then(something=>{
-            res.status(200).json(something);
+        .then(users=>{
+            const appropriateUsers = users.filter(user =>    
+                user.department===req.decodedToken.department
+            );
+            res.status(200).json({users:appropriateUsers, department:req.decodedToken.department});
         })
         .catch(err => res.status(500).json(err.message));
 });
 
-function protected(req, res, next, jwtSecret){
+function protected(req, res, next){
     const token = req.headers.authorization;
     if(token){
         jwt.verify(token, jwtSecret, (err, decodedToken) => {
