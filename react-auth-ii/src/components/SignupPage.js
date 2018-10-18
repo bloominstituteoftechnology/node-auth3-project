@@ -4,10 +4,11 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 // import styled from 'styled-components';
 
-class LoginPage extends Component {
+class SignupPage extends Component {
 	state = {
 		username: '',
 		password: '',
+		department: '',
 		toUsersPage: false
 	};
 
@@ -17,11 +18,10 @@ class LoginPage extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault();
-		console.log(this.state);
-		const { username, password } = this.state;
-		const credentials = { username, password };
+		const { username, password, department } = this.state;
+		const credentials = { username, password, department };
 		axios
-			.post('http://localhost:5000/api/login', credentials)
+			.post('http://localhost:5000/api/register', credentials)
 			.then(res => {
 				console.log(res.data);
 				localStorage.setItem('jwt', res.data.token);
@@ -38,7 +38,7 @@ class LoginPage extends Component {
 		}
 
 		return (
-			<div className="LoginPage">
+			<div className="SignupPage">
 				<form onSubmit={this.handleSubmit}>
 					<input
 						name="username"
@@ -56,6 +56,13 @@ class LoginPage extends Component {
 						placeholder="password"
 						required
 					/>
+					<input
+						name="department"
+						value={this.state.department}
+						onChange={this.changeHandler}
+						type="text"
+						placeholder="department"
+					/>
 
 					<input type="submit" />
 				</form>
@@ -64,4 +71,4 @@ class LoginPage extends Component {
 	}
 }
 
-export default LoginPage;
+export default SignupPage;

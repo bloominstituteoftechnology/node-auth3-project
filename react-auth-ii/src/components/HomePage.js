@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 
 class HomePage extends Component {
 	render() {
-		return <div className="HomePage">Hi. Log in or sign up I guess.</div>;
+		return (
+			<div className="HomePage">Hey there. Log in or sign up I guess.</div>
+		);
 	}
 }
 

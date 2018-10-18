@@ -29,6 +29,7 @@ function generateToken(user) {
 // Auth check
 const restricted = (req, res, next) => {
 	const token = req.headers.authorization;
+	console.log({ token });
 	if (token) {
 		jwt.verify(token, jwtSecret, (err, decodedToken) => {
 			if (err) {
@@ -46,15 +47,19 @@ const restricted = (req, res, next) => {
 // ROUTES
 // register
 server.post('/api/register', (req, res) => {
-	const credentials = req.body;
+	const { username, password, department } = req.body;
+	const credentials = { username, password, department };
 
 	const hash = bcrypt.hashSync(credentials.password, 12);
 	credentials.password = hash;
 
 	model
 		.addUser(credentials)
-		.then(id => {
-			res.status(201).json({ newUserId: id });
+		.then(user => {
+			const token = generateToken(user);
+			res
+				.status(200)
+				.json({ success: `User ${credentials.username} logged in`, token });
 		})
 		.catch(err => {
 			if (err.code === 'SQLITE_CONSTRAINT') {

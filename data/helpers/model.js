@@ -19,7 +19,7 @@ function addUser(user) {
 		.insert(user)
 		.then(id => {
 			console.log(id);
-			return id;
+			return { ...user, id };
 		});
 }
 
