@@ -4,6 +4,7 @@ import axios from 'axios';
 class SignUp extends Component {
   state = {
     username: '',
+    department: '',
     password: '',
   };
 
@@ -17,6 +18,15 @@ class SignUp extends Component {
             value={this.state.username}
             onChange={this.handleInputChange}
             type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="department">Department</label>
+          <input
+            name="department"
+            value={this.state.department}
+            onChange={this.handleInputChange}
+            type="department"
           />
         </div>
         <div>
@@ -45,7 +55,7 @@ class SignUp extends Component {
     event.preventDefault();
 
     const endpoint = 'http://localhost:3300/api/register';
-    console.log(this.state);
+    console.log(`SignUp component state = ${this.state}`);
     axios
       .post(endpoint, this.state)
       .then(res => {
