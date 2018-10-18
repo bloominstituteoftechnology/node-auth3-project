@@ -3,12 +3,13 @@ import axios from 'axios';
 
 class Users extends Component {
     state= {
-        users: []
+        users: [],
     };
   render() {
+    console.log(this.state.users);
     return (
       <div>
-        <h1> Registered Users</h1>
+        <h1> Registered Users </h1>
         <ul>
             {this.state.users.map(user => (
                 <li key={user.id}>
@@ -24,16 +25,17 @@ class Users extends Component {
       const token = localStorage.getItem('jwt');
 
       const endpoint = 'http://localhost:7700/api/users';
+      
       const options = { 
           headers: {
               Authorization: token
         },
       };
       axios
-      .get(endpoint)
+      .get(endpoint, options)
       .then(res => {
-          console.log(res.data);
-          this.setState({ users: res.data.users});
+          console.log(res.data.users);
+          this.setState( {users: res.data.users});
       })
       .catch(err => {
           console.error("We got us an error here", err);
