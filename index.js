@@ -14,7 +14,7 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 10);
   creds.password = hash;
@@ -46,7 +46,7 @@ function generateToken(user) {
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
   const credentials = req.body;
 
   db('users')
@@ -91,7 +91,7 @@ function checkRole(role) {
   };
 }
 
-server.get('/users', protected, checkRole('Admin'), (req, res) => {
+server.get('/api/users', protected, checkRole('Admin'), (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
