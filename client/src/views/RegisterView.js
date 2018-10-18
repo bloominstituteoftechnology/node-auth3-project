@@ -29,8 +29,8 @@ handleSubmit = (event) => {
         .post(endpoint, this.state)
         .then(res => {
             console.log(res.data);
-            // localStorage.setItem('jwt', res.data.token);
-            this.props.history.push('/login');
+            localStorage.setItem('jwt', res.data.token);
+            this.props.history.push('/users');
         })
         .catch(err => {
             console.error('ERROR', err);
