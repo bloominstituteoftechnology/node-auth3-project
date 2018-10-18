@@ -13,7 +13,10 @@ class Users extends Component {
         <h2>List of Users</h2>
         <ul>
           {this.state.users.map(user => (
-            <li key={user.id}>{user.username}</li>
+            <li key={user.id}>
+              <h3>{user.username}</h3>
+              <img src={user.avatar} alt="" />
+            </li>
           ))}
         </ul>
       </div>

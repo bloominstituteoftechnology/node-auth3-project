@@ -71,7 +71,7 @@ server.post("/api/login", (req, res) => {
 // protect this route, only authenticated users should see it
 server.get("/api/users", protected, checkRole("admin"), (req, res) => {
   db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "password", "department", "avatar")
     .then(users => {
       res.json({ users });
     })

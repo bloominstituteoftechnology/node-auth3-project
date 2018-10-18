@@ -42,6 +42,10 @@ button {
   font-weight: 300;
 }
 
+img {
+  width: 80px;
+}
+
 input {
   font-size: 24px;
   width: 80%;

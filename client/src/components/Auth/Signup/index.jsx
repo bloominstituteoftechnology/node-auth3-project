@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-class Signin extends Component {
+class Signup extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    department: "",
+    avatar: ""
   };
 
   render() {
     return (
       <div>
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="username">Username</label>
@@ -19,6 +21,7 @@ class Signin extends Component {
               value={this.state.username}
               onChange={this.handleInputChange}
               type="text"
+              placeholder="Username..."
             />
           </div>
           <div>
@@ -28,10 +31,31 @@ class Signin extends Component {
               value={this.state.password}
               onChange={this.handleInputChange}
               type="password"
+              placeholder="Password..."
             />
           </div>
           <div>
-            <button type="submit">Signin</button>
+            <label htmlFor="department">Department</label>
+            <input
+              name="department"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+              type="text"
+              placeholder="Department..."
+            />
+          </div>
+          <div>
+            <label htmlFor="username">Avatar</label>
+            <input
+              name="username"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+              type="text"
+              placeholder="URL for avatar..."
+            />
+          </div>
+          <div>
+            <button type="submit">Signup</button>
           </div>
         </form>
       </div>
@@ -46,7 +70,7 @@ class Signin extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const endpoint = "http://localhost:9001/api/login";
+    const endpoint = "http://localhost:9001/api/register";
     console.log(this.state);
     axios
       .post(endpoint, this.state)
@@ -61,4 +85,4 @@ class Signin extends Component {
   };
 }
 
-export default Signin;
+export default Signup;
