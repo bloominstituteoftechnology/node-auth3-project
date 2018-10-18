@@ -40,7 +40,7 @@ class UserList extends React.Component {
     render(){
         if(this.state.users.length < 1){
                 return (
-                    <div>
+                    <div className = 'error-text'>
                         You do not have access to view this page.
 
                         Please login to see the users.
@@ -49,7 +49,7 @@ class UserList extends React.Component {
             } else {
         return (
             <div>
-                <h2> List of users</h2>
+                <h1>Users</h1>
                 <div className = 'user-list'>
                     {this.state.users.map(user => {
                         return <div key = {user.id}>

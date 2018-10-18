@@ -49,7 +49,7 @@ class Register extends React.Component {
     render() {
         if(localStorage.getItem('jwt')){
             return (
-                <div>
+                <div className = 'error-text'> 
                     You are already logged in!
                         <br /><br />
                     Please logout before trying to register a new account.
@@ -58,7 +58,7 @@ class Register extends React.Component {
         } else {
         return (
             <div>
-
+            <h1>Register</h1>
             <form onSubmit={this.handleRegister}>
                 <input type = 'text' name = 'username' value = {this.state.username} placeholder='username' onChange={this.handleInput}></input>
                 

@@ -44,7 +44,7 @@ class Login extends React.Component {
     render() {
         if(localStorage.getItem('jwt')){
             return (
-                <div>
+                <div className = 'error-text'>
                     You are already logged in!
                         <br /><br />
                     Please logout to use a different account.
@@ -54,7 +54,7 @@ class Login extends React.Component {
 
         return (
             <div>
-
+            <h1>Login</h1>
             <form onSubmit={this.handleLogin}>
                 <input type = 'text' name = 'username' value = {this.state.username} placeholder='username' onChange={this.handleInput}></input>
                 <input type='password' name = 'password' value = {this.state.password} placeholder = 'password' onChange={this.handleInput}></input>

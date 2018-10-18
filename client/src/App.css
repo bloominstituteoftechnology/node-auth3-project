@@ -51,6 +51,7 @@ nav {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  background: teal;
 }
 
 nav a {
@@ -74,6 +75,7 @@ form {
   flex-flow: column nowrap;
   max-width: 50%;
   margin: 0 auto;
+  background: teal;
 }
 
 form input{
@@ -108,4 +110,23 @@ form button {
 
 .user-list div span {
   margin: 5px 0px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  margin: 20px;
+}
+
+.error-text {
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  margin: 20px;
+}
+
+body {
+  background: #3d3d3d;
 }
