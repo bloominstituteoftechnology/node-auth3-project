@@ -38,6 +38,7 @@ class App extends Component {
 
   signout = () => {
     localStorage.removeItem('jwt');
+   window.location.reload();
   };
 }
 
