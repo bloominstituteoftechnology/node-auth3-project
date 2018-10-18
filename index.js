@@ -87,11 +87,7 @@ server.use(
 //   session(sessionConfig),
 );
 
-server.get('/', (req, res) => {
-  res.send('Werk Werk');
-});
-
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const credentials = req.body; 
 
   const hash = bcrypt.hashSync(credentials.password, 14);
@@ -107,7 +103,7 @@ server.post('/register', (req, res) => {
    });
 });
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
   const creds = req.body;
 
   db('users')
@@ -131,7 +127,7 @@ server.post('/login', (req, res) => {
 
 ////////Per the notes from lecture.
 // protect this route, only authenticated users should see it
-server.get('/users', cookieTime, (req, res) => {
+server.get('/api/users', cookieTime, (req, res) => {
     db('users')
       .select('id', 'username', 'password')
       .then( users => {
