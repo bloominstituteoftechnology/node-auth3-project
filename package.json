@@ -7,18 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cassidyjamesw/auth-ii.git"
-  },
+  "repository": "git+https://github.com/cassidyjamesw/auth-ii.git",
   "keywords": [],
-  "author": "",
+  "author": "James Cassidy <cassidyjamesw@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cassidyjamesw/auth-ii/issues"
   },
   "homepage": "https://github.com/cassidyjamesw/auth-ii#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.4",
@@ -26,6 +24,7 @@
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
     "morgan": "^1.9.1",
+    "react-router-dom": "^4.3.1",
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {

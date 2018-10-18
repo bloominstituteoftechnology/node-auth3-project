@@ -67,7 +67,7 @@ server.post("/api/login", (req, res) => {
 });
 
 // protect this route, only authenticated users should see it
-server.get("/api/users", protected, checkRole("other"), (req, res) => {
+server.get("/api/users", protected, (req, res) => {
   db("users")
     .select("id", "username", "password")
     .then(users => {
@@ -96,14 +96,16 @@ function protected(req, res, next) {
   }
 }
 
-function checkRole(role) {
-  return function(req, res, next) {
-    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-      next();
-    } else {
-      res.status(403).json({ message: "you shall not pass! forbidden" });
-    }
-  };
-}
+// function checkRole(role) {
+//   return function(req, res, next) {
+//     if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+//       next();
+//     } else {
+//       res
+//         .status(403)
+//         .json({ message: "CHECKROLEyou shall not pass! forbidden" });
+//     }
+//   };
+// }
 
 server.listen(3300, () => console.log("\nrunning on port 3300\n"));
