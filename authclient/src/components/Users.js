@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Router, Link } from "react-router-dom";
 import axios from "axios";
 
 class Users extends Component {
@@ -9,6 +10,9 @@ class Users extends Component {
   render() {
     return (
       <div>
+        <h2>
+          Can't see the list of users? Sign up <Link to="/signup">here!</Link>
+        </h2>
         <ul>
           {this.state.users.map(user => (
             <li key={user.id}>{user.username}</li>
