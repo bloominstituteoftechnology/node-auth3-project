@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div className="App">
         <header>
-          <Navigation />
+          <Navigation {...this.props} />
         </header>
         <main>
           <Route exact path="/" component={Home} />
