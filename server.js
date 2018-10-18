@@ -20,7 +20,7 @@ const jwtSecret = "I'm a secret! Shhh!";
 function generateToken(user) {
 	const jwtPayload = { user: user.id };
 	const jwtOptions = {
-		expiresIn: '1m' // 1 minute for testing purposes
+		expiresIn: '5m' // 5 minutes for testing purposes
 	};
 
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);

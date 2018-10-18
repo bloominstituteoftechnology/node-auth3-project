@@ -19,7 +19,7 @@ class UsersPage extends Component {
 		axios
 			.get('http://localhost:5000/api/users', options)
 			.then(res => {
-				this.setState({ users: res.data.users });
+				this.setState({ users: res.data });
 			})
 			.catch(err => {
 				console.error(err);
