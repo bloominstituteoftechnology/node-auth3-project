@@ -14,6 +14,13 @@ const Home = props => {
   );
 };
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      signedIn: false
+    };
+  }
+  
   render() {
     return (
       <div className="App">
@@ -44,6 +51,7 @@ class App extends Component {
   }
   signout = () => {
     localStorage.removeItem('jwt');
+    this.props.history.push("/signin");
   };
 }
 
