@@ -5,9 +5,11 @@ class Login extends Component {
     state = {
         username: '',
         password: '',
+        loggingIn: false,
     };
 
     handleInput = e => {
+        this.setState({loggingIn: false})
         const { name, value } = e.target;
         this.setState({ [name]: value });
     }
@@ -16,11 +18,14 @@ class Login extends Component {
         e.preventDefault();
 
         const endpoint = 'http://localhost:4000/api/login';
+
         axios.post(endpoint, this.state).then(res => {
+            this.setState({loggingIn: true})
             localStorage.setItem('jwt', res.data.token);
             this.props.setDepartment(res.data.department);
             
             this.props.history.push('/users');
+            
         }).catch(err => {
             console.log('LOGIN ERROR', err.response.data.message);
         });
@@ -39,6 +44,9 @@ class Login extends Component {
                 </div>
                 <div>
                     <button type="submit">Login</button>
+                </div>
+                <div>
+                    {this.state.loggingIn ? 'Logging In' : ''}
                 </div>
             </form>
         );

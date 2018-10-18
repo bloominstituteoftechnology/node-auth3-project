@@ -34,9 +34,9 @@ class App extends Component {
         </header>
         <main>
           <Route exact path="/" component={Home} />
-          <Route path="/users" department={this.state.department} component={Users} />
-          <Route path="/login" setDepartment={this.setDepartment} component={Login} />
-          <Route path="/register" setDepartment={this.setDepartment} component={Register} />
+          <Route path="/users" render={props => <Users {...props} department={this.state.department} />} />
+          <Route path="/login" render={props => <Login {...props} setDepartment={this.setDepartment} />} />
+          <Route path="/register" render={props => <Register {...props} setDepartment={this.setDepartment} />} />
         </main>
       </div>
     );

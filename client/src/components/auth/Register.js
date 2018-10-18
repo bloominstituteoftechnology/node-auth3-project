@@ -21,6 +21,7 @@ class Register extends Component {
         axios.post(endpoint, this.state).then(res => {
             localStorage.setItem('jwt', res.data.token);
             this.props.setDepartment(this.state.department);
+            
             this.props.history.push('/users');
         }).catch(err => {
             console.log('REGISTER ERROR', err.response.data.message);
