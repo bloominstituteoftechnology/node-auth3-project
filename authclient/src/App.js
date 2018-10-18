@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter } from "react-router-dom";
-import SignIn from "./auth/SignIn";
+import SignIn from "./components/SignIn";
+import Users from "./components/Users";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -11,22 +12,21 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1>Welcome!</h1>
+          <div>
+            <button onClick={this.logout}>Log Out</button>
+          </div>
         </header>
         <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/users" component={Users} />
       </div>
     );
   }
+
+  logout = event => {
+    localStorage.removeItem("jwt");
+    this.props.history.push("/signin");
+  };
 }
 
 export default withRouter(App);

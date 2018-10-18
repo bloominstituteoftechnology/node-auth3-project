@@ -68,8 +68,8 @@ router.post("/register", (req, res) => {
 
 //Login a registered user
 router.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  const creds = { username, password };
+  const { username, department, password } = req.body;
+  const creds = { username, department, password };
 
   db("users")
     .where({ username: creds.username })
@@ -89,7 +89,7 @@ router.post("/login", (req, res) => {
 //Get a list of all registered users
 router.get("/users", protected, (req, res) => {
   db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "password", "department")
     .then(users => {
       res.json(users);
     })
