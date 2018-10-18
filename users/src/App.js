@@ -10,17 +10,23 @@ import './App.css';
 const Home = props => {
   return (
     <div>
-      <h1>Home Component</h1>
+      <h1>Welcome.</h1>
+      <h3>Use the links above to navigate.</h3>
     </div>
   );
 };
 
 class App extends Component {
+
+  signout = () => {
+    localStorage.removeItem('jwt');
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-        <h1>Welcome to the Company</h1>
+        <h1>The Database</h1>
           <nav>
             <NavLink to="/" exact>
               Home
@@ -46,9 +52,7 @@ class App extends Component {
     );
   }
 
-  signout = () => {
-    localStorage.removeItem('jwt');
-  };
+ 
 }
 
 export default App;

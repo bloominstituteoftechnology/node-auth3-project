@@ -9,8 +9,9 @@ class Users extends Component {
   render() {
     if (!this.state.users || !this.state.users.length) {
       return (
-          <div><h3>Access Denied</h3>
-              <p>You do not have access to this information.</p></div>
+          <div><h1>Access Denied</h1>
+              <h3>You do not have access to this information.</h3>
+              <p>Please sign in.</p></div>
       )
   }
 
@@ -18,7 +19,8 @@ class Users extends Component {
       <div>
         <h2>List of Users</h2>
         <ul>
-          {this.state.users.map(u => (
+        
+       {this.state.users.map(u => (
             <div key={u.id}>
             <p>Alias: {u.username}</p>
             <p>Department: {u.department}</p>
@@ -32,6 +34,9 @@ class Users extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('jwt');
+    const dept = localStorage.getItem('dept');
+    console.log("dept", dept);
+    
 
     const endpoint = 'http://localhost:3300/api/users';
     const options = {
@@ -39,11 +44,14 @@ class Users extends Component {
         Authorization: token,
       },
     };
+    
     axios
       .get(endpoint, options)
       .then(res => {
-        console.log(res.data);
-        this.setState({ users: res.data.users });
+        const byDept = res.data.users.filter(u => u.department.includes(dept));
+        this.setState({ users: byDept }, () => console.log("this.state", this.state));
+        
+        console.log();
       })
       .catch(err => {
         console.error('ERROR', err);

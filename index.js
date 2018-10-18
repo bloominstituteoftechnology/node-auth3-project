@@ -62,7 +62,7 @@ server.post('/api/login', (req, res) => {
         res
           .status(200)
           .json({
-            welcome: user.username, token
+            welcome: user.username, department: user.department, token
           });
       } else {
         res
