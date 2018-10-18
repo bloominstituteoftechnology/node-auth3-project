@@ -42,6 +42,16 @@ class Login extends React.Component {
     }
         
     render() {
+        if(localStorage.getItem('jwt')){
+            return (
+                <div>
+                    You are already logged in!
+                        <br /><br />
+                    Please logout to use a different account.
+                </div>
+            )
+        } else {
+
         return (
             <div>
 
@@ -54,6 +64,7 @@ class Login extends React.Component {
             </div>
         )
     }
+}
 }
 
 export default withRouter(Login);

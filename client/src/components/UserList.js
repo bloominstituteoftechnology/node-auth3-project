@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import Login from './Login';
 
 
 class UserList extends React.Component {
@@ -37,15 +38,24 @@ class UserList extends React.Component {
     }
 
     render(){
-        return(
+        if(this.state.users.length < 1){
+                return (
+                    <div>
+                        You do not have access to view this page.
+
+                        Please login to see the users.
+                    </div>
+                )
+            } else {
+        return (
             <div>
                 <h2> List of users</h2>
                 <div className = 'user-list'>
                     {this.state.users.map(user => {
                         return <div key = {user.id}>
-                        <span>UserID:{user.id}</span>
-                        <span>Username:{user.username}</span>
-                        <span>Department:{user.department}</span>
+                        <span>UserID: {user.id}</span>
+                        <span>Username: {user.username}</span>
+                        <span>Department: {user.department}</span>
                         </div>
                     })}
                 </div>
@@ -53,5 +63,5 @@ class UserList extends React.Component {
         )
     }
 }
-
+}
 export default withRouter(UserList);

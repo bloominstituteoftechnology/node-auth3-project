@@ -18,7 +18,7 @@ class App extends React.Component {
 
   handleLogout(){
     localStorage.removeItem('jwt');
-    window.location.reload();
+    this.props.history.replace('/');
   }
 
   render() {

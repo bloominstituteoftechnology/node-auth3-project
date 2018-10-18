@@ -47,6 +47,15 @@ class Register extends React.Component {
 
 
     render() {
+        if(localStorage.getItem('jwt')){
+            return (
+                <div>
+                    You are already logged in!
+                        <br /><br />
+                    Please logout before trying to register a new account.
+                </div>
+            )
+        } else {
         return (
             <div>
 
@@ -62,6 +71,7 @@ class Register extends React.Component {
             </div>
         )
     }
+}
 }
 
 export default withRouter(Register);
