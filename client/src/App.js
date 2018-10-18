@@ -25,6 +25,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+        <button onClick={this.signout}>Logout</button>
           <NavLink to="/signin" activeClassName="activeNavButton">
           <Button>
             Log In
