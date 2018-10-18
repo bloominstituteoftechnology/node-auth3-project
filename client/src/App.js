@@ -97,7 +97,7 @@ class App extends Component {
 
 				<Route exact path = '/' render = { () => <Home username = { username } department = { department } /> } />
 
-				<Route path = '/signup' component = { Signup } />
+				<Route path = '/signup' render = { () => <Signup goTo = { this.goTo } /> } />
 
 				<Route path = '/signin' render = { () => <Signin goTo = { this.goTo } /> } />
 

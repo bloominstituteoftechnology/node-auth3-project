@@ -13,7 +13,7 @@ const generateJwtToken = user => {
 		department: user.department,
 	};
 	const jwtOptions = {
-		expiresIn: 1000 * 60 * 5, // 5 mins
+		expiresIn: '5m', // 5 minutes
 	};
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 };
@@ -45,7 +45,7 @@ router.get('/', checkLogin, (req, res) => {
 		.catch(err => res.status(500).json({ error: `Server failed to GET all users: ${ err }` }));
 });
 
-// create new user and return ID of newly created user
+// create new user and return newly created user + new token
 router.post('/register', (req, res) => {
 	const credentials = req.body;
 	if (!credentials.username) {
@@ -54,11 +54,14 @@ router.post('/register', (req, res) => {
 	if (!credentials.password) {
 		return res.status(401).json({ error: 'Password cannot be empty.' });
 	}
+	if (!credentials.department) {
+		return res.status(401).json({ error: 'Department cannot be empty.' });
+	}
 	return userDb
 		.getUser(credentials.username)
 		.then(user => {
 			// if username does not exist, you may register it
-			if (!user.length) {
+			if (!user) {
 				return bcrypt
 					// has the password first
 					.hash(credentials.password, 12, function(bcryptErr, hash) {
@@ -68,7 +71,19 @@ router.post('/register', (req, res) => {
 						credentials.password = hash;
 						return userDb
 							.insertNewUser(credentials)
-							.then(id => res.status(201).json(id.id[0]))
+							.then(id => {
+								const newUser = {
+									id: id,
+									username: credentials.username,
+									department: credentials.department,
+								};
+								const jwtToken = generateJwtToken(newUser);
+								return res.status(201).json({
+									username: newUser.username,
+									department: newUser.department,
+									jwtToken: jwtToken,
+								});
+							})
 							.catch(err => res.status(500).json({ error: `Server failed to POST new user: ${ err }` }));
 					});
 			}
