@@ -1,2 +1,6 @@
 .DS_Store
 node_modules/
+# environment variables
+.env
+# next.js build output
+.next
