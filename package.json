@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "server": "nodemon index.js"
   },
   "repository": "https://github.com/kinghuthman/auth-ii.git",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
+    "client": "0.0.1",
     "cors": "^2.8.4",
+    
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",

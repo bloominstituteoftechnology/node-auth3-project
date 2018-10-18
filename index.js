@@ -30,7 +30,7 @@ server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
     const credentials = req.body;
 
     const hash = bcrypt.hashSync(credentials.password, 14);
@@ -47,7 +47,7 @@ server.post('/register', (req, res) => {
    })
 })
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
     const creds = req.body;
     db('users')
     .where({username: creds.username})
@@ -63,7 +63,7 @@ server.post('/login', (req, res) => {
     .catch(err => res.status(500).json({err}));
 })
 
-server.get('/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     db('users')
       .select('id', 'username', 'department')
       .then(users => {
