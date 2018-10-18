@@ -1,36 +1,14 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
-const KnexSessionStore = require('connect-session-knex')(session);
 const jwt = require('jsonwebtoken');
 const db = require('./database/dbConfig.js');
 const server = express();
-const port = 9000;
 
-const sessionConfig = {
-  secret: 'nobody-tosses.a%dwarf.!',
-  name: 'monkey',
-  httpOnly: true,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false,
-    maxAge: 1000 * 60 * 3,
-  },
-  store: new KnexSessionStore({
-    tablename: 'sessions',
-    sidfieldname: 'sid',
-    knex: db,
-    createtable: true,
-    clearInterval: 1000 * 60 * 3,
-  })
-};
-
-server.use(session(sessionConfig));
 server.use(express.json());
 server.use(cors());
-
 
 // ======== SERVER RUNNING ======== //
 server.get('/', (req, res) => {
@@ -39,7 +17,7 @@ server.get('/', (req, res) => {
 
 
 // ========= CREATES USER ========= //
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const credentials = req.body;
   const hash = bcrypt.hashSync(credentials.password, 10);
   credentials.password = hash;
@@ -48,7 +26,11 @@ server.post('/register', (req, res) => {
     .insert(credentials)
     .then(ids => {
       const id = ids[0];
-      res.status(201).json({ newUserId: id, message: `Welcome to the database, ${credentials.username}` });
+      const token = generateToken({ username: credentials.username });
+      res.status(201).json({ 
+        newUserId: id, 
+        token, 
+        message: `Welcome to the database, ${credentials.username}` });
     })
     .catch(err => {
       res.status(500).json(err);
@@ -56,24 +38,26 @@ server.post('/register', (req, res) => {
 });
 
 
-// ======= GENERATES TOKEN ======= //
-const jwtSecret = 'nobody tosses a dwarf!';
 
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';
+// ======= GENERATES TOKEN ======= //
 function generateToken(user) {
   const jwtPayload = {
     ...user,
     hello: 'FSW13',
-    role: 'admin'
+    roles: ['admin', 'root'],
   };
   const jwtOptions = {
-    expiresIn: '2m',
+    expiresIn: '1h',
   };
+
+  console.log('token from process.env', jwtSecret);
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
 
 // ========== LOGIN ========= //
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
   const creds = req.body;
 
   db('users')
@@ -94,8 +78,7 @@ server.post('/login', (req, res) => {
 
 
 // AUTHENTICATED USERS SHOULD GET USER-LIST //
-server.get('/users', protected, (req, res) => {
-  console.log('\n*** DECODED TOKEN INFO ***\n', req.decodedToken);
+server.get('/api/users', protected, checkRole('admin'), (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
     .then(users => {
@@ -108,24 +91,36 @@ server.get('/users', protected, (req, res) => {
 // === VERIFICATION for PROTECTION === //
 function protected(req, res, next) {
   const token = req.headers.authorization;
-  if(token) {
+  if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if(err) {
-        // token verifcation failed
-        res.status(401).json({ message: 'invalid token'});
+      if (err) {
+        // token verification failed
+        res.status(401).json({ message: 'invalid token' });
       } else {
         // token is valid
         req.decodedToken = decodedToken;
+        console.log('\n** DECODED TOKEN INFO **\n', req.decodedToken);
         next();
       }
-    })
+    });
   } else {
-    res.status(401).json({ message: 'no token provided' })
+    res.status(401).json({ message: 'no token provided' });
   }
+}
+
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+      next();
+    } else {
+      res.status(403).json({ message: 'you shall not pass! forbidden' });
+    }
+  };
 }
 
 
 // ========= SERVER ========= //
+const port = process.env.PORT || 3300;
 server.listen(port, function() {
     console.log(`\n API RUNNING ON PORT ${port} \n`);
   });
