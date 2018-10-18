@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const secret =
-  "lorem ipsum dolor sit amet i feel like chicken tonite, like chicken tonite!";
+const secret = process.env.SECRET;
 
 const tokenGenerator = user => {
   const payload = { username: user.username };
