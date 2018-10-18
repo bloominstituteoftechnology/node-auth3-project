@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Axios from 'axios';
 
-const UserList = () => {
-    return (
-      <div>
-        <h1>Hi!</h1>
-      </div>
-    );
+class UserList extends Component {
+	state = {
+		users
+	};
+
+	componentDidMount = () => {};
+
+	render() {
+		return (
+			<div>
+				<h1>Hi!</h1>
+			</div>
+		);
+	}
 }
 
-UserList.propTypes = {
-
-};
+UserList.propTypes = {};
 
 export default UserList;

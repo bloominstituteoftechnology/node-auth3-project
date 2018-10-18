@@ -1,0 +1,9 @@
+// ~~~ server index.js ~~~ //
+yarn add dotenv
+require('dotenv').config();
+(add '.env' file to root of server. add KVPs to the file.) >> JWT_SECRET=dfdf vvsvvv svrgbdr tt4t4fw4
+// db names, usernames, passwords, etc
+$ echo .env >> .gitignore
+// later
+const jwtSecret = process.env.JWT_SECRET || 'you're missing a secret here';
+

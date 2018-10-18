@@ -15,18 +15,18 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-        <GlobalStyle />
-        <Nav />
-        <Route exact path='/' component={Home} />
-        <Route path='/register' component={RegisterForm} />
-        <Route path='/login' component={LoginForm} />
-        <Route path='/userslist' component={UsersList} />
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div>
+				<GlobalStyle />
+				<Nav />
+				<Route exact path="/" component={Home} />
+				<Route path="/register" component={RegisterForm} />
+				<Route path="/login" component={LoginForm} />
+				<Route path="/userslist" component={UsersList} />
+			</div>
+		);
+	}
 }
 
 export default withRouter(App);

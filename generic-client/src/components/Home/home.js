@@ -1,16 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const Home = () => {
-    return (
-      <div>
-        <h1>Hi! Welcome to ${`{generic-client}`}!</h1>
-      </div>
-    );
-}
-
-Home.propTypes = {
-
+	return (
+		<div>
+			<h1>Hi! Welcome to ${`{generic-client}`}!</h1>
+		</div>
+	);
 };
 
 export default Home;
