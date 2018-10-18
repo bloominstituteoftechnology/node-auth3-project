@@ -4,12 +4,9 @@ const bcrypt = require('bcryptjs');
 const { secret, tokenGenerator, restricted } = require('../middleware');
 const db = require('../data/dbConfig');
 
-router.get('/', (req, res) => {
-  res.send('test');
-});
-
 router.post('/register', (req, res) => {
-  const credentials = req.body;
+  const { username, password, department } = req.body;
+  const credentials = { username, password, department };
   const hash = bcrypt.hashSync(credentials.password, 14);
   credentials.password = hash;
   db('users')
@@ -24,7 +21,8 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const creds = req.body;
+  const { username, password } = req.body;
+  const creds = { username, password };
 
   db('users')
     .where({ username: creds.username })
