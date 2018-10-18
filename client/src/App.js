@@ -44,12 +44,21 @@ const AppDiv = styled.div`
 				}
 			}
 
+			@keyframes sign-out-btn {
+				0%   {opacity 0;}
+				100% {opacity: 1;}
+			}
+
 			button {
 				background-color: #444;
 				color: white;
 				border: 1px solid white;
 				border-radius: 5px;
 				padding: 5px 10px;
+
+				animation-name: sign-out-btn;
+				animation-duration: 2s;
+				animation-fill-mode: forwards;
 
 				&:hover {
 					background-color: black;
@@ -72,7 +81,7 @@ class App extends Component {
 		sendMessage: false,
 	};
 
-	// reference to the DOM node for GSAP use
+	// references to the DOM node for GSAP use
 	messageElem = null;
 
 	goTo = (path, message) => {
@@ -88,7 +97,7 @@ class App extends Component {
 		}, () => this.goTo('/'));
 	};
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
 		// if message changes, animate it
 		if (this.state.sendMessage) {
