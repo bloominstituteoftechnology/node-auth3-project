@@ -19,7 +19,7 @@ class App extends Component {
 		return (
 			<div>
 				<GlobalStyle />
-				<Nav />
+				<Nav {...this.props} />
 				<Route exact path="/" component={Home} />
 				<Route path="/signup" component={RegisterForm} />
 				<Route path="/signin" component={LoginForm} />

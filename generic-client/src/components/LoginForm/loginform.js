@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
@@ -7,8 +6,7 @@ class LoginForm extends Component {
 	state = {
 		username: '',
 		password: '',
-		error: {},
-		success: false
+		error: {}
 	};
 
 	loginUser = (event) => {
@@ -31,7 +29,7 @@ class LoginForm extends Component {
 				});
 			});
 
-		this.setState({ ...this.state, success: true });
+		this.props.history.push('/');
 	};
 
 	inputHandler = (event) => {
@@ -42,9 +40,6 @@ class LoginForm extends Component {
 	};
 
 	render() {
-		if (this.state.success === true) {
-			return <Redirect to="/users" />;
-		}
 		return (
 			<div>
 				<form onSubmit={this.loginUser}>

@@ -10,7 +10,10 @@ const LinkDiv = Styled.div`
 const PseudoLink = Styled.div``;
 
 class Nav extends Component {
-	logout = () => {};
+	logout = () => {
+		localStorage.removeItem('userToken');
+		this.props.history.push('/signin');
+	};
 
 	render() {
 		return (
