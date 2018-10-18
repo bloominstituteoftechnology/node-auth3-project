@@ -30,3 +30,10 @@
     transform: rotate(360deg);
   }
 }
+
+.list-item {
+  border: 1px solid black;
+  background: #282c34;
+  color: #61dafb;
+  margin-bottom: 7px;
+}
