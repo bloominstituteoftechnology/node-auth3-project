@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import './App.css';
 import { NavLink, Route } from 'react-router-dom';
-import Users from './Users/Users.js';
+import Users from './users/Users.js';
+import Signin from './auth/Signin';
 
 const Home = props => {
   return (
@@ -17,12 +19,16 @@ class App extends Component {
         <header className="App-header">
           <nav>
             <NavLink to="/" exact>Home</NavLink>
-            &npsp; |&npsp; 
+            &nbsp; |&nbsp; 
             <NavLink to="/users">Users</NavLink>
+            &nbsp; |&nbsp; 
+            <NavLink to="/signin">Signin</NavLink>
           </nav>
           <main>
-            <Route path='/' component={Home} />
+            <Route exact path='/' component={Home} />
             <Route path='/users' component={Users} />
+            <Route path='/signin' component={Signin} />
+          </main>
         </header>
       </div>
     );

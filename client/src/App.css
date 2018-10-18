@@ -18,6 +18,10 @@
   color: white;
 }
 
+.App-header nav {
+  color: white; 
+}
+
 .App-link {
   color: #61dafb;
 }
