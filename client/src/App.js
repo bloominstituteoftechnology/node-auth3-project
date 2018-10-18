@@ -67,11 +67,18 @@ class App extends Component {
 
 	componentDidUpdate() {
 		const localToken = JSON.parse(localStorage.getItem('jwtToken'));
-		// if you are signed out and there is a token in localStorage, sign in
+		// if you are not signed in and there is a token in localStorage, sign in
 		if (!this.state.username && localToken) {
 			return this.setState({
 				username: localToken.username,
 				department: localToken.department,
+			});
+		}
+		// if you are signed in and there is no token in localStorage, sign out
+		if (this.state.username && !localToken) {
+			return this.setState({
+				username: '',
+				department: '',
 			});
 		}
 	};
