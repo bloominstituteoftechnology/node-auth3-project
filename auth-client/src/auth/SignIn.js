@@ -29,7 +29,7 @@ class SignIn extends Component {
           />
         </div>
         <div>
-          <button type="submit">Signin</button>
+          <button type="submit">Sign In</button>
         </div>
       </form>
     );

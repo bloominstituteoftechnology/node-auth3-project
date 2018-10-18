@@ -29,7 +29,7 @@ class SignUp extends Component {
           />
         </div>
         <div>
-          <button type="submit">Signin</button>
+          <button type="submit">Sign Up</button>
         </div>
       </form>
     );
@@ -41,9 +41,10 @@ class SignUp extends Component {
   };
 
   handleSubmit = event => {
+    console.log('\n*** Sign Up submitted ***\n')
     event.preventDefault();
 
-    const endpoint = 'http://localhost:3300/api/login';
+    const endpoint = 'http://localhost:3300/api/register';
     console.log(this.state);
     axios
       .post(endpoint, this.state)
