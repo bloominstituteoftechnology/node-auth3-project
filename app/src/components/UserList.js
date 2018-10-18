@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import Cookies from 'js-cookie';
+
 
 class UserList extends React.Component {
   state = {
@@ -10,7 +12,7 @@ class UserList extends React.Component {
     axios
       .get("/api/users", {
         headers: {
-          authorization: localStorage.getItem("jwt")
+          authorization: Cookies.get('token')
         }
       })
       .then(resp => {

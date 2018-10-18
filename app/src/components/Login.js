@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 class Login extends React.PureComponent {
   state = {
     username: "",
     password: "",
-    error: null
+    error: null,
   };
   handleOnChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -18,7 +19,7 @@ class Login extends React.PureComponent {
       })
       .then(resp => {
         console.log(resp.data);
-        localStorage.setItem("jwt", resp.data.token);
+        Cookies.set('token', resp.data.token);
         this.props.history.push("/users");
       })
       .catch(error => this.setState({ error }));
