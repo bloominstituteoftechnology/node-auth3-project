@@ -4,6 +4,36 @@ import axios from 'axios';
 // Components
 import { User } from './index.js';
 
+// Styles
+import styled from 'styled-components';
+
+const UsersDiv = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	wrap-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	* {
+		width: 100%;
+		text-align: center;
+		padding: 10px;
+	}
+
+	.user-info {
+		color: lime;
+		padding: 0;
+	}
+
+	h2 {
+		font-size: 1.6rem;
+	}
+
+	h3 {
+		font-size: 1.2rem;
+	}
+`;
+
 export default class Users extends Component {
 	state = {
 		username: '',
@@ -41,15 +71,15 @@ export default class Users extends Component {
 		} = this.state;
 
 		return(
-			<div>
+			<UsersDiv>
 				<h2>Users List</h2>
 
-				<h3>Welcome, { username }!</h3>
+				<h3>Welcome, <span className = 'user-info'>{ username }</span>!</h3>
 
-				<p>Since you are in { department }, here is a list of users from that department.</p>
+				<p>Since you are in <span className = 'user-info'>{ department }</span>, here is a list of users from that department.</p>
 
 				{ users.map((user, i) => <User key = { i } user = { user } /> ) }
-			</div>
+			</UsersDiv>
 		);
 	}
 };

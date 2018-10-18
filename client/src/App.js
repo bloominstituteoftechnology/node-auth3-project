@@ -43,6 +43,19 @@ const AppDiv = styled.div`
 					cursor: pointer;
 				}
 			}
+
+			button {
+				background-color: #444;
+				color: white;
+				border: 1px solid white;
+				border-radius: 5px;
+				padding: 5px 10px;
+
+				&:hover {
+					background-color: black;
+					cursor: pointer;
+				}
+			}
 		}
 	}
 

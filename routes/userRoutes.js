@@ -13,7 +13,7 @@ const generateJwtToken = user => {
 		department: user.department,
 	};
 	const jwtOptions = {
-		expiresIn: '10s', // 10 secs
+		expiresIn: '10m', // 10 mins
 	};
 	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 };

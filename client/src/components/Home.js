@@ -16,6 +16,10 @@ const HomeDiv = styled.div`
 	h2 {
 		font-size: 1.2rem;
 	}
+
+	.user-info {
+		color: lime;
+	}
 `;
 
 const Home = props => {
@@ -30,7 +34,7 @@ const Home = props => {
 			{
 				username
 				?
-				<h2>You are signed in as { username }. You work in the { department } department.</h2>
+				<h2>You are signed in as <span className = 'user-info'>{ username }</span>. You work in the <span className = 'user-info'>{ department }</span> department.</h2>
 				:
 				<h2>Sign in or sign up to view content</h2>
 			}

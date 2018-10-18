@@ -5,6 +5,34 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const SignupForm = styled.form`
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 80px;
+
+	p, input, select {
+		text-align: center;
+		width: 30%;
+	}
+
+	input, select {
+		border-radius: 5px;
+		padding: 5px 10px;
+		margin-bottom: 10px;
+	}
+
+	button {
+		padding: 5px 10px;
+		border-radius: 5px;
+
+		&:hover {
+			background-color: black;
+			color: white;
+			cursor: pointer;
+		}
+	}
 `;
 
 export default class Signup extends Component {
@@ -52,7 +80,7 @@ export default class Signup extends Component {
 
 		return(
 			<SignupForm onSubmit = { this.handleSubmit }>
-				Username:
+				<p>Username:</p>
 				<input
 					placeholder = 'Enter username...'
 					name = 'username'
@@ -60,7 +88,7 @@ export default class Signup extends Component {
 					onChange = { this.handleInputChange }
 				/>
 
-				Password:
+				<p>Password:</p>
 				<input
 					type = 'password'
 					placeholder = 'Enter password...'
@@ -69,7 +97,7 @@ export default class Signup extends Component {
 					onChange = { this.handleInputChange }
 				/>
 
-				Department:
+				<p>Department:</p>
 				<select
 					name = 'department'
 					value = { department }
