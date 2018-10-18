@@ -25,8 +25,8 @@ class Login extends React.Component {
           username: this.state.username,
           password: this.state.password
       };
-      let address = `http://localhost:5000/api/login`;
-      axios.post(address, user)
+      let endpoint = `http://localhost:5000/api/login`;
+      axios.post(endpoint, user)
       .then(res => {
           localStorage.setItem('jwt', res.data.token);
           this.props.history.replace('/users');
