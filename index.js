@@ -1,8 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 
 const server = express();
-const port = 8000;
 
 const userRoutes = require('./routes/userRoutes.js');
 
@@ -20,4 +21,5 @@ function runServer() {
     console.log('\x1b[0m', '');
 }
 
+const port = process.env.PORT || 3300;
 server.listen(port, runServer());

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -5,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const userDb = require('./userModel.js');
 const router = express.Router();
 
-const jwtSecret = 'this is[asecret#3that.nob0dy-knows.'
+const jwtSecret = process.env.JWT_SECRET || 'Specify a JWT Secret';
 
 // Route to return all users
 router.get('/users', protected, (req, res) => {
