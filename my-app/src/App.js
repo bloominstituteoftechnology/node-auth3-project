@@ -23,9 +23,11 @@ class App extends Component {
               Home
             </NavLink>
             &nbsp;|&nbsp;
-            <NavLink to="/users">Users</NavLink>
+            <NavLink to="/signup">Signup</NavLink>
             &nbsp;|&nbsp;
             <NavLink to="/signin">Signin</NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to="/users">Users</NavLink>
             &nbsp;|&nbsp;
             <button onClick={this.signout}>Signout</button>
           </nav>
