@@ -61,6 +61,14 @@ nav a {
   text-decoration: none;
 }
 
+.logout-btn {
+  margin: 20px;
+  padding: 20px;
+  background: #3d3d3d;
+  color: white;
+  text-decoration: none;
+}
+
 form {
   display: flex;
   flex-flow: column nowrap;
@@ -77,4 +85,27 @@ form button {
   width: 25%;
   padding: 10px;
   margin: 0 auto;
+}
+
+.user-list {
+  width: 80%;
+  background: teal;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.user-list div {
+  padding: 20px;
+  border: 1px solid black;
+  margin: 20px;
+  background: #3d3d3d;
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.user-list div span {
+  margin: 5px 0px;
 }

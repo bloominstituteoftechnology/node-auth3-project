@@ -14,7 +14,12 @@ const Home = (props) => {
   )
 }
 
-class App extends Component {
+class App extends React.Component {
+
+  handleLogout(){
+    localStorage.removeItem('jwt');
+    window.location.reload();
+  }
 
   render() {
     return (
@@ -25,11 +30,14 @@ class App extends Component {
             <NavLink to = '/users'>Users</NavLink>
             <NavLink to = '/login'>Login</NavLink>
             <NavLink to ='/register'>Register</NavLink>
+            <NavLink to = '/' exact onClick={this.handleLogout}>Logout</NavLink>
           </nav>
         </header>
         <main>
           <Route exact path = '/' component = {Home} />
-          <Route path = '/users' component = {UserList} />
+          <Route path = '/users' render = {(props) => {
+            return <UserList/>
+          }}/>
           <Route path = '/login' component = {Login} />
           <Route path = '/register' component = {Register} />
         </main>

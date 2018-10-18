@@ -34,13 +34,11 @@ class Login extends React.Component {
         .then(res => {
             console.log(res.data);
             localStorage.setItem('jwt', res.data.token);
+            this.props.history.replace('/users');
         })
         .catch(err => {
             console.error(err)
         })
-        setTimeout(() => {
-            this.props.history.replace('/users');
-        }, 1000)
     }
         
     render() {

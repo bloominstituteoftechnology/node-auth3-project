@@ -4,24 +4,9 @@ import {withRouter} from 'react-router-dom';
 
 
 class UserList extends React.Component {
+
     componentDidMount(){
-        const token = localStorage.getItem('jwt');
-        const address = `http://localhost:9000/api/users`
-        const options = {
-            headers: {
-                Authorization: token,
-            },
-        }
-        axios.get(address, options)
-        .then(res => {
-            console.log(res.data)
-            this.setState({
-                users: res.data.users
-            })
-        })
-        .catch(err => {
-            console.error(err);
-        })
+        this.fetchUsers();
     }
 
     constructor(props){
@@ -29,13 +14,33 @@ class UserList extends React.Component {
         this.state = {
             users: []
         }
-
     }
+
+    fetchUsers = () =>{
+        const token = localStorage.getItem('jwt');
+    const address = `http://localhost:9000/api/users`
+    const options = {
+        headers: {
+            Authorization: token,
+        },
+    }
+    axios.get(address, options)
+    .then(res => {
+        console.log(res.data)
+        this.setState({
+            users: res.data.users
+        })
+    })
+    .catch(err => {
+        console.error(err);
+    })
+    }
+
     render(){
         return(
             <div>
                 <h2> List of users</h2>
-                <div>
+                <div className = 'user-list'>
                     {this.state.users.map(user => {
                         return <div key = {user.id}>
                         <span>UserID:{user.id}</span>
