@@ -45,12 +45,16 @@ class SignIn extends Component {
     event.preventDefault();
 
     const endpoint = 'http://localhost:3300/api/login';
-    console.log(this.state);
+    
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
         localStorage.setItem('jwt', res.data.token);
+        this.setState({ 
+            username: '',
+            password: '',
+        });
       })
       .catch(err => {
         console.error('ERROR', err);

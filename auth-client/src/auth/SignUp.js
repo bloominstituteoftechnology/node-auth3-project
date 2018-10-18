@@ -51,16 +51,18 @@ class SignUp extends Component {
   };
 
   handleSubmit = event => {
-    console.log('\n*** Sign Up submitted ***\n')
     event.preventDefault();
-
     const endpoint = 'http://localhost:3300/api/register';
-    console.log(`SignUp component state = ${this.state}`);
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
         localStorage.setItem('jwt', res.data.token);
+        this.setState({ 
+            username: '',
+            password: '',
+            department: '',
+        })
       })
       .catch(err => {
         console.error('ERROR', err);
