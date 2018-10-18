@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Users from '../components/Users';
-
 class UsersView extends Component {
     constructor(props) {
         super(props);
@@ -13,9 +11,16 @@ class UsersView extends Component {
 
     
         render() {
-          return (
-              <Users {...this.props} users={this.state.users} />
-          )
+            return (
+                <div>
+                    <h2>List of users</h2>
+                    <ul>
+                        {this.state.users.map(u => (
+                            <li key={u.id}>{u.username}</li>
+                        ))}
+                    </ul>
+               </div>
+             );
       }
 
       componentDidMount() {
@@ -39,4 +44,4 @@ class UsersView extends Component {
       }
     }
     
-    export default Users;
+    export default UsersView;
