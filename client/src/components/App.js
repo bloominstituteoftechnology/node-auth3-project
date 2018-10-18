@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 
 import { fetchUsers } from '../actions';
 
-import GUI from './GUI.js';
-import UserList from './UserList.js';
+import HomeView from './views/HomeView';
+import RegisterView from './views/RegisterView';
+import LoginView from './views/LoginView';
+import UsersView from './views/UsersView';
 
 import './App.css';
 
@@ -12,11 +14,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <GUI /> */}
-        <h1>List of Users: </h1>
-        <UserList />
+        
       </div>
     );
+  }
+
+  logout = () => {
+    localStorage.removeItem('jwt');
   }
 }
 
@@ -29,4 +33,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { fetchUsers })(App);
+export default withRouter(App);
