@@ -28,7 +28,7 @@ class App extends Component {
 
         <Route path="/" component={Home} exact />
         <Route path="/users" component={Users} />
-        <Route path="/signin" component={Signin} />
+        <Route path="/signin" render={() => <Signin {...this.props} />} />
         <Route path="/signup" render={() => <Signup {...this.props} />} />
 
         <GlobalStyle />
