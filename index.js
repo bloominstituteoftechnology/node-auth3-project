@@ -14,7 +14,7 @@ server.get('/', (req, res) => {
     res.send('Its Alive!');
   });
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
     const credentials = req.body;
 
     const hash = bcrypt.hashSync(credentials.password, 10);
@@ -47,7 +47,7 @@ function generateToken(user) {
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
     const creds = req.body;
 
     db('users')
@@ -66,7 +66,7 @@ server.post('/login', (req, res) => {
       });
 });
 
-server.get('/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     db('users')
       .select('id', 'username', 'password')
       .then(users => {
