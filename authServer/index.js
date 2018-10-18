@@ -12,34 +12,41 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-// implemented this
+// register endpoint
 server.post("/api/register", (req, res) => {
+  // set the credentials const
   const credentials = req.body;
 
-  const hash = bcrypt.hashSync(credentials.password, 10);
+  // use bcrypt to hash the password
+  const hash = bcrypt.hashSync(credentials.password, 14);
+
+  // set the credentials.password to the newly created hash
   credentials.password = hash;
 
+  // insert the credentials in to the users table
   db("users")
     .insert(credentials)
     .then(ids => {
       const id = ids[0];
-      // query the database to get the user
-      const token = generateToken({ username: credentials.username });
+
+      // query the database to get the user to generate the token
+      const token = tokenGenerator({ username: credentials.username });
+      // output the id and token
       res.status(201).json({ newUserId: id, token });
     })
     .catch(err => {
       res.status(500).json(err);
     });
 });
-
+// create a jwtSecret from the .env file if
 const jwtSecret =
-  process.env.JWT_SECRET || "add a secret to your .env file with this key";
+  process.env.JWT_SECRET || "add a secret to your .env file with the key";
 
-function generateToken(user) {
+function tokenGenerator(user) {
   const jwtPayload = {
     ...user,
-    hello: "FSW13",
-    roles: ["admin", "root"]
+    hello: "DECADEV",
+    roles: ["admin", "root", "user"]
   };
   const jwtOptions = {
     expiresIn: "1h"
@@ -57,7 +64,7 @@ server.post("/api/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
-        const token = generateToken(user); // new line
+        const token = tokenGenerator(user); // new line
         res.status(200).json({ welcome: user.username, token });
       } else {
         res.status(401).json({ message: "you shall not pass!" });
@@ -71,7 +78,7 @@ server.post("/api/login", (req, res) => {
 // protect this route, only authenticated users should see it
 server.get("/api/users", protected, checkRole("admin"), (req, res) => {
   db("users")
-    .select("id", "username", "password", "department", "avatar")
+    .select("id", "username", "password", "department", "email", "avatar")
     .then(users => {
       res.json({ users });
     })

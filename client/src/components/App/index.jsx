@@ -1,20 +1,12 @@
 import React, { Component } from "react";
 import { NavLink, Route } from "react-router-dom";
 import { withRouter } from "react-router";
+import Home from "../Home";
 import Users from "../Users";
 import Signin from "../Auth/Signin";
 import Signup from "../Auth/Signup";
 
 import "./App.css";
-
-const Home = props => {
-  return (
-    <div>
-      <h2>Home Component</h2>
-    </div>
-  );
-};
-
 class App extends Component {
   render() {
     return (
@@ -33,7 +25,7 @@ class App extends Component {
             &nbsp;&nbsp;
             <button onClick={this.signout}>Signout</button>
           </nav>
-          <main>
+          <main className="mainContent">
             <Route path="/" component={Home} exact />
             <Route path="/users" component={Users} />
             <Route path="/signin" component={Signin} />
@@ -45,17 +37,11 @@ class App extends Component {
   }
 
   signout = () => {
+    // clear jwt from localstorage
     localStorage.removeItem("jwt");
+    // redirect to home page
     this.props.history.push("/");
   };
 }
 
-export default withRouter(App);
-
-// white-list: keep a list of valid tokens on the db
-
-// black-list: keep a list of blaclisted tokens on the db
-
-// on every request you have to check your list
-
-// access token (short lived) + refresh token (long lived)
+export default withRouter(App); // wrap the app component in hoc withRouter

@@ -5,8 +5,9 @@ class Signup extends Component {
   state = {
     username: "",
     password: "",
-    department: "",
-    avatar: ""
+    department: "user",
+    avatar: "",
+    email: ""
   };
 
   render() {
@@ -36,19 +37,28 @@ class Signup extends Component {
           </div>
           <div>
             <label htmlFor="department">Department</label>
-            <input
-              name="department"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              type="text"
-              placeholder="Department..."
-            />
+            <select name="department" onChange={this.handleInputChange}>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="dba">DBA</option>
+              <option value="supervisor">Supervisor</option>
+            </select>
           </div>
           <div>
-            <label htmlFor="username">Avatar</label>
+            <label htmlFor="email">Email</label>
             <input
-              name="username"
-              value={this.state.username}
+              name="email"
+              value={this.state.email}
+              onChange={this.handleInputChange}
+              type="text"
+              placeholder="Email..."
+            />
+          </div>{" "}
+          <div>
+            <label htmlFor="avatar">Avatar</label>
+            <input
+              name="avatar"
+              value={this.state.avatar}
               onChange={this.handleInputChange}
               type="text"
               placeholder="URL for avatar..."
@@ -63,24 +73,27 @@ class Signup extends Component {
   }
 
   handleInputChange = event => {
+    // pull out the name and value from the event target
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-
+    // set the endpoint const
     const endpoint = "http://localhost:9001/api/register";
-    console.log(this.state);
+
+    // post the state to the endpoint
     axios
       .post(endpoint, this.state)
       .then(res => {
-        console.log(res.data);
+        // set the jwt in to the local storage
         localStorage.setItem("jwt", res.data.token);
+        // redirect to the users route
         this.props.history.push("/users");
       })
       .catch(err => {
-        console.error("ERROR:", err);
+        console.error("error:", err);
       });
   };
 }

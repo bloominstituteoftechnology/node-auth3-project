@@ -19,6 +19,7 @@ class Signin extends Component {
               value={this.state.username}
               onChange={this.handleInputChange}
               type="text"
+              placeholder="Username..."
             />
           </div>
           <div>
@@ -28,6 +29,7 @@ class Signin extends Component {
               value={this.state.password}
               onChange={this.handleInputChange}
               type="password"
+              placeholder="Password..."
             />
           </div>
           <div>
@@ -39,6 +41,7 @@ class Signin extends Component {
   }
 
   handleInputChange = event => {
+    // pull out the name and value from the event target
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
@@ -46,8 +49,10 @@ class Signin extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
+    // set endpoint const
     const endpoint = "http://localhost:9001/api/login";
-    console.log(this.state);
+
+    // post the state to the endpoint
     axios
       .post(endpoint, this.state)
       .then(res => {
@@ -56,7 +61,7 @@ class Signin extends Component {
         this.props.history.push("/users");
       })
       .catch(err => {
-        console.error("ERROR:", err);
+        console.error("error:", err);
       });
   };
 }

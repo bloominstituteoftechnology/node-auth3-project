@@ -2,11 +2,19 @@ const jwt = require("jsonwebtoken");
 
 const secret = process.env.SECRET;
 
-const tokenGenerator = user => {
-  const payload = { username: user.username };
-  const options = { expiresIn: 60 * 60 };
-  return jwt.sign(payload, secret, options);
-};
+function tokenGenerator(user) {
+  const jwtPayload = {
+    ...user,
+    hello: "DECADEV",
+    roles: ["admin", "root", "user"]
+  };
+  const jwtOptions = {
+    expiresIn: "1h"
+  };
+
+  console.log("token from process.env", jwtSecret);
+  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
 
 const restrictionMiddleware = (req, res, next) => {
   const token = req.headers.authorization;

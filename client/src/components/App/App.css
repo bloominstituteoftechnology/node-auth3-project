@@ -13,13 +13,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+nav {
+  margin: 30px;
+}
+
+.mainContent {
+  background: rgba(150, 140, 150, 0.5);
+  padding-bottom: 20px;
 }
 
 a,
@@ -58,6 +67,17 @@ input {
   text-align: center;
 }
 
+select {
+  font-size: 24px;
+  width: 90%;
+  height: 60px;
+  margin: 10px auto;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  border: 1px solid #61dafb;
+  padding: 5px 20px;
+  text-align: center;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
