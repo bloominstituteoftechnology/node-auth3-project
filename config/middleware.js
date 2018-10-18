@@ -7,5 +7,5 @@ module.exports = server => {
     server.use(helmet());
     server.use(express.json());
     server.use(cors());
-    server.use('/', routes);
+    server.use('/api', routes);
 }
