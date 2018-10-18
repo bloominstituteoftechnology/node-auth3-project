@@ -14,32 +14,13 @@ server.get("/", (req, res) => {
   res.send("Its pronounced Frank-en-steen");
 });
 
-server.post("/api/register", (req, res) => {
-  const credentials = req.body;
-  const hash = bcrypt.hashSync(credentials.password, 14);
-  credentials.password = hash;
-
-  db.insert(credentials)
-    .into("users")
-    .then(user => {
-      if (user) {
-        res.status(201).json({ credentials });
-      } else {
-        res.status(404).send(err.message);
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ err });
-    });
-});
-
 function protected(req, res, next) {
   const token = req.headers.authorization;
 
   if (token) {
     jwt.verify(token, jwtSecret, function(err, decodedToken) {
       if (err) {
-        res.status(404).json({ err });
+        res.status(404).send( err + 'this means you failed in protected' );
       } else {
         req.decodedToken = decodedToken;
         next();
@@ -54,7 +35,8 @@ const jwtSecret = "The secret was a dumb book";
 function generateToken(user) {
   const jwtPayload = {
     ...user,
-    greeting: "Hidey Ho Neighbor"
+    greeting: "Hidey Ho Neighbor",
+    department: user.department
   };
 
   const jwtOptions = {
@@ -79,12 +61,32 @@ server.post("/api/login", (req, res) => {
       }
     })
     .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+server.post("/api/register", (req, res) => {
+  const credentials = req.body;
+  const hash = bcrypt.hashSync(credentials.password, 14);
+  credentials.password = hash;
+
+  db.insert(credentials)
+    .into("users")
+    .then(user => {
+      if (user) {
+        const token = generateToken(user);
+        res.status(201).json({ token });
+      } else {
+        res.status(404).send(err.message);
+      }
+    })
+    .catch(err => {
       res.status(500).send(err.message);
     });
 });
 
 server.get("/api/users", protected, (req, res) => {
-  console.log(req.decodedToken);
+  console.log( req.decodedToken);
 
   db("users")
     .select("id", "name", "password")
