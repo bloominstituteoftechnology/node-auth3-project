@@ -54,7 +54,7 @@ router.post('/login', (req, res) => {
             // Generate a JSON Web Token
             const token = generateToken(user);
 
-            res.status(200).json({ welcome: user.username, token: token });
+            res.status(200).json({ welcome: user.username, department: user.department, token: token });
         } else {
             res.status(401).json({ message: 'You shall not pass!'});
         }

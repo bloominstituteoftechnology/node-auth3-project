@@ -17,6 +17,15 @@ const Home = props => {
 };
 
 class App extends Component {
+  state = {
+    department: 'IT',
+  };
+
+  setDepartment = (dept) => {
+    this.setState({department: dept});
+    console.log('APP', dept);
+  };
+
   render() {
     return (
       <div className="App">
@@ -25,9 +34,9 @@ class App extends Component {
         </header>
         <main>
           <Route exact path="/" component={Home} />
-          <Route path="/users" component={Users} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <Route path="/users" department={this.state.department} component={Users} />
+          <Route path="/login" setDepartment={this.setDepartment} component={Login} />
+          <Route path="/register" setDepartment={this.setDepartment} component={Register} />
         </main>
       </div>
     );

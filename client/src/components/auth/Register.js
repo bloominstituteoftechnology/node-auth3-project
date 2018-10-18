@@ -20,12 +20,14 @@ class Register extends Component {
         const endpoint = 'http://localhost:4000/api/register';
         axios.post(endpoint, this.state).then(res => {
             localStorage.setItem('jwt', res.data.token);
+            this.props.setDepartment(this.state.department);
             this.props.history.push('/users');
         }).catch(err => {
             console.log('REGISTER ERROR', err.response.data.message);
             this.setState({error: err.response.data.message});
         });
     };
+
 
     render() {
         return (

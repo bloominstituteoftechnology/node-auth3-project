@@ -11,7 +11,7 @@ module.exports = {
 
 // Get all the users from the database
 function get() {
-    return db('users');
+    return db.select('id', 'username', 'department').from('users');
 }
 
 function getByUsername(username) {

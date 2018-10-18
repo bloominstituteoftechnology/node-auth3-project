@@ -18,6 +18,8 @@ class Login extends Component {
         const endpoint = 'http://localhost:4000/api/login';
         axios.post(endpoint, this.state).then(res => {
             localStorage.setItem('jwt', res.data.token);
+            this.props.setDepartment(res.data.department);
+            
             this.props.history.push('/users');
         }).catch(err => {
             console.log('LOGIN ERROR', err.response.data.message);
