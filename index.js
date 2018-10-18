@@ -10,6 +10,7 @@ const server = express();// creates the server
 // Add GLOBAL MIDDLEWARE
 server.use(helmet());
 server.use(express.json());
+server.use(cors());
 
 //Add home route
 server.get('/', (req, res) => {

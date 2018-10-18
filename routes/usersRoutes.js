@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
 });
 
 // Add GET ROUTE HANDLER to access all users
-router.get('/users', protected, (req, res) => {
+router.get('/users', protected,  (req, res) => {
   console.log('\n** decoded token information **\n', req.decodedToken);
   db('users')
     .select('id', 'username', 'password', 'department')
