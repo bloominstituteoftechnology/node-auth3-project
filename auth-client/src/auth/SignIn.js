@@ -40,6 +40,7 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   };
 
+  // I need to make the input fields clear upon submit
   handleSubmit = event => {
     event.preventDefault();
 
