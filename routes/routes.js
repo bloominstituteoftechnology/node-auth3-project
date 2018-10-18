@@ -6,10 +6,6 @@ const jwt = require('jsonwebtoken');
 
 const middleware = require('../config/routerMiddleware.js');
 
-router.get('/', (req, res)=>{
-    res.status(200).json("It's alive!");
-});
-
 router.post('/register', (req, res)=>{
     const hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password = hash;
