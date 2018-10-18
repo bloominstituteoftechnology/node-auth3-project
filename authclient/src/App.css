@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.form {
+.form-container .form {
   display: flex;
   flex-direction: column;
   background: #61dafb;
@@ -41,12 +41,12 @@
   align-items: center;
 }
 
-.form input {
+.form-container .form input {
   width: 150%;
   height: 20px;
 }
 
-.form label {
+.form-container .form label {
   display: flex;
   font-weight: 700;
   color: #282c34;
