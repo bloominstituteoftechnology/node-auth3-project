@@ -4,7 +4,6 @@
   "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
   "main": "index.js",
   "scripts": {
-    
     "start": "nodemon"
   },
   "repository": {
@@ -28,6 +27,7 @@
     "helmet": "^3.14.0",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
+    "react": "^16.5.2",
     "sqlite3": "^4.0.2"
   }
 }
