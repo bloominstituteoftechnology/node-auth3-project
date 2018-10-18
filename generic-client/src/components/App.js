@@ -21,9 +21,9 @@ class App extends Component {
 				<GlobalStyle />
 				<Nav />
 				<Route exact path="/" component={Home} />
-				<Route path="/register" component={RegisterForm} />
-				<Route path="/login" component={LoginForm} />
-				<Route path="/userslist" component={UsersList} />
+				<Route path="/signup" component={RegisterForm} />
+				<Route path="/signin" component={LoginForm} />
+				<Route path="/users" component={UsersList} />
 			</div>
 		);
 	}

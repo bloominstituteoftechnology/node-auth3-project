@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Axios from 'axios';
 
-const LoginForm = () => {
-    return (
-      <div>
-        <form onSubmit={} >
-            <label htmlFor='username'>Username:<input name='username' type='text' /></label>
-            <br />
-            <label htmlFor='password'>Password:<input name='password' type='password' /></label>
-            <br />
-            <input type='submit'>Login</input>
-        </form>
-      </div>
-    );
+class LoginForm extends Component {
+	state = {
+		username: ''
+	};
+
+	loginUser = (event) => {
+		event.preventDefault();
+	};
+
+	render() {
+		return (
+			<div>
+				<form onSubmit={this.loginUser}>
+					<label htmlFor="username">
+						Username:
+						<input name="username" type="text" />
+					</label>
+					<br />
+					<label htmlFor="current-password">
+						Password:
+						<input name="current-password" type="password" />
+					</label>
+					<br />
+					<input type="submit" value="Login" />
+				</form>
+			</div>
+		);
+	}
 }
 
-LoginForm.propTypes = {
-
-};
+LoginForm.propTypes = {};
 
 export default LoginForm;

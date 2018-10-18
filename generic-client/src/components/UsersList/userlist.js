@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import Axios from 'axios';
 
 class UserList extends Component {
-	state = {
-		users
-	};
+	state = {};
 
 	componentDidMount = () => {};
 
