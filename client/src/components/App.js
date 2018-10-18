@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 
 import { fetchUsers } from '../actions';
 
+import GUI from './GUI.js';
+import UserList from './UserList.js';
+
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-
+        {/* <GUI /> */}
+        <h1>List of Users: </h1>
+        <UserList />
       </div>
     );
   }
@@ -24,4 +29,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { fetchSmurfs, addSmurf, deleteSmurf })(App);
+export default connect(mapStateToProps, { fetchUsers })(App);

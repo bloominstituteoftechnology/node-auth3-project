@@ -1,8 +1,54 @@
 import axios from 'axios';
 
+export const LOGGING_IN = "LOGGING_IN";
+export const LOGGED_IN = "LOGGED_IN";
+export const LOGGING_OUT = "LOGGING_OUT";
+export const LOGGED_OUT = "LOGGED_OUT";
 export const FETCH_USERS = "FETCH_USERS";
 export const FETCHING_USERS = "FETCHING_USERS";
 export const ERROR = "ERROR";
+
+export const login = (credentials) => {
+    return dispatch => {
+        dispatch({ type: LOGGING_IN });
+
+        axios
+            .post('http://localhost:8000/api/login', credentials)
+            .then(response => {
+                dispatch({
+                    type: LOGGED_IN,
+                    payload: response.data
+                });
+            })
+            .catch(() => {
+                dispatch({ 
+                    type: ERROR, 
+                    payload: "Unable to login (client side)." 
+                })
+            });
+    }
+}
+
+export const logout = () => {
+    return dispatch => {
+        dispatch({ type: LOGGING_OUT });
+
+        axios
+            .get('http://localhost:8000/api/logout')
+            .then(response => {
+                dispatch({
+                    type: LOGGED_OUT,
+                    payload: response.data
+                })
+            })
+            .catch(() => {
+                dispatch({
+                    type: ERROR,
+                    payload: "Unable to log out (client side)."
+                })
+            })
+    }
+}
 
 export const fetchUsers = () => {
   return dispatch => {
