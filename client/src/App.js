@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route} from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 import Navigation from './components/navigation/Navigation';
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import Users from './components/users/Users';
 
 import './App.css';
@@ -24,12 +25,13 @@ class App extends Component {
         </header>
         <main>
           <Route exact path="/" component={Home} />
-          <Route exact path="/users" component={Users} />
-          <Route exact path="/login" component={Login} />
+          <Route path="/users" component={Users} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </main>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

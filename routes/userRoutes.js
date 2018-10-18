@@ -27,7 +27,14 @@ router.post('/register', registerValidation, (req, res) => {
     // Add the user to the database
     userDb.add(creds).then(ids => {
         const id = ids[0];
-        res.status(201).json({ newUsersId: id });
+        console.log(ids);
+        userDb.getByUsername(creds.username).then(user => {
+            const token = generateToken(user);
+            if(!user) return res.status(404).json({message: 'User not found' });
+            res.status(200).json({ token: token });
+        }).catch(err => {
+            res.status(500).json(err.message);
+        })
     })
     .catch(err => {
         res.status(500).json(err.message);
@@ -83,7 +90,7 @@ function registerValidation(req, res, next) {
     // Check if non-nullable fields exists
     if(!user.username) return res.status(404).json({message: 'You need to specify a username'});
     if(!user.password) return res.status(404).json({message: 'You need to specify a password'});
-    if(!user.department) return res.status(404).json({message: 'You need to specify a department'});
+    if(!user.department) return res.status(404).send({message: 'You need to specify a department'});
 
     // Check if there is already a user in the DB that exists
     userDb.getByUsername(user.username).then(user => {

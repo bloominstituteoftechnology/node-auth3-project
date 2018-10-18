@@ -9,6 +9,8 @@ function Navigation(props) {
             <NavLink to="/users" >Users</NavLink>
             &nbsp;|&nbsp;
             <NavLink to="/login" >Login</NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to="/register" >Register</NavLink>
         </nav>
     );
 };

@@ -30,11 +30,10 @@ class Users extends Component {
         };
 
         axios.get(endpoint, options).then(res => {
-            console.log(res.data);
             this.setState({ users: res.data, error: '' });
         }).catch(err => {
-            console.log('USERS ERROR', err);
-            this.setState({error: 'You Are Unauthorized To View This Data'});
+            console.log('USERS ERROR', err.response.data.message);
+            this.setState({error: err.response.data.message});
         });
     };
 }
