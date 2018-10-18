@@ -23,7 +23,7 @@ class UserList extends Component {
 			.then((res) => {
 				this.setState({
 					...this.state,
-					users: res.data.users
+					users: res.data
 				});
 			})
 			.catch((err) => {
@@ -43,7 +43,9 @@ class UserList extends Component {
 						this.state.error.title
 					}`}</p>
 				) : (
-					this.state.users.map((user) => <User user={user} />)
+					this.state.users.map((user) => (
+						<User user={user} key={user.id} />
+					))
 				)}
 			</div>
 		);
