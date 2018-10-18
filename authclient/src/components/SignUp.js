@@ -11,10 +11,10 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.signUp}>
+      <div className="form-container">
+        <form className="form" onSubmit={this.signUp}>
           <div>
-            <label>Username</label>
+            <label>Username:</label>
             <input
               name="username"
               value={this.state.username}
@@ -23,7 +23,7 @@ class SignUp extends Component {
             />
           </div>
           <div>
-            <label>Department</label>
+            <label>Department:</label>
             <input
               name="department"
               value={this.state.department}
@@ -32,7 +32,7 @@ class SignUp extends Component {
             />
           </div>
           <div>
-            <label>Password</label>
+            <label>Password:</label>
             <input
               name="password"
               value={this.state.password}

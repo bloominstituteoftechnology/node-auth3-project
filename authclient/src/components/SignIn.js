@@ -10,8 +10,8 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.signIn}>
+      <div className="form-container">
+        <form className="form" onSubmit={this.signIn}>
           <div>
             <label>Username</label>
             <input
