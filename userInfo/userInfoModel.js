@@ -16,13 +16,13 @@ function get(){
 }
 
 function addUser(user){
-    const {username, password} = user
-   return db(table).insert({username, password, department: 'default'})
+    const {username, password, department} = user
+   return db(table).insert({username, password, department})
      
 }
 
 function getAllUsernames(){
-    return db(table).select('username')
+    return db(table).select('username', 'id', 'department')
 } 
 
 function getUserByUsername(username){

@@ -28,7 +28,10 @@ router.post("/register", (req, res) => {
   const cred = req.body;
   cred.password = bcrypt.hashSync(cred.password, 14);
   db.addUser(cred).then(table => {
-    res.json(table);
+    db.getUserByUsername(cred.username).then(user => {
+      const token = generateToken(user); 
+      res.status(200).json({ welcome: user.username, token });
+    })
   });
 });
 

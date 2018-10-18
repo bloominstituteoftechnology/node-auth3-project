@@ -6,7 +6,9 @@
   "author": "<ezra.rr.davis@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.4",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
@@ -18,5 +20,4 @@
   "scripts": {
     "dev": "nodemon index.js"
   }
-
 }
