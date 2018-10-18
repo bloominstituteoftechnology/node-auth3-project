@@ -1,16 +1,19 @@
 // imports
 const express = require("express");
+const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // instantiate server
 const server = express();
 server.use(express.json());
+server.use(cors());
 
 // middleware
 // jwt
 // generate token
-const jwtSecret = "nobody tosses a dwarf";
+const jwtSecret =
+  process.env.JWT_SECRET || "add a secret to your .env file with this key";
 const generateToken = user => {
   const jwtPayload = {
     ...user,
@@ -78,7 +81,8 @@ server.post("/api/login", (req, res) => {
       } else {
         res.status(401).json({ message: "You shall not pass!" });
       }
-    });
+    })
+    .catch(err => console.error(err));
 });
 
 server.get("/api/users", protected, checkRole("admin"), (req, res) => {
