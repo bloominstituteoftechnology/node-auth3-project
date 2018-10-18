@@ -17,7 +17,7 @@ class Login extends Component {
 
         const endpoint = 'http://localhost:4000/api/login';
         axios.post(endpoint, this.state).then(res => {
-            console.log(res.data);
+            localStorage.setItem('jwt', res.data.token);
         }).catch(err => {
             console.log('LOGIN ERROR', err);
         });
@@ -32,7 +32,7 @@ class Login extends Component {
                 </div>
                 <div>
                     <label htmlFor="password">password</label>
-                    <input type="text" name="password" value={this.state.password} onChange={this.handleInput} />
+                    <input type="password" name="password" value={this.state.password} onChange={this.handleInput} />
                 </div>
                 <div>
                     <button type="submit">Login</button>

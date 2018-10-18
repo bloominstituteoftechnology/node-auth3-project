@@ -3,6 +3,7 @@ import { Route} from 'react-router-dom';
 
 import Navigation from './components/navigation/Navigation';
 import Login from './components/auth/Login';
+import Users from './components/users/Users';
 
 import './App.css';
 
@@ -23,7 +24,7 @@ class App extends Component {
         </header>
         <main>
           <Route exact path="/" component={Home} />
-          <Route exact path="/users" component={Home} />
+          <Route exact path="/users" component={Users} />
           <Route exact path="/login" component={Login} />
         </main>
       </div>
