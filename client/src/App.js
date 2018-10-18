@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { NavLink, Route } from 'react-router-dom'
+import { NavLink, Route, withRouter } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import Users from './Users/Users'
 import Signin from './Auth/Signin'
+import Signup from './Auth/Signup'
 
 const Home = () => {
   return (
@@ -17,11 +18,18 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Authentication App</h1>
-        <NavLink to="/" exact>Home</NavLink> &nbsp; | &nbsp; <NavLink to="/users">Users</NavLink> &nbsp; | &nbsp; <NavLink to="/signin">Signin</NavLink>
+        <NavLink to="/" exact>Home</NavLink>
+        &nbsp; | &nbsp;
+        <NavLink to="/users">Users</NavLink>
+        &nbsp; | &nbsp;
+        <NavLink to="/signin">Signin</NavLink>
+        &nbsp; | &nbsp;
+        <NavLink to="/signup">Signup</NavLink>
 
         <Route path="/" component={Home} exact />
         <Route path="/users" component={Users} />
         <Route path="/signin" component={Signin} />
+        <Route path="/signup" render={() => <Signup {...this.props} />} />
 
         <GlobalStyle />
       </div>
@@ -57,4 +65,4 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-export default App
+export default withRouter(App)
