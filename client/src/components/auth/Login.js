@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './auth.css';
 
 class Login extends Component {
     state = {
@@ -33,14 +34,16 @@ class Login extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" name="username" value={this.state.username} onChange={this.handleInput} />
+            <form onSubmit={this.handleSubmit} className="login">
+                <h1>Login</h1>
+                <div className="Input">
+                    
+                    <input type="text" id="username" className="Input-text" name="username" placeholder="Username" value={this.state.username} onChange={this.handleInput} />
+                    <label for="username" className="Input-label">Username</label>
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" name="password" value={this.state.password} onChange={this.handleInput} />
+                <div className="Input">
+                    <input type="password" id="password" placeholder="password" className="Input-text" name="password" value={this.state.password} onChange={this.handleInput} />
+                    <label for="password" className="Input-label">Password</label>
                 </div>
                 <div>
                     <button type="submit">Login</button>

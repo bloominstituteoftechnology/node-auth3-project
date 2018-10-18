@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import './users.css';
 
 class Users extends Component {
     state = {
@@ -11,10 +12,10 @@ class Users extends Component {
 
     render() {
         return (
-            <div>
+            <div className="main">
                 <h1>List of Users</h1>
                 <h2>{this.state.isError ? `You are not authorized to view this page.` : ''}</h2>
-                <span>{this.state.isError ? <NavLink to="/register">Register</NavLink> : ''} {this.state.isError ? 'Or' : ''} {this.state.isError ? <NavLink to="/login">Login</NavLink> : ''}</span>
+                <span className="links">{this.state.isError ? <NavLink className="links" to="/register">Register</NavLink> : ''} {this.state.isError ? 'Or' : ''} {this.state.isError ? <NavLink to="/login">Login</NavLink> : ''}</span>
                 <ul>
                     {this.state.users.map(u => (<li key={u.id}>{u.username}</li>))}
                 </ul>

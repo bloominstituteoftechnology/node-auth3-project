@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './auth.css';
 
 class Register extends Component {
     state = {
@@ -38,18 +39,19 @@ class Register extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" name="username" value={this.state.username} onChange={this.handleInput} />
+            <form onSubmit={this.handleSubmit} className="login">
+                <h1>Register</h1>
+                <div className="Input">
+                    <input type="text" id="username" className="Input-text" name="username" placeholder="Username" value={this.state.username} onChange={this.handleInput} />
+                    <label for="username" className="Input-label">Username</label>
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" name="password" value={this.state.password} onChange={this.handleInput} />
+                <div className="Input">
+                    <input type="password" id="password" placeholder="password" className="Input-text" name="password" value={this.state.password} onChange={this.handleInput} />
+                    <label for="password" className="Input-label">Password</label>
                 </div>
-                <div>
-                    <label htmlFor="department">Department</label>
-                    <input type="text" name="department" value={this.state.department} onChange={this.handleInput} />
+                <div className="Input">
+                    <input type="text" id="department" placeholder="department" className="Input-text" name="department" value={this.state.department} onChange={this.handleInput} />
+                    <label for="department" className="Input-label">Department</label>
                 </div>
                 <div>
                     <button type="submit">Register</button>
