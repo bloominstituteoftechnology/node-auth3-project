@@ -14,6 +14,10 @@ class App extends Component {
     username: ''
   }
 
+  userSignOut = () => {
+    localStorage.removeItem('jwt');
+  };
+
   componentDidMount() {
     const token = localStorage.getItem('jwt');
 
@@ -62,6 +66,9 @@ class App extends Component {
           userSignIn={this.props.userSignIn}
           handleInputChange={this.props.handleInputChange}
         />  
+        </div>
+        <div>
+        <button onClick={this.userSignOut}>Sign Out</button>
         </div>
       </div>
     );
