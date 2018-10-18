@@ -3,8 +3,10 @@ import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 import { NavLink, Route } from "react-router-dom";
+
 import Users from "./components/Users.js";
 import Login from "./components/Login.js";
+import Register from "./components/Register.js";
 
 const Home = props => {
   return (
@@ -42,6 +44,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/users" component={Users} />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </main>
       </div>
     );

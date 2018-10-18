@@ -32,7 +32,19 @@ server.post("/api/register", (req, res) => {
 
   db("users")
     .insert(creds)
-    .then(idObj => res.status(201).json(idObj))
+    .then(idObj => {
+      const id = idObj[0];
+      db("users")
+        .where({ id: id })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(200).json({ username: user.username, token });
+        })
+        .catch(err =>
+          res.status(500).json({ error: "There was an error registering" })
+        );
+    })
     .catch(err => res.status(500).json(err));
 });
 
