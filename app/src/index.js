@@ -6,6 +6,8 @@ import Login from "./components/Login";
 import UserList from "./components/UserList";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import Cookies from 'js-cookie';
+
 
 ReactDOM.render(
   <Router>
@@ -26,7 +28,8 @@ ReactDOM.render(
         to="/logout"
         activeClassName="selected"
         onClick={() => {
-          localStorage.removeItem("jwt");
+          localStorage.setItem('isLoggedIn', false);
+          Cookies.remove('token');
           window.location.href = "http://localhost:9001/login"
         }}
       >

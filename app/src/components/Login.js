@@ -20,6 +20,7 @@ class Login extends React.PureComponent {
       .then(resp => {
         console.log(resp.data);
         Cookies.set('token', resp.data.token);
+        localStorage.setItem('isLoggedIn', true);
         this.props.history.push("/users");
       })
       .catch(error => this.setState({ error }));
