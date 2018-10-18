@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const db = require('./data/dbConfig.js');
@@ -10,6 +11,7 @@ const port = 9000;
 
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
 // // Test:
 // server.get('/', (req, res) => {
@@ -27,7 +29,8 @@ server.post('/api/register', (req, res) => {
         .insert(credentials)
         .then(ids => {
             const id = ids[0];
-            res.status(201).json({newUserId: id});
+            const token = generateToken({username: credentials.username});
+            res.status(201).json({newUserId: id, token});
         })
         .catch(err => res.status(500).json(err));
 });
