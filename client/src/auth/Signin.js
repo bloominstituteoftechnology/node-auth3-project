@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class Signin extends Component {
   state = {
-    username: 'vera',
+    username: 'kai4',
     password: 'password',
   };
 
@@ -43,12 +43,13 @@ class Signin extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const endpoint = 'http://localhost:3300/api/login';
+    const endpoint = 'http://localhost:7100/api/login';
     console.log(this.state);
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
+        localStorage.setItem('jwt', res.data.token)
       })
       .catch(err => {
         console.error('ERROR', err);
