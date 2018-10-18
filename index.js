@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const jwtSecret = "can't stop, won't stop";
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';
 
 const db = require('./data/dbConfig.js');
 
