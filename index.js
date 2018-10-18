@@ -51,13 +51,13 @@ server.post('/api/register', async (req, res) => {
   
     const newUserId = await db('users').insert(credentials);
     // log user in on registration by passing a new token for the new user
-    try {
-        const newUser = await db('users').where({id: newUserId[0]}).first();
-        const token = generateToken(newUser);
-        return res.status(201).json({ token });
-    } catch(err) {
-        return res.status(404).json({err});
-    }
+        try {
+            const newUser = await db('users').where({id: newUserId[0]}).first();
+            const token = generateToken(newUser);
+            return res.status(201).json({ token });
+        } catch(err) {
+            return res.status(404).json({err});
+        }
     } catch(err) {
     return res.status(500).json({err});
     }
