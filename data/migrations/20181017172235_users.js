@@ -7,7 +7,6 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique();
     users.string("password", 255).notNullable();
-    users.string("department", 255);
   });
 };
 
