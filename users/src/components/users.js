@@ -5,6 +5,7 @@ class Users extends Component {
     state = {
         users: [],
     };
+    
 
     componentDidMount() {
         const token = localStorage.getItem("jwt");
