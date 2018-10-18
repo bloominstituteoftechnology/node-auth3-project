@@ -6,8 +6,8 @@ const db = require('./data/dbConfig');
 const bcrypt = require('bcryptjs');
 
 
-server.use(express.json());
-server.use(cors());
+
+server.use(express.json(), cors());
 
 const jwtSecret = 'it\'s a secret';
 
@@ -50,14 +50,14 @@ function rollCheck(roll) {
     };
 }
 
-server.get('/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     db('users').select('id', 'username', 'password', 'department').then(users => {
         res.status(200).json(users)
     }).catch(err => {
         res.status(500).json(err)})
 })
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 14);
     req.body.password = hash;
 
@@ -69,7 +69,7 @@ server.post('/register', (req, res) => {
     }).catch(err => res.status(500).json(err))
 })
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
     db('users')
     .where({ userName: req.body.username })
     .first()
