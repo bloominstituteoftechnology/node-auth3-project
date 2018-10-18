@@ -10,7 +10,7 @@ const db = knex(knexConfig.development);
 
 const server = express();
 
-const port = 9000;
+const port = 3300;
 
 server.use(cors());
 server.use(morgan('combined'));
