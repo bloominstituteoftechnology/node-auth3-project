@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Axios from 'axios';
 
 import User from './user';
@@ -51,7 +50,5 @@ class UserList extends Component {
 		);
 	}
 }
-
-UserList.propTypes = {};
 
 export default UserList;

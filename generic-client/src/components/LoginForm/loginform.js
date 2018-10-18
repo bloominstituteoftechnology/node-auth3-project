@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
@@ -6,7 +7,8 @@ class LoginForm extends Component {
 	state = {
 		username: '',
 		password: '',
-		error: {}
+		error: {},
+		success: false
 	};
 
 	loginUser = (event) => {
@@ -14,12 +16,12 @@ class LoginForm extends Component {
 		const endpoint = 'http://localhost:8080/api/login';
 		const creds = {
 			username: this.state.username,
-			// password: event.target.password.value
 			password: this.state.password
 		};
 		Axios.post(endpoint, creds)
 			.then((res) => {
 				localStorage.setItem('userToken', res.data.token);
+				this.setState({ ...this.state, success: true });
 			})
 			.catch((err) => {
 				console.error('Error:\n', err.response.data);
@@ -28,8 +30,6 @@ class LoginForm extends Component {
 					error: err.response.data
 				});
 			});
-
-		this.props.history.push('/');
 	};
 
 	inputHandler = (event) => {
@@ -40,6 +40,9 @@ class LoginForm extends Component {
 	};
 
 	render() {
+		if (this.state.success === true) {
+			return <Redirect to="/users" />;
+		}
 		return (
 			<div>
 				<form onSubmit={this.loginUser}>
