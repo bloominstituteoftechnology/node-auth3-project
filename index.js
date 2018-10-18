@@ -20,7 +20,7 @@ server.use(cors());
 // Middleware
 // ~~ Targeted protected route ~~ //
 const protected = (req, res, next) => {
-	const token = req.headers.authorization;
+    const token = req.headers.authorization;
 	
 	if(token) {
         const verified = tokenHelper.verifyToken(token);
