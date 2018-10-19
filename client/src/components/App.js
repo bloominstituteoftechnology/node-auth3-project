@@ -9,6 +9,12 @@ import UsersView from './views/UsersView';
 import './App.css';
 
 class App extends Component {
+
+  logout = () => {
+    localStorage.removeItem('jwt');
+    this.props.history.replace('/');
+  }
+  
   render() {
     return (
       <div className="App">
@@ -42,11 +48,6 @@ class App extends Component {
         <Route path='/users' render={() => <UsersView {...this.props} />} />
       </div>
     );
-  }
-
-  logout = () => {
-    localStorage.removeItem('jwt');
-    this.props.history.replace('/');
   }
 }
 

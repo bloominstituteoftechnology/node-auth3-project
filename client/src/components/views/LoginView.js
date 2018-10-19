@@ -18,7 +18,7 @@ class LoginView extends Component {
         let user = this.state;
 
         axios
-            .post('http://localhost:3000/signin', user)
+            .post('http://localhost:8000/api/login', user)
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
                 this.props.history.replace('/users');

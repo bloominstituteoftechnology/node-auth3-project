@@ -24,10 +24,9 @@ class RegisterView extends Component {
     submitHandler = (event) => {
         event.preventDefault();
         let user = this.state;
-        console.log(user);
 
         axios
-            .post('http://localhost:3000/signup', user)
+            .post('http://localhost:8000/api/register', user)
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
                 this.props.history.push('/users');
