@@ -33,7 +33,7 @@ class SignIn extends Component {
     render() {
         return (
             <div style={{ marginTop: 30 + "px" }}>
-                <h1>SIGN IN PAGE</h1>
+                <h2>SIGN IN PAGE</h2>
                 <form onSubmit={this.signIn}>
                     <input
                         onChange={this.handleInputChange}

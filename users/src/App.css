@@ -14,13 +14,70 @@
     color: white;
 }
 
-.App-link {
-    color: #61dafb;
+.jumbotron h1 {
+    color: rgb(134, 42, 134);
+}
+
+h2 {
+    color: maroon;
 }
 
 .App-title {
     font-size: 1.5em;
 }
+
+.App-intro {
+    font-size: large;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+.card {
+    box-shadow: 2 4px 8px 2 rgba(0, 0, 0, 0.6);
+    transition: 1.6s;
+    width: 40%;
+    background-color: rgb(243, 210, 210);
+    border-bottom: black 1px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.jumbotron .container {
+    padding: 2px 16px;
+    border: #61dafb
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 16px;
+    margin: 0 auto;
+    justify-content: space-around;
+    margin-top: 25%;
+    border: 1px solid black;
+}
+
+.jokeslist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.jumbotron {
+    background-color: lightblue;
+}
+
+hr {
+    
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(110, 30, 30, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+
 
 @keyframes App-logo-spin {
     from {

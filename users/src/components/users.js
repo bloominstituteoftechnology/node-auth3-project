@@ -24,17 +24,15 @@ class Users extends Component {
     }
 
     render() {
-        return (
-            <div style={{ marginTop: 30 + "px" }}>
-                <h1>USERS PAGE</h1>
-                <ul />
-                {this.state.users.map(user => (
-                    <li key={user.id}>
-                        {user.username}, member of {user.department} team
-          </li>
-                ))}
-            </div>
-        );
+        return <div style={{ marginTop: 30 + "px" }}>
+            <h2>USERS PAGE</h2>
+            <ul />
+            {this.state.users.map(user => (
+              <li key={user.id} className="card container">
+                <p>{user.username}</p> <br/> <h4>Member of </h4> <br/> <h4>{user.department} team </h4><hr></hr>
+              </li>
+            ))}
+          </div>;
     }
 }
 

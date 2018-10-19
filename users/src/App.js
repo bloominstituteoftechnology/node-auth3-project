@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route,Link, withRouter } from "react-router-dom";
-
+import { Jumbotron } from "reactstrap";
 import './App.css';
 
 
@@ -21,7 +21,8 @@ class App extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="App">
+      <Jumbotron>
         <Link to="/signin">
           <button>Sign in page</button>{" "}
         </Link>
@@ -36,6 +37,7 @@ class App extends Component {
         <Route path="/signup" render={props => <SignUp {...props} />} />
         <Route path="/signin" render={props => <SignIn {...props} />} />
         <Route path="/users" render={props => <Users {...props} />} />
+        </Jumbotron>
       </div>
     );
   }
