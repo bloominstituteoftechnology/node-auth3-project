@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import {NavLink, Route} from 'react-router-dom';
 import LogIn from './components/LogIn.js';
+import Users from './components/Users.js';
+import Register from './components/Register.js';
 
 const Home = props => {
   return(
@@ -22,10 +24,16 @@ class App extends Component {
         <nav>
           <NavLink to={'/'}>Home</NavLink>
           &nbsp; | &nbsp;
-          <NavLink to={'/login'}>Log In</NavLink>
+          <NavLink to={'/signup'}>Register</NavLink>
+          &nbsp; | &nbsp;
+          <NavLink to={'/signin'}>Log In</NavLink>
+          &nbsp; | &nbsp;
+          <NavLink to={'/users'}>Users</NavLink>
           <br/>
           <Route exact path='/' component={Home} />
-
+          <Route path='/signin' component={LogIn} />
+          <Route path='/users' component={Users} />
+          <Route path='/signup' component={Register} />
         </nav>
       </div>
     );
