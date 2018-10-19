@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Login(props) {
+export default function LoginForm(props) {
     return(
         <form>
             <div>
@@ -26,7 +26,7 @@ export default function Login(props) {
             </div>
 
             <div>
-                <button type="submit">Sign In</button>
+                <button type="submit" onClick={props.loginHandler}>Sign In</button>
             </div>
         </form>
     );
