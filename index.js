@@ -13,7 +13,17 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const jwtSct = 'The deviousness of trendiness is poetic in its politics.'
+const jwtSct = process.env.JWT_SCT || 'add a secret';
+
+// function checkDept(dept) {
+//     return function(req, res, next) {
+//         if (req.decodedToken && req.decodedToken.usrs_dpt.includes(dept)) {
+//             next();
+//         } else {
+//             res.status(403).json({ message: 'Wrong department' });
+//         };
+//     };
+// };
 
 function generateToken(usridv) {
     const jwtPyd = {
@@ -45,13 +55,25 @@ function protected (req, res, next) {
 }
 
 server.get('/api/usrs', protected, (req, res) => {
+    const usridv = req.decodedToken;
+
     db('usrs')
-        .select('id', 'usrs_nme', 'usrs_pwd')
-        .then(usrs => {
-            res.json({ usrs });
+        .where('usrs_nme', usridv.usrs_nme)
+        .first()
+        .then(usridv => {
+            db('usrs')
+                .where('usrs_dpt', usridv.usrs_dpt)
+                .select('id', 'usrs_nme', 'usrs_pwd')
+                .then(usrs => {
+                    console.log(usrs);
+                    res.status(200).json({ usrs });
+                })
+                .catch(err => {
+                    res.status(500).send(err);
+                });
         })
         .catch(err => {
-            res.send(err);
+            res.status(500).send(err);
         });
 });
 
@@ -65,7 +87,13 @@ server.post('/api/rgtr', (req, res) => {
         .insert(crds)
         .then(ids => {
         const id = ids[0];
-        res.status(201).json({ nwId: id });
+        db('usrs')
+            .where({ id })
+            .first()
+            .then(usridv => {
+                const tkn = generateToken(usridv);
+                res.status(201).json({ nwId: usridv.id, tkn });
+            });
         })
         .catch(err => {
             res.status(500).json(err);
@@ -91,4 +119,5 @@ server.post('/api/lgn', (req, res) => {
         });
 });
 
-server.listen(5000, () => console.log('\nRunning on port 5000\n'));
+const port = process.env.PORT || 5000;
+server.listen(port, () => console.log('\nRunning on port 5000\n'));
