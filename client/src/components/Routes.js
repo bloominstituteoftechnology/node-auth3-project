@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import Home from './Home';
 import Users from './users/Users';
 import Signin from './auth/Signin';
+import Signup from './auth/Signup';
 
 class Routes extends Component {
   render() {
@@ -12,6 +13,7 @@ class Routes extends Component {
         <Route path="/" component={Home} exact />
         <Route path="/users" component={Users} />
         <Route path="/signin" component={Signin} />
+        <Route path="/signup" component={Signup} />
       </div>
     );
   }

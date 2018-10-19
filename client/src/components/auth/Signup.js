@@ -26,7 +26,7 @@ class Signup extends Component {
       alert('Please fill in username and password');
     } else {
       axios
-        .post('http://localhost:9000/api/register', user)
+        .post('http://localhost:8000/api/register', user)
         .then((response) => {
           console.log(response.data);
           localStorage.setItem('jwt', response.data.token);
