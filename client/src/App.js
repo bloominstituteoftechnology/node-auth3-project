@@ -9,6 +9,20 @@ import Register from './components/Register';
 import './App.css';
 
 class App extends Component {
+  state = {
+    login: false,
+  };
+
+  componentDidMount() {
+    const tag = localStorage.getItem('jwt');
+    console.log(tag);
+    if (!!tag) {
+      this.setState({ login: true });
+    } else {
+      this.setState({ login: false });
+    }
+  }
+
   logoutHandle = () => {
     localStorage.removeItem('jwt');
     document.location.reload();
@@ -22,8 +36,11 @@ class App extends Component {
             Home
           </NavLink>
           <NavLink to="/users">Users</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <button onClick={this.logoutHandle}>Sign Out</button>
+          {this.state.login ? (
+            <button onClick={this.logoutHandle}>Sign Out</button>
+          ) : (
+            <NavLink to="/login">Login</NavLink>
+          )}
         </nav>
         <main>
           <Route path="/" exact component={Home} />

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -7,12 +8,12 @@ const jwt = require('jsonwebtoken');
 const db = require('./data/dbCongfig');
 
 const server = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 server.use(express.json(), cors(), helmet());
 
 //===== Make token =====
-const jwtSecret = 'Doctor who?';
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file';
 
 function generateToken(user) {
   const jwtPayload = {
@@ -34,7 +35,13 @@ server.post('/api/register', (req, res) => {
   db('users')
     .insert(credentials)
     .then(ids => {
-      res.status(201).json({ newUserId: ids[0] });
+      return db('users')
+        .where({ username: credentials.username })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(201).json({ newUserId: user.id, token });
+        });
     })
     .catch(err => {
       if (err.errno === 19) {
@@ -66,7 +73,7 @@ server.post('/api/login', (req, res) => {
 });
 
 //===== Get users =====
-server.get('/api/users/', protected, checkRole(), (req, res) => {
+server.get('/api/users', protected, checkRole(), (req, res) => {
   db('users')
     .where({ department: req.dep })
     .then(users => {
@@ -76,17 +83,16 @@ server.get('/api/users/', protected, checkRole(), (req, res) => {
         res.status(200).json(users);
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => res.status(500).json(`Server error --> ${err}`));
 });
 
 //===== Check if User logged in =====
 function protected(req, res, next) {
   const token = req.headers.authorization;
-
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ message: 'invalid tokem' });
+        res.status(401).json({ message: 'invalid token' });
       } else {
         req.decodedToken = decodedToken;
         next();

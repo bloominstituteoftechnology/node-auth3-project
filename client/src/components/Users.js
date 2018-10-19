@@ -18,7 +18,6 @@ class Users extends React.Component {
     axios
       .get('http://localhost:5000/api/users', options)
       .then(response => {
-        console.log(response);
         this.setState({ users: response.data, signin: true });
       })
       .catch(err => {
