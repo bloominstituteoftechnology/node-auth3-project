@@ -29,6 +29,8 @@ class App extends Component {
           <NavLink to={'/signin'}>Log In</NavLink>
           &nbsp; | &nbsp;
           <NavLink to={'/users'}>Users</NavLink>
+          &nbsp; | &nbsp;
+          <button onClick={this.signout}>Log Out</button>
           <br/>
           <Route exact path='/' component={Home} />
           <Route path='/signin' component={LogIn} />
@@ -38,6 +40,10 @@ class App extends Component {
       </div>
     );
   }
+
+  signout = () => {
+    localStorage.removeItem('jwttoken');
+  };
 }
 
 
