@@ -39,16 +39,16 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    loggingIn: state.loggingIn,
-    isLoggedIn: state.isLoggedIn,
-    loggingOut: state.loggingOut,
-    fetchingUsers: state.fetchingUsers,
-    // addingSmurf: state.addingSmurf,
-    // deletingSmurf: state.deletingSmurf,
-    error: state.error
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     loggingIn: state.loggingIn,
+//     isLoggedIn: state.isLoggedIn,
+//     loggingOut: state.loggingOut,
+//     fetchingUsers: state.fetchingUsers,
+//     // addingSmurf: state.addingSmurf,
+//     // deletingSmurf: state.deletingSmurf,
+//     error: state.error
+//   }
+// }
 
 export default withRouter(App);
