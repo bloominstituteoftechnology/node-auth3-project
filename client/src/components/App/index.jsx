@@ -23,7 +23,9 @@ class App extends Component {
             &nbsp;&nbsp;
             <NavLink to="/signup">Signup</NavLink>
             &nbsp;&nbsp;
-            <button onClick={this.signout}>Signout</button>
+            <button onClick={this.signout} className="signout">
+              Signout
+            </button>
           </nav>
           <main className="mainContent">
             <Route path="/" component={Home} exact />

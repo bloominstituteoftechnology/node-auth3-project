@@ -52,7 +52,6 @@ function tokenGenerator(user) {
     expiresIn: "1h"
   };
 
-  console.log("token from process.env", jwtSecret);
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 }
 
@@ -91,17 +90,16 @@ function protected(req, res, next) {
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
-        // token verification failed
-        res.status(401).json({ message: "invalid token" });
+        // if token verification failed
+        res.status(401).json({ message: "the invalid is token" });
       } else {
-        // token is valid
-        req.decodedToken = decodedToken; // any sub-sequent middleware of route handler have access to this
-        console.log("\n** decoded token information **\n", req.decodedToken);
+        // if token is valid
+        req.decodedToken = decodedToken;
         next();
       }
     });
   } else {
-    res.status(401).json({ message: "no token provided" });
+    res.status(401).json({ message: "no token was provided" });
   }
 }
 
@@ -110,12 +108,12 @@ function checkRole(role) {
     if (req.decodedToken && req.decodedToken.roles.includes(role)) {
       next();
     } else {
-      res.status(403).json({ message: "you shall not pass! forbidden" });
+      res.status(403).json({ message: "you shall not pass! forbidden!" });
     }
   };
 }
 
 const port = process.env.PORT || 9001;
-server.listen(port, () => console.log("\nrunning on port 9001\n"));
-
-// Unhandled rejection Error: Can't set headers after they are sent.
+server.listen(port, () =>
+  console.log(`\n=== API listening on port ${port} ===\n`)
+);

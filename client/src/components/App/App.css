@@ -40,6 +40,13 @@ button {
   border: 2px solid #333;
   border-radius: 12px;
 }
+
+.signout {
+  background: #fb6161;
+}
+.signout:hover {
+  color: #fb6161;
+}
 a:hover,
 button:hover {
   background: #fff;
