@@ -1,31 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Register from '../Register';
+import RegisterForm from '../RegisterForm';
 
 class RegisterView extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            username: '',
+            password: '',
+            department: ''
+        };
     }
 
-    state = {
-        username: '',
-        password: '',
-        department: ''
-    };
-
     changeHandler = (event) => {
-        const { name, value } = event.target;
+        event.preventDefault();
         this.setState({
-            [name]: value
+            [event.target.name]: event.target.value
         });
     };
 
     submitHandler = (event) => {
         event.preventDefault();
+        let user = this.state;
+        console.log(user);
 
         axios
-            .post('http://localhost:3000/register', this.state)
+            .post('http://localhost:3000/signup', user)
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
                 this.props.history.push('/users');
@@ -36,9 +38,8 @@ class RegisterView extends Component {
     }
 
     render() {
-        console.log(this.props);
         return(
-            <Register 
+            <RegisterForm 
                 {...this.props}
                 submitHandler={this.submitHandler}
                 changeHandler={this.changeHandler}

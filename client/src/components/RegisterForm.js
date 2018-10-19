@@ -1,8 +1,10 @@
 import React from 'react';
 
 export default function Register(props) {
+    console.log(props);
     return(
-        <form onSubmit={props.submitHandler}>
+        <form>
+            <h1>Register a new user:</h1>
             <div>
                 <label>Username</label>
                 <input 
@@ -12,6 +14,7 @@ export default function Register(props) {
                     onChange={props.changeHandler}
                 />
             </div>
+
             <div>
                 <label>Password</label>
                 <input 
@@ -21,6 +24,7 @@ export default function Register(props) {
                     onChange={props.changeHandler}
                 />
             </div>
+
             <div>
                 <label>Department</label>
                 <input 
@@ -30,8 +34,9 @@ export default function Register(props) {
                     onChange={props.changeHandler}
                 />
             </div>
+
             <div>
-                <button type="submit">Register</button>
+                <button type="submit" onSubmit={props.submitHandler}>Sign Up</button>
             </div>
         </form>
     );

@@ -13,17 +13,27 @@ class App extends Component {
     return (
       <div className="App">
         <header>
-          <NavLink to='/register'>
-            <button>Register</button>
-          </NavLink>
+          <nav>
+            <NavLink to='/' exact>
+              <button>Home</button>
+            </NavLink>
 
-          {/* <NavLink to='/signin'>
-            <button>Log In</button>
-          </NavLink>
+            <NavLink to='/signup'>
+              <button>Register</button>
+            </NavLink>
 
-          <NavLink to='/users'>
-            <button>Show Users</button>
-          </NavLink> */}
+            <NavLink to='/signin'>
+              <button>Log In</button>
+            </NavLink>
+
+            <NavLink to='/users'>
+              <button>Show Users</button>
+            </NavLink>
+            
+            <NavLink to='/' exact onClick={this.logout}>
+              <button>Logout</button>
+            </NavLink>
+          </nav>
         </header>
 
         <Route exact path='/' render={() => <HomeView {...this.props} />} />
@@ -36,6 +46,7 @@ class App extends Component {
 
   logout = () => {
     localStorage.removeItem('jwt');
+    this.props.history.replace('/');
   }
 }
 
