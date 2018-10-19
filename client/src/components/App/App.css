@@ -43,6 +43,7 @@ button {
 
 .signout {
   background: #fb6161;
+  padding-top: 14px;
 }
 .signout:hover {
   color: #fb6161;

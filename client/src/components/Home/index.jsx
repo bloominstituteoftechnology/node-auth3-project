@@ -6,11 +6,16 @@ class Home extends Component {
       <div>
         <h1>Home Page</h1>
         <p>
-          Welcome to the random user app.
+          &nbsp;&nbsp;Welcome to the random user app.&nbsp;&nbsp;
           <br />
           <em>
             <strong>aknowledgments:</strong> <br />
-            luis Hernandez (lecturer), Marshall Lanners (The Select Idea)
+            <br />
+            luis Hernandez (lecturer)
+            <br />
+            <br />
+            Marshall Lanners <br />
+            (The Select Idea)
           </em>
         </p>
       </div>
