@@ -5,6 +5,9 @@
   "repository": "https://github.com/Mlancelot88/auth-ii.git",
   "author": "Marious Davis <mlancelot88@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
