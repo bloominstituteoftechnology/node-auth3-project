@@ -1,0 +1,16 @@
+{
+  "name": "Auth-II",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Mlancelot88/auth-ii.git",
+  "author": "Marious Davis <mlancelot88@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
