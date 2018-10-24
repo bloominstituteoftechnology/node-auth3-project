@@ -12,6 +12,16 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+// sanity check here
+server.get('/', (req, res) => {
+	res.send('It is working!');
+});
+
+// endpoints here
+
+// register
+
+
 // listening port
 const port = 5000;
 server.listen(port, function() {
