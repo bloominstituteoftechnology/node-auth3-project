@@ -1,4 +1,4 @@
 const knex = require('knex');
-const knexConfig = require('./data.sqlite3');
+const knexConfig = require('../knexfile.js');
 
 module.exports = knex(knexConfig.development);
