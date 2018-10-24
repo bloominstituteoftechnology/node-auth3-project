@@ -1,0 +1,23 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bwhite06/auth-ii.git",
+  "author": "Brandon White <bwhite06@stac.edu>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.3"
+  }
+}
