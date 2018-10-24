@@ -6,19 +6,10 @@ const knexConfig = require('./knexfile.js');
 const db = knex(knexConfig.development);
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
+const jwt = require('jsonwebtoken')
 
-server.use(
-  session({
-    name:'notsession',
-    secret:'john doe',
-    cookie:{maxAge:1*24*60*60*1000},//1 day
-    secure:true,
-    httpOnly:true,
-    resave:false,
-    saveUninitialized:false,
-  })
-);
+
+
 
 server.use(cors());
 server.use(helmet());
@@ -27,7 +18,17 @@ server.use(express.json());
 server.get('/',(req,res)=>{
   res.send('active')
 });
+server.get('/api/users',(req,res)=>{
 
+  db('users')
+  .select('id','username', 'password')
+  .then(users =>{
+    res.json(users);
+  })
+  .catch(err=>{
+    res.send(err);
+  })
+})
 
 server.post('/register',(req,res) =>{
   const credentials = req.body;
@@ -38,22 +39,38 @@ credentials.password = hash;
 db('users').insert(credentials)
 .then(ids=>{
   const id = id[0];
-//  req.session.username = user.username
-  res.status(201).json({newUserId:id})
+const token = generateToken(credentials);
+  res.status(201).json({newUserId:id, token})
 })
 .catch(err=>{
   res.status(500).json(err);
 });
 });
 
+function generateToken(user){
+  const jwtpayload ={
+    ...user,
+    hello:'welcome',
+    role: 'admin'
+  };
+  const jwtSecrect ='nobody';
 
+  const jwtOptions= {
+    expiresIn:'3m'
+  }
+  return jwt.sign(jwtpayload,jwtSecrect,jwtOptions)
+}
 
 server.post('/login', (req,res)=>{
+
   const credentials = req.body;
+  console.log(req.body)
   db('users').where({username: credentials.username}).first()
   .then(users => {
     if (users&&bcrypt.compareSync(credentials.password, users.password)){
-      res.status(200).json({welcome: users.username})
+
+  const token = generateToken(users);
+      res.status(200).json({welcome: users.username, token})
     } else {
       res.status(401).json({
         message:'you shall not pass'
@@ -65,7 +82,7 @@ server.post('/login', (req,res)=>{
 });
 });
 
-const port=3500;
+const port=3700;
 server.listen(port,()=> {
   console.log(`\n===Api Active On ${port}===\n`)
 });
