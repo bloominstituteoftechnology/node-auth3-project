@@ -18,8 +18,11 @@ server.get("/", (req, res) => {
 /// ---- CREATE User Endpoint ----
 server.post("/api/register", (req, res) => {
   const user = req.body;
+
+  // ---- Hash User Password ----
   const hash = bcrypt.hashSync(user.password, 14);
   user.password = hash;
+
   db("users")
     .insert(user)
     .then(ids => {
