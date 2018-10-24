@@ -5,7 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const db = require('./database/dbConfig.js');
+const db = require('./data/dbConfig.js');
 
 const server = express();
 
@@ -109,4 +109,4 @@ function protected(req, res, next) {
         }
     }
 
-server.listen(3300, () => console.log('\n API running mad circles on port 3300\n'));
+server.listen(9000, () => console.log('\n API running mad circles on port 9000\n'));//It's over 9000!
