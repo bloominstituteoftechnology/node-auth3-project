@@ -18,7 +18,7 @@ server.get("/", (req, res) => {
 });
 
 /// ---- CREATE User Endpoint ----
-server.post("/api/register", (req, res) => {
+server.route("/api/register").post((req, res) => {
   const user = req.body;
 
   // ---- Hash User Password ----
@@ -35,7 +35,7 @@ server.post("/api/register", (req, res) => {
 });
 
 /// ---- CREATE User Login Endpoint ----
-server.post("/api/login", (req, res) => {
+server.route("/api/login").post((req, res) => {
   const credentials = req.body;
   db("users")
     .where({ username: credentials.username })
@@ -49,6 +49,7 @@ server.post("/api/login", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
 function generateToken(user) {
   const jwtPayload = {
     ...user,
@@ -58,7 +59,36 @@ function generateToken(user) {
     expiresIn: "5m"
   };
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+  
+} // ---- Token Authorization ----
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        // Token verification failed
+        return res.status(401).json({ Message: "Invalid Token" });
+      } else {
+        // Token verification successful
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    return res.status(401).json({ Message: "No token provided!" });
+  }
 }
+
+/// ---- RETRIEVE Users Endpoint ----
+server.route("/api/users").get(protected, (req, res) => {
+  console.log("\n** decoded token information **\n", req.decodedToken);
+  db("users")
+    .select("id", "username", "password", "department")
+    .then(users => {
+      return res.json({ users });
+    })
+    .catch(err => res.send(err));
+});
 
 /// ---- Server Port and Listen Method ----
 const port = 4400;
