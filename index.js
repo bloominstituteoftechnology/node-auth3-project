@@ -13,20 +13,19 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
+
 function generateToken(user) {
 	const payload = {
 		...user.username,
 		hello: "Welcome",
-		role: "admin"
+		department: "IT"
 	};
 
-	const jwtsubscribe = "dont forget to subscribe";
-  const JwtOptions = {
-  expiresIn: "10m"
-};
+	const JwtOptions = {
+		expiresIn: "10m"
+	};
 
-
-	return jwt.sign(payload, jwtsubscribe, JwtOptions);
+	return jwt.sign(payload, jwtSecret, JwtOptions);
 }
 
 server.post("/api/register", (req, res) => {
@@ -40,7 +39,7 @@ server.post("/api/register", (req, res) => {
 			res.status(201).json({ id: ids[0] });
 		})
 		.catch(err => {
-			res.status(500).json({ error: "Create failed" });
+			res.status(500).json({ error: "create failed" });
 		});
 });
 
@@ -52,7 +51,7 @@ server.post("/api/login", (req, res) => {
 		.then(user => {
 			if (user && bcrypt.compareSync(creds.password, user.password)) {
 				const token = generateToken(user);
-        	res.status(201).json({ welcome: user.username, token });
+				res.status(201).json({ welcome: user.username, token });
 			} else {
 				res
 					.status(500)
@@ -61,7 +60,7 @@ server.post("/api/login", (req, res) => {
 		});
 });
 
-server.get("/api/users", (req, res) => {
+server.get("/api/users", protected, checkRole("IT"), (req, res) => {
 	db("users")
 		.select("id", "username", "password")
 		.then(users => {
@@ -69,5 +68,32 @@ server.get("/api/users", (req, res) => {
 		})
 		.catch(err => res.send(err));
 });
+
+function protected(req, res, next) {
+	const token = req.headers.authorization;
+	jwt.verify(token, jwtSecret, (err, decodedToken) => {
+		if (err) {
+			res.status(401).json({ message: "Invalid Token" });
+		} else {
+			req.decodedToken = decodedToken;
+			next();
+		}
+	});
+
+	if (token) {
+	} else {
+		res.status(401).json({ message: "No token" });
+	}
+}
+
+function checkRole(department) {
+	return function(req, res, next) {
+		if (req.decodedToken && req.decodedToken.department === department) {
+			next();
+		} else {
+			res.status(403).json({ message: "not happening" });
+		}
+	};
+}
 const port = 8000;
-server.listen(3300, () => console.log("\nProject rolling on port 8000\n"));
+server.listen(8000, () => console.log("\nProject rolling on port 8000\n"));
