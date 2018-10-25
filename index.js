@@ -2,6 +2,8 @@ console.log("Hey! index.js is a working!");
 
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const logger = require('morgan');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,7 +13,10 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
+server.use(logger('combined'));
+server.use(helmet());
 
+//server tester message
 server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
@@ -30,17 +35,17 @@ server.post('/register', (req, res) => {
     });
   });
   
-  const jwtSecret = 'nobody tosses a dwarf!'; 
+  const jwtSecret = 'bananas are gross!'; 
 
   function generateToken(user) {
     const jwtPayload ={
         ...user,
         hello: 'FSW13',
-        role: 'admin' 
+        role: 'admin', 
     };
     const jwtOptions = {
         expiresIn: '1m',
-    }
+    };
         return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
     }
     
@@ -58,6 +63,7 @@ server.post('/login', (req, res) => {
     .catch(err => res.status(500).json({ err }));
   });
 
+//get uers
   server.get('/users', protected, checkRole('admin'), (req, res) => {
     console.log('\n** decoded token information, only appears if token is validated **\n', req.decodedToken);
   db('users') .select('id', 'username', 'password').then(users => {
@@ -67,12 +73,12 @@ server.post('/login', (req, res) => {
 });
 
 //THe header to use is: authorization
+//validating the token next line, if the token is true-do this, else send back this status
+   //the library has a methd called verify, we will use it to check the token is valid
+// you verify token, secret, and (err, decodedToken) -
 function protected(req, res, next) {
     const token = req.headers.authorization;
-    //validating the token next line, if the token is true-do this, else send back this status
     if(token) {
-    //the library has a methd called verify, we will use it to check the token is valid
-// you verify token, secret, and (err, decodedToken) -
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
         if(err) {
             //token varification failed, this is how the library will tell us if the token  
@@ -92,21 +98,24 @@ function protected(req, res, next) {
     }
 
     //here we are going to check the role of the entered user
-    function checkRole(role) {
+   
         //this is saying, hey check the role from this token, and see if it is the role that I am expecting
+    function checkRole(role) {
         return function(req,res, next) {
-            //if we implement this line of code after 'protected' middleware has been written
-            //then we can assume that there could be a decoded token
-            //we are saying here, if we have this decoded token, and the role inside happens to be
-            //the role I'm looking for, then you can continue (next()), "otherwise, I forbid you!"
-            if(req.decodedToken.role && req.decodedToken === role) { //we are expecting role to = admin remember
-                next();
-                //to check for a user with multiple roles use includes() like so...
-            //if(req.decodedToken.role && req.decodedToken.roles.includes(role) {  next(); })
+            if(role === 'admin') { 
+             next();
             } else {
                 res.status(403).json({ message: 'You are sooooo not authorized to do that' });
             }
         }
     }
+            //if we implement this line of code after 'protected' middleware has been written
+            //then we can assume that there could be a decoded token
+            //we are saying here, if we have this decoded token, and the role inside happens to be
+            //the role I'm looking for, then you can continue (next()), "otherwise, I forbid you!"
+            //we are expecting role to = admin remember
+                //to check for a user with multiple roles use includes() like so...
+            //if(req.decodedToken.role && req.decodedToken.roles.includes(role) {  next(); })
+        
 
-server.listen(9000, () => console.log('\n API running mad circles on port 9000\n'));//It's over 9000!
+server.listen(9000, () => console.log('\n API running mad circles on port 9000\n')); //It's over 9000!
