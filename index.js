@@ -70,3 +70,23 @@ app.route('/api/users')
     }
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
   }
+  function protected(req, res, next) {
+    const token = req.headers.authorization;
+    if (token) {
+      jwt.verify(token, jwtSecret, (err, decodedToken) => {
+        if (err) {
+          return res.status(401).json({ Message: 'Invalid Token' })
+        }
+        else {
+          req.decodedToken = decodedToken;
+          next();
+        }
+      })
+    }
+    else {
+      return res.status(401).json({ Message: 'No token provided!' });
+    }
+  }
+  
+  const port = process.env.PORT || 9000;
+  app.listen(port, () => console.log(`\n===${port} is live!===\n`))
