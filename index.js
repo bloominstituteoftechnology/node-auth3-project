@@ -1,5 +1,9 @@
 console.log("Hey! index.js is a working!");
 
+//practice user in db reference
+//username: The Book of Tacos ,password: tacosauce3 , id: 5
+//or: The Pretzel Queen, cats1, id: 4
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -22,7 +26,7 @@ server.get('/', (req, res) => {
 });
 
 //register
-server.post('/register', (req, res) => { 
+server.post('/api/register', (req, res) => { 
     const credentials = req.body;
       const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
@@ -50,7 +54,7 @@ server.post('/register', (req, res) => {
     }
     
     //login
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
     const credentials = req.body;
     db('users').where({username: credentials.username}).first().then(user => {
       if(user && bcrypt.compareSync(credentials.password, user.password)) { //how we know the user is logged in
@@ -64,7 +68,7 @@ server.post('/login', (req, res) => {
   });
 
 //get uers
-  server.get('/users', protected, checkRole('admin'), (req, res) => {
+  server.get('/api/users', protected, (req, res) => {
     console.log('\n** decoded token information, only appears if token is validated **\n', req.decodedToken);
   db('users') .select('id', 'username', 'password').then(users => {
     res.json({ users });
