@@ -3,8 +3,8 @@ import axios from 'axios';
 
 class Login extends Component {
   state = {
-    username: '',
-    password: '',
+    username: 'root',
+    password: 'admin',
   }
   render() {
     return (
@@ -28,6 +28,7 @@ class Login extends Component {
     event.preventDefault();
 
     const endpoint = 'http://localhost:5000/api/login';
+    console.log(this.state);
 
     axios
       .post(endpoint, this.state)
