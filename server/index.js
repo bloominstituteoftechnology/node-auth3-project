@@ -62,7 +62,7 @@ function generateToken(user) {
     return jwt.sign (jwtPayload, jwtSecret, jwtOptions)
 }
 
-server.get('/api/users', protected, checkRole('admin'), (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     console.log('\n** decoded token information ** \n', req.codedToken);
     db('users')
         .select('id', 'username', 'password', 'department')
@@ -74,15 +74,15 @@ server.get('/api/users', protected, checkRole('admin'), (req, res) => {
             });
 });
 
-function checkRole(role) {
-    return function(req, res, next) {
-        if(req.decodedToken && req.decodedToken.roles.includes(role)) {
-            next();
-        } else {
-            res.status(403).json({ messsage: 'you shall not pass! forbidden '});
-        }
-    };
-}
+// function checkRole(role) {
+//     return function(req, res, next) {
+//         if(req.decodedToken && req.decodedToken.roles.includes(role)) {
+//             next();
+//         } else {
+//             res.status(403).json({ messsage: 'you shall not pass! forbidden '});
+//         }
+//     };
+// }
 
 function protected(req, res, next) {
     const token = req.headers.authorization;
