@@ -15,7 +15,7 @@ const configureMiddleware = require('./middleware/middleware');
 configureMiddleware(server);
 
 // JWT 
-const jwtSecret = "I'm JWT";
+const jwtTok = "JWT";
 
 function generateToken(user) {
 	const jwtPayload = { user: user.id };
@@ -23,7 +23,7 @@ function generateToken(user) {
 		expiresIn: '5m' // 5 minutes for testing purposes
 	};
 
-	return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+	return jwt.sign(jwtPayload, jwtTok, jwtOptions);
 }
 
 // Auth check
@@ -31,7 +31,7 @@ const restricted = (req, res, next) => {
 	const token = req.headers.authorization;
 	console.log({ token });
 	if (token) {
-		jwt.verify(token, jwtSecret, (err, decodedToken) => {
+		jwt.verify(token, jwtTok, (err, decodedToken) => {
 			if (err) {
 				res.status(401).json({ message: 'Invalid token' });
 			} else {
@@ -83,7 +83,7 @@ server.post('/api/login', (req, res) => {
 					.status(200)
 					.json({ success: `User ${credentials.name} logged in`, token });
 			} else {
-				res.status(401).json({ error: 'You shall not pass!' });
+				res.status(401).json({ error: 'No pass!' });
 			}
 		})
 		.catch(err => res.status(500).json(err));
