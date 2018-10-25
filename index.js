@@ -20,7 +20,7 @@ server.get('/', (req, res) => {
 // endpoints here
 
 // register
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const credentials = req.body;
 
   const hash = bcrypt.hashSync(credentials.password, 10);
@@ -54,7 +54,7 @@ function generateToken(user) {
 }
 
 // login
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
   const creds = req.body;
 
   db('users')
@@ -74,7 +74,7 @@ server.post('/login', (req, res) => {
 });
 
 // users
-server.get('/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password')
     .then(users => {
