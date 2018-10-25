@@ -13,7 +13,7 @@ app.use(helmet());
 app.use(cors());
 
 app.route('/')
-  .get((req, res) => res.send('En Vivo!'))
+  .get((req, res) => res.send('Leben!'))
 
 app.route('/api/register')
   .post((req, res) => {
@@ -28,6 +28,9 @@ app.route('/api/register')
       })
       .catch(err => res.status(500).json(err));
   })
+
+
+  const jwtSecret = 'Hello From The Other Side';
 
 app.route('/api/login')
   .post((req, res) => {
@@ -55,3 +58,15 @@ app.route('/api/users')
       })
       .catch(err => res.send(err));
   })
+
+  function generateToken(user) {
+    const jwtPayload = {
+      ...user,
+      role: 'admin',
+      pet: 'dog'
+    }
+    const jwtOptions = {
+      expiresIn: '5m'
+    }
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+  }
