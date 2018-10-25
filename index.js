@@ -16,12 +16,11 @@ const server = express();
 
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
-server.get('/', (req, res) => {
-  res.send('***THIS SERVER IS RUNNING***')
-});
 
-server.post('/register', (req, res) => {
+
+server.post('/api/register', (req, res) => {
     const credentials = req.body;
     const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
@@ -29,26 +28,28 @@ server.post('/register', (req, res) => {
     .insert(credentials)
     .then(ids => {
         const id = ids[0];
-        res.status(201).json({ newUserId: id});
+        const token = generateToken({ username: credentials.username });
+        res.status(201).json({ newUserId: id, token});
     })
     .catch(err => {
         res.status(500).json(err);
     });
 });
 
-const jwtSecret = 'SECRET!!!';
+const jwtSecret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';;
 
 function generateToken(user) {
     const jwtPayload = {
         ...user
     };
     const jwtOptions = {
-        expiresIn: '1m'
+        expiresIn: '24h'
     };
+    console.log('token from process.env', jwtSecret);
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
 };
 
-server.post('/login', (req,res) => {
+server.post('/api/login', (req,res) => {
     const creds = req.body;
     db('users').where({username: creds.username}).first()
     .then(user => {
@@ -66,7 +67,7 @@ server.post('/login', (req,res) => {
 
 
 
-server.get('/users', protected, (req, res) => {
+server.get('/api/users', protected, (req, res) => {
         db('users')
         .select('id', 'username', 'password')
         .then(users => {
