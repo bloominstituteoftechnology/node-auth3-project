@@ -38,7 +38,7 @@ server.post('/register', (req, res) => {
 });
 
 
-const jwtSecret = 'yabba dabba doo!';
+const jwtSecret = 'yabba dabba doo!'; // outerscope so it is accessible to
 
 function generateToken(user) {
   const jwtPayload = {
@@ -101,7 +101,7 @@ function protected(req, res, next) {
   } else {
     res.status(401).json({ message: 'no token provided' });
   }
-}
+};
 
 // listening port
 const port = 5000;
