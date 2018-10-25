@@ -9,6 +9,19 @@ class Users extends Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    const endpoint = 'http://localhost:5000/api/users';
+
+    axios
+      .get(endpoint)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error('ERROR', err);
+      })
+  }
 }
 
 export default Users;
