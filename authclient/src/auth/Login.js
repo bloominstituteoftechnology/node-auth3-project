@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Login extends Component {
+  state = {
+    username: '',
+    password: '',
+  }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -22,11 +26,11 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    
+
     const endpoint = 'http://localhost:5000/api/login';
 
     axios
-      .post(endpoint)
+      .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
       })
