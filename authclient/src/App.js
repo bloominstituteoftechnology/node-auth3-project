@@ -22,8 +22,8 @@ class App extends Component {
             <NavLink to='/users'>Users</NavLink>
           </nav>
           <main>
-            <Route exact path='/' Component={Home}></Route>
-            <Route path='/users' Component={Users}></Route>
+            <Route exact path='/' component={Home} />
+            <Route path='/users' component={Users} />
           </main>
         </header>
       </div>
