@@ -23,6 +23,8 @@ class App extends Component {
             <NavLink to='/users'>Users</NavLink>
             &nbsp;|&nbsp;
             <NavLink to='/login'>Login</NavLink>
+            &nbsp;|&nbsp;
+            <button onClick={this.logout}>Logout</button>
           </nav>
           <main>
             <Route exact path='/' component={Home} />
@@ -33,6 +35,10 @@ class App extends Component {
       </div>
     );
   }
+
+  logout = () => {
+    localStorage.removeItem('jwt');
+  };
 }
 
 export default App;
