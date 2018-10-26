@@ -29,7 +29,7 @@ class App extends Component {
             Users
           </NavLink>
           &nbsp;|&nbsp;
-          <NavLink to="/login">Signin</NavLink>
+          <NavLink to="/login">Login</NavLink>
           &nbsp;|&nbsp;
           <button onClick={this.logout}>Signout</button>
         </nav>

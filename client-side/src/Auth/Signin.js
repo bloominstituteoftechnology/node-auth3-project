@@ -15,7 +15,7 @@ class Signin extends Component {
     handleSubmit = event => {
         event.preventDefault();
     
-        const endpoint = 'http://localhost:8000/api/login';
+        const endpoint = 'http://localhost:8000/login';
         console.log(this.state);
         axios
           .post(endpoint, this.state)

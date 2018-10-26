@@ -18,7 +18,7 @@ class Users extends Component {
   }
   componentDidMount() {
       const token = localStorage.getItem('jwt');
-      const endpoint = 'http://localhost:8000/api/users';
+      const endpoint = 'http://localhost:8000/users';
       const options = {
           headers: {
               Authorization: token,
