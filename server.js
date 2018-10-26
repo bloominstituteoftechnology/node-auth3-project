@@ -44,6 +44,14 @@ const restricted = (req, res, next) => {
 	}
 };
 
+//Test Route
+
+server.get('/api', (req, res) => {
+    res.json({
+        message: 'Test Endpoint'
+    });
+});
+
 // ROUTES
 // register
 server.post('/api/register', (req, res) => {
