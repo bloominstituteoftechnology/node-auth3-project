@@ -47,7 +47,8 @@ function generateToken(user) {
     roles: ['admin', 'root'],
   };
   const jwtOptions = {
-    expiresIn: '1m', // expires in 1min
+    // expiresIn: '1m', // expires in 1min
+    expiresIn: '1h', // expires in 1hr
   };
 
   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
