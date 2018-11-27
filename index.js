@@ -53,8 +53,25 @@ server.post('/api/login', (req, res) => {
         }
     })
 })
-// testing to see if a user has been created
-server.get('/api/users', (req, res) => {
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, jwtSecret, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: 'Invalid token, you shall not pass'})
+            } else {
+                req.decodedToken = decodedToken;
+                console.log('\n***decoded token info **\n', req.decodedToken);
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: 'no token provided'})
+    }
+}
+
+server.get('/api/users', protected, (req, res) => {
     db('users')
       .select('id', 'username', 'password', 'department')
       .then(users => {
