@@ -11,7 +11,7 @@ server.get('/', (req, res) => {
     res.send('Whazzahh!');
   });
 
-server.post('/register', (req,res) => {
+server.post('/api/register', (req,res) => {
     const credentials = req.body;
     // hash!
     const hash = bcrypt.hashSync(credentials.password, 2)
@@ -22,10 +22,39 @@ server.post('/register', (req,res) => {
         const id = ids[0];
         res.status(201).json({newUserId: id})
     })
-})
+});
 
+const jwtSecret = 'hindi namin kayo tatantanan!';
+
+function generateToken(user) {
+    const jwtPayload = {
+        ...user,
+        hello: `${user}`,
+        subject: user.id,
+        role: 'admin'
+    }
+    const jwtOptions = {
+        expiresIn: '1hr'
+    }
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
+}
+
+server.post('/api/login', (req, res) => {
+    const credentials = req.body;
+    db('users')
+    .where({ username: credentials.username })
+    .first()
+    .then(user => {
+        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+            const token = generateToken(user)
+            res.status(201).json({ Welcome: user.username, token});
+        } else {
+            res.status(401).json({ message: 'You shall not pass!'})
+        }
+    })
+})
 // testing to see if a user has been created
-server.get('/users', (req, res) => {
+server.get('/api/users', (req, res) => {
     db('users')
       .select('id', 'username', 'password', 'department')
       .then(users => {
