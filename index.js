@@ -75,7 +75,7 @@ const protect = (req, res, next) => {
                 res.status(401).json({ message: 'Invalid token.'});
             } else {
                 req.decodedToken = decodedToken;
-                next(); // this is mw! move it along!
+                next(); // this is middleware! move it along!
             }
         })
     } else {
@@ -83,7 +83,7 @@ const protect = (req, res, next) => {
     }
 }
 
-// get the list of users
+// get the list of users for valid users
 server.get('/api/users', protect, async (req, res) => {
     try {
         const users = await db('users');
