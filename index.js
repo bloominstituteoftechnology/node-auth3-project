@@ -69,6 +69,17 @@ server.post('/api/login', (req, res) => {
         })
 });
 
+server.get('/api/users', (req, res) => {
+    db('users')
+        .select('id', 'username', 'password', 'department')
+        .then(users => {
+            res.status(200).json(users)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+});
+
 
 
 
