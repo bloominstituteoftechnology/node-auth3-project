@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcryptjs'); // *************************** added package and required it here
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = require('./database/dbConfig.js');
 
@@ -8,6 +11,21 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        roles: ['processes'],
+    };
+
+    const secret = process.env.JWT_SECRET;
+    const options = {
+        expiresIn: '3m',
+    };
+
+    return jwt.sign(payload, secret, options);
+}
 
 
 server.post('/api/login', (req, res) => {
@@ -18,7 +36,8 @@ server.post('/api/login', (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
-        res.status(200).json({ message: 'welcome!' });
+        const token = generateToken(user)
+        res.status(200).json({ message: 'welcome!', token });
       } else {
         res.status(401).json({ message: 'you shall not pass!!' });
       }
