@@ -8,6 +8,8 @@ const db = require('../database/dbConfig.js');
 
 const router = express.Router();
 
+const protected = require('../middleware/protectedMiddleware.js');
+
 const generateToken = user => {
     const payload = {
         subject: user.id,
@@ -23,23 +25,6 @@ const generateToken = user => {
 
     return jwt.sign(payload, secret, options);
 }
-
-// [GET] /api/users
-// return all users
-router.get('/users', (req, res) => {
-    db('users')
-        .select('id', 'username', 'department')
-        .then(users => {
-            if (users.length) {
-                res.status(200).json(users);
-            } else {
-                res.status(200).json({ message: 'No users in database' })
-            }
-        })
-        .catch(err => {
-            res.status(500).json({ message: 'Error retrieving users' });
-        });
-});
 
 // [POST] /api/register
 // create account with username and password, fails if username already exists
@@ -59,6 +44,44 @@ router.post('/register', (req, res) => {
             } else {
                 res.status(500).json({ message: 'Error creating new account' });
             }
+        });
+});
+
+// [POST] /api/login
+// user login, fails if username does not exist or password incorrect
+router.post('/login', (req, res) => {
+    const creds = req.body;
+
+    db('users')
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if(user && bcrypt.compareSync(creds.password, user.password)) {
+                const token = generateToken(user);
+                res.status(200).json({ message: 'Successful login', token });
+            } else {
+                res.status(401).json({ message: 'Failed login; either username does not exist or password is incorrect'});
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Failed login'});
+        });
+});
+
+// [GET] /api/users
+// return all users
+router.get('/users', protected, (req, res) => {
+    db('users')
+        .select('id', 'username', 'department')
+        .then(users => {
+            if (users.length) {
+                res.status(200).json(users);
+            } else {
+                res.status(200).json({ message: 'No users in database' })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Error retrieving users' });
         });
 });
 
