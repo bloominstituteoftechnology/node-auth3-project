@@ -74,7 +74,7 @@ server.post('/api/login', (req, res) => {
 // U S E R S   R O U T E :   PROTECTED
 server.get('/api/users', protected, (req, res) => {
   db('users')
-    .select('id', 'username', 'password', 'roles')
+    .select('id', 'username', 'password')
     .then(users => {
       res.json(users);
     })
