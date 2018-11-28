@@ -22,11 +22,13 @@ server.post('/api/register', (req,res) => {
     .insert(credentials)
     .then(ids => {
         const id = ids[0];
-        res.status(201).json({newUserId: id})
+        const token = generateToken({ username: credentials.username });
+        console.log(credentials);
+        res.status(201).json({newUserId: id, token})
     })
 });
 
-const jwtSecret = 'hindi namin kayo tatantanan!';
+const jwtSecret = process.env.JWT_SECRET || 'Add secret to .env with this key';
 
 function generateToken(user) {
     const jwtPayload = {
@@ -82,5 +84,5 @@ server.get('/api/users', protected, (req, res) => {
       .catch(err => res.send(err));
   });
   
-
+  const port = process.env.PORT || 4200;
 server.listen(4200, () => console.log('\nParty at port 4200\n'));
