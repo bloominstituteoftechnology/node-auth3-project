@@ -58,4 +58,32 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.json(err));
 });
 
+function protected(req, res, next) {
+    // token is normally sent in the the Authorization header
+    const token = req.headers.authorization;
+    if(token) {
+        //it is valid
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+            if(err) {
+                //token is invalid
+                res.status(401).json({ message: 'token invalid'});
+            } else {
+                //token is good
+                req.decodedToken = decodedToken;
+                next();
+            }
+        });
+    } else {
+    res.status(401).json({ message: 'you shall not pass!' });
+    }
+};
+
+server.get('/api/users', protected, (req, res, next) => {
+    db('users')
+        .select('id', 'username', 'password')
+        .then(users => res.status(200).json(users))
+        .res.status(401).json({ message: 'you shall not pass!' })
+});
+
+
 server.listen(3300, () => console.log('\nrunning on port 3300\n'));
