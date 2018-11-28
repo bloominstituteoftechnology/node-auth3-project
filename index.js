@@ -30,7 +30,7 @@ const options = {
 function protected(req, res, next) {
     // token is normally sent in the the Authorization header
     const token = req.headers.authorization;
-    console.log(token)
+
   
     if (token) {
       // is it valid
