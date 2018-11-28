@@ -26,9 +26,16 @@ const protected = (req, res, next) => {
         }
       });
     } else {
-      res.status(401).json({ message: 'not token provided' });
+      res.status(401).json({ message: 'token not found' });
     }
 }
+
+server.get("/api/users", protected, (req, res) => {
+    db("users")
+        .select("id", "username", "password")
+        .then(users => res.status(200).json(users))
+        .catch(err => res.status(401).json(err))
+})
 
 server.post("/api/register", (req, res) => {
     const creds = req.body;
@@ -43,7 +50,7 @@ server.post("/api/register", (req, res) => {
 
     const hash = bcrypt.hashSync(creds.password, 8);
     creds.password = hash;
-    
+
     db("users")
         .insert(creds)
         .then(ids => res.status(201).json(ids))
