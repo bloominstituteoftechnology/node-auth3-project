@@ -15,6 +15,37 @@ server.use(cors());
 const port = 9000;
 const rounds = 14;
 
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        departments: user.departments
+    };
+    const secret = process.env.JWT_SECRET;
+    const options = {
+        expiresIn: "1h"
+    };
+
+    return jwt.sign(payload, secret, options);
+}
+
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: "Invalid token" });
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        });
+    } else {
+        res.status(401).json({ message: "No token provided" });
+    }
+}
+
 server.post("/api/register", (req, res) => {
     const creds = req.body;
     const hash = bcrypt.hashSync(creds.password, rounds);
@@ -42,7 +73,35 @@ server.post("/api/register", (req, res) => {
         });
 });
 
+server.post("/api/login", (req, res) => {
+    const creds = req.body;
 
+    db("users")
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if (user && bcrypt.compareSync(creds.password, user.password)) {
+                const token = generateToken(user);
+                res.status(200).json({ message: "Welcome!", token });
+            } else {
+                res.status(401).json({ message: "You shall not pass!" });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: err });
+        });
+});
+
+server.get("/api/users", protected, (req, res) => {
+    db("users")
+        .select('id', 'username', 'password')
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(err => {
+            res.status(500).json({ error: err });
+        });
+});
 
 server.get("/", (req, res) => {
     res.send("We are live!");
