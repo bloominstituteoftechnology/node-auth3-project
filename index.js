@@ -46,9 +46,9 @@ const protected = (req, res, next) => {
   }
 };
 
-const checkRole = role => {
+const checkRole = department => {
   return (req, res, next) => {
-    if (req.decodedToken && req.decodedToken.department === role) {
+    if (req.decodedToken && req.decodedToken.department === department || req.decodedToken.department === 'admin') {
       next();
     } else {
       res.status(403).json({ message: 'You have no access to this resource.' });
@@ -60,12 +60,23 @@ server.listen(port, () => console.log(`Listening to port: ${port}`));
 
 // ====================== ENDPOINTS ======================
 // retrieve users
-server.get('/api/users', protected, checkRole('admin'), (_, res) => {
-  db('users')
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(err => res.status(500).json(err));
+server.get('/api/users', protected, checkRole('ministry of magic'), (req, res) => {
+  const { department } = req.decodedToken;
+
+  if (department === 'admin') {
+    db('users')
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => res.status(500).json(err));
+  } else {
+    db('users')
+      .where({ department })
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => res.status(500).json(err));
+  }
 });
 
 // register a new user
