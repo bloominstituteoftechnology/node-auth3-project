@@ -1,0 +1,23 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/brad-mortensen/auth-ii.git",
+  "author": "Brad Mortensen <b.mort86@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.4"
+  }
+}
