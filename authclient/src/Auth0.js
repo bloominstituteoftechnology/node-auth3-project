@@ -22,7 +22,7 @@ const Auth0 = App =>
     render() {
       return (
         <div>
-          {this.state.authenticated ? (
+          {this.auth.isAuthenticated() ? (
             <App />
           ) : (
             <button onClick={this.login}>Click me to login</button>

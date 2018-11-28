@@ -42,19 +42,25 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.state.username}
-            name="username"
-          />
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.state.password}
-            name="password"
-          />
-          <button type="submit">LOGIN!!</button>
+          {localStorage.getItem('token') ? (
+            <h1>Already logged in</h1>
+          ) : (
+            <React.Fragment>
+              <input
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.username}
+                name="username"
+              />
+              <input
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.password}
+                name="password"
+              />
+              <button type="submit">LOGIN!!</button>
+            </React.Fragment>
+          )}
           <button onClick={this.logout}>logout</button>
         </form>
       </div>

@@ -15,13 +15,7 @@ export default class Auth {
 
   handleAuthentication = callback => {
     this.auth0.parseHash((err, authResults) => {
-      if (err) {
-        return null;
-      } else if (
-        authResults &&
-        authResults.accessToken &&
-        authResults.idToken
-      ) {
+      if (authResults && authResults.accessToken && authResults.idToken) {
         let expiresAt = JSON.stringify(
           authResults.expiresIn * 1000 + new Date().getTime()
         );
@@ -29,6 +23,8 @@ export default class Auth {
         localStorage.setItem('id_token', authResults.idToken);
         localStorage.setItem('expires_at', expiresAt);
         callback();
+      } else {
+        return null;
       }
     });
   };
