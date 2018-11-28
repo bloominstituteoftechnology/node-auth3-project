@@ -1,3 +1,4 @@
+#Chad Jemmett
 # Authentication using JSON Web Tokens (JWTs)
 
 ## Topics
