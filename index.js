@@ -21,12 +21,28 @@ function generateToken(user) {
 
     const secret = process.env.JWT_SECRET;
     const options = {
-        expiresIn: '3m',
+        expiresIn: '5m',
     };
 
     return jwt.sign(payload, secret, options);
 }
 
+function protected(req, res, next) {
+    const token = req.headers.authorization;
+  
+    if (token) {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+          res.status(401).json({ message: 'invalid token' });
+        } else {
+          req.decodedToken = decodedToken;
+          next();
+        }
+      });
+    } else {
+      res.status(401).json({ message: 'no token provided' });
+    }
+  }
 
 server.post('/api/login', (req, res) => {
   const creds = req.body;
@@ -45,7 +61,7 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.json(err));
 });
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department') // ***************************** added password to the select
     .then(users => {
