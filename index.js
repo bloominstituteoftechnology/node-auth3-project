@@ -26,6 +26,25 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  // check if token exists
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        // invalid token
+        res.status(401).json({ message: 'invalid token' });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    // token does not exist (user is not logged in)
+    res.status(401).json({ message: 'you shall not pass!' });
+  }
+}
+
 server.post('/api/register', (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 11);
@@ -58,6 +77,17 @@ server.post('/api/login', (req, res) => {
       }
     })
     .catch((err) => res.json(err));
+});
+
+server.get('/api/users', protected, (req, res) => {
+  db('users')
+    .select('id', 'username', 'department', 'password')
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 server.get('/', (req, res) => {
