@@ -30,7 +30,16 @@ server.post('/api/register', async (req, res) => {
         const user = await db('users').insert(creds);
         res.status(200).json(user);
     }
+})
 
+server.post('/api/login', async (req, res) => {
+    const creds = req.body;
+    const user = await db('users').where({ username: creds.username }).first();
+    if (!user || !bcrypt.compareSync(creds.password, user.password)) {
+        res.status(401).json({ message: 'invalid credentials' })
+    } else {
+        res.status(200).json({ message: 'welcome' });
+    }
 })
 
 const port = 3600;
