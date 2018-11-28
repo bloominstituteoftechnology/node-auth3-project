@@ -5,11 +5,27 @@ const express = require('express');
 const knex = require('knex');
 const knexConfig = require('./knexfile');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = knex(knexConfig.development);
 const server = express();
 
+// const protected = require('./middleware/protected');
+
 server.use(express.json());
+
+function createToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        department: user.department
+    };
+    const secret = process.env.JWT_NOTSECRET;
+    const options = {
+        expiresIn: '20m'
+    };
+    return jwt.sign(payload, secret, options);
+};
 
 server.get('/', (req, res) => {
     res.json('runnin!')
@@ -38,7 +54,8 @@ server.post('/api/login', async (req, res) => {
     if (!user || !bcrypt.compareSync(creds.password, user.password)) {
         res.status(401).json({ message: 'invalid credentials' })
     } else {
-        res.status(200).json({ message: 'welcome' });
+        const token = await createToken(user);
+        res.status(200).json({ message: 'welcome', token });
     }
 })
 
