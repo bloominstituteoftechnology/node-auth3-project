@@ -77,7 +77,7 @@ server.post('/api/login', (req, res) => {
         //created a session > create a token
         //library sent cookie automatically > the token is sent manually
         const token = generateToken(user);
-        res.stuats(200).json({ message: 'welcome!', token });
+        res.status(200).json({ message: 'welcome!', token });
       } else {
         res.status(401).json({ message: 'You shall not pass!' });
       }
@@ -85,11 +85,9 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.json(err));
 });
 
-function checkRole
-
 server.get('/api/users', protected, (req, res) => {
   db('users')
-    .select('id', 'username')
+    .select('id', 'username', 'password', 'department')
     .then(users => {
       res.status(200).json(users);
     })
