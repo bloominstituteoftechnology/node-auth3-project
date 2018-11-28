@@ -4,7 +4,7 @@
   "description": "## Topics",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-session-knex": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
