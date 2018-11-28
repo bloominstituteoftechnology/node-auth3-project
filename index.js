@@ -4,24 +4,12 @@ const jwt = require('jsonwebtoken');
 const db = require('./dbConfig');
 const port = process.env.PORT || 9000;
 const cors = require('cors');
+const generateToken = require('./generateToken');
 
 const server = express();
 
 server.use(express.json());
 server.use(cors());
-
-function generateToken(user) {
-  const jwtPayload = {
-    ...user,
-    hello: 'Carlo'
-  };
-  const jwtSecret = 'secret';
-  const jwtOptions = {
-    expiresIn: '1m'
-  };
-
-  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
-}
 
 server.post('/api/register', async (req, res) => {
   const creds = req.body;
@@ -35,24 +23,8 @@ server.post('/api/register', async (req, res) => {
   }
 });
 
-// server.post('/api/login', (req, res) => {
-//   const creds = req.body;
-//   db('users')
-//     .where({ username: creds.username })
-//     .first()
-//     .then(user => {
-//       if (user && bcrypt.compareSync(creds.password, user.password)) {
-//         const token = generateToken(user);
-//         res.status(200).json({ message: 'Welcome', token });
-//       } else {
-//         res.status(403).json({ message: 'Invalid login' });
-//       }
-//     })
-//     .catch(err => res.status(403).json({ message: 'Invalid login' }));
-// });
-
 server.get('/api/users', protected, async (req, res) => {
-  console.log(req.decodedCode, '\n the decoded code \n');
+  // console.log(req.decodedCode, '\n the decoded code \n');
   try {
     const response = await db('users');
     res.status(200).json(response);
@@ -69,7 +41,6 @@ server.post('/api/login', async (req, res) => {
       .first();
     if (response && bcrypt.compareSync(creds.password, response.password)) {
       const token = generateToken(response);
-      req.headers.authorization = token;
       res.status(200).json({ Message: `Welcome ${creds.username}`, token });
     } else {
       res.status(403).json({ Message: 'No user on file please register' });
@@ -81,15 +52,16 @@ server.post('/api/login', async (req, res) => {
 
 function protected(req, res, next) {
   const token = req.headers.authorization;
+  console.log(token, 'im the token');
   if (token) {
-    jwt.verify(token, 'secret', (err, decodedCode) => {
+    jwt.verify(token, 'secret-code', (err, decodedCode) => {
       if (err) {
-        res.status(403).json({ message: 'Invalid token' });
+        res.status(403).json({ message: 'Invalid token on verify' });
       } else {
         req.decodedCode = decodedCode;
+        next();
       }
     });
-    next();
   } else {
     res.status(404).json({ message: 'Invalid token' });
   }

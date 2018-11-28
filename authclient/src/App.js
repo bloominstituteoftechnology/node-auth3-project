@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Link, Route } from 'react-router-dom';
+import Users from './components/users';
+import Login from './components/login';
 import './App.css';
+import Auth0 from './Auth0';
 
 class App extends Component {
+  componentDidMount() {}
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Link to="/users">Users</Link>
+        <Link to="/login">Login</Link>
+        <Route path="/users" exact component={Users} />
+        <Route path="/login" exact component={Login} />
       </div>
     );
   }
 }
 
-export default App;
+export default Auth0(App);
