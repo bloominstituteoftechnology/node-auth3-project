@@ -62,7 +62,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', [protect], (req,res) => {
     const decoded = jwt.verify(req.headers.authorization, process.env.SECRET)
-    db.getUsers()
+    db.getUsers(decoded.department)
     .then(users => {
         res.status(200).json(users)
     })

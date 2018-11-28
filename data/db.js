@@ -20,6 +20,7 @@ function login(userCred) {
     .first();
 }
 
-function getUsers() {
-    return db('users');
+function getUsers(department) {
+    return db('users')
+    .where('department', '=', department);
 }
