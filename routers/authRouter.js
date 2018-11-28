@@ -9,7 +9,9 @@ const db = require('../database/dbConfig.js');
 const router = express.Router();
 
 const protected = require('../middleware/protectedMiddleware.js');
+const checkDepartment = require('../middleware/checkDepartmentMiddleware.js');
 
+// generates json web token
 const generateToken = user => {
     const payload = {
         subject: user.id,
@@ -69,10 +71,11 @@ router.post('/login', (req, res) => {
 });
 
 // [GET] /api/users
-// return all users
+// return all users within department
 router.get('/users', protected, (req, res) => {
     db('users')
         .select('id', 'username', 'department')
+        .where({ department: req.decodedToken.department })
         .then(users => {
             if (users.length) {
                 res.status(200).json(users);
@@ -83,6 +86,12 @@ router.get('/users', protected, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: 'Error retrieving users' });
         });
+});
+
+// [GET] /api/AP
+// only 'accounts payable' can seee
+router.get('/AP', protected, checkDepartment('accounts payable'), (req, res) => {
+    res.json({ message: 'Only AP can see this message!' });
 });
 
 module.exports = router;
