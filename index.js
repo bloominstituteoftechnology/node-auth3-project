@@ -35,7 +35,8 @@ server.post('/api/login', async (req, res) => {
     try {
         // find the user by the username in the db
         // compare the submitted pw to the pw in the db
-        const user = db('users').where({ username: loginCreds.username });
+        const user = await db('users').where({ username: loginCreds.username }).first();
+        console.log('user', user);
         if (user && bcryptjs.compareSync(loginCreds.password, user.password)) {
             // create a token
             res.status(200).json({ message: '*extends the key to the castle*'});
