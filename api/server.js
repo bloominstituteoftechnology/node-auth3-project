@@ -31,7 +31,7 @@ function generateToken(user) {
   const payload = {
     userId: user.userId,
     username: user.username,
-    department: ['sales', 'marketing', 'product'] // this will come from database
+    department: 'product' // this will come from database
   }
   // const secret = 'anySecret($&*#$%#%#$%#$)';
   const secret = process.env.JWT_SECRET; // added to .env file
@@ -80,7 +80,7 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', protectedAreas, checkDepartment('product'),(req, res) => {
 
   db('users')
-    .select('id', 'username', 'password')
+    .select('id', 'username', 'password', 'department')
     // .select('username') to see just users
     .then(users => {
       res.status(201).json({ users })
