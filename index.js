@@ -14,6 +14,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
+        departments: ['sales', 'development']
     }
     const secret = process.env.JWT_SECRET;
     const options = {
@@ -39,11 +40,25 @@ function protected(req, res, next) {
     }
 }
 
+function checkDepartment(department) {
+    return function(req, res, next) {
+        if (req.decodedToken && req.decodedToken.departments.includes(department)){
+            next
+        } else {
+            res.status(403).json({ message: 'access denied' })
+        }
+    }
+}
+
+//Check server
+
 server.get('/', (req, res) => {
     res.send('server is running');
 })
 
-server.get('/api/users', protected, (req, res) => {
+//List of users only accessed by employees in development
+
+server.get('/api/users', protected, checkDepartment('development'), (req, res) => {
     db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -52,6 +67,37 @@ server.get('/api/users', protected, (req, res) => {
     .catch(err => res.send(err))
 })
 
+//Register
+
+server.post('/api/register', (req, res) => {
+    const creds = req.body;
+    const hash = bcrypt.hashSync(creds.password, 2);
+    creds.password = hash;
+    db('users')
+    .insert(creds)
+    .then(ids => {
+        res.status(201).json(ids);
+    })
+    .catch(err => res.status(500).json(ids))
+})
+
+//Login
+
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+    db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+        if (user && bcrypt.compareSync(creds.password, user.password)) {
+            const token = generateToken(user);
+            res.status(200).json({ message: 'welcome', token })
+        } else {
+            res.status(401).json({ message: 'login failed' })
+        }
+    })
+    .catch(err => res.json(err))
+})
 
 
 server.listen(3300, () => console.log('server is running on port 3300'));
