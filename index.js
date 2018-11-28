@@ -19,13 +19,20 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: [''],
+        roles: ['lumber'],
     };
+
+    const secret = process.env.JWT_SECRET;
+    const options = {
+        expiresIn: '1m',
+    };
+
+    return jwt.sign(payload, secret, options);
 }
 
 server.get('/api/users', (req, res) => {
     db('users')
-        .select('id', 'username')
+        .select('id', 'username', 'department')
         .then(users => {
             res.status(200).json(users);
         })
