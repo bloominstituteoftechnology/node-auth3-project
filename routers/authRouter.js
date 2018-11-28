@@ -1,8 +1,28 @@
+require('dotenv').config();
+
 const express = require('express');
 const bcrypt = require('bcryptjs'); // adds hash library
+const jwt = require('jsonwebtoken');
+
 const db = require('../database/dbConfig.js');
 
 const router = express.Router();
+
+const generateToken = user => {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        department: user.department
+    };
+
+    const secret = process.env.JWT_SECRET;
+
+    const options = {
+        expiresIn: '1h',
+    };
+
+    return jwt.sign(payload, secret, options);
+}
 
 // [GET] /api/users
 // return all users
