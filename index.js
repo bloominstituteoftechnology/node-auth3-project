@@ -12,42 +12,42 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-// function generateToken(user) {
-//   const payload = {
-//     subject: user.id,
-//     username: user.username,
-//     roles: ['sales', 'marketing'], // this will come from the database
-//   };
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    department: user.department // this will come from the database
+  };
 
-//   const secret = process.env.JWT_SECRET;
-//   const options = {
-//     expiresIn: '1m',
-//   };
+  const secret = process.env.JWT_SECRET;
+  const options = {
+    expiresIn: '10m'
+  };
 
-//   return jwt.sign(payload, secret, options);
-// }
+  return jwt.sign(payload, secret, options);
+}
 
-// server.post('/api/login', (req, res) => {
-//   // grab username and password from body
-//   const creds = req.body;
+server.post('/api/login', (req, res) => {
+  // grab username and password from body
+  const creds = req.body;
 
-//   db('users')
-//     .where({ username: creds.username })
-//     .first()
-//     .then(user => {
-//       if (user && bcrypt.compareSync(creds.password, user.password)) {
-//         // passwords match and user exists by that username
-//         // created a session > create a token
-//         // library sent cookie automatically > we send the token manually
-//         const token = generateToken(user);
-//         res.status(200).json({ message: 'welcome!', token });
-//       } else {
-//         // either username is invalid or password is wrong
-//         res.status(401).json({ message: 'you shall not pass!!' });
-//       }
-//     })
-//     .catch(err => res.json(err));
-// });
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        // passwords match and user exists by that username
+        // created a session > create a token
+        // library sent cookie automatically > we send the token manually
+        const token = generateToken(user);
+        res.status(200).json({ message: 'welcome!', userid: user.id, token });
+      } else {
+        // either username is invalid or password is wrong
+        res.status(401).json({ message: 'you shall not pass!!' });
+      }
+    })
+    .catch(err => res.json(err));
+});
 
 // function protected(req, res, next) {
 //   // token is normally sent in the the Authorization header
@@ -102,24 +102,24 @@ server.use(cors());
 //   };
 // }
 
-// server.post('/api/register', (req, res) => {
-//   // grab username and password from body
-//   const creds = req.body;
+server.post('/api/register', (req, res) => {
+  // grab username and password from body
+  const creds = req.body;
 
-//   // generate the hash from the user's password
-//   const hash = bcrypt.hashSync(creds.password, 4); // rounds is 2^X
+  // generate the hash from the user's password
+  const hash = bcrypt.hashSync(creds.password, 4); // rounds is 2^X
 
-//   // override the user.password with the hash
-//   creds.password = hash;
+  // override the user.password with the hash
+  creds.password = hash;
 
-//   // save the user to the database
-//   db('users')
-//     .insert(creds)
-//     .then(ids => {
-//       res.status(201).json(ids);
-//     })
-//     .catch(err => json(err));
-// });
+  // save the user to the database
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => res.json(err));
+});
 
 server.get('/', (req, res) => {
   res.send('Its Alive!');
