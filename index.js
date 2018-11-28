@@ -52,7 +52,7 @@ server.get('/', (req, res) => {
   res.send('yr server is fine, relax');
 });
 
-// L O G I N   R O U T E : GENERATE TOKEN
+// L O G I N   R O U T E :   GENERATE TOKEN
 server.post('/api/login', (req, res) => {
   const creds = req.body;
 
@@ -72,6 +72,14 @@ server.post('/api/login', (req, res) => {
 });
 
 // U S E R S   R O U T E :   PROTECTED
+server.get('/api/users', protected, (req, res) => {
+  db('users')
+    .select('id', 'username', 'password')
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
 
 // R E G I S T E R   R O U T E
 server.post('/api/register', (req, res) => {
