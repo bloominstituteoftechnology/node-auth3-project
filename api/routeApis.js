@@ -16,7 +16,7 @@ function generateToken(user) {
     const payload = {
       subject: user.id,
       username: user.username,
-      roles: ['sales', 'marketing'], // this will come from the database
+      roles: ['sales', 'marketing', "CIA"], // this will come from the database
     };
   
     const secret = process.env.JWT_SECRET;
@@ -27,6 +27,41 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options);
   }
   
+  
+function protected(req, res, next) {
+    // token is normally sent in the the Authorization header
+    const token = req.headers.authorization;
+  
+    if (token) {
+      // is it valid
+      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+          // token is invalid
+          res.status(401).json({ message: 'invalid token' });
+        } else {
+          // token is gooooooooooood
+          req.decodedToken = decodedToken;
+          next();
+        }
+      });
+    } else {
+      // bounced
+      res.status(401).json({ message: 'not token provided' });
+    }
+  }
+
+function checkRole(role) {
+    return function(req, res, next) {
+        console.log('checkRole decodedToken', req.decodedToken);
+      if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+        next();
+      } else {
+        res.status(403).json({ message: 'you have no access to this resource' });
+      }
+    };
+  }
+
+
 
 const login = (req, res, next) => {
     const creds = req.body;
@@ -55,7 +90,7 @@ const login = (req, res, next) => {
 const registerUser = (req, res, next) => {
     
     const newUser = req.body;
-    const hash = bcrypt.hashSync(newUser.password, 3);
+    const hash = bcrypt.hashSync(newUser.password, process.env.HASH_COUNT);
 
     newUser.password = hash;
 
@@ -65,6 +100,7 @@ const registerUser = (req, res, next) => {
         .catch((err)=>
         res.status(500).json({ message: 'could not add', err }))
 };
+
 
 const getUsers = (req, res, next) => {
 
@@ -85,7 +121,7 @@ route.get('/', (req, res) => {
 // Register
 route.post('/register', registerUser)
 // GET USERS
-route.get('/users', getUsers)
+route.get('/users', protected, checkRole('CIA'), getUsers)
 // LOGIN
 route.post('/login', login)
 
