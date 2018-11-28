@@ -53,7 +53,7 @@ server.get('/api/users', protected, (req, res) => {
         .then(users => {
             res.status(200).json(users);
         })
-        .catch(err => res.status(404).json({ message: 'users not found' }));
+        .catch(err => res.status(404).json({ message: 'You shall not pass!' }));
 });
 
 server.post('/api/register', (req, res) => {
@@ -83,7 +83,7 @@ server.post('/api/login', (req, res) => {
                 res.status(401).json({ message: 'Wrong username or password...'})
             }
         })
-        .catch(err => res.status(404).json({ message: 'Failed to login'}));
+        .catch(err => res.status(404).json({ message: 'You shall not pass!'}));
 })
 
 server.listen(3300, () => console.log('\nrunning on port 3300\n'));
