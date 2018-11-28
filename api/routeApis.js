@@ -1,8 +1,8 @@
-
+require('dotenv').config();
 const route = require('express')()
 const db = require('../database/dbConfig')
 const bcrypt = require('bcryptjs')
-
+const jwt = require('jsonwebtoken');
 
 // const protected = (req, res, next)=> {
 //     if(req.session && req.session.userID){
@@ -12,16 +12,36 @@ const bcrypt = require('bcryptjs')
 //     }
 // }
 
+function generateToken(user) {
+    const payload = {
+      subject: user.id,
+      username: user.username,
+      roles: ['sales', 'marketing'], // this will come from the database
+    };
+  
+    const secret = process.env.JWT_SECRET;
+    const options = {
+      expiresIn: '10m',
+    };
+  
+    return jwt.sign(payload, secret, options);
+  }
+  
+
 const login = (req, res, next) => {
     const creds = req.body;
+
 
     db('users')
         .where({username : creds.username})
         .first()
         .then(user => {
+   
             if(user && bcrypt.compareSync(creds.password, user.password)){
-      
-                res.status(200).json({message: "Login Successful!"})
+
+                const token = generateToken(user);
+  
+                res.status(200).json({message: "Login Successful!", token})
             }
             else{res.status(401).json({message : "You shall not PASS !!"})}
         })
