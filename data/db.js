@@ -16,7 +16,7 @@ function register(userCred) {
 
 function login(userCred) {
     return db('users')
-    where('username', '=', userCred.username)
+    .where('username', '=', userCred.username)
     .first();
 }
 
