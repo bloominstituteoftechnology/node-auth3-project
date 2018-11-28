@@ -84,7 +84,7 @@ const protect = (req, res, next) => {
 }
 
 // get the list of users
-server.get('/api/users', async (req, res) => {
+server.get('/api/users', protect, async (req, res) => {
     try {
         const users = await db('users');
         res.status(200).json(users);
