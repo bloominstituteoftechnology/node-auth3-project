@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment} from 'react';
 import Axios from 'axios';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 import './App.css';
 import UsersList from './components/userComponents/UsersList';
 import LoginForm from './components/forms/LoginForm';
@@ -62,6 +62,7 @@ class App extends Component {
       username: '',
       password: ''
     });
+    this.props.history.push('/')
   }
   handleInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -80,6 +81,10 @@ class App extends Component {
     if(!this.state.loggedIn){
       return (
         <div> 
+          <Fragment>
+            <NavLink to='./login' >Login</NavLink>
+            <NavLink to='/register' >Register</NavLink>
+          </Fragment>
           <Route path='/login' render={(props) => 
             <LoginForm 
               username={this.state.username} 
