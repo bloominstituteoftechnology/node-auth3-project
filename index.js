@@ -12,56 +12,41 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const generateToken = user => {
+function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    department: user.department,
+    department: ['sales', 'marketing'],
   };
+
   const secret = process.env.JWT_SECRET;
   const options = {
     expiresIn: '1m',
   };
 
   return jwt.sign(payload, secret, options);
-};
-
-//sanity endpoint
-server.get('/', (req, res) => {
-  res.send('IT LIVES!!!!');
-})
-
-server.post('/api/register', (req, res) => {
-  const creds = req.body;
-  const hash = bcrypt.hashSync(creds.password, 4);
-  creds.password = hash;
-
-  db('users')
-    .insert(creds)
-    .then(id => {
-      res.status(201).json(id);
-    })
-    .catch(err => res.json(err));
-})
+}
 
 server.post('/api/login', (req, res) => {
   const creds = req.body;
+
   db('users')
     .where({ username: creds.username })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json({ message: 'hey we know you!', token })
+        res.status(200).json({ message: 'we know you!', token });
       } else {
-        res.status(401).json({ message: 'go away' })
+        res.status(401).json({ message: 'go away' });
       }
     })
     .catch(err => res.json(err));
 });
 
-const protected = (req, res, next) => {
+function protected(req, res, next) {
   const token = req.headers.authorization;
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
@@ -70,23 +55,13 @@ const protected = (req, res, next) => {
         req.decodedToken = decodedToken;
         next();
       }
-    })
+    });
   } else {
-    res.status(401).json({ message: 'dude where\'s your token?' })
+    res.status(401).json({ message: 'dude where\'s your token' });
   }
 }
 
-const checkRole = role => {
-  return function(req, res, next) {
-    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-      next();
-    } else {
-      res.status(403).json({ message: 'do you belong here' })
-    }
-  }
-}
-
-server.get('/api/users',protected, checkRole('sales'), (req, res) => {
+server.get('/api/users', protected, checkRole('sales'), (req, res) => {
   db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -95,4 +70,32 @@ server.get('/api/users',protected, checkRole('sales'), (req, res) => {
     .catch(err => res.send(err));
 });
 
-server.listen(9000, () => console.log('\n UP! Server is UP\n'));
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.department.includes(role)) {
+      next();
+    } else {
+      res.status(403).json({ message: 'you have no access to this resource' });
+    }
+  };
+}
+
+server.post('/api/register', (req, res) => {
+  const creds = req.body;
+
+  const hash = bcrypt.hashSync(creds.password, 4);
+  creds.password = hash;
+
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => json(err));
+});
+
+server.get('/', (req, res) => {
+  res.send('Its Alive!');
+});
+
+server.listen(9000, () => console.log('\nrunning\n'));
