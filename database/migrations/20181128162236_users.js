@@ -7,6 +7,7 @@ exports.up = knex =>
       .notNullable()
       .unique()
     users.string('password', 128).notNullable()
+    users.string('department', 128).notNullable()
   })
 
 exports.down = (knex, Promise) => knex.schema.dropTableIfExists('users')
