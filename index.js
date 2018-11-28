@@ -5,7 +5,7 @@ const loginRouter = require('./routers/loginRouter.js');
 const usersRouter = require('./routers/usersRouter.js');
 const registerRouter = require('./routers/registerRouter.js');
 
-const server = express(); // don't forget to use this before your routers
+const server = express(); // don't forget to use this before your routers ORDER MATTERS!!!!!
 server.use(express.json());
 server.use('/api/login', loginRouter);
 server.use('/api/users', usersRouter);
