@@ -9,7 +9,7 @@ module.exports = server => {
     let reg = /(?:api\/)(\w+)\/*/g
     let destination = reg.exec(path)[1]
     if (destination === 'users'){
-        if (true) {
+        if (0) {
             return res.status(401).json({ message: "kick rocks, snoopy!" });
           } 
     }
