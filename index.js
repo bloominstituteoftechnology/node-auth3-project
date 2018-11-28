@@ -11,7 +11,7 @@ server.use(cors());
 
 server.post('/api/register', (req, res) => {
     const creds = req.body;
-    const hash = bcrypt.hashSync(creds.password, 8);
+    const hash = bcrypt.hashSync(creds.password, 8); 
     creds.password = hash;
 
     db('users')
@@ -21,5 +21,15 @@ server.post('/api/register', (req, res) => {
         })
         .catch(error => json(error));
 });
+
+server.get('/api/users', (req, res)=> {
+    db('users')
+        .select('id', 'username', 'password')
+        .then(users => {
+            res.json(users);
+        })
+        .catch(error => res.send(error))
+})
+
 const port = 8000;
 server.listen(port, () => console.log(`running on port: ${port}`));
