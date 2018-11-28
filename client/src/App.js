@@ -1,18 +1,35 @@
 import React, { Component } from "react";
 import "./App.css";
-import axios from "axios";
+import { Route, NavLink } from "react-router-dom";
+import Users from "./components/Users";
+
+const Home = props => {
+  return (
+    <div>
+      <h1>Home Component</h1>
+    </div>
+  );
+};
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      users: []
-    };
-  }
-
-  componentDidMount() {}
   render() {
-    return <div className="App" />;
+    return (
+      <div className="App">
+        <header>
+          <nav>
+            <NavLink exact to="/">
+              Home
+            </NavLink>
+            &nbsp; | &nbsp;
+            <NavLink to="/users">Users</NavLink>
+          </nav>
+          <main>
+            <Route exact path="/" component={Home} />
+            <Route path="/users" component={Users} />
+          </main>
+        </header>
+      </div>
+    );
   }
 }
 
