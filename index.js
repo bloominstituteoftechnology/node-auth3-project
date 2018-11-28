@@ -18,7 +18,8 @@ server.use(cors());
 function generateToken(user) {
   const payload = {
     subject: user.id,
-    username: user.username
+    username: user.username,
+    department: user.department
   };
 
   const secret = process.env.JWT_SECRET;
@@ -29,34 +30,60 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+//function that will first verify if user has good token and therefore has access to restricted endpoints
+function restricted(req, res, next) {
+  // grab token from authorization header
+  const token = req.headers.authorization;
+  console.log(req.headers);
+  // step one: does the token exist?
+  if (token) {
+    // step two: is the token valid?
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        //token couldn't be decoded, so invalid
+        res.status(401).json({ message: "invalid token" });
+      } else {
+        //token is good, authorization granted!
+        //put decoded token on the req
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    // no token, bounce 'em out
+    res.status(401).json({ message: "no token provided" });
+  }
+}
+
 // register new user
 server.post("/api/register", (req, res) => {
-  // grab submitted student info from re
-  const student = req.body;
+  // grab submitted user info from re
+  const user = req.body;
 
-  if (!student.username || !student.password || !student.department) {
+  if (!user.username || !user.password || !user.department) {
     res.status(400).json({
       message: "Please fill out all fields before attempting to register."
     });
   } else {
     // generate hash form password
-    const hash = bcrypt.hashSync(student.password, 14);
+    const hash = bcrypt.hashSync(user.password, 14);
     //override submitted password with the hash
-    student.password = hash;
+    user.password = hash;
     //save to db
-    db("students")
-      .insert(student)
+    db("users")
+      .insert(user)
       .then(id => {
         res.status(201).json(id);
       })
       .catch(err =>
         res
           .status(500)
-          .json({ error: "Error while registering new student: ", error })
+          .json({ error: "Error while registering new user: ", error })
       );
   }
 });
 
+// login endpoint, will create JWT to later be verified before accessing secure endpoints
 server.post("/api/login", (req, res) => {
   const creds = req.body;
 
@@ -65,12 +92,12 @@ server.post("/api/login", (req, res) => {
       message: "Please fill out both fields before attempting to log in."
     });
   } else {
-    db("students")
+    db("users")
       .where({ username: creds.username })
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(creds.password, user.password)) {
-          // passwords match and student with that username exists
+          // passwords match and user with that username exists
           //create a JWT which we send manually
           const token = generateToken(user);
           res.status(200).json({ message: "Enter, friend!", token });
@@ -85,6 +112,19 @@ server.post("/api/login", (req, res) => {
           .json({ error: "Error occurred during login attempt: ", err })
       );
   }
+});
+
+// GET list of all users in db ONLY IF the current user has a valid token
+server.get("/api/users", restricted, (req, res) => {
+  //this block only runs if authorization already verified, so let's get right to it
+  db("users")
+    .select("id", "username", "password") //never pull password in production, but this is just to verify it was saved as hash
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err =>
+      res.status(500).json({ error: "Error while retrieving users: ", err })
+    );
 });
 
 server.listen(7000, () => console.log("\n=== Running on port 7000 ===\n"));
