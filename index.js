@@ -10,6 +10,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+// G E N E R A T E   J W T   T O K E N
 function generateToken(user) {
   const payload = {
     subject: user.id,
@@ -24,11 +25,13 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+// R O O T   R O U T E
 server.get('/', (req, res) => {
   res.send('yr server is fine, relax');
 });
 
-server.post('/login', (req, res) => {
+// L O G I N   R O U T E : GENERATE TOKEN
+server.post('/api/login', (req, res) => {
   const creds = req.body;
 
   db('users')
@@ -44,6 +47,28 @@ server.post('/login', (req, res) => {
       }
     })
     .catch(err => res.json(err));
+});
+
+// U S E R S   R O U T E :   PROTECTED
+
+// R E G I S T E R   R O U T E
+server.post('/api/register', (req, res) => {
+  // grab username + password
+  const creds = req.body;
+
+  // generate hash
+  const hash = bcrypt.hashSync(creds.password, 10);
+
+  // redefine password to the hash
+  creds.password = hash;
+
+  // now save the user to the database
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => json(err));
 });
 
 server.listen(8000, () => console.log('\nS E R V I N G   O N   8 0 0 0'));
