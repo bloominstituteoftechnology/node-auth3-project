@@ -37,7 +37,8 @@ function protected(req, res, next) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
         if (err) {
           // token is invalid
-          res.status(401).json({ message: 'invalid token' });
+          next(new Error("invalid token"));
+          
         } else {
           // token is gooooooooooood
           req.decodedToken = decodedToken;
@@ -46,7 +47,8 @@ function protected(req, res, next) {
       });
     } else {
       // bounced
-      res.status(401).json({ message: 'not token provided' });
+      next(new Error("token not provided"));
+      res.status(401).json({ message: 'token not provided' });
     }
   }
 
@@ -81,9 +83,8 @@ const login = (req, res, next) => {
             else{res.status(401).json({message : "You shall not PASS !!"})}
         })
         
-        .catch((err)=>  res.status(500).json({ message: 'could not login', err }))
-}; 
-
+        .catch(next(new Error("could not login")))
+    }
 
 // register a new user
 // hash password before saving to DB
