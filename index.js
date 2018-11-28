@@ -187,12 +187,14 @@ server.post('/api/login', (req, res) => {
 // it will authorize the user by making sure that they have the
 // correct token, then it will return the users from the database
 server.get('/api/users', authorize, (req, res) => {
+  // grab the deparment rom the decodedToken received from the user
   const { department } = req.decodedToken
 
   // access users table in databse
   db('users')
     // select the id, username, and password fields
     .select('id', 'username', 'password')
+    // select only users that match the department
     .where({ department })
     // we then take those users ..
     .then(users => {
