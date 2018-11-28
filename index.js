@@ -1,6 +1,6 @@
 
 const server = require('./server');
 
-const port = 6969;
+const port = 4200;
 
 server.listen(port, () => console.log(`\nrunning on port ${port}\n`));

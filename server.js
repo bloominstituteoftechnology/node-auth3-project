@@ -80,9 +80,9 @@ function protected(req, res, next) {
 
 
 
-function checkRole(role) {
+function checkRole(department) {
   return function(req, res, next){
-    if (req.decodedToken && req.decodedToken.roles.includes(role)){
+    if (req.decodedToken && req.decodedToken.department.includes(department)){
       next();
     } else {
       res.status(403).json({ message:'you have no access to this resource' })
