@@ -1,13 +1,14 @@
 require('dotenv').config();
 
 const express = require('express');
-const bcrypt = require('bcryptjs'); // adds hash library
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const db = require('../database/dbConfig.js');
 
 const router = express.Router();
 
+// imports customer middleware
 const protected = require('../middleware/protectedMiddleware.js');
 const checkDepartment = require('../middleware/checkDepartmentMiddleware.js');
 
@@ -89,7 +90,7 @@ router.get('/users', protected, (req, res) => {
 });
 
 // [GET] /api/AP
-// only 'accounts payable' can seee
+// only 'accounts payable' can see
 router.get('/AP', protected, checkDepartment('accounts payable'), (req, res) => {
     res.json({ message: 'Only AP can see this message!' });
 });

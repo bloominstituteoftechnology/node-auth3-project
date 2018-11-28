@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// only proceed to next middleware if valid token (user is logged in)
 module.exports = (req, res, next) => {
     const token = req.headers.authorization;
 
