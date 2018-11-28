@@ -11,7 +11,8 @@ exports.up = function(knex, Promise) {
             .string('password', 128)
             .notNullable();
         tbl
-            .string('role', 28);
+            .string('department', 128)
+            .notNullable();
     })
 };
 
