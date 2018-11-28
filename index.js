@@ -1,4 +1,5 @@
-const expres = require('express')
+const myhead = require('dotenv').config()
+const express = require('express')
 const bcrypt = require('bcryptjs')
 const db = require('./data/db')
 const server = express();

@@ -8,14 +8,18 @@ module.exports = {
     getUsers
 }
 
-function register() {
-
+function register(userCred) {
+    return db('users')
+    .insert(userCred)
+    .returning('id');
 }
 
-function login() {
-
+function login(userCred) {
+    return db('users')
+    where('username', '=', userCred.username)
+    .first();
 }
 
 function getUsers() {
-    
+    return db('users');
 }
