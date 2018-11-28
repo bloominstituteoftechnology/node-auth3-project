@@ -5,7 +5,9 @@
 //-- Dependencies --------------------------------
 require('dotenv').config();
 const express = require('express');
-const config = require('./config.js');
+const cors    = require('cors'   );
+const config               = require('./config.js'               );
+const routerAuthentication = require('./router_authentication.js');
 
 //-- Configure Server ----------------------------
 const server = express();
@@ -14,5 +16,8 @@ server.listen(process.env.PORT, () => {
 });
 
 //-- Middleware ----------------------------------
+server.use(cors()        );
+server.use(express.json());
 
 //-- Routing -------------------------------------
+server.use(config.URL_AUTHENTICATION, routerAuthentication);
