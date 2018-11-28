@@ -9,10 +9,7 @@ const db = require('./database/dbConfig');
 const server = express();
 const port = 8080;
 
-// middleware
-server.use(express.json());
-
-// custom middleware
+// generate a token
 const generateToken = user => {
   const payload = {
     subject: user.id,
@@ -28,11 +25,32 @@ const generateToken = user => {
   return jwt.sign(payload, secret, options)
 };
 
+// middleware
+server.use(express.json());
+
+// custom middleware
+const protected = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: 'Invalid token' });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'No token provided' });
+  }
+};
+
 server.listen(port, () => console.log(`Listening to port: ${port}`));
 
 // ====================== ENDPOINTS ======================
 // retrieve users
-server.get('/api/users', (_, res) => {
+server.get('/api/users', protected, (_, res) => {
   db('users')
     .then(users => {
       res.status(200).json(users);
