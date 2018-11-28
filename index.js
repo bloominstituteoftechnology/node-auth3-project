@@ -9,6 +9,22 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
+require('dotenv').config();
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        department: user.department
+    };
+
+    const secret = process.env.JWT_SECRET;
+    const options = {
+        expiresIn: '1m'
+    };
+
+    return jwt.sign(payload, secret, options);
+}
 
 server.post('/api/register', (req, res) => {
     // get username and passowrd from body
@@ -24,12 +40,36 @@ server.post('/api/register', (req, res) => {
     db('users')
         .insert(creds)
         .then(ids => {
-            res.status(201).json(ids);
+            res.status(201).json(creds);
         })
         .catch(err => {
             res.status(401).json({message: err})
         })
 });
+
+server.post('/api/login', (req, res) => {
+    // get usenname and password from body
+    const creds = req.body;
+
+    db('users')
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if(user && bcrypt.compareSync(creds.password, user.password)) {
+                // password match and user exist by the username
+                const token = generateToken(user);
+                res.status(200).json({message: 'welcome', token});
+            } else {
+                // either username is invalid or password is wrong
+                res.status(401).json({message:'You shall not pass!'})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: err})
+        })
+});
+
+
 
 
 server.get('/', (req, res) => {
