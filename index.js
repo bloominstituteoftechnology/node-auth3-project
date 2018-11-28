@@ -25,6 +25,28 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
+// P R O T E C T E D   M I D D L E W A R E
+const protected = (req, res, next) => {
+  // token sent in authorization header
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        // token is no good
+        res.status(401).json({ message: 'token is invalid' });
+      } else {
+        // token is good to go
+        res.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    // you didn't even present me a token, man!
+    res.status(401).json({ message: 'token not provided!' });
+  }
+};
+
 // R O O T   R O U T E
 server.get('/', (req, res) => {
   res.send('yr server is fine, relax');
