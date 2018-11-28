@@ -74,9 +74,31 @@ function protected(req, res, next) {
   //______________ GET users________________
   server.get('/api/users', protected, (req, res) => {
     db('users')
-      .select('id', 'username', 'password') // ***************************** added password to the select
+      .select('id', 'username', 'password', 'department') // ***************************** added password to the select
       .then(users => {
         res.json(users);
       })
       .catch(err => res.send(err));
   });
+//______________ POST register________________
+
+server.post('/api/register', (req, res) => {
+    // grab username and password from body
+    const creds = req.body;
+  
+    // generate the hash from the user's password
+    const hash = bcrypt.hashSync(creds.password, 4); // rounds is 2^X
+  
+    // override the user.password with the hash
+    creds.password = hash;
+  
+    // save the user to the database
+    db('users')
+      .insert(creds)
+      .then(ids => {
+        res.status(201).json(ids);
+      })
+      .catch(err => json(err));
+  });
+
+  server.listen(5300, () => console.log('\nrunning on port 5300\n'));
