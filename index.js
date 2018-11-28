@@ -19,7 +19,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        departments: user.departments
+        department: user.department
     };
     const secret = process.env.JWT_SECRET;
     const options = {
@@ -94,12 +94,13 @@ server.post("/api/login", (req, res) => {
 
 server.get("/api/users", protected, (req, res) => {
     db("users")
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
+        .where({ department: req.decodedToken.department })
         .then(users => {
             res.status(200).json(users);
         })
         .catch(err => {
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: "Here", err });
         });
 });
 

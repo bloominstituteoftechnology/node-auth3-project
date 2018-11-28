@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
             .string('password', 255)
             .notNullable();
         tbl
-            .string('departments', 255);
+            .string('department', 255);
     });
 };
 
