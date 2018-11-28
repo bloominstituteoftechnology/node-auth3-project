@@ -70,7 +70,22 @@ server.post("/api/login", (req, res) => {
 // Protection
 
 function protected(req, res, next) {
-  next();
+  const token = req.headers.authorization;
+
+  if (token) {
+    // Is the token valid???
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        // token is invalid
+        res.status(401).json({ message: "Invalid token" });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "No token provided" });
+  }
 }
 
 // POST - users
