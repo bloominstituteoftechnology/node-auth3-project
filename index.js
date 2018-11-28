@@ -49,16 +49,6 @@ function protected(req, res, next) {
     }
   }
 
-  function checkRole(role) {
-    return function(req, res, next) {
-      if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-        next();
-      } else {
-        res.status(403).json({ message: 'you have no access to this resource' });
-      }
-    };
-  }
-
   ///________________ POST --- LOGIN ________________
   server.post('/api/login', (req, res) => {
     const creds = req.body;
@@ -80,3 +70,13 @@ function protected(req, res, next) {
       .catch(err => res.json(err));
   });
   
+  /// ********** PROTECTED ************
+  //______________ GET users________________
+  server.get('/api/users', protected, (req, res) => {
+    db('users')
+      .select('id', 'username', 'password') // ***************************** added password to the select
+      .then(users => {
+        res.json(users);
+      })
+      .catch(err => res.send(err));
+  });
