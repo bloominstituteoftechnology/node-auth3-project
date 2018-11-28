@@ -15,6 +15,7 @@ server.use(cors());
 server.use(morgan());
 server.use(helmet());
 
+
 //test to make sure server works
 server.get("/api", (req, res) => {
     res.send("Welcome To The Black Parade!");
@@ -50,9 +51,9 @@ const protected = (req, res, next) => {
         res.status(401).json({ message: 'Where is your token?' })
     }
 }
-const checkRole = role => {
+const checkDepartment = department => {
     return function (req, res, next) {
-        if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+        if (req.decodedToken && req.decodedToken.roles.includes(department)) {
             next();
         } else {
             res.status(403).json({ message: 'You Don\'t Have Any Power Here!' })
@@ -89,7 +90,7 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.json(err));
 });
 
-server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+server.get('/api/users', protected, checkDepartment('sales'), (req, res) => {
     db('users')
         .select('id', 'username', 'password') //in real life becareful not to send the password
         .then(users => {
