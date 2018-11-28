@@ -49,58 +49,57 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.json(err));
 });
 
-// function protected(req, res, next) {
-//   // token is normally sent in the the Authorization header
-//   const token = req.headers.authorization;
+function protected(req, res, next) {
+  // token is normally sent in the the Authorization header
+  const token = req.headers.authorization;
 
-//   if (token) {
-//     // is it valid
-//     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-//       if (err) {
-//         // token is invalid
-//         res.status(401).json({ message: 'invalid token' });
-//       } else {
-//         // token is gooooooooooood
-//         req.decodedToken = decodedToken;
-//         next();
-//       }
-//     });
-//   } else {
-//     // bounced
-//     res.status(401).json({ message: 'not token provided' });
-//   }
-// }
+  if (token) {
+    // is it valid
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        // token is invalid
+        res.status(401).json({ message: 'invalid token' });
+      } else {
+        // token is gooooooooooood
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    // bounced
+    res.status(401).json({ message: 'No token provided' });
+  }
+}
 
 // protect this route, only authenticated users should see it
-// server.get('/api/me', protected, (req, res) => {
-//   db('users')
-//     .select('id', 'username', 'password') // ***************************** added password to the select
-//     .where({ id: req.session.user })
-//     .first()
-//     .then(users => {
-//       res.json(users);
-//     })
-//     .catch(err => res.send(err));
-// });
+server.get('/api/me', protected, (req, res) => {
+  db('users')
+    .select('id', 'username', 'password') // ***************************** added password to the select
+    .where({ username: req.decodedToken.username })
+    .first()
+    .then(users => {
+      res.status(205).json(users);
+    })
+    .catch(err => res.status(500).json({ error: err, err }));
+});
 
-// server.get('/api/users', protected, checkRole('sales'), (req, res) => {
-//   db('users')
-//     .select('id', 'username', 'password') // ***************************** added password to the select
-//     .then(users => {
-//       res.json(users);
-//     })
-//     .catch(err => res.send(err));
-// });
+server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+  db('users')
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => res.status(500).json(err));
+});
 
-// function checkRole(role) {
-//   return function(req, res, next) {
-//     if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-//       next();
-//     } else {
-//       res.status(403).json({ message: 'you have no access to this resource' });
-//     }
-//   };
-// }
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken && req.decodedToken.department === role) {
+      next();
+    } else {
+      res.status(403).json({ message: 'you have no access to this resource' });
+    }
+  };
+}
 
 server.post('/api/register', (req, res) => {
   // grab username and password from body
