@@ -16,7 +16,7 @@ function generateToken(user) {
 		// ...user,
 		userId: user.id,
 		username: user.username,
-		roles: [ 'student', 'PM' ] // this will come from the database
+		roles: user.department // this will come from the database
 	};
 	const secret = process.env.JWT_SECRET;
 	const options = {
@@ -83,9 +83,10 @@ server.get('/api/me', protected, (req, res) => {
 		.catch((err) => res.send(err));
 });
 
-server.get('/api/users', protected, checkRole('PM'), (req, res) => {
+/////////// gets all user information
+server.get('/api/users', protected, checkRole('Supervisor'), (req, res) => {
 	db('users')
-		.select('id', 'username', 'password') // ***************************** added password to the select
+		.select('id', 'username', 'password', 'department') // ***************************** added password to the select
 		.then((users) => {
 			res.json(users);
 		})
@@ -105,13 +106,10 @@ function checkRole(role) {
 server.post('/api/register', (req, res) => {
 	// grab username and password from body
 	const creds = req.body;
-
 	// generate the hash from the user's password
 	const hash = bcrypt.hashSync(creds.password, 4); // rounds is 2^X
-
 	// override the user.password with the hash
 	creds.password = hash;
-
 	// save the user to the database
 	db('users')
 		.insert(creds)
@@ -125,4 +123,4 @@ server.get('/', (req, res) => {
 	res.send('Its Alive!');
 });
 
-server.listen(3300, () => console.log('\nrunning on port 3300\n'));
+server.listen(9000, () => console.log('this port is over 9000!!!'));
