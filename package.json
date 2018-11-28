@@ -2,14 +2,15 @@
   "name": "auth-ii",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts":{
-    "server" : "nodemon"
+  "scripts": {
+    "server": "nodemon"
   },
   "repository": "https://github.com/Drewsup123/auth-ii.git",
   "author": "Drewsup123c <drewsup123c@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0",
