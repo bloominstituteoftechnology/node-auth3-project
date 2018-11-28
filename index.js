@@ -137,7 +137,7 @@ server.post('/api/register', (req, res) => {
       res.status(201).json(ids)
     })
     // otherwise we return an error
-    .catch(err => json(err))
+    .catch(err => res.json(err))
 })
 
 // set up our login route
@@ -145,6 +145,7 @@ server.post('/api/login', (req, res) => {
   // first pull creds out of the req body which the client is expected
   // to have included if they're hitting this route
   const creds = req.body
+  console.log(creds)
 
   // accss the users table in the database
   db('users')
@@ -161,7 +162,8 @@ server.post('/api/login', (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         // we then generate a token specific to that user
         // this token will be their key to staying logged in
-        const token = generateToken(user)
+        const token = generateToken({ ...user })
+
         // then sent a success message back along with their new token
         res.status(200).json({ message: 'welcome!', token })
       } else {
@@ -185,10 +187,13 @@ server.post('/api/login', (req, res) => {
 // it will authorize the user by making sure that they have the
 // correct token, then it will return the users from the database
 server.get('/api/users', authorize, (req, res) => {
+  const { department } = req.decodedToken
+
   // access users table in databse
   db('users')
     // select the id, username, and password fields
     .select('id', 'username', 'password')
+    .where({ department })
     // we then take those users ..
     .then(users => {
       // and we sent them to the user as a json object
