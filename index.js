@@ -34,7 +34,6 @@ function generateToken(user) {
 function restricted(req, res, next) {
   // grab token from authorization header
   const token = req.headers.authorization;
-  console.log(req.headers);
   // step one: does the token exist?
   if (token) {
     // step two: is the token valid?
@@ -118,7 +117,10 @@ server.post("/api/login", (req, res) => {
 server.get("/api/users", restricted, (req, res) => {
   //this block only runs if authorization already verified, so let's get right to it
   db("users")
-    .select("id", "username", "password") //never pull password in production, but this is just to verify it was saved as hash
+    //following line completes stretch goal but can be taken out for testing MVP
+    //will only return a list of users with the same department as the logged-in user's department(read on decoded token)
+    .where({ department: req.decodedToken.department })
+    .select("id", "username") //never pull password in production, but this is just to verify it was saved as hash
     .then(users => {
       res.status(200).json(users);
     })
