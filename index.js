@@ -11,6 +11,8 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+//________ FUNCTIONS / MIDDLEWARE_______
+
 function generateToken(user) {
     const payload = {
       subject: user.id,
@@ -46,3 +48,35 @@ function protected(req, res, next) {
       res.status(401).json({ message: 'not token provided' });
     }
   }
+
+  function checkRole(role) {
+    return function(req, res, next) {
+      if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+        next();
+      } else {
+        res.status(403).json({ message: 'you have no access to this resource' });
+      }
+    };
+  }
+
+  ///________________ POST --- LOGIN ________________
+  server.post('/api/login', (req, res) => {
+    const creds = req.body;
+  
+    db('users')
+      .where({ username: creds.username })
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(creds.password, user.password)) {
+          // created a session > create a token
+          // library sent cookie automatically > we send the token manually
+          const token = generateToken(user);
+          res.status(200).json({ message: 'welcome!', token });
+        } else {
+          // either username is invalid or password is wrong
+          res.status(401).json({ message: 'you shall not pass!!' });
+        }
+      })
+      .catch(err => res.json(err));
+  });
+  
