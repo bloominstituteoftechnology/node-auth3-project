@@ -13,7 +13,7 @@ export default class Auth {
     this.auth0.authorize();
   };
 
-  handleAuthentication = () => {
+  handleAuthentication = callback => {
     this.auth0.parseHash((err, authResults) => {
       if (err) {
         return null;
@@ -28,6 +28,7 @@ export default class Auth {
         localStorage.setItem('access_token', authResults.accessToken);
         localStorage.setItem('id_token', authResults.idToken);
         localStorage.setItem('expires_at', expiresAt);
+        callback();
       }
     });
   };

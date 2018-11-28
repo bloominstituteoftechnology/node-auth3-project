@@ -10,18 +10,19 @@ const Auth0 = App =>
       };
     }
     componentWillMount() {
-      this.auth.handleAuthentication();
-    }
-    componentDidMount() {
-      
+      this.auth.handleAuthentication(this.renderApp);
     }
     login = () => {
       this.auth.login();
     };
+
+    renderApp = () => {
+      this.setState({ authenticated: true });
+    };
     render() {
       return (
         <div>
-          {this.auth.isAuthenticated() ? (
+          {this.state.authenticated ? (
             <App />
           ) : (
             <button onClick={this.login}>Click me to login</button>
