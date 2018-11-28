@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -11,10 +12,10 @@ const protected = require('../middleware/middleware.js');
 
 // token creation 
 
-const jwtSecret = 'hXK2s4RtL2q';
+const jwtSecret = process.env.jwtSecret;
 function generateToken(user) {
     const jwtPayload = {
-        ...user,
+        subject: user.id,
         hello: 'fsw14',
         roles: ['admin', 'root']
     };
