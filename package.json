@@ -1,0 +1,21 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "Authentication workflow using JWT",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethiapath/auth-ii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethiapath/auth-ii/issues"
+  },
+  "homepage": "https://github.com/ethiapath/auth-ii#readme"
+}
