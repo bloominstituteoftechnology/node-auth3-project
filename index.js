@@ -30,6 +30,21 @@ const protected = (req, res, next) => {
     }
 }
 
+const generateToken = (user) => {
+    const payload = {
+      subject: user.id,
+      username: user.username,
+      role: user.department,
+    };
+  
+    const secret = process.env.JWT_SECRET;
+    const options = {
+      expiresIn: '1h',
+    };
+  
+    return jwt.sign(payload, secret, options);
+  }
+
 server.get("/api/users", protected, (req, res) => {
     db("users")
         .select("id", "username", "password")
@@ -48,6 +63,10 @@ server.post("/api/register", (req, res) => {
         return res.status(400).json({error: "Please enter a password."})
     }
 
+    if (creds.department === "" || creds.department === undefined) {
+        return res.status(400).json({error: "Please enter a department."})
+    }
+
     const hash = bcrypt.hashSync(creds.password, 8);
     creds.password = hash;
 
@@ -56,6 +75,31 @@ server.post("/api/register", (req, res) => {
         .then(ids => res.status(201).json(ids))
         .catch(err => res.status(401).json(err))
 })
+
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+
+    if (creds.username === "" || creds.username === undefined) {
+        return res.status(400).json({error: "Please enter a username."})
+    }
+
+    if (creds.password === "" || creds.password === undefined) {
+        return res.status(400).json({error: "Please enter a password."})
+    }
+  
+    db('users')
+      .where({ username: creds.username })
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(creds.password, user.password)) {
+          const token = generateToken(user);
+          res.status(200).json({ message: 'welcome!', token });
+        } else {
+          res.status(401).json({ message: 'you shall not pass!!' });
+        }
+      })
+      .catch(err => res.json(err));
+  });
 
 server.get("/", (req, res) => {
     res.status(200).json({api: "running"});
