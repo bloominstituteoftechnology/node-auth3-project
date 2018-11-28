@@ -36,7 +36,12 @@ server.post('/api/login', (req, res) => {
 });
 
 server.get('/api/users', (req, res) => {
-
+    db('users')
+        .select('id', 'username', 'password')
+        .then(users => {
+            res.status(200).json({users})
+        })
+        .catch(err => res.send(err))
 });
 
 server.listen(3300, () => console.log('\nServer listening on port 3300\n'))
