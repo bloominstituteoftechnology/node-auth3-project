@@ -100,19 +100,6 @@ function authorize(req, res, next) {
   }
 }
 
-// this is here to be used later probably for inspiration
-// ignore it for now please
-// pretend you didn't see it
-// function checkRole(role) {
-//   return function(req, res, next) {
-//     if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-//       next()
-//     } else {
-//       res.status(403).json({ message: 'you have no access to this resource' })
-//     }
-//   }
-// }
-
 // routes
 // route to register user
 server.post('/api/register', (req, res) => {
