@@ -19,12 +19,27 @@ server.post('/api/register', (req, res) => {
         .then(ids => {
             res.status(201).json(ids);
         })
-        .catch(error => json(error));
+        .catch(error => json({error}));
 });
+
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+
+    db('users')
+        .where({ username: creds.username }).first()
+        .then(user => {
+            if(user && bcrypt.compareSync(creds.password, user.password)){
+                res.status(200).json({message: 'WELCOME!'});
+            }else{
+                res.status(401).json({message: 'You are not allowed here'});
+            }
+        })
+        .catch(error => res.json({error}))
+})
 
 server.get('/api/users', (req, res)=> {
     db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'department')
         .then(users => {
             res.json(users);
         })
