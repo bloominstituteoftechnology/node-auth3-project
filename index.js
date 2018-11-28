@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const db = knex(knexConfig.development);
 const server = express();
 
-// const protected = require('./middleware/protected');
+const protected = require('./middleware/protected');
 
 server.use(express.json());
 
@@ -31,7 +31,7 @@ server.get('/', (req, res) => {
     res.json('runnin!')
 })
 
-server.get('/api/users', async (req, res) => {
+server.get('/api/users', protected, async (req, res) => {
     const users = await db('users').select('id', 'username');
     res.status(200).json(users);
 })
