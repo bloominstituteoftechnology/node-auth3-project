@@ -49,8 +49,9 @@ server.post('/api/register', async (req, res) => {
 })
 
 server.get('/api/users', protected, async (req, res) => {
+   const department = req.decodedToken.department
     try {
-        const users = await db('users').select('id', 'username')
+        const users = await db('users').select('id', 'username', 'department').where('department', department)
         res.status(200).json(users)
     } catch (e) {
         console.log(e)

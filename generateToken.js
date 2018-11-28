@@ -2,12 +2,9 @@ const jwt = require('jsonwebtoken')
 
 function generateToken(user){
     const payload = {
-        userId   : user.id,
-        username : user.username,
-        roles    : [
-            'sales',
-            'marketing',
-        ],
+        userId     : user.id,
+        username   : user.username,
+        department : user.department,
     }
     const options = {
         expiresIn : '1h',
