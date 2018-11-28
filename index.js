@@ -1,33 +1,74 @@
 const express = require('express');
-const knex = require('knex')
-const knexConfig = require('./knexfile.js')
-const db = knex(knexConfig.development)
-const bcrypt = require('bcryptjs')
+const knex = require('knex');
+const knexConfig = require('./knexfile.js');
+const jwt = require('jsonwebtoken');
+const db = knex(knexConfig.development);
+const bcrypt = require('bcryptjs');
 const server = express();
 
 
-server.use(express.json())
+server.use(express.json());
 
 server.get('/', (req, res) => {
   res.send(`Hello`)
 })
 
-protected = (req, res, next) => {
-  // if(req.session && req.session.user) {
-  //   next()
-  // } else {
-  //   res.status(401).json({message: 'You shall not pass!'})
-  // }
+generateToken = (user) => {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    roles: ['sales', 'marketing']
+  }
+
+  const secret = 'blerg'
+
+    const options = {
+      expiresIn: '1h',
+    }
+
+  return jwt.sign(payload, secret, options)
 }
 
-server.get('/api/users', (req, res) => {
+protected = (req, res, next) => {
+  const token = req.headers.authorization;
+  if(token){
+    jwt.verify(token, 'blerg', (err, decodedToken) => {
+      if(err) {
+        res.status(401).json({message: 'invalid token'})
+      } else {
+        req.decodedToken = decodedToken
+console.log('decoded token:', decodedToken);
+        next()
+      }
+    })
+  } else {
+    res.status(401).json({message: 'token not provided'})
+  }
+}
+
+checkRole = (role) => {
+  return (req, res, next) => {
+    if(req.decodedToken && res.decodedToken.roles.includes(role)) {
+      next()
+
+    } else {
+    res.status(403).json({message: 'you have no access to this resources'})
+  }
+
+}
+}
+server.get('/api/users', protected, (req, res) => {
       db('users')
         .then(users => res.status(200).json(users))
         .catch(err => res.status(500).json(err))
 })
 
+server.get('/api/sales', protected, checkRole('sales'), (req, res) => {
+  res.status(200).json({message: 'welcome to sales'})
+})
 server.post('/api/users', (req, res) => {
   const creds = req.body;
+console.log(creds);
   const hash = bcrypt.hashSync(creds.password, 2)
   creds.password = hash;
   db('users').insert(creds).then(ids => {
@@ -40,8 +81,9 @@ server.post('/api/login', (req, res) => {
   db('users').where({username: creds.username}).first()
   .then(user => {
     if(user && bcrypt.compareSync(creds.password, user.password)) {
+      const token = generateToken(user)
       //the token stuff goes here.
-      res.status(200).json({message: `Welcome ${user.username}`})
+      res.status(200).json({message: `Welcome ${user.username}`, token})
     } else {
       res.status(401).json({message: 'you shall not pass'})
     }
