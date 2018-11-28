@@ -43,11 +43,12 @@ const generateToken = (user) => {
     };
   
     return jwt.sign(payload, secret, options);
-  }
+}
 
 server.get("/api/users", protected, (req, res) => {
     db("users")
-        .select("id", "username", "password")
+        .where({ department: req.decodedToken.role })
+        .select("id", "username", "password", "department")
         .then(users => res.status(200).json(users))
         .catch(err => res.status(401).json(err))
 })
