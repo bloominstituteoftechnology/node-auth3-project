@@ -1,4 +1,5 @@
 // Imports
+require('dotenv').config();
 const express = require('express');
 const middlewareConfig = require('./middleware/middlewareConfig.js');
 const bcrypt = require('bcrypt');
@@ -19,7 +20,7 @@ const generateToken = user => {
     department: user.department
   };
 
-  const secret = "This is brandon's personal secret";
+  const secret = process.env.JWT_SECRET;
 
   const options = {
     expiresIn: '5m'
@@ -32,9 +33,16 @@ const generateToken = user => {
 const protected = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
-    next();
+    jwt.verify(token, process.env.JWT_SECRET, (error, decodedToken) => {
+      if (error) {
+        res.status(401).json({ message: 'Invalid Token' });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
   } else {
-    res.status(401).json({ message: 'You shall not pass.' });
+    res.status(401).json({ message: 'No token Provided' });
   }
 };
 
