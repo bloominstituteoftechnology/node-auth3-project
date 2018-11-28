@@ -28,6 +28,38 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options)
 }
 
+function protected(req, res, next) {
+    // token is normally sent in the the Authorization header
+    const token = req.headers.authorization;
+  
+    if (token) {
+      // is it valid
+      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+          // token is invalid
+          res.status(401).json({ message: 'invalid token' });
+        } else {
+          // token is gooooooooooood
+          req.decodedToken = decodedToken;
+          next();
+        }
+      });
+    } else {
+      // bounced
+      res.status(401).json({ message: 'not token provided' });
+    }
+  }
+
+function checkRole(role) {
+    return function(req, res, next) {
+      if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+        next();
+      } else {
+        res.status(403).json({ message: 'you have no access to this resource' });
+      }
+    };
+  }
+  
 
 // POST /api/register
 server.post('/api/register', (req, res) => {
@@ -64,6 +96,14 @@ server.post('/api/login', (req,res) => {
 
 
 // GET /api/users
+server.get('/api/users', protected, checkRole('marketing'), (req,res) => {
+    db('users')
+    .select('id', 'username', 'password')
+    .then( users => {
+        res.json(users);
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 
 //GET /
