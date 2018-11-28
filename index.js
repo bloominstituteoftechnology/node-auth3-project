@@ -1,5 +1,8 @@
+require('dotenv').config();
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = require('./database/dbConfig');
 
@@ -8,6 +11,22 @@ const port = 8080;
 
 // middleware
 server.use(express.json());
+
+// custom middleware
+const generateToken = user => {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    department: user.department
+  };
+
+  const secret = process.env.JWT_SECRET;
+  const options = {
+    expiresIn: '1m'
+  };
+
+  return jwt.sign(payload, secret, options)
+};
 
 server.listen(port, () => console.log(`Listening to port: ${port}`));
 
@@ -44,7 +63,8 @@ server.post('/api/login', (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
-        res.status(200).json({ message: 'Logged in' });
+        const token = generateToken(user);
+        res.status(200).json({ message: 'Logged in', token });
       } else {
         res.status(401).json({ message: 'You shall not pass!' });
       }
