@@ -48,14 +48,12 @@ function protected(req, res, next) {
     } else {
       // bounced
       next(new Error("token not provided"));
-      res.status(401).json({ message: 'token not provided' });
-    }
+         }
   }
 
 function checkRole(role) {
     return function(req, res, next) {
-        console.log('checkRole decodedToken', req.decodedToken);
-      if (req.decodedToken && req.decodedToken.roles.includes(role)) {
+             if (req.decodedToken && req.decodedToken.roles.includes(role)) {
         next();
       } else {
         res.status(403).json({ message: 'you have no access to this resource' });
@@ -83,7 +81,7 @@ const login = (req, res, next) => {
             else{res.status(401).json({message : "You shall not PASS !!"})}
         })
         
-        .catch(next(new Error("could not login")))
+        .catch(()=>next(new Error("could not login")));
     }
 
 // register a new user
