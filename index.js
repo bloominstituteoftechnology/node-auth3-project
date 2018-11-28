@@ -31,7 +31,7 @@ function generateToken(user) {
     const payload = {
           subject : user.id,
           username : user.username,
-          roles : ['sales', 'admin'], //from database..
+          roles : user.department, //from database..
     };
     const secret = process.env.JWT_SECRET;
 
@@ -57,6 +57,61 @@ server.get('/api/login', (req, res) => {
                      }
                  })
                 .catch(err => res.send({Message : "Error in Logging In..."}));
+})
+
+//FUNCTION PROTECTED MIDDLEWARE TO GET LOGGED_IN USER
+function protected(req, res, next) {
+    //token sent in Authirization header
+    const token = req.headers.authorization;
+
+    if (token) { //IF TOKEN IS THERE CHECK FOR VALIDATION USING "jwt.verify"
+            jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => { 
+                if (err) { //IF "jwt.veryfy" returns err ... INVALID TOKEN
+                    res.status(401).json({ message: 'invalid token' });
+                } else { //EITHER TOKEN IS VALID AND WILL RETURN DECODED_TOKEN
+                    req.decodedToken = decodedToken;
+                    next();
+                }
+            });
+    } else {
+        res.status(401).json({ message: 'not token provided' });
+    }
+}
+
+//GET LOGGED IN USER -- only authenticated user should see it
+server.get('/api/me', protected, (req, res) => {
+      const userID = req.decodedToken.subject;
+      console.log(userID);
+      db('users')
+              .select('id', 'username', 'password')
+              .where({ id : userID })
+              .first()
+              .then(user => {
+                   res.json(user);
+               })
+              .catch(err => res.send({Message : 'not getting user info..'})); 
+})
+
+//ANOTHER MIDDLEWARE 'CHECKROLE' TO DISPLAY DEPARTMENT-WISE USER LIST
+function checkRole(role) {
+    return function (req, res, next) {
+         if(req.decodedToken && req.decodedToken.roles.includes(role)) {
+               next();
+         } else {
+               res.status(403).json({message : 'You have no access to this resource..'});
+         }
+    };
+}
+
+//GET TO SEE USER LIST ACCORDING TO ROLE
+server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+    console.log(req.decodedToken.roles);
+     db('users')
+            .select('id', 'username', 'department')
+            .then(users => {
+                  res.json(users);
+             })
+            .catch(err => res.send(err));
 })
 
 server.listen(3300, () => console.log('\nrunning on port 3300\n'));
