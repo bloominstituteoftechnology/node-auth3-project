@@ -30,6 +30,7 @@ const options = {
 function protected(req, res, next) {
     // token is normally sent in the the Authorization header
     const token = req.headers.authorization;
+    console.log(token)
   
     if (token) {
       // is it valid
@@ -61,7 +62,7 @@ function protected(req, res, next) {
           // created a session > create a token
           // library sent cookie automatically > we send the token manually
           const token = generateToken(user);
-          res.status(200).json({ message: 'welcome!', token });
+          res.status(200).json({ message: 'welcome!', token, });
         } else {
           // either username is invalid or password is wrong
           res.status(401).json({ message: 'you shall not pass!!' });
@@ -69,18 +70,7 @@ function protected(req, res, next) {
       })
       .catch(err => res.json(err));
   });
-  
-  /// ********** PROTECTED ************
-  //______________ GET users________________
-  server.get('/api/users', protected, (req, res) => {
-    db('users')
-      .select('id', 'username', 'password', 'department') // ***************************** added password to the select
-      .then(users => {
-        res.json(users);
-      })
-      .catch(err => res.send(err));
-  });
-//______________ POST register________________
+  //______________ POST register________________
 
 server.post('/api/register', (req, res) => {
     // grab username and password from body
@@ -99,6 +89,17 @@ server.post('/api/register', (req, res) => {
         res.status(201).json(ids);
       })
       .catch(err => json(err));
+  });
+
+  /// ********** PROTECTED ************
+  //______________ GET users________________
+  server.get('/api/users', protected, (req, res) => {
+    db('users')
+      .select('id', 'username', 'password', 'department') // ***************************** added password to the select
+      .then(users => {
+        res.json(users);
+      })
+      .catch(err => res.send(err));
   });
 
   server.listen(5300, () => console.log('\nrunning on port 5300\n'));
