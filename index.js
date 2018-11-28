@@ -28,7 +28,6 @@ function generateToken(user) {
     };
   
     const secret = process.env.JWT_SECRET;
-    // const secret = 'adfqet';
     const options = {
       expiresIn: '1h',
     };
@@ -98,6 +97,15 @@ server.post('/api/register', (req, res) => {
     .catch(err => res.status(400).json({error: "Unable to Register", err}));
 });
 
+//==========GET USERS=========
+server.get('/api/users', protected, (req, res) => {
+    db('users')
+    .select('id', 'username', 'password') //get rid of password if you dont want to see the hash passwords
+    .then(users => {
+        res.json(users);
+    })
+    .catch(err => res.status(400).json({ message: "Could not retrieve information", err}));
+});
 
 
 
