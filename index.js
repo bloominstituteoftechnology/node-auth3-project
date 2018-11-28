@@ -16,7 +16,7 @@ function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    user: user.department
+    department: user.department
   };
   const secret = process.env.JWT_SECRET;
   const options = {
@@ -84,6 +84,8 @@ server.post('/api/login', (req, res) => {
     })
     .catch(err => res.json(err));
 });
+
+function checkRole
 
 server.get('/api/users', protected, (req, res) => {
   db('users')
