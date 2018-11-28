@@ -3,8 +3,9 @@
 //== Project Constants =========================================================
 
 module.exports = {
-
-    //-- Database ------------------------------------
+    // Server
+    SERVER_MESSAGE_LISTEN: `Server Listening on port ${process.env.PORT}`,
+    // Database
     TABLE_USERS: 'users',
     FIELD_USERNAME  : 'username'  ,
     FIELD_PASSWORD  : 'password'  ,
