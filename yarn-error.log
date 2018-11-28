@@ -1,0 +1,54 @@
+Arguments: 
+  /usr/bin/node /home/theofeau/.yarn/bin/yarn.js add express knex squlite3 cors helmet morgan bcrypt express-session connect-session-knex jsonwebtoken
+
+PATH: 
+  /home/theofeau/bin:/home/theofeau/.yarn/bin:/home/theofeau/.config/yarn/global/node_modules/.bin:/home/theofeau/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/theofeau/n/bin
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  8.11.3
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/squlite3: Not found
+      at Request.params.callback [as _callback] (/home/theofeau/.yarn/lib/cli.js:65656:18)
+      at Request.self.callback (/home/theofeau/.yarn/lib/cli.js:134675:22)
+      at emitTwo (events.js:126:13)
+      at Request.emit (events.js:214:7)
+      at Request.<anonymous> (/home/theofeau/.yarn/lib/cli.js:135658:10)
+      at emitOne (events.js:116:13)
+      at Request.emit (events.js:211:7)
+      at IncomingMessage.<anonymous> (/home/theofeau/.yarn/lib/cli.js:135578:12)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:111:20)
+
+npm manifest: 
+  {
+    "name": "auth-ii",
+    "version": "1.0.0",
+    "description": "## Topics",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/axolotl/auth-ii.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/axolotl/auth-ii/issues"
+    },
+    "homepage": "https://github.com/axolotl/auth-ii#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
