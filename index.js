@@ -19,7 +19,7 @@ const generateToken = user => {
 
   const secret = process.env.JWT_SECRET;
   const options = {
-    expiresIn: '1m'
+    expiresIn: '1h'
   };
 
   return jwt.sign(payload, secret, options)
@@ -46,11 +46,21 @@ const protected = (req, res, next) => {
   }
 };
 
+const checkRole = role => {
+  return (req, res, next) => {
+    if (req.decodedToken && req.decodedToken.department === role) {
+      next();
+    } else {
+      res.status(403).json({ message: 'You have no access to this resource.' });
+    }
+  };
+}
+
 server.listen(port, () => console.log(`Listening to port: ${port}`));
 
 // ====================== ENDPOINTS ======================
 // retrieve users
-server.get('/api/users', protected, (_, res) => {
+server.get('/api/users', protected, checkRole('admin'), (_, res) => {
   db('users')
     .then(users => {
       res.status(200).json(users);
