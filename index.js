@@ -4,7 +4,11 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const keys = require('./config/keys')
+const knexConfig = require('./knexfile');
+const knex = require('knex');
+const db = knex(knexConfig.development)
 
+server.listen(8888, ()=> console.log(`Server listening on Port 8888`))
 server.use(cors());
 server.use(express.json())
 //SECRET
@@ -63,7 +67,7 @@ server.post('/api/register', (req, res) =>{
     
 })
 //LOGIN
- server.post('/api/login', async (req, res) =>{
+server.post('/api/login', async (req, res) =>{
     let {password, username} = req.body;
     
     try{
