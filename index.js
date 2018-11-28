@@ -14,9 +14,9 @@ server.use(cors());
 
 function generateToken(user) {
   const payload = {
-    userId: user.id,
+    subject: user.id,
     username: user.username,
-    roles: ['sales', 'marketing']
+    user: user.department
   };
   const secret = process.env.JWT_SECRET;
   const options = {
@@ -26,7 +26,7 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
-  //token i normally sent in the Authorization header
+  //token is normally sent in the Authorization header
   const token = req.headers.authorization;
   if (token) {
     //is it valid
