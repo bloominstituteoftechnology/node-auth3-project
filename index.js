@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const knex = require('knex');
 const knexConfig = require('./knexfile');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // create server and define usages
 const server = express();
@@ -9,6 +11,24 @@ server.use(express.json());
 
 // create database
 const db = knex(knexConfig.development);
+
+const generateToken = user => {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        department: user.department
+    };
+
+    const secret = process.env.JWT_SECRET;
+    const options = {
+        expiresIn: '1h'
+    };
+
+    return jwt.sign(payload, secret, options);
+}
+
+
+// ----------------------------- Endpoints ------------------------------
 
 // Root endpoint
 server.get('/', (req, res) => {
@@ -33,13 +53,11 @@ server.post('/api/register', async (req, res) => {
 server.post('/api/login', async (req, res) => {
     const loginCreds = req.body;
     try {
-        // find the user by the username in the db
-        // compare the submitted pw to the pw in the db
         const user = await db('users').where({ username: loginCreds.username }).first();
-        console.log('user', user);
         if (user && bcryptjs.compareSync(loginCreds.password, user.password)) {
             // create a token
-            res.status(200).json({ message: '*extends the key to the castle*'});
+            const token = generateToken(user);
+            res.status(200).json({ message: '*extends the key to the castle*', token});
         } else {
             res.status(401).json({ message: 'Username or password incorrect.'});
         }
@@ -47,6 +65,23 @@ server.post('/api/login', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// middleware for token validation
+const protect = (req, res, next) => {
+    const token = req.headers.authorization; // token usu. sent in Authorization header
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: 'Invalid token.'});
+            } else {
+                req.decodedToken = decodedToken;
+                next(); // this is mw! move it along!
+            }
+        })
+    } else {
+        res.status(401).json({ message: 'No token provided.'});
+    }
+}
 
 // get the list of users
 server.get('/api/users', async (req, res) => {
