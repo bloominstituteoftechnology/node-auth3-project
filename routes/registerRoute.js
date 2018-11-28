@@ -15,3 +15,5 @@ route.post('/', (req, res) => {
     })
     .catch(err => res.status(500).json({message: `An error occured: ${err}`}))
 })
+
+module.exports = route
