@@ -11,18 +11,18 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-// const generateToken = user => {
-//     const payload = {
-//         userId = user.id,
-//         username = user.username,
-//         role = user.role,
-//     }
-//     const secret = process.env.LAMBDA_SECRET;
-//     const options = {
-//         expiresIn: '1d',
-//     }
-//     return jwt.sign(payload, secret, options);
-// };
+const generateToken = (user) => {
+    const payload = {
+        userId: user.id,
+        username: user.username,
+        role: user.role,
+    }
+    const secret = process.env.LAMBDA_SECRET;
+    const options = {
+        expiresIn: '1d',
+    }
+    return jwt.sign(payload, secret, options);
+};
 
 const protected = (req, res, next) => {
     const token = req.headers.authorization;
@@ -53,7 +53,25 @@ server.post('/api/register', (req, res) => {
         });
 });
 
-server.get('/api/users', (req, res) => {
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+    db('users')
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if (user && bcrypt.compareSync(creds.password, user.password)) {
+                const token = generateToken(user);
+                res.status(200).json({ message: `Welcome ${user.username}`, token });
+            } else {
+                res.status(401).json({ message: 'Wrong username or password' });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'There was an error logging in.', err });
+        });
+});
+
+server.get('/api/users', protected, (req, res) => {
     db('users')
         .select('id', 'username', 'password', 'department')
         .then(users => {
