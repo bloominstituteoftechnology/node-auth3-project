@@ -22,7 +22,7 @@ server.get("/api", (req, res) => {
 });
 
 //Token Generator for JWT 
-const generateToken = user => {
+function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
@@ -36,24 +36,29 @@ const generateToken = user => {
 };
 
 //middleware
-const protected = (req, res, next) => {
+function protected(req, res, next) {
+    // token is normally sent in the the Authorization header
     const token = req.headers.authorization;
     if (token) {
+        // is it valid
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err) {
+                // token is invalid
                 res.status(401).json({ message: 'invalid token' });
             } else {
+                //token is accepted
                 req.decodedToken = decodedToken;
                 next();
             }
         })
     } else {
+        // bounced
         res.status(401).json({ message: 'Where is your token?' })
     }
 }
-const checkDepartment = department => {
+function checkDepartment(department) {
     return function (req, res, next) {
-        if (req.decodedToken && req.decodedToken.roles.includes(department)) {
+        if (req.decodedToken && req.decodedToken.department.includes(department)) {
             next();
         } else {
             res.status(403).json({ message: 'You Don\'t Have Any Power Here!' })
