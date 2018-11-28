@@ -43,4 +43,15 @@ server.get('/', (req, res) => {
     res.send('server is running');
 })
 
+server.get('/api/users', protected, (req, res) => {
+    db('users')
+    .select('id', 'username', 'password')
+    .then(users => {
+        res.json(users)
+    })
+    .catch(err => res.send(err))
+})
+
+
+
 server.listen(3300, () => console.log('server is running on port 3300'));
