@@ -25,7 +25,7 @@ const generateToken = user => {
     const payload = {
         subject: user.id,
         username: user.username,
-        department: user.department,
+        department: ['sales', 'engineering', 'management'],
     };
     const secret = process.env.JWT_SECRET;
     const options = {
@@ -62,6 +62,41 @@ const checkRole = role => {
 
 //endpoints
 
+server.post('/api/register', (req, res) => {
+    const creds = req.body;
+    const hash = bcrypt.hashSync(creds.password, 4);  //in real life make this like 14 instead of 4, but for speed of testing purposes we'll leave as 4 for now.
+    creds.password = hash;
+    db('users')
+        .insert(creds)
+        .then(id => {
+            res.status(201).json(id);
+        })
+        .catch(err => res.json(err));
+})
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+    db('users')
+        .where({ username: creds.username })
+        .first()
+        .then(user => {
+            if (user && bcrypt.compareSync(creds.password, user.password)) {
+                const token = generateToken(user);
+                res.status(200).json({ message: 'hey we know you!', token })
+            } else {
+                res.status(401).json({ message: 'go away' })
+            }
+        })
+        .catch(err => res.json(err));
+});
+
+server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+    db('users')
+        .select('id', 'username', 'password') //in real life becareful not to send the password
+        .then(users => {
+            res.json(users);
+        })
+        .catch(err => res.send(err));
+});
 
 
 //port
