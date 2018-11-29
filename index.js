@@ -39,6 +39,7 @@ function authenticate(req, res, next) {
                 res.status(401).json({message: "your token is invalid"})
             } else {
                 req.decodedToken = decodedToken;
+                console.log(decodedToken)
                 next();
             }
         })
@@ -87,6 +88,7 @@ server.post('/api/login', (req, res) => {
 // make sure you copy the token from the login POST into the GET headers
 server.get('/api/users', authenticate, (req, res) => {
     db('users')
+        .where({department: req.decodedToken.role})
         .select('id', 'username', 'department')
         .then(users => {
             res.status(200).json(users);
