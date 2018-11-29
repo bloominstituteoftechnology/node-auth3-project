@@ -22,22 +22,25 @@ const App = ({ history, location }) => {
         authorization: token
       }
     };
-    token
-      ? axios
-          .get(`${URL}users`, options)
-          .then(res => {
-            if (res.status === 200 && res.data) {
-              setLogin(true);
-              setUsers(res.data);
-            } else {
-              throw new Error();
-            }
-          })
-          .catch(err => {
-            console.error(err);
-            history.push("/login");
-          })
-      : history.push("/login");
+    if (token) {
+      axios
+        .get(`${URL}users`, options)
+        .then(res => {
+          if (res.status === 200 && res.data) {
+            setLogin(true);
+            setUsers(res.data);
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          history.push("/login");
+        });
+    } else {
+      history.push("/login");
+      alert("You must log in to view this content.");
+    }
   };
 
   useEffect(() => authenticate(), [
