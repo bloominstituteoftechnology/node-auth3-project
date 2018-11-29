@@ -30,9 +30,14 @@ export default class Register extends React.Component {
       .post(`${url}/api/register`, this.state.user)
       .then(res => {
         if (res.status === 201 && res.data) {
-          localStorage.setItem("tolkien_token", res.data.token);
-
-          this.props.history.push("/users");
+          axios.post(`${url}/api/login`, this.state.user).then(res => {
+            if (res.status === 200 && res.data) {
+              localStorage.setItem("tolkien_token", res.data.token);
+              this.props.history.push("/");
+            } else {
+              throw new Error();
+            }
+          });
         } else {
           throw new Error();
         }

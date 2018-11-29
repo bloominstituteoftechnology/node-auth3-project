@@ -71,9 +71,8 @@ server.post("/api/register", (req, res) => {
     //save to db
     db("users")
       .insert(user)
-      .then(user => {
-        const token = generateToken(user);
-        res.status(201).json({ message: "Registration successful!", token });
+      .then(id => {
+        res.status(201).json(id);
       })
       .catch(err =>
         res

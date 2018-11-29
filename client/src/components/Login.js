@@ -29,7 +29,7 @@ export default class Login extends React.Component {
       .then(res => {
         if (res.status === 200 && res.data) {
           localStorage.setItem("tolkien_token", res.data.token);
-          this.props.history.push("/users");
+          this.props.history.push("/");
         } else {
           throw new Error();
         }

@@ -52,7 +52,7 @@ class App extends Component {
     return (
       <div className="App">
         <nav>
-          <NavLink to="/users">Users</NavLink>
+          <NavLink to="/">Users</NavLink>
           <NavLink to="/signin">Login</NavLink>
           <NavLink to="/signup">Register</NavLink>
         </nav>
@@ -60,7 +60,7 @@ class App extends Component {
           <Switch>
             <Route path="/signup" component={Register} />
             <Route path="/signin" component={Login} />
-            <Route path="/users" component={Users} />
+            <Route path="/" component={Users} />
           </Switch>
         </section>
       </div>
