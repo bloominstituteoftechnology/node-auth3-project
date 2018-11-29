@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { withRouter, Switch, Route, NavLink } from "react-router-dom";
+import { withRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import Signup from "./components/Signup.js";
 import Login from "./components/Login";
+import { StyledLink, StyleBtn, NavBar } from './Styles.js';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -61,12 +62,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <nav>
-          <NavLink to="/">home</NavLink>
-          <NavLink to="/signup">SignUp</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <button onClick={this.signOut}>Sign Out</button>
-        </nav>
+        <NavBar>
+          <StyledLink to="/">Home</StyledLink>
+          <StyledLink to="/signup">SignUp</StyledLink>
+          <StyledLink to="/login">Login</StyledLink>
+          <StyleBtn onClick={this.signOut}>Sign Out</StyleBtn>
+        </NavBar>
         <section>
           <Switch>
             <Route path="/signup" component={Signup} />
