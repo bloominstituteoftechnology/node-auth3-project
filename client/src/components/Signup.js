@@ -39,7 +39,7 @@ export class Signup extends Component {
       })
       .catch(err => {
         this.setState({
-          message: "Registration faled...",
+          message: "Registration failed...",
           user: { ...initialUser }
         });
       });

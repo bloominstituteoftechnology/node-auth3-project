@@ -42,6 +42,11 @@ class App extends Component {
     }
   };
 
+  signOut = () => {
+    localStorage.removeItem("secret_token_key");
+    this.props.history.push("/login");
+  }
+
   componentDidMount() {
     this.authenticate();
   }
@@ -60,6 +65,7 @@ class App extends Component {
           <NavLink to="/">home</NavLink>
           <NavLink to="/signup">SignUp</NavLink>
           <NavLink to="/login">Login</NavLink>
+          <button onClick={this.signOut}>Sign Out</button>
         </nav>
         <section>
           <Switch>
