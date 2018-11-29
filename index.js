@@ -91,9 +91,9 @@ function protected(req, res, next) {
 server.get('/api/users', protected, (req, res) => {
   db('users')
     .where({ department: req.decodedToken.department})
-    .select('id', 'username', 'password')
+    .select('id', 'username', 'department')
     .then(users => {
-      res.json(users);
+      res.json({users: users, department: req.decodedToken.department});
     })
     .catch(err => res.send(err));
 });
@@ -119,7 +119,7 @@ server.post('/api/register', (req, res) => {
     .then(ids => {
       res.status(201).json(ids);
     })
-    .catch(err => json(err));
+    .catch(err => res.json(err));
 });
 
 server.get('/', (req, res) => {
