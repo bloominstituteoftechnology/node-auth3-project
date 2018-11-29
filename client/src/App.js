@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { LoginForm, Form } from './Components'
+import { LoginForm, Login, Register } from './Components'
+import { Switch, Route, NavLink } from 'react-router-dom'
 import logo from './logo.svg';
 import axios from 'axios';
 import './App.css';
 
 const port = 5000
-const proccess = { env: {
+
+export const proccess = { env: {
   host: ('http://localhost:' + port)
 }}
 
@@ -13,50 +15,44 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      creds: {username: '', password: ''},
       users: [],
       loggedIn: false
     }
   }
 
-  updateCreds = (creds) => {
-    this.setState({creds})
-  }
 
   componentDidMount() {
     this.getUsers();
   }
   register = async (creds) => {
     try {
-      const userId = await axios.post(proccess.env.host + '/api/register', creds)
+      const userId = await axios.post(process.env.API_REACT_HOST + '/api/register', creds)
       await this.setState({ userId })
       console.log('register', userId)
     } catch(err) {
       console.log(err)
     }
   }
-  login = async (creds) => {
-    try {
-      const login = await axios.post(proccess.env.host + '/api/login', creds)
-      console.log('login', login)
-      window.localStorage.setItem('token', login.token);
-      await this.setState({ loggedIn: true })
-    } catch(err) {
-      console.log(err)
-    }
-  }
+
+
   getUsers = async () => {
     try {
-      const users = await axios.get(proccess.env.host + '/api/users')
+      const token = window.localStorage.getItem('react_auth_token')
+      const options = {
+        headers: {
+          Authentication: token,
+        },
+      };
+      const users = await axios.get(process.env.API_REACT_HOST + '/api/users', options)
       console.log('getUsers', users)
-      await this.setState({ users })
+      await this.setState({ users: users.data })
     } catch(err) {
       console.log(err)
     }
   }  
   logOut = async () => {
     try {
-      const loggedOut = await axios.post(proccess.env.host + '/api/logout')
+      const loggedOut = await axios.post(process.env.API_REACT_HOST + '/api/logout')
       console.log('getUsers', loggedOut)
       await this.setState({ loggedIn: false })
     } catch(err) {
@@ -65,39 +61,68 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="App" style={styles.App}>
+        <nav>
+          <NavLink to='/'>Home</NavLink> 
+          <NavLink to='/login'>Login</NavLink> 
+          <NavLink to='/register'>Register</NavLink> 
+        </nav>
+        <div style={Object.assign({}, styles.loginBar, this.state.loggedIn 
+          ? styles.loggedIn : null)}></div>
+        <Switch>
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route path='/' render={() => {
+            return (
+              <React.Fragment>
+                <h2>Users</h2>       
+                <ol>
+                  {this.state.users.map(user => <User {...{
+                    key: user.id, 
+                    user
+                  }} />)} 
+                </ol>
+              </React.Fragment>
+              )
+            }} />
+        </Switch>
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Form {...{ 
-            inputs: { username: '', password: ''},
-            onSubmit: this.register,
-            formTitle: 'register',
-            action: 'register'
-          }} />
-          <Form {...{ 
-            inputs: { username: '', password: ''},
-            onSubmit: this.login,
-            formTitle: 'login',
-            action: 'login'
-          }} />
           <LoginForm 
-            {...{
-              creds: this.state.creds,
-              handleCreds: this.handleCreds
-              }}
-            loggedIn={this.state.loggedIn} ></LoginForm>
-          <div style={styles.buttonsContainer}>
-            <button onClick={this.logOut}>Log Out</button>
-            <button onClick={this.getUsers}>Get Users</button>
-          </div>
-
+          {...{
+            creds: this.state.creds,
+            handleCreds: this.handleCreds,
+            loggedIn: this.state.loggedIn
+            }}>
+          </LoginForm>
+          <img src={logo} className="App-logo" alt="logo" />
         </header>
       </div>
     );
   }
 }
+const User = (props) => {
+  const { user } = props
+  return (
+    <li>
+    <h1>{user.id}</h1> 
+    <h2>{user.username}</h2> 
+    <h3>{user.password}</h3> 
+    </li>
+  )
+}
 
 const styles = {
+  App: {
+    display: 'flex'
+  },
+  loginBar: {
+    height: 'auto',
+    backgroundColor: 'red',
+    width: '100px',
+  },
+  loggedIn: {
+    backgroundColor: 'green'
+  },
   buttonsContainer: {
     display: 'flex',
     flexDirection: 'row'
