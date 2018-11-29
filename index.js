@@ -6,6 +6,7 @@ const knex = require('knex');
 const knexConfig = require('./knexfile');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const db = knex(knexConfig.development);
 const server = express();
@@ -13,6 +14,7 @@ const server = express();
 const protected = require('./middleware/protected');
 
 server.use(express.json());
+server.use(cors());
 
 function createToken(user) {
     const payload = {
