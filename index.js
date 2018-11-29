@@ -85,10 +85,10 @@ server.get('/api/users', protected, (req, res) => {
     .where({ department: req.decodedToken.role })
     .then((users) => {
       console.log(req.decodedToken);
-      res.json(users);
+      res.status(200).json(users);
     })
     .catch((err) => {
-      res.send(err);
+      res.status(500).json({ message: 'could not get users', err });
     });
 });
 
