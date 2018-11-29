@@ -4,11 +4,10 @@ const url = process.env.REACT_APP_API_URL;
 
 const initialUser = {
     username: '',
-    password: '',
-    department: ''
+    password: ''
 }
 
-class Register extends Component {
+class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -24,21 +23,18 @@ class Register extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        axios
-        .post(`${url}/api/register`, this.state.user)
+        axios.post(`${url}/api/login`, this.state.user)
         .then(response => {
-            if(response.status === 201){
-                this.setState({
-                    message: 'Registration successful',
-                    user: {...initialUser}
-                })
+            if(response.status === 200 && response.data){
+                localStorage.setItem('secret_token', response.data);
+                this.props.history.push('/');
             }else{
                 throw new Error();
             }
         })
-        .catch(error => {
+        .catch( () => {
             this.setState({
-                message: 'Registration failed',
+                message: 'Authentication failed',
                 user: {...initialUser}
             })
         })
@@ -65,16 +61,7 @@ class Register extends Component {
                         value={this.state.user.password}
                         onChange={this.inputHandler}
                     />
-
-                    <label htmlFor='department'>Department</label>
-                    <input
-                        type='text'
-                        id='department'
-                        name='department'
-                        value={this.state.user.department}
-                        onChange={this.inputHandler}
-                    />
-                    <button type="submit">Register</button>
+                    <button type="submit">Login</button>
                 </form>
                 {this.state.message ? (<h4>{this.state.message}</h4>) : undefined}
             </section>
@@ -82,4 +69,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default Login;
