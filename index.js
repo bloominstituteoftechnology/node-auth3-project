@@ -95,7 +95,7 @@ server.get('/api/me', protected, (req, res) => {
 //ANOTHER MIDDLEWARE 'CHECKROLE' TO DISPLAY DEPARTMENT-WISE USER LIST
 function checkRole(role) {
     return function (req, res, next) {
-         if(req.decodedToken && req.decodedToken.roles.includes(role)) {
+         if(req.decodedToken && req.decodedToken.roles === 'sales') {
                next();
          } else {
                res.status(403).json({message : 'You have no access to this resource..'});
@@ -108,6 +108,7 @@ server.get('/api/users', protected, checkRole('sales'), (req, res) => {
     console.log(req.decodedToken.roles);
      db('users')
             .select('id', 'username', 'department')
+            .where({department : req.decodedToken.roles})
             .then(users => {
                   res.json(users);
              })
