@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+  position: fixed;
+  left: 44%;
+  top: 20%;
+}
+.logout {
+  cursor: pointer;
+  text-decoration: underline;
+  position: fixed;
+  left: 90%;
+  top: 5%;
+}
+.links {
+  color: black;
+}
+body {
+  background: #eee;
+}
+.inputs {
+  padding-bottom: 2.5%;
+  padding-top: 2.5%;
+}
+.form {
+  border: 1px solid black;
+  padding-bottom: 2.5%;
+}
+
+
