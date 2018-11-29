@@ -3,12 +3,14 @@ require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors')
 
 const db = require('./database/dbConfig.js');
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 server.get('/api', (req, res) => {
     res.send('Its Alive!');      
