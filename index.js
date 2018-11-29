@@ -87,7 +87,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/restricted/users', (req, res) => {
     db('users')
-    .select('id', 'username')
+    .select('id', 'username', 'department')
     .then(users => res.json(users))
     .catch(err => res.send(err))
 })
