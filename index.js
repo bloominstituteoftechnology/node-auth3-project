@@ -73,7 +73,7 @@ server.post('/api/register', (req, res) => {
     .then(ids=> {
         res.status(201).json({message:'user added', ids});
     })
-    .catch(err => json(err));
+    .catch(err => console.log(err) && res.status(500).json(err))
 })
 
 // POST /api/login
@@ -113,4 +113,4 @@ server.get('/', (req, res) => {
 
 
 
-server.listen(5000, () => console.log('====================\nrunning on port 5000\n===================='));
+server.listen(8000, () => console.log('====================\nrunning on port 8000\n===================='));
