@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -15,7 +17,8 @@ class Register extends React.Component {
         this.state = {
             user: { ...initialUser },
             message: '',
-            preventSubmit: true
+            preventSubmit: true,
+            redirect: false
         }
     }
 
@@ -51,12 +54,14 @@ class Register extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault();
+        if(!this.state.preventSubmit && this.state.user.username && this.state.user.password && this.state.user.department){
         axios.post(`${url}/api/register`, this.state.user)
             .then(res => {
                 if (res.status === 201) {
                     this.setState({
                         message: 'Registration successful',
-                        user: { ...initialUser }
+                        user: { ...initialUser },
+                        redirect: true
                     });
                 }
             })
@@ -65,6 +70,9 @@ class Register extends React.Component {
                     message: 'Registration failure'
                 });
             });
+        } else {
+            alert('No empty fields');
+        }
     }
 
     render() {
@@ -101,6 +109,8 @@ class Register extends React.Component {
                     <button type="submit" disabled={this.state.preventSubmit}>Submit</button>
                     {this.state.message ? <h4>{this.state.message}</h4> : null}
                 </form>
+                <Link to='/login'>I already have an account</Link>
+                {this.state.redirect ? <Redirect to='/login' /> : null}
             </div>
         )
     }
