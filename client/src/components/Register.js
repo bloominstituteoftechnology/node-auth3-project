@@ -1,4 +1,7 @@
 import React from "react";
+import axios from "axios";
+
+const url = process.env.REACT_APP_API_URL;
 
 const initialUser = {
     username: "",
@@ -14,7 +17,15 @@ export default class Register extends React.Component {
         }
     }
 
-    submitHandler = () => {}
+    inputHandler = ev => {
+        const { name, value } = ev.target;
+        this.setState({ user: { ...this.state.user, [name]: value } });
+    }
+
+    submitHandler = ev => {
+        ev.preventDefault();
+        axios.post(url);
+    }
 
     render() {
         return (
