@@ -68,6 +68,8 @@ function checkDepartment(department) {
 
 //endpoints
 
+
+//register a new user
 server.post('/api/register', (req, res) => {
     const creds = req.body;
     const hash = bcrypt.hashSync(creds.password, 4);  //in real life make this like 14 instead of 4, but for speed of testing purposes we'll leave as 4 for now.
@@ -79,6 +81,8 @@ server.post('/api/register', (req, res) => {
         })
         .catch(err => res.json(err));
 })
+
+//login in a current user
 server.post('/api/login', (req, res) => {
     const creds = req.body;
     db('users')
@@ -95,6 +99,7 @@ server.post('/api/login', (req, res) => {
         .catch(err => res.json(err));
 });
 
+//get info on users
 server.get('/api/users', protected, checkDepartment('sales'), (req, res) => {
     db('users')
         .select('id', 'username', 'password') //in real life becareful not to send the password
