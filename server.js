@@ -4,11 +4,12 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const morgan = require('morgan');
 const db = require('./database/dbConfig.js');
 
 const server = express();
 server.use(express.json());
+server.use(morgan('dev'));
 server.use(cors());
 
 //________ FUNCTIONS / MIDDLEWARE_______
