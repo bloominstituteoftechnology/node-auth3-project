@@ -36,26 +36,20 @@ function generateToken(user) {
 };
 
 //middleware
-function protected(req, res, next) {
-    // token is normally sent in the the Authorization header
-    const token = req.headers.authorization;
-    if (token) {
-        // is it valid
-        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-            if (err) {
-                // token is invalid
-                res.status(401).json({ message: 'invalid token' });
-            } else {
-                //token is accepted
-                req.decodedToken = decodedToken;
-                next();
-            }
-        })
-    } else {
-        // bounced
-        res.status(401).json({ message: 'Where is your token?' })
-    }
+function authenticate(req, res, next) {
+    const { authentication: token } = req.headers;
+    jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+            res.status(401).json({ message: 'Authentication failed.' });
+        } else {
+            req.locals = { authorization: decoded };
+            next();
+        }
+    });
 }
+
+server.use('/api/restricted/', authenticate);
+
 function checkDepartment(department) {
     return function (req, res, next) {
         if (req.decodedToken && req.decodedToken.department.includes(department)) {
@@ -100,13 +94,20 @@ server.post('/api/login', (req, res) => {
 });
 
 //get info on users
-server.get('/api/users', protected, checkDepartment('sales'), (req, res) => {
+server.get('/api/restricted/users', checkDepartment('sales'), (req, res) => {
     db('users')
         .select('id', 'username', 'password') //in real life becareful not to send the password
         .then(users => {
             res.json(users);
         })
         .catch(err => res.send(err));
+});
+
+//authenticate user
+server.get('/api/restricted/authenticate', (req, res) => {
+    if (req.locals.authorization) {
+        res.status(200).json(req.locals.authorization);
+    }
 });
 
 
