@@ -65,8 +65,8 @@ class App extends Component {
   registerEvent = ev => {
     ev.preventDefault();
     if (
-      this.state.credentials.username === "" &&
-      this.state.credentials.password === "" &&
+      this.state.credentials.username === "" ||
+      this.state.credentials.password === "" ||
       this.state.credentials.department === ""
     ) {
       return alert("Please enter a username, password and department.");
