@@ -68,10 +68,8 @@ export default class SignIn extends Component {
       .then(res => {
         if (res.status === 201) {
           axios.post('http://localhost:3300/api/login', this.state).then(res => {
-            console.log(res)
             const token = JSON.stringify(res.data.token);
-            const id = JSON.stringify(res.data.id);
-            window.localStorage.setItem(id, token);
+            window.localStorage.setItem("token", token);
             this.props.history.push('/api/users');
           });
         }

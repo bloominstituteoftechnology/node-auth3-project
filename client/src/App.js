@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SignUp from './Components/SignUp';
+import Users from './Components/Users'
 import Home from './Components/Home'
 import { Route } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ class App extends Component {
       <div className='App'>
         <Route exact path="/" component={Home} />
         <Route path='/signup' component={SignUp} />
+        <Route path='/api/users' component={Users} />
       </div>
     );
   }
