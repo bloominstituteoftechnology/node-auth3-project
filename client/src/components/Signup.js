@@ -32,6 +32,7 @@ export default class Signup extends Component {
                         message: 'Registration Successful',
                         user: {...initialUser},
                     })
+                    this.props.history.push('/user')
                 } else {
                     throw new Error();
                 }
