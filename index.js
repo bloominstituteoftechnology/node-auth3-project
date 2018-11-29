@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
@@ -13,7 +13,7 @@ server.use(morgan('dev'));
 server.use(cors());
 
 const host = process.env.HOST || 'localhost';
-const port = process.env.PORT || 8000;
+
 
 //________ FUNCTIONS / MIDDLEWARE_______
 
@@ -105,7 +105,4 @@ server.post('/api/register', (req, res) => {
       .catch(err => res.send(err));
   });
 
-  server.listen(port, () => {
-    console.log(`Listening on ${port}`);
-  });
-  
+  server.listen(8000, () => console.log('\nrunning on port 8000\n'));

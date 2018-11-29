@@ -4,6 +4,11 @@ import axios from 'axios';
 //environmental variable
 const url = process.env.REACT_APP_API_URL;
 
+const initialUser = {
+  username: '',
+  password: '',
+};
+
 export default class Register extends Component {
     constructor(props) {
       super(props);
