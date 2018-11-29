@@ -23,9 +23,16 @@ class UserInfo extends Component {
             console.log(err))
     }
 
+    signOut = (ev) => {
+        ev.preventDefault();
+        localStorage.removeItem('user-token');
+        window.location = '/login';
+    }
+
     render() {
         return (
             <div>
+                <button onClick={this.signOut}>Sign Out</button>
                 {this.state.users.map(information => {
                     return (
                     <div>
