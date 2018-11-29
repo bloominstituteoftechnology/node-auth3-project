@@ -63,13 +63,13 @@ class App extends Component {
       <div className="App">
       <nav>
         <NavLink className='links' to='/'>Home</NavLink>
-        <NavLink className='links' to='/login'>Sign In</NavLink>
-        <NavLink className='links' to='/register'>Sign Up</NavLink>
+        <NavLink className='links' to='/signin'>Sign In</NavLink>
+        <NavLink className='links' to='/signup'>Sign Up</NavLink>
       </nav>
       <section>
          <Switch>
-           <Route path='/register' component={Register}/>
-           <Route path='/login' component={Login} />
+           <Route path='/signup' component={Register}/>
+           <Route path='/signin' component={Login} />
            <Route path="/" render={() => {
               return (
                 <React.Fragment>

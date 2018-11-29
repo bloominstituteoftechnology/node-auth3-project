@@ -33,6 +33,7 @@ export default class Login extends Component {
                         message: 'Login Successful',
                         user: {...initialUser },
                     })
+                    this.props.history.push("/");
                 } else {
                    throw new Error();
                 }
