@@ -74,7 +74,7 @@ const protect = (req, res, next) => {
             if (err) {
                 res.status(401).json({ message: 'Invalid token.'});
             } else {
-                req.decodedToken = decodedToken;
+                req.decodedToken = decodedToken; // when is this used?
                 next(); // this is middleware! move it along!
             }
         })
