@@ -5,8 +5,9 @@ exports.up = function (knex, Promise) {
     users
       .string('username', 128).notNullable()
       .unique();
-    users.string('password', 128).notNullable()
-    users.string('department', 128)
+    users.string('password', 128).notNullable();
+    users.string('department', 128);
+    users.timestamps(true, true)
   })
 };
 
