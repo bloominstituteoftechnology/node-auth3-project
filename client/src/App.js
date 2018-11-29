@@ -3,6 +3,7 @@ import { NavLink, Route, Switch, withRouter } from "react-router-dom";
 import axios from "axios";
 
 import Login from "./components/Login";
+import Register from "./components/Register";
 
 import "./App.css";
 
@@ -99,6 +100,7 @@ class App extends Component {
               )}
             />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </Switch>
         </section>
       </div>
