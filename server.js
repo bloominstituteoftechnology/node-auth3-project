@@ -16,7 +16,7 @@ function generateToken(user) {
     const payload = {
         userId: user.userId,
         username: user.username,
-        roles: ['sales', 'marketing']
+        department: ['sales', 'marketing']
     };
     const secret = process.env.JWT_SECRET;
     const options = {
@@ -61,6 +61,7 @@ server.post('/api/login', (req, res) => {
           // created a session > create a token
           // library sent cookie automatically > we send the token manually
           const token = generateToken(user);
+        //   req.session.jwt = token;
           res.status(200).json({ message: 'welcome!', token });
         } else {
           // either username is invalid or password is wrong
@@ -73,7 +74,7 @@ server.post('/api/login', (req, res) => {
   function protected(req, res, next) {
     // token is normally sent in the the Authorization header
     const token = req.headers.authorization;
-  
+    // const token = req.session.jwt;
     if (token) {
       // is it valid
       jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
