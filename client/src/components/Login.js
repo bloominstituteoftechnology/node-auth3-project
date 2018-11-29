@@ -36,7 +36,7 @@ export default class Login extends Component {
                         localStorage.setItem('token', res.data.token);
                         this.setState({
                             loggedIn: true,
-                            user: {...initialUser}                        
+                            user: {...initialUser},
                         })
                     } else {
                         throw new Error('Something is wrong.');
