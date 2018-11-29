@@ -43,9 +43,13 @@ server.post('/api/register', (req, res) => {
     db('users')
       .insert(creds)
       .then(ids => {
+          console.log(ids)
           res.status(201).json(ids)
       })
-      .catch(err => json(err))
+      .catch(err => {
+        console.log(err)
+        res.status(404).json({message:'Unable to register'})
+      })
 })
 
 server.post('/api/login', (req, res) => {
