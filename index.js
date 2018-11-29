@@ -16,12 +16,12 @@ function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    department: ['sales', 'marketing'],
+    department: user.department,
   };
 
   const secret = process.env.JWT_SECRET;
   const options = {
-    expiresIn: '1m',
+    expiresIn: '1h',
   };
 
   return jwt.sign(payload, secret, options);
@@ -44,25 +44,53 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.json(err));
 });
 
+//third shot at protected
+// function protected(req, res, next) {
+//   const token = req.headers.authorization;
+//   try {
+//     req.decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+//     next();
+//   } catch (err) {
+//     res.status(401).json({ message: 'invalid token' });
+//   }
+// }
+
+//second shot at protected with try/catch
 function protected(req, res, next) {
   const token = req.headers.authorization;
-
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-      if (err) {
-        res.status(401).json({ message: 'invalid token' });
-      } else {
-        req.decodedToken = decodedToken;
-        next();
-      }
-    });
-  } else {
+  if (!token) {
     res.status(401).json({ message: 'dude where\'s your token' });
+  } else {
+    try {
+      req.decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      next();
+    } catch(err) {
+      res.status(401).json({ message: 'invalid token' })
+    }
   }
 }
 
-server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+
+//first shot at protected with callback
+// function protected(req, res, next) {
+//   const token = req.headers.authorization;
+//   if (token) {
+//     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+//       if (err) {
+//         res.status(401).json({ message: 'invalid token' });
+//       } else {
+//         req.decodedToken = decodedToken;
+//         next();
+//       }
+//     })
+//   } else {
+//     res.status(401).json({ message: 'dude where\'s your token' });
+//   }
+// }
+
+server.get('/api/users', protected, (req, res) => {
   db('users')
+    .where({ department: req.decodedToken.department})
     .select('id', 'username', 'password')
     .then(users => {
       res.json(users);
@@ -70,15 +98,15 @@ server.get('/api/users', protected, checkRole('sales'), (req, res) => {
     .catch(err => res.send(err));
 });
 
-function checkRole(role) {
-  return function(req, res, next) {
-    if (req.decodedToken && req.decodedToken.department.includes(role)) {
-      next();
-    } else {
-      res.status(403).json({ message: 'you have no access to this resource' });
-    }
-  };
-}
+// function checkRole(role) {
+//   return function(req, res, next) {
+//     if (req.decodedToken && req.decodedToken.department.includes(role)) {
+//       next();
+//     } else {
+//       res.status(403).json({ message: 'you have no access to this resource' });
+//     }
+//   };
+// }
 
 server.post('/api/register', (req, res) => {
   const creds = req.body;
