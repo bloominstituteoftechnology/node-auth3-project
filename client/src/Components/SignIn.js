@@ -63,9 +63,6 @@ export default class SignIn extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (!this.state.username | !this.state.password) {
-      alert('Please provide a username and password!');
-    }
     axios
       .post('http://localhost:3300/api/login', this.state)
       .then(res => {
@@ -76,7 +73,12 @@ export default class SignIn extends Component {
         }
       })
       .catch(e => {
-        alert('Please provide a valid username and password.');
+        if (!this.state.username | !this.state.password) {
+          alert('Please provide a username and password!');
+        }
+        else {
+          alert('Please provide a valid username and password.');
+        }
       });
   };
 
