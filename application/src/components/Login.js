@@ -24,11 +24,12 @@ inputHandler = (event) => {
 
 submitHandler = (event) => {
     event.preventDefault();
+
     axios.post(`${url}/api/login`, this.state.user)
         .then((res) => {
             if (res.status === 200 && res.data) {
-            localStorage.setItem('Token', res.data);
-            this.props.history.push('/');
+                localStorage.setItem('Token', res.data.token);//I still have local storage from the instagram clone lol I was so confused
+                this.props.history.push('/');
         } else {
             throw new Error();
             }
@@ -61,7 +62,8 @@ submitHandler = (event) => {
                         name="password"
                         value={this.state.user.password}
                         onChange={this.inputHandler}
-                    />
+                    /> 
+                    {/* change above to type password when done */}
                     <button type="submit">Submit</button>
                     </form>
                     { this.state.message

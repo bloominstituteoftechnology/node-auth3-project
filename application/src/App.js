@@ -19,10 +19,12 @@ class App extends Component {
   }
 
   authenticate = () => {
+
     const token = localStorage.getItem('Token');
+
     const options = {
       headers: {
-        authentication: token,
+        Authorization: token
       },
     };
 
@@ -57,7 +59,7 @@ class App extends Component {
           <NavLink to="/register">Register</NavLink>
         </nav>
         <section>
-          <h1>Logged in as {localStorage.getItem('Token')}</h1>
+          <p>Token {localStorage.getItem('Token')}</p>
           <Switch>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
