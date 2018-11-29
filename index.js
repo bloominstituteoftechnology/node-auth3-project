@@ -24,6 +24,7 @@ server.post('/api/login', async (req, res) => {
         const user = await db('users').where('username', creds.username).first()
         if (user && bcrypt.compareSync(creds.password, user.password)) {
             const token = generateToken(user)
+            console.log(token)
             res.status(201).json({ id: user.id, token })
         }
         else {
