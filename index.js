@@ -1,30 +1,34 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const db = require('./database/dbConfig');
+const express = require("express");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const db = require("./database/dbConfig");
+
 const server = express();
-const port = 9000;
+const port = 8080;
 
 // generate a token
 const generateToken = user => {
-    const payload = {
+const payload = {
     subject: user.id,
     username: user.username,
     department: user.department
-    };
+};
 
-    const secret = process.env.JWT_SECRET;
-    const options = {
-    expiresIn: '1h'
-    };
+const secret = process.env.JWT_SECRET;
+const options = {
+    expiresIn: "1h"
+};
 
-    return jwt.sign(payload, secret, options)
+return jwt.sign(payload, secret, options);
 };
 
 // middleware
 server.use(express.json());
+server.use(cors());
 
 // custom middleware
 const protected = (req, res, next) => {
@@ -58,17 +62,17 @@ const checkRole = role => {
 server.listen(port, () => console.log(`Listening to port: ${port}`));
 // ---------- endpoints himmie --------------------
 // retrieve users
-server.get('/api/users', protected, checkRole('ministry of magic'), (req, res) => {
+server.get("/api/users", protected, (req, res) => {
     const { department } = req.decodedToken;
 
-    if (department === 'admin') {
-    db('users')
+    if (department === "admin") {
+    db("users")
         .then(users => {
         res.status(200).json(users);
         })
         .catch(err => res.status(500).json(err));
     } else {
-    db('users')
+    db("users")
         .where({ department })
         .then(users => {
         res.status(200).json(users);
