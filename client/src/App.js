@@ -16,6 +16,7 @@ class App extends Component {
         <section>
           <Switch>
               <Route path='/signup' component={Signup} />
+              <Route path='/signin' component={Signin} />
           </Switch>
         </section>
       </div>
