@@ -92,7 +92,7 @@ function protected(req, res, next) {
 
 server.get("/api/users", protected, (req, res) => {
   db("users")
-    .select("username")
+    .select("username", "department")
     .then(users => {
       res.status(200).json(users);
     })
@@ -107,5 +107,5 @@ server.get("/", (req, res) => {
   res.send("Server Up And Running");
 });
 
-const port = 3000;
+const port = 3300;
 server.listen(port, () => console.log(`\nRunning on port ${port}\n`));
