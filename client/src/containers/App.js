@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter, Switch, Route } from "react-router-dom";
-import axios from "axios";
 
 import GlobalStyle from "../global-styles";
 
@@ -9,49 +8,14 @@ import Navigation from "../components/Navigation";
 import Login from "../components/Form/Login";
 import SignUp from "../components/Form/SignUp";
 
-import { URL } from "../constants";
-
-const App = ({ history, location }) => {
-  const [users, setUsers] = useState([]);
+const App = ({ history }) => {
   const [loggedIn, setLogin] = useState(false);
-
-  const authenticate = () => {
-    const token = localStorage.getItem("token");
-    const options = {
-      headers: {
-        authorization: token
-      }
-    };
-    if (token) {
-      axios
-        .get(`${URL}users`, options)
-        .then(res => {
-          if (res.status === 200 && res.data) {
-            setLogin(true);
-            setUsers(res.data);
-          } else {
-            throw new Error();
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          history.push("/login");
-        });
-    } else {
-      history.push("/login");
-      alert("You must log in to view this content.");
-    }
-  };
-
-  useEffect(() => authenticate(), [
-    location.pathname === "/" && location.pathname
-  ]);
 
   const logOut = e => {
     e.preventDefault();
     setLogin(false);
     localStorage.removeItem("token");
-    window.location.reload();
+    history.push("/login");
   };
 
   return (
@@ -62,7 +26,7 @@ const App = ({ history, location }) => {
         <Route
           exact
           path="/"
-          render={props => <Users {...props} users={users} />}
+          render={props => <Users {...props} setLogin={setLogin} />}
         />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
