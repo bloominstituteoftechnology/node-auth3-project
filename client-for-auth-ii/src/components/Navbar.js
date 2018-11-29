@@ -20,6 +20,10 @@ const StyledNav = styled.nav`
 
 class Navbar extends Component {
   state = {};
+  handleClick = e => {
+    e.preventDefault();
+    this.props.logout();
+  };
   render() {
     return (
       <StyledNav>
@@ -28,7 +32,7 @@ class Navbar extends Component {
         </NavLink>
         <NavLink to="/register">Register</NavLink>
         <NavLink to="/login">Login</NavLink>
-        <NavLink to="/logout">Logout</NavLink>
+        <button onClick={this.handleClick}>Logout</button>
       </StyledNav>
     );
   }

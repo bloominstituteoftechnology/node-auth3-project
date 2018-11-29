@@ -4,13 +4,12 @@ import { StyledForm } from '../styles/StyledForm';
 
 const initalUser = {
   username: '',
-  password: '',
-  department: ''
+  password: ''
 };
 
 const url = process.env.REACT_APP_API_URL;
 
-class Register extends Component {
+class Login extends Component {
   state = {
     user: { ...initalUser },
     message: ''
@@ -24,31 +23,31 @@ class Register extends Component {
   handleSubmit = e => {
     e.preventDefault();
     axios
-      .post(`${url}/api/register`, this.state.user)
+      .post(`${url}/api/login`, this.state.user)
       .then(res => {
         // console.log(res);
-        if (res.status === 201) {
+        if (res.status === 200 && res.data) {
+          localStorage.setItem('auth_token', res.data.token);
           this.setState({
-            message: 'Register Successful',
             user: { ...initalUser }
           });
-          this.props.history.push('/login');
+          this.props.history.push('/');
         }
       })
       .catch(err => {
         this.setState({
-          message: 'Registration failed',
+          message: 'Login failed',
           user: { ...initalUser }
         });
       });
   };
 
   render() {
-    const { username, password, department } = this.state.user;
+    const { username, password } = this.state.user;
     return (
       <div>
         <StyledForm onSubmit={this.handleSubmit}>
-          <h3>Sign Up</h3>
+          <h3>Log in</h3>
           <input
             type="text"
             name="username"
@@ -63,14 +62,7 @@ class Register extends Component {
             placeholder="Enter a password..."
             onChange={this.handleInputChange}
           />
-          <input
-            type="text"
-            name="department"
-            value={department}
-            placeholder="Enter your department..."
-            onChange={this.handleInputChange}
-          />
-          <button type="submit">Sign Up</button>
+          <button type="submit">Log In</button>
           {this.state.message ? <div>{this.state.message}</div> : null}
         </StyledForm>
       </div>
@@ -78,4 +70,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default Login;
