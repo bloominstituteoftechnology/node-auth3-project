@@ -4,14 +4,15 @@ import {withRouter,Switch,NavLink,Route} from 'react-router-dom';
 import './index.css';
 import Login from './components/Login';
 import Register from './components/Register';
+import SignOut from './components/SignOut'
 
 const url = 'http://localhost:9000';
 
 
 
 class App extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       loggedIn: false,
       users: []
@@ -42,7 +43,7 @@ class App extends Component {
           alert(err);
         });
     } else {
-      this.props.history.push('/login');
+      console.log("there was an error")
     }
   }
 
@@ -57,18 +58,20 @@ class App extends Component {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/login">Login</NavLink>
           <NavLink to="/register">Register</NavLink>
+          <NavLink to="/sign-out">Sign Out</NavLink>
         </nav>
         <section>
-          <p>Token {localStorage.getItem('Token')}</p>
+          {/* <p>Token {localStorage.getItem('Token')}</p> // This was for testing purposes*/}
           <Switch>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/sign-out" component={SignOut} />
             <Route path="/" render={() => {
               return (
                 <React.Fragment>
-                <h2>Users</h2>
+                <h2>Users and Departments : </h2>
                   <ol>
-                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                    {this.state.users.map(user => <li key={user.id}>Username: {user.username} <br /> Dept : {user.department}</li>)}
                   </ol>
                 </React.Fragment>
               );
