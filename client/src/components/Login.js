@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
+const url = process.env.REACT_APP_API_URL;
+const keyName = process.env.REACT_APP_TOKEN_ITEM;
 const initialUser = {
     username: '',
     password: ''
@@ -21,7 +24,19 @@ class Login extends Component {
 
     submitHandler = (e) => {
         e.preventDefault();
-        console.log(this.state.user);
+        axios.post(`${url}/api/login`, this.state.user)
+        .then(res => {
+            if(res.status === 200) {
+                localStorage.setItem(keyName, res.data.token)
+                this.setState({mesage: res.data.message, user: { ...initialUser }})
+            } else {
+                throw new Error()
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            this.setState({mesage: 'login failed', user: { ...initialUser }})
+        });
     }
 
     render() {

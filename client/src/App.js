@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Login from './components/Login';
+import Users from './components/Users';
 
 import logo from './logo.svg';
 import './App.css';
@@ -23,7 +24,11 @@ class App extends Component {
           >
             Learn React
           </a>
+          <div> 
+
+          </div>
           <Switch>
+            <Route path="/users" component={Users} />
             <Route path="/login" component={Login} />
             {/* <Route path="/register" component={} /> */}
           </Switch>
