@@ -8,7 +8,15 @@ import Register from './components/Register';
 import logo from './logo.svg';
 import './App.css';
 
+const keyName = process.env.REACT_APP_TOKEN_ITEM;
+
 class App extends Component {
+
+  logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem(keyName);
+  }
+  
   render() {
     return (
       <div className="App">
@@ -30,6 +38,7 @@ class App extends Component {
             <NavLink to="/users">Users</NavLink>
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/register">Register</NavLink>
+            <span onClick={e => this.logout(e)} style={{cursor: 'pointer'}}>Logout</span>
           </nav>
           <Switch>
             <Route path="/users" component={Users} />
