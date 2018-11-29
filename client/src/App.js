@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import { withRouter, Switch, Route, NavLink } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 
@@ -17,7 +18,7 @@ return (
   //<SWITCH> Only the first child to match the current location will be rendered.
   //<REACT.FRAGMENT> Fragments let you group a list of children without adding extra nodes to the DOM.
   //... using fragments results in a correct <Table /> output 
-  
+
   <div className="App">
     <nav>
       <NavLink to="/">Home</NavLink>
