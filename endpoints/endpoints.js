@@ -65,8 +65,9 @@ router.post('/register', (req, res) => {
 
 router.get('/users', protected, (req, res) => {
     db('users')
-        .select('id', 'username')
+        .select('id', 'username', 'department')
         .then(users => {
+            console.log(users);
             res.json(users);
         })
         .catch(err => {
