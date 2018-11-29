@@ -26,6 +26,9 @@
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.15.2",
+    "morgan": "^1.9.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {

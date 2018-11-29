@@ -20,106 +20,92 @@ shall not pass!'. Use this endpoint to verify that
 the password is hashed before it is saved.
 */
 
-require("dotenv").config();
+const express = require('express');
+const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv').config();
+const cors = require('cors');
+const db = require('knex')(require('./knexfile').development);
 
-const express = require("express");
-const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-const db = require("./database/dbConfig.js");
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 8000;
+const secret = process.env.SECRET || 'secretWithSevenSssssss';
 
 const server = express();
-
 server.use(express.json());
+server.use(morgan('dev'));
 server.use(cors());
 
-const generateToken = user => {
-  const payload = {
-    subject: user.id,
-    username: user.username,
-    departments: ["Web dev", "back-end", "fashion", "cooking"]
-  };
+function authenticate(req, res, next) {
+  const { authentication: token } = req.headers;
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      res.status(401).json({ message: 'Authentication failed.'});
+    } else {
+      req.locals = { authorization: decoded };
+      next();
+    }
+  });
+}
 
-  const secret = process.env.JWT_SECRET;
-  const options = {
-    expiresIn: "1m"
-  };
+server.use('/api/restricted/', authenticate);
 
-  return jwt.sign(payload, secret, options);
-};
-
-server.post("/api/register", (req, res) => {
-  // grab username and password from body
-  const creds = req.body;
-
-  // generate hash from user's password
-  const hash = bcrypt.hashSync(creds.password, 4);
-
-  // override the user.password with the hash
-  creds.password = hash;
-
-  //save the user to the database
-  db("users")
-    .insert(creds)
-    .then(ids => {
-      res.status(201).json(ids);
+server.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
+  bcrypt
+    .hash(password, 12)
+    .then(hash => db('users').insert({ username, hash }))
+    .then((id) => {
+      res.status(200).json(username);
     })
-    .catch(err => json(err));
-});
-
-server.post("/api/login", (req, res) => {
-  // grab username and password from body
-  const creds = req.body;
-
-  db("users")
-    .where({ username: creds.username })
-    .first()
-    .then(user => {
-      if (user && bcrypt.compareSync(creds.password, user.password)) {
-        // passwords match and user exists by that username
-        // created a session > create a token
-        // library sent cookie automatically > we send the token manually
-
-        const token = generateToken(user);
-        res.status(200).json({ message: "logged in!", token });
-      } else {
-        // either username is invalid or password is wrong
-        res.status(401).json({ message: "you shall not pass!!" });
-      }
-    })
-    .catch(err => res.json(err));
-});
-
-const protected = (req, res, next) => {
-  // token is normally sent in the the Authorization header
-  const token = req.headers.authorization;
-
-  if (token) {
-    // is it valid
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-      if (err) {
-        // token is invalid
-        res.status(401).json({ message: "invalid token" });
-      } else {
-        // token is good!
-        req.decodedToken = decodedToken;
-        next();
-      }
+    .catch((err) => {
+      console.log('An error occurred', err);
+      res.status(400).json({ message: 'We were unable to register this user successfully' });
     });
-  } else {
-    // bounced
-    res.status(401).json({ message: "no token provided" });
-  }
-};
-
-server.get("/api/users", protected, (req, res) => {
-  db("users")
-    .select("username", "password")
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
 });
 
-server.listen(6666, () => console.log("running on 6666"));
+server.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  db('users')
+    .select('hash')
+    .where('username', '=', username)
+    .first()
+    .then(({ hash }) => {
+      return bcrypt.compare(password, hash)
+    })
+    .then((verdict) => {
+      if (verdict) {
+        const token = jwt.sign({ username }, secret, { expiresIn: '24h' });
+        res.status(200).json(token);
+      } else {
+        res.status(406).json({ message: 'System could not log user in.' });
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred', err);
+      res.status(400).json({ message: 'An error occurred when attempting log-in.' });
+    });
+});
+
+server.get('/api/restricted/authenticate', (req, res) => {
+  if (req.locals.authorization) {
+    res.status(200).json(req.locals.authorization);
+  }
+});
+
+server.get('/api/restricted/users', (req, res) => {
+  db('users')
+    .select('username', 'id')
+    .then((usernames) => {
+      return res.status(200).json(usernames);
+    })
+    .catch((err) => {
+      console.log(`Error: ${err}`);
+      return res.status(500).json({ message: 'Could not obtain requested data' });
+    });
+});
+
+server.listen(port, () => {
+  console.log(`Listening on ${port}`);
+});
