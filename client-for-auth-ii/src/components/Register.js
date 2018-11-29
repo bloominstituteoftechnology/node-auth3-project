@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
@@ -68,11 +69,32 @@ class Register extends Component {
     this.setState({ user: { ...this.state.user, [name]: value } });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    axios
+      .post(`${url}/api/register`, this.state.user)
+      .then(res => {
+        // console.log(res);
+        if (res.status === 201) {
+          this.setState({
+            message: 'Register Successful',
+            user: { ...initalUser }
+          });
+        }
+      })
+      .catch(err => {
+        this.setState({
+          message: 'Registration failed',
+          user: { ...initalUser }
+        });
+      });
+  };
+
   render() {
     const { username, password, department } = this.state.user;
     return (
       <div>
-        <StyledForm>
+        <StyledForm onSubmit={this.handleSubmit}>
           <h3>Sign Up</h3>
           <input
             type="text"
