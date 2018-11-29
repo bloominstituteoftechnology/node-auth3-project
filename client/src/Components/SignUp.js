@@ -49,21 +49,34 @@ export default class SignIn extends Component {
   state = {};
 
   handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    if (!e.target.name) {
+      this.setState({
+        department : e.target.value,
+      });
+    }
+    else {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
-  handleSubmit = async () => {
-    try {
-      const { username, password } = this.state;
-      const res = axios.post('http://localhost:3300/api/register',{...this.state.username, ...this.state.password});
-      const token = JSON.stringify(res.token);
-      const id = JSON.stringify(res.id);
-      window.localStorage.setItem(id, token);
-    } catch (e) {
-      console.log(e, 'Error during axios post.');
-    }
+  handleSubmit = e => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:3300/api/register', this.state)
+      .then(res => {
+        if (res.data) {
+          const token = JSON.stringify(res.data.token);
+          const id = JSON.stringify(res.data.id);
+          window.localStorage.setItem(id, token);
+          this.props.history.push('/api/users');
+        }
+        else {
+          this.props.history.push('/unauthorized');
+        }
+      })
+      .catch(e => console.log(e));
   };
 
   render() {
@@ -72,7 +85,7 @@ export default class SignIn extends Component {
         <form onSubmit={this.handleSubmit}>
           <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
           <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
-          <select id='dept-select'>
+          <select id='dept-select' onChange={this.handleChange}>
             <option value=''>----Please choose a department----</option>
             <option value='Math'>Math</option>
             <option value='Science'>Science</option>
