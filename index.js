@@ -77,7 +77,7 @@ server.post('/api/register', (req, res) => {
     db('users')
         .insert(creds)
         .then(id => {
-            res.status(201).json(id);
+            res.status(201).json(id); //might need to change id to username
         })
         .catch(err => res.json(err));
 })
