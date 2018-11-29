@@ -29,25 +29,17 @@ class Login extends React.Component {
         event.preventDefault();
         axios.post(`${url}/api/login`, this.state.user)
             .then(res => {
-                if (res.status === 200) {
-                    this.setState({
-                        message: 'Login successful',
-                        user: { ...initialUser }
-                    });
-                } else if(res.status !== 500) {
+                if (res.status === 200 && res.data) {
+                    localStorage.setItem('unimportant', res.data.token);
+                    this.props.history.push('/');
+                } else {
                     throw new Error();
                 }
             })
             .catch(err => {
-                if (err.errno === 19) {
-                    this.setState({
-                        message: 'Username already exists'
-                    });
-                } else {
-                    this.setState({
-                        message: 'Registration failure'
-                    });
-                }
+                this.setState({
+                    message: 'Failed to login'
+                })
             });
     }
 
@@ -73,9 +65,9 @@ class Login extends React.Component {
                         placeholder="Password"
                         onChange={this.inputHandler}
                     />
-                    {this.state.message ? <h4>{this.state.message}</h4> : null}
                     <button type="submit">Submit</button>
                 </form>
+                {this.state.message ? <h4>{this.state.message}</h4> : null}
             </div>
         )
     }
