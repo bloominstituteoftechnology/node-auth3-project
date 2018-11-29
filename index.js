@@ -54,11 +54,12 @@ server.post('/api/register', (req, res) => {
     
     const hash = bcrypt.hashSync(creds.password, 8);
     creds.password = hash;
-    console.log(creds);
+    // console.log(creds);
     db('users')
         .insert(creds)
         .then(ids => {
-            res.status(201).json({ids})
+            const token = generateToken(creds);
+            res.status(201).json({ids, token})
         })
         .catch(err => res.json(err));
 });

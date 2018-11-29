@@ -3,6 +3,7 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 
 import Login from './components/Login';
 import Users from './components/Users';
+import Register from './components/Register';
 
 import logo from './logo.svg';
 import './App.css';
@@ -28,12 +29,12 @@ class App extends Component {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/users">Users</NavLink>
             <NavLink to="/login">Login</NavLink>
-            {/* <NavLink to="/register">Register</NavLink> */}
+            <NavLink to="/register">Register</NavLink>
           </nav>
           <Switch>
             <Route path="/users" component={Users} />
             <Route path="/login" render={props => <Login {...props} />}/>
-            {/* <Route path="/register" component={} /> */}
+            <Route path="/register" component={Register} />
           </Switch>
         </header>
       </div>
