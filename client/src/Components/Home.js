@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
+
+
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -42,6 +44,7 @@ const Home = props => {
           props.history.push('/signup');
         }}>
         SIGN UP 
+
       </button>
       </div>
     </Container>

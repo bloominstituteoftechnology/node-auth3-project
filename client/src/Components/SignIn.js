@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   display: flex;
@@ -24,21 +26,13 @@ const Container = styled.div`
     align-items: center;
     div {
       display: flex;
-    input {
-      margin: 40px 20px;
-      width: 200px;
-      height: 30px;
-      text-align: center;
-      border: 2px solid black;
-    }
-    }
-
-    input[type='submit'] {
-      border: 2px solid black;
-      width: 100px;
-      height: 25px;
-      border-radius: 15px;
-      margin-top: 45px;
+      input {
+        margin: 40px 20px;
+        width: 200px;
+        height: 30px;
+        text-align: center;
+        border: 2px solid black;
+      }
     }
 
     select {
@@ -99,18 +93,20 @@ export default class SignIn extends Component {
     return (
       <Container>
         <h1>LOGIN</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <div>
             <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
             <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
           </div>
-          <input type='submit' value='submit' />
+          <button onClick={this.handleSubmit}>
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
         </form>
         <button
           onClick={() => {
             this.props.history.push('/');
           }}>
-          Back
+          <FontAwesomeIcon icon={faChevronLeft} />
         </button>
       </Container>
     );

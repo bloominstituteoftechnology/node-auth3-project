@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Container = styled.div`
   display: flex;
@@ -39,13 +41,7 @@ const Container = styled.div`
     }
     }
 
-    input[type='submit'] {
-      border: 2px solid black;
-      width: 100px;
-      height: 25px;
-      border-radius: 15px;
-    }
-
+   
     select {
       border: 2px solid black;
       width: 220px;
@@ -103,7 +99,7 @@ export default class SignUp extends Component {
     return (
       <Container>
         <h1>REGISTER</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <div>
             <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
             <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
@@ -119,13 +115,13 @@ export default class SignUp extends Component {
             <option value='Technology'>Technology</option>
             <option value='Business'>Business</option>
           </select>
-          <input type='submit' value='register' />
+          <button onClick={this.handleSubmit}><FontAwesomeIcon icon={faCheck}/></button>
         </form>
         <button
           onClick={() => {
             this.props.history.push('/');
           }}>
-          back
+          <FontAwesomeIcon icon={faChevronLeft}/>
         </button>
       </Container>
     );
