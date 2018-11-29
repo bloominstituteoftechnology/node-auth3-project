@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default class LogInPg extends Component {
     constructor(props) {
@@ -7,14 +7,29 @@ export default class LogInPg extends Component {
         this.state = {
             user: {
                 username: '',
-                password: ''
+                password: '',
+                department: 'test'
             }
         }
     }
 
     changeHandler = event => {
-        console.log('event.target.name', event.target.name);
         this.setState({ user: {...this.state.user, [event.target.name]: event.target.value }});
+    }
+
+    submitHandler = event => {
+        event.preventDefault();
+        // send axios call with user to server
+        axios.post('http://localhost:5000/api/login', this.state.user)
+            .then(response => {
+                if (response.status === 200 && response.data) {
+                    localStorage.setItem('token', response.data.token);
+                    this.props.history.push('/api/users');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     render() {

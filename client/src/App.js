@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { withRouter, Route, NavLink } from 'react-router-dom';
 import './App.css';
 
 // import Routes
@@ -18,12 +18,19 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        < Route path='/api/signup' component={SignUpPg} />
-        < Route path='/api/login' component={LogInPg} />
-        < Route path='/api/users' component={UsersListPg} />
+        <nav>
+          <NavLink to="/api/signup">Sign Up</NavLink>
+          <NavLink to="/api/login">Log In</NavLink>
+          <NavLink to="/api/users">Users List</NavLink>
+        </nav>
+        <div className="content">
+          < Route path='/api/signup' component={SignUpPg} />
+          < Route path='/api/login' component={LogInPg} />
+          < Route path='/api/users' component={UsersListPg} />
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

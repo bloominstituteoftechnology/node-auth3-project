@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 export default class UsersListPg extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            users: []
+        }
+    }
+
+    componentDidMount() {
+        
+    }
+
     render() {
         return (
             <div className='usersListContainer'>
-                <div>testing testing testing usersList</div>
+                <ul>
+                    {this.state.usersList.map(user => {
+                     return <li key={user.id}>{user.username}</li>
+                    })}
+                </ul>
             </div>
         );
     }

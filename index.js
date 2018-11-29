@@ -4,10 +4,12 @@ const knex = require('knex');
 const knexConfig = require('./knexfile');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 // create server and define usages
 const server = express();
 server.use(express.json());
+server.use(cors());
 
 // create database
 const db = knex(knexConfig.development);
