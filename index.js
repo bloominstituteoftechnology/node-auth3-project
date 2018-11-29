@@ -19,7 +19,7 @@ server.get('/api', (req, res) => {
 //USER REGISTER... INTO DATABASE 'USERS'
 server.post('/api/register', (req, res) => {
     const credentials = req.body;
-    const hash = bcrypt.hashSync(credentials.password, 1);
+    const hash = bcrypt.hashSync(credentials.password, 6);
     credentials.password = hash;
     db('users').insert(credentials)
                .then(ids => {
@@ -46,6 +46,7 @@ function generateToken(user) {
 
 //USER LOGIN...To check authenticated users
 server.get('/api/login', (req, res) => {
+        console.log(req.body);
         const credentials = req.body;
         db('users')
                 .where({ username : credentials.username })

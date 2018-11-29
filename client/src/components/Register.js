@@ -15,18 +15,13 @@ class Register extends React.Component{
         };
     }
 
-    /*inputHandler = (event) => {
-        event.preventDefault();
-        this.setState({
-            [event.target.name] : event.target.value
-        })
-    }*/
     inputHandler = (event) => {
         const { name, value } = event.target;
         this.setState({ user: { ...this.state.user, [name]: value } });
-      }
+    }
 
     submitHandler = (event) => {
+        console.log(this.state.user);
         event.preventDefault();
         axios.post('http://localhost:3300/api/register', this.state.user)
              .then(res => {
