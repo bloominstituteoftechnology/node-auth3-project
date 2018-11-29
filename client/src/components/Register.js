@@ -14,15 +14,38 @@ class Register extends React.Component {
         super();
         this.state = {
             user: { ...initialUser },
-            message: ''
+            message: '',
+            preventSubmit: true
         }
     }
 
     inputHandler = (event) => {
         const { name, value } = event.target;
 
-        this.setState({
-            user: { ...this.state.user, [name]: value }
+        this.setState({ user: { ...this.state.user, [name]: value } }, () => {
+            if (name === 'username') {
+                if (value.length > 2) {
+                    axios.get(`${url}/api/checkUsername/${value}`)
+                        .then(res => {
+                            if (!this.state.preventSubmit) {
+                                this.setState({
+                                    preventSubmit: true,
+                                    message: 'Username already exists'
+                                })
+                            }
+                        })
+                        .catch(err => {
+                            if (err.response.status === 404) {
+                                if (this.state.preventSubmit) {
+                                    this.setState({
+                                        preventSubmit: false,
+                                        message: ''
+                                    })
+                                }
+                            }
+                        });
+                }
+            }
         });
     }
 
@@ -35,20 +58,12 @@ class Register extends React.Component {
                         message: 'Registration successful',
                         user: { ...initialUser }
                     });
-                } else {
-                    throw new Error();
                 }
             })
             .catch(err => {
-                if (err.errno === 19) {
-                    this.setState({
-                        message: 'Username already exists'
-                    });
-                } else {
-                    this.setState({
-                        message: 'Registration failure'
-                    });
-                }
+                this.setState({
+                    message: 'Registration failure'
+                });
             });
     }
 
@@ -83,8 +98,8 @@ class Register extends React.Component {
                         placeholder="Department"
                         onChange={this.inputHandler}
                     />
+                    <button type="submit" disabled={this.state.preventSubmit}>Submit</button>
                     {this.state.message ? <h4>{this.state.message}</h4> : null}
-                    <button type="submit">Submit</button>
                 </form>
             </div>
         )

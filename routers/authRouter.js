@@ -43,7 +43,7 @@ router.post('/register', (req, res) => {
         })
         .catch(err => {
             if (err.errno === 19) {
-                res.status(500).json({ message: 'Username already exists' });
+                res.status(500).json({error: 1, message: 'Username already exists' });
             } else {
                 res.status(500).json({ message: 'Error creating new account' });
             }
@@ -86,6 +86,24 @@ router.get('/users', protected, (req, res) => {
         })
         .catch(err => {
             res.status(500).json({ message: 'Error retrieving users' });
+        });
+});
+
+// [GET] /api/checkUsername
+// see if username exists
+router.get('/checkUsername/:username', (req, res) => {
+    db('users')
+        .where({ username: req.params.username})
+        .then(user => {
+            console.log(user);
+            if(user.length) {
+                res.status(200).json({message: 'anything'});
+            } else {
+                res.status(404).json({message: 'anything'});
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Error checking username'});
         });
 });
 
