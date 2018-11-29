@@ -6,6 +6,7 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import axios from 'axios';
 
+
 const url = process.env.REACT_APP_API_URL;
 
 class App extends Component {
@@ -17,6 +18,16 @@ class App extends Component {
     };
   }
 
+
+  //logout 
+  removeToken = () => {
+    //delete token
+    window.localStorage.removeItem('my_token');
+    //set loggedin to false
+    this.setState({loggedIn:false});
+    //push user back to login screen
+    this.props.history.push('/login');
+  }
   authenticate = () => {
     const token = (localStorage.getItem('my_token'));
     const options = {
@@ -72,7 +83,7 @@ class App extends Component {
                   <ol>
                     {this.state.users.map(user => <li key={user.id}>{user.username}: {user.department}</li>)}
                  </ol>
-                 
+                 <button onClick={this.removeToken}>Logout</button>
               </React.Fragment>
             );
           }} />

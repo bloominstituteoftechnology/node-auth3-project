@@ -81,6 +81,7 @@ server.post('/api/login', (req, res) => {
 server.post('/api/register', (req, res) => {
     //get username and password from body
     const creds = req.body;
+    //requires both username and password to be input
     if(creds.username && creds.password){
         //hash that password
         const hash = bcrypt.hashSync(creds.password, 6);
