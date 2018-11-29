@@ -5,8 +5,11 @@
 module.exports = {
     // Server
     SERVER_MESSAGE_LISTEN: `Server Listening on port ${process.env.PORT}`,
+    // Time
+    TIME_TOKEN_EXPIRATION: '1m',
     // Database
     TABLE_USERS: 'users',
+    FIELD_ID        : 'id'        ,
     FIELD_USERNAME  : 'username'  ,
     FIELD_PASSWORD  : 'password'  ,
     FIELD_DEPARTMENT: 'department',
@@ -22,6 +25,7 @@ module.exports = {
     // User Feedback
     RESPONSE_MESSAGE: 'message',
     RESPONSE_ERROR  : 'error'  ,
+    RESPONSE_TOKEN  : 'token'  ,
     MESSAGE_RESTRICTED            : 'You shall not pass!',
     MESSAGE_AUTHENTICATION_FAILURE: 'You shall not pass!',
     MESSAGE_AUTHENTICATION_SUCCESS: 'Login Successful'   ,

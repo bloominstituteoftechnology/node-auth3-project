@@ -19,7 +19,8 @@ GET  /api/users
 */
 
 //-- Dependencies --------------------------------
-const express = require('express');
+const express      = require('express'     );
+const jsonWebToken = require('jsonwebtoken');
 const config        = require('./config.js'        );
 const databaseUsers = require('./database_users.js');
 
@@ -41,20 +42,67 @@ router.use(errorHandler);
 //== Utility Functions =========================================================
 
 //-- Login ---------------------------------------
-function loginUser(request, userId) {
+function loginUser(user) {
+    // Compile User data
+    const tokenData = {
+      id        : user.id        ,
+      username  : user.username  ,
+      department: user.department,
+    };
+    // Retrieve token secret from environment
+    const secret = process.env.JSONWEBTOKEN_SECRET;
+    // Compile Token Options
+    const options = {
+      expiresIn: config.TIME_TOKEN_EXPIRATION,
+    };
+    // Return generated token
+    return jsonWebToken.sign(tokenData, secret, options);
 }
 
-//-- End Point Protection Middleware -------------
-function protected(request, response, next) {
-    // Proceed to next() if user is logged in
-    if(false) {
-        next();
-        return;
-    }
-    // Inform user of login error
-    response.status(401).json({
-        [config.RESPONSE_MESSAGE]: config.MESSAGE_RESTRICTED,
+//-- Turn Callbacks into Promises ----------------
+function callbackPromise() {
+    let callback;
+    const promise = new Promise(function (resolve, reject) {
+        callback = function (error, result) {
+            if(error) { reject(error);}
+            resolve(result);
+        }
     });
+    return {promise, callback};
+};
+
+//-- End Point Protection Middleware -------------
+async function protected(request, response, next) {
+    try {
+        console.log(1)
+        // Fail if no token provided
+        const token = request.headers.authorization;
+        console.log(2)
+        if(!token){ throw config.ERROR_AUTHENTICATION_FAILURE;}
+        console.log(3)
+        // Fail if token not valid
+        let validChecker = callbackPromise();
+        console.log(4)
+        jsonWebToken.verify(
+            token,
+            process.env.JSONWEBTOKEN_SECRET,
+            validChecker.callback,
+        );
+        console.log(5)
+        let decodedToken = await validChecker.promise;
+        console.log(6)
+        // Set token on request
+        request.token = decodedToken;
+        console.log(7)
+        // Move to next middleware
+        next();
+        console.log(8)
+    }
+    catch(error) {
+        response.status(401).json({
+            [config.RESPONSE_MESSAGE]: config.MESSAGE_RESTRICTED,
+        });
+    }
 };
 
 //-- Error Handling ------------------------------
@@ -77,13 +125,16 @@ async function handleRegistration(request, response, next) {
         // Attempt to register a new user
         const username = request.body.username;
         const password = request.body.password;
-        const userId = await databaseUsers.addUser(username, password);
-        // Inform of success
-        loginUser(request, userId);
-        response.status(201).end();
+        const user = await databaseUsers.addUser(username, password);
+        // Login User and respond with success
+        const loginToken = loginUser(user);
+        response.status(201).json({
+            [config.RESPONSE_MESSAGE]: config.MESSAGE_AUTHENTICATION_SUCCESS,
+            [config.RESPONSE_TOKEN  ]: loginToken,
+        });
         // Move to next middleware
-        // next() <-- Not called when using end()
-    } catch(error){ next(error);}
+        next();
+    } catch(error){ console.log(error); next(error);}
 }
 
 //-- User Log In ---------------------------------
@@ -92,19 +143,21 @@ async function handleLogin(request, response, next) {
         // Check if supplied username and password are valid
         const username = request.body.username;
         const password = request.body.password;
-        const userId = await databaseUsers.authenticate(username, password);
+        const user = await databaseUsers.authenticate(username, password);
         // Handle failed authentication
-        if(!userId){
+        if(!user){
             response.status(401).json({
                 [config.RESPONSE_MESSAGE]: config.MESSAGE_AUTHENTICATION_FAILURE,
             });
-        // Set Id on session and alert agent of success
-        } else {
-            setSession(request, userId);
-            response.status(200).json({
-                [config.RESPONSE_MESSAGE]: config.MESSAGE_AUTHENTICATION_SUCCESS,
-            });
+            next();
+            return;
         }
+        // Login User and respond with success
+        const loginToken = loginUser(user);
+        response.status(201).json({
+            [config.RESPONSE_MESSAGE]: config.MESSAGE_AUTHENTICATION_SUCCESS,
+            [config.RESPONSE_TOKEN  ]: loginToken,
+        });
         // Move to next middleware
         next();
     } catch(error){ next(error);}

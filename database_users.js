@@ -57,12 +57,16 @@ async function addUser(rawUsername, rawPassword) {
         throw config.ERROR_AUTHENTICATION_NAMETAKEN;
     }
     // Insert new user
-    const [result] = await knexDB(config.TABLE_USERS).insert({
+    const [userId] = await knexDB(config.TABLE_USERS).insert({
         [config.FIELD_USERNAME  ]: username                 ,
         [config.FIELD_PASSWORD  ]: password                 ,
         [config.FIELD_DEPARTMENT]: config.DEFAULT_DEPARTMENT,
     });
-    return result;
+    const user = await knexDB(config.TABLE_USERS)
+        .select(config.FIELD_ID, config.FIELD_USERNAME, config.FIELD_DEPARTMENT)
+        .where({[config.FIELD_ID]: userId})
+        .first();
+    return user;
 }
 
 //-- Authenticate --------------------------------
@@ -77,12 +81,18 @@ async function authenticate(rawUsername, rawPassword) {
     if(!comparePassword(rawPassword, storedHash)){
         return null;
     }
-    return user[config.FIELD_ID];
+    const userData = {
+        [config.FIELD_ID        ]: user[config.FIELD_ID        ],
+        [config.FIELD_USERNAME  ]: user[config.FIELD_USERNAME  ],
+        [config.FIELD_DEPARTMENT]: user[config.FIELD_DEPARTMENT],
+    };
+    return userData;
 }
 
 //-- Get Users -----------------------------------
 async function getUsers() {
     return await knexDB(config.TABLE_USERS).select(
+        config.FIELD_ID        ,
         config.FIELD_USERNAME  ,
         config.FIELD_DEPARTMENT,
     );
