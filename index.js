@@ -82,7 +82,9 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'department', 'password')
+    .where({ department: req.decodedToken.role })
     .then((users) => {
+      console.log(req.decodedToken);
       res.json(users);
     })
     .catch((err) => {
