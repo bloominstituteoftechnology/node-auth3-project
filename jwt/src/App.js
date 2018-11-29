@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./App.css";
 import axios from "axios";
-import {Switch, Route} from "react-router-dom";
+import {NavLink, Switch, Route} from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
@@ -14,11 +14,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header />
+        <header>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/register">Register</NavLink>
+          {/* <NavLink></NavLink> */}
+        </header>
         <section>
           <Switch>
             <Route path="/register" component={Register} />
-            <Route path="/signin" component={Login} />
+            <Route path="/login" component={Login} />
             <button onClick={this.handleSignOut}>Sign Out</button>
           </Switch>
         </section>
