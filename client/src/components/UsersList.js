@@ -6,7 +6,6 @@ const UsersList = () => {
   const [data, setData] = useState({ users: [], access: true, error: "" });
 
   const fetch = async () => {
-    console.log("hi");
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       const options = {
@@ -40,6 +39,7 @@ const UsersList = () => {
           <p>{user.department}</p>
         </div>
       ))}
+      <button onClick={()=>localStorage.removeItem('token')}>Log out</button>
     </div>
   );
 };
