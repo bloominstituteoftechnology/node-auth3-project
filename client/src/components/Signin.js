@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-const url = process.env.REACT_APP_API_URL
-
 const initialUser = {
   username: '',
   password: ''
@@ -22,10 +20,10 @@ class Login extends Component {
   submitHandler = event => {
     event.preventDefault()
     axios
-      .post(`${url}/api/login`, this.state.user)
+      .post(`http://localhost:3300/api/login`, this.state.user)
       .then(res => {
         if (res.status === 200 && res.data) {
-          localStorage.setItem('secret_bitcoin_token', res.data)
+          localStorage.setItem('token', res.data)
           this.props.history.push('/')
         } else {
           throw new Error()

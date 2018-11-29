@@ -3,18 +3,17 @@ import axios from 'axios'
 import Register from './Signup'
 import Login from './Signin'
 import Users from './Users'
-import Greeting from '/Greeting'
+import Greeting from './Greeting'
 import { withRouter, Switch, Route, NavLink, Redirect } from 'react-router-dom'
-
-const url = process.env.REACT_APP_API_URL
 
 class App extends Component {
   state = {
-    loggedIn: false
+    loggedIn: false,
+    users: []
   }
 
   authenticate = () => {
-    const token = localStorage.getItem('secret_bitcoin_token')
+    const token = localStorage.getItem('token')
     const options = {
       headers: {
         authentication: token
@@ -23,7 +22,7 @@ class App extends Component {
 
     if (token) {
       axios
-        .get(`${url}/api/users`, options)
+        .get(`http://localhost:3300/api/users`, options)
         .then(res => {
           if (res.status === 200 && res.data) {
             this.setState({ loggedIn: true, users: res.data })
@@ -32,10 +31,13 @@ class App extends Component {
           }
         })
         .catch(err => {
-          this.props.history.push('/login')
+          console.log(err)
+          // do nothing
+          // this.props.history.push('/login')
         })
     } else {
-      this.props.history.push('/login')
+      // do nothing
+      // this.props.history.push('/login')
     }
   }
 
@@ -44,7 +46,6 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { loggedIn } = this.state
     const { pathname } = this.props.location
 
     if (pathname === '/' && pathname !== prevProps.location.pathname) {
@@ -53,24 +54,28 @@ class App extends Component {
   }
 
   render() {
+    const { loggedIn } = this.state
+
     return (
       <div className="App">
         <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/register">Register</NavLink>
+          <NavLink to="/signin">Login</NavLink>
+          <NavLink to="/signup">Register</NavLink>
         </nav>
         <section>
           <Switch>
             <Route path="/signup" component={Register} />
             <Route path="/signin" component={Login} />
-            <Route path="/users" component={Users} />
+            <Route
+              path="/users"
+              render={() => <Users users={this.state.users} />}
+            />
 
             <Route
               exact
               path="/"
               render={() =>
-                loggedIn ? <Greeting /> : <Redirect to="/users" />
+                loggedIn ? <Redirect to="/users" /> : <Greeting />
               }
             />
           </Switch>

@@ -1,20 +1,14 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 
-class Users extends Component {
-  state = []
-
-  render() {
-    return <p>users here</p>
-  }
-}
+const Users = ({ users = [] }) => (
+  <Fragment>
+    <h2>Users</h2>
+    <ol>
+      {users.map(user => (
+        <li key={user.id}>{user.username}</li>
+      ))}
+    </ol>
+  </Fragment>
+)
 
 export default Users
-
-// <React.Fragment>
-//                     <h2>Users</h2>
-//                     <ol>
-//                       {this.state.users.map(user => (
-//                         <li key={user.id}>{user.username}</li>
-//                       ))}
-//                     </ol>
-//                   </React.Fragment>
