@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
-import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 
 class SignUp extends Component {
@@ -44,9 +42,7 @@ class SignUp extends Component {
                     <input type='text' placeholder='Username' name='username' onChange={this.inputChangeHandler}/>
                     <input type='text' placeholder='Password' name='password' onChange={this.inputChangeHandler}/>
                     <input type='text' placeholder='Department' name='department' onChange={this.inputChangeHandler}/>
-                    <NavLink to=''>
                         <button onClick={this.registration}>Register</button>
-                    </NavLink>
                 </form>
             </div>
         )
