@@ -73,8 +73,17 @@ server.post("/api/register", (req, res) => {
 
     db("users")
         .insert(creds)
-        .then(ids => res.status(201).json(ids))
-        .catch(err => res.status(401).json(err))
+        .then(ids => {
+            db("users").where({ id: ids[0] }).first().then(user => {
+                const token = generateToken(user);
+                res.status(201).json({message: "welcome", token});
+            })
+            .catch(err => res.json(err));
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(401).json(err)
+        })
 })
 
 server.post('/api/login', (req, res) => {
