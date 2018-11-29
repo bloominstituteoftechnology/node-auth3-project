@@ -129,4 +129,6 @@ server.get("/api/users", restricted, (req, res) => {
     );
 });
 
-server.listen(7000, () => console.log("\n=== Running on port 7000 ===\n"));
+const port = process.env.SECRET_PORT || 8000;
+
+server.listen(port, () => console.log(`\n=== Running on port ${port} ===\n`));
