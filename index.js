@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -8,6 +9,7 @@ const server = express();
 
 // Middleware
 server.use(express.json());
+server.use(cors());
 
 // JWT Config
 function generateToken(user) {
@@ -24,7 +26,7 @@ function generateToken(user) {
 
 // protected route
 function protected(req, res, next) {
-  const token = req.headers.authorization;
+  const token = req.headers.authentication;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
