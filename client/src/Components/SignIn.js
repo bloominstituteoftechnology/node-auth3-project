@@ -9,6 +9,12 @@ const Container = styled.div`
   align-items: center;
   height: 50vh;
   justify-content: center;
+  font-size: 14px;
+  font-family: Helvetica;
+  border-radius: 15px;
+  background: lightgray;
+  max-width: 50%;
+  margin: 0 auto;
 
   form {
     display: flex;
@@ -16,18 +22,23 @@ const Container = styled.div`
     width: 50%;
     justify-content: center;
     align-items: center;
+    div {
+      display: flex;
     input {
-      margin: 20px 0;
+      margin: 40px 20px;
       width: 200px;
-      height: 20px;
+      height: 30px;
       text-align: center;
       border: 2px solid black;
+    }
     }
 
     input[type='submit'] {
       border: 2px solid black;
       width: 100px;
       height: 25px;
+      border-radius: 15px;
+      margin-top: 45px;
     }
 
     select {
@@ -35,6 +46,7 @@ const Container = styled.div`
       width: 220px;
       height: 30px;
       margin: 50px 0;
+      font-size: 14px;
     }
   }
 
@@ -42,9 +54,10 @@ const Container = styled.div`
     border: 2px solid black;
     width: 100px;
     height: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
   }
 `;
-
 export default class SignIn extends Component {
   state = {};
 
@@ -85,9 +98,12 @@ export default class SignIn extends Component {
   render() {
     return (
       <Container>
+        <h1>LOGIN</h1>
         <form onSubmit={this.handleSubmit}>
-          <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
-          <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
+          <div>
+            <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
+            <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
+          </div>
           <input type='submit' value='submit' />
         </form>
         <button

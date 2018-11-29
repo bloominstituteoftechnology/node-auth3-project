@@ -9,6 +9,12 @@ const Container = styled.div`
   align-items: center;
   height: 50vh;
   justify-content: center;
+  font-size: 14px;
+  font-family: Helvetica;
+  border-radius: 15px;
+  background: lightgray;
+  max-width: 50%;
+  margin: 0 auto;
 
   form {
     display: flex;
@@ -16,18 +22,28 @@ const Container = styled.div`
     width: 50%;
     justify-content: center;
     align-items: center;
+    div {
+      padding: 10px;
+      width: 100%;
+      display: flex;
+
+      
+    
     input {
-      margin: 20px 0;
+      margin: 20px;
       width: 200px;
-      height: 20px;
+      height: 30px;
       text-align: center;
       border: 2px solid black;
+      border-radius: 5px;
+    }
     }
 
     input[type='submit'] {
       border: 2px solid black;
       width: 100px;
       height: 25px;
+      border-radius: 15px;
     }
 
     select {
@@ -35,6 +51,7 @@ const Container = styled.div`
       width: 220px;
       height: 30px;
       margin: 50px 0;
+      font-size: 14px;
     }
   }
 
@@ -42,6 +59,8 @@ const Container = styled.div`
     border: 2px solid black;
     width: 100px;
     height: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
   }
 `;
 
@@ -69,7 +88,7 @@ export default class SignUp extends Component {
         if (res.status === 201) {
           axios.post('http://localhost:3300/api/login', this.state).then(res => {
             const token = JSON.stringify(res.data.token);
-            window.localStorage.setItem("token", token);
+            window.localStorage.setItem('token', token);
             this.props.history.push('/api/users');
           });
         }
@@ -83,11 +102,14 @@ export default class SignUp extends Component {
   render() {
     return (
       <Container>
+        <h1>REGISTER</h1>
         <form onSubmit={this.handleSubmit}>
-          <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
-          <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
+          <div>
+            <input name='username' type='text' placeholder='username' onChange={this.handleChange} />
+            <input name='password' type='password' placeholder='password' onChange={this.handleChange} />
+          </div>
           <select id='dept-select' onChange={this.handleChange}>
-            <option value=''>----Please choose a department----</option>
+            <option value=''>Please choose a department</option>
             <option value='Math'>Math</option>
             <option value='Science'>Science</option>
             <option value='Liberal Arts'>Liberal Arts</option>
@@ -97,13 +119,13 @@ export default class SignUp extends Component {
             <option value='Technology'>Technology</option>
             <option value='Business'>Business</option>
           </select>
-          <input type='submit' value='submit' />
+          <input type='submit' value='register' />
         </form>
         <button
           onClick={() => {
             this.props.history.push('/');
           }}>
-          Back
+          back
         </button>
       </Container>
     );

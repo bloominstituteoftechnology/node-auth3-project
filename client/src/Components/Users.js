@@ -1,5 +1,27 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components'
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  max-width: 50%;
+  margin: 0 auto;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+  font-size: 30px;
+  font-family: Helvetica;
+  border-radius: 15px;
+  background: lightgray;
+
+    button {
+    border: 2px solid black;
+    width: 100px;
+    height: 25px;
+    border-radius: 15px;
+  }
+`;
 
 export default class Users extends React.Component {
   state = {
@@ -26,7 +48,7 @@ export default class Users extends React.Component {
 
   render() {
     return (
-      <div>
+      <Container>
         {this.state.users.map(user => {
           return (
             <div>
@@ -43,7 +65,7 @@ export default class Users extends React.Component {
           }}>
           Logout
         </button>
-      </div>
+      </Container>
     );
   }
 }
