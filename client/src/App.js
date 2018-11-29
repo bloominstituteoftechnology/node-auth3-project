@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import {Switch, Route, NavLink, withRouter} from 'react-router-dom'
 
 class App extends Component {
   render() {
@@ -11,6 +12,11 @@ class App extends Component {
           <NavLink to='/signin'>Signin</NavLink>
           <NavLink to='/users'>Users</NavLink>
         </nav>
+        <section>
+          <Switch>
+              <Route path='/signup' component={SignUp} />
+          </Switch>
+        </section>
       </div>
     );
   }
