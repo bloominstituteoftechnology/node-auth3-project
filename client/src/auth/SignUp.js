@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class SignIn extends Component {
+class SignUp extends Component {
   state = {
     username: '',
+    roles: '',
     password: ''
   };
 
@@ -12,30 +13,38 @@ class SignIn extends Component {
       <div className='form'>
         <form onSubmit={this.handleSubmit}>
           <div className='form__input'>
-            <label htmlFor='username'>Username</label>
             <input
               name='username'
               value={this.state.username}
               onChange={this.handleInputChange}
               type='text'
-              placeholder='username'
+              placeholder='Username'
               className='form__input'
             />
           </div>
           <div className='form__input'>
-            <label htmlFor='password'>Password</label>
+            <input
+              name='roles'
+              value={this.state.roles}
+              onChange={this.handleInputChange}
+              type='text'
+              placeholder='Roles'
+              className='form__input'
+            />
+          </div>
+          <div className='form__input'>
             <input
               name='password'
               value={this.state.password}
               onChange={this.handleInputChange}
               type='password'
-              placeholder='password'
+              placeholder='Password'
               className='form__input'
             />
           </div>
           <div>
-            <button className='form__btn' type='submit'>
-              Sign In
+            <button type='submit' className='form__btn'>
+              Sign Up
             </button>
           </div>
         </form>
@@ -50,14 +59,14 @@ class SignIn extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const endpoint = 'http://localhost:8000/api/login';
+    const endpoint = 'http://localhost:8000/api/register';
 
     console.log(this.state);
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
-        localStorage.setItem('jwt', res.data.token);
+        // localStorage.setItem('jwt', res.data.token);
       })
       .catch(err => {
         console.log('big time error bruh', err);
@@ -65,4 +74,4 @@ class SignIn extends Component {
   };
 }
 
-export default SignIn;
+export default SignUp;

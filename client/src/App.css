@@ -1,5 +1,45 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+}
+
+.nav {
+  border: 2px solid #ffe;
+  padding: 20px;
+}
+
+.nav__item {
+  margin: 50px;
+  color: greenyellow;
+  text-decoration: none;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+.form__input {
+  padding: 10px 20px;
+  font-size: 20px;
+  height: 75px;
+  width: 400px;
+  border-radius: 40px;
+  margin: 20px;
+}
+
+.form__btn {
+  margin: 65px;
+  width: 250px;
+  height: 50px;
+  font-family: monospace;
+  font-size: 30px;
+  border-radius: 20px;
+  background-color: greenyellow;
+  text-transform: uppercase;
+}
+
+.users__user {
+  list-style: none;
 }
 
 .App-logo {
@@ -12,8 +52,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center; */
+  /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
 }
