@@ -15,7 +15,7 @@ const generateToken = (user) => {
     const payload = {
         userId: user.id,
         username: user.username,
-        role: user.role,
+        department: user.department,
     }
     const secret = process.env.LAMBDA_SECRET;
     const options = {
@@ -36,6 +36,8 @@ const protected = (req, res, next) => {
                 next();
             }
         })
+    } else {
+        res.status(401).json({ message: 'You are not authorized.' });
     }
 };
 
@@ -46,7 +48,8 @@ server.post('/api/register', (req, res) => {
     db('users')
         .insert(creds)
         .then(ids => {
-            res.status(201).json(ids);
+            const token = generateToken(creds);
+            res.status(201).json({ ids, token });
         })
         .catch(err => {
             res.status(500).json({ error: 'Registration error.', err });
@@ -82,4 +85,4 @@ server.get('/api/users', protected, (req, res) => {
         });
 });
 
-server.listen(3000, () => console.log('\nServer is listening on port 3000\n'));
+server.listen(3300, () => console.log('\nServer is listening on port 3000\n'));
