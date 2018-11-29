@@ -62,18 +62,25 @@ class App extends Component {
     return (
       <div className="App">
       <nav>
-        <NavLink to='/'>Home</NavLink>
-        <NavLink to='/login'>Login</NavLink>
-        <NavLink to='/register'>Register</NavLink>
+        <NavLink className='links' to='/'>Home</NavLink>
+        <NavLink className='links' to='/login'>Sign In</NavLink>
+        <NavLink className='links' to='/register'>Sign Up</NavLink>
       </nav>
       <section>
          <Switch>
            <Route path='/register' component={Register}/>
            <Route path='/login' component={Login} />
+           <Route path="/" render={() => {
+              return (
+                <React.Fragment>
+                <h2>Users</h2>
+                  <ol>
+                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                  </ol>
+                </React.Fragment>
+              );
+            }} />
          </Switch>
-         <ol>
-          {this.state.users.map(user => <li key={user.id}> {user.username}</li>)}
-         </ol>
        </section>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../index.css'
 
 const url = process.env.REACT_APP_API_URL
 
@@ -63,7 +64,15 @@ export default class Register extends Component {
                     value={this.state.password}
                     onChange = {this.inputHandler}
                  />
-                 <button>Submit</button>
+                <label htmlFor = 'department'> Department </label>
+                <input 
+                    type = 'text' 
+                    id='department'
+                    name='department' 
+                    value={this.state.department}
+                    onChange = {this.inputHandler}
+                 />
+                 <button className ='submitButton'>Submit</button>
                 </form>
                 {this.state.message
                     ?(<h4>{this.state.message}</h4>)

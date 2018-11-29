@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import '../index.css'
 const url = process.env.REACT_APP_API_URL
 
 const initialUser = {
     username: '',
-    password: ''
+    password: '',
+    department: '',
 }
 
 export default class Login extends Component {
@@ -64,7 +65,8 @@ export default class Login extends Component {
                     value={this.state.password}
                     onChange = {this.inputHandler}
                  />
-                 <button>Submit</button>
+        
+                 <button className ='submitButton'>Submit</button>
                 </form>
                 {this.state.message
                     ?(<h4>{this.state.message}</h4>)
