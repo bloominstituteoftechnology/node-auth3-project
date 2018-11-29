@@ -26,13 +26,15 @@ function protected(req, res, next) {
   
     if (token) {
       // is it valid
+      console.log('protected  token = ', token);
       jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
         if (err) {
           // token is invalid
-          next(new Error("invalid token"));
+          next(new Error("invalid token WHYWHY"));
           
         } else {
           // token is gooooooooooood
+          console.log('protected  token is good ');
           req.decodedToken = decodedToken;
           next();
         }
@@ -68,7 +70,7 @@ const login = (req, res, next) => {
 
                 const token = generateToken(user);
   
-                res.status(200).json({message: "Login Successful!", token})
+                res.status(200).json(token)
             }
             else{ res.status(401).json({message : "You shall not PASS !!"})}
         })
@@ -110,7 +112,7 @@ const getUsers = (req, res, next) => {
 // Register
 route.post('/register', registerUser)
 // GET USERS
-route.get('/users', protected, checkRole('CIA'), getUsers)
+route.get('/users', protected,  getUsers)
 // LOGIN
 route.post('/login', login)
 

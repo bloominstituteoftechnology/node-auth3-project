@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const url = "localhost:9000";
+const url = "http://localhost:9000";
 
 const initialUser = {
   username: '',
