@@ -14,8 +14,7 @@ server.use(cors());
 
 function generateToken(user) {
   const payload = {
-    username: user.username,
-    department: ["test", "test2"]
+    username: user.username
   };
 
   const secret = process.env.JWT_SECRET;
