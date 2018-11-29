@@ -40,7 +40,7 @@ server.get("/", (req, res) => {
   res.send("<h1>Built by Ryan Clausen</h1>");
 });
 
-server.get("/api/users",  async (req, res) => {
+server.get("/api/users", protected,  async (req, res) => {
   const users = await db("users");
   return res.status(200).json(users);
 });

@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+//import { Redirect } from "react-router-dom";
 import axios from "axios";
 const url = "http://localhost:3334";
 
 const SignIn = () => {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
-  //const [bounced, setBounced] = false;
+  const [bounced, setBounced] = useState(false);
 
   const submit = async e => {
     e.preventDefault();
+    try{
     const reply = await axios.post(`${url}/api/login`, { username, password });
-    setPassword("");
-    setUser("");
-    if (reply.data.token) {
+    if (reply.status === 200) {
       localStorage.setItem("token", reply.data.token);
       //return <Redirect to="/" />;
     } 
+}catch(err){
+        setBounced(true)
+    }
+    setPassword("");
+    setUser("");
   };
 
   return (
@@ -37,8 +41,8 @@ const SignIn = () => {
         />
         <button type="submit">Submit</button>
       </form>
-
-      {/* {bounced ? "<h3>Incorrect username or password</h3>" : ""} */}
+        
+      {bounced ? <h3>Incorrect username or password</h3> : ""}
     </div>
   );
 };
