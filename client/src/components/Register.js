@@ -27,7 +27,7 @@ export default class Register extends Component {
     event.preventDefault();
     axios.post(`${url}/api/register`, this.state.user)
       .then((res) => {
-        if(res.status === 200) {
+        if(res.status === 201) {
           this.setState({
             message: 'Registration successful!',
             user: { ...initialUser },
@@ -37,6 +37,7 @@ export default class Register extends Component {
         }
       })
       .catch((err) => {
+        console.log(err);
         this.setState({
           message: 'Registration failed.',
           user: { ...initialUser },

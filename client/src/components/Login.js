@@ -8,10 +8,9 @@ const initialUser = {
   password: '',
 };
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
     this.state = {
        user: { ...initialUser },
        message: '',
@@ -25,20 +24,18 @@ export default class Register extends Component {
 
   submitHandler = (event) => {
     event.preventDefault();
-    axios.post(`${url}/api/register`, this.state.user)
+    axios.post(`${url}/api/login`, this.state.user)
       .then((res) => {
-        if(res.status === 200) {
-          this.setState({
-            message: 'Registration successful!',
-            user: { ...initialUser },
-          });
+        if(res.status === 200 && res.data) {
+          localStorage.setItem('my_little_token', res.data.token);
+          this.props.history.push('/');
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
         this.setState({
-          message: 'Registration failed.',
+          message: 'Authentication failed.',
           user: { ...initialUser },
         });
       });

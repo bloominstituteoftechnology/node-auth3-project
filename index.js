@@ -28,7 +28,7 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
-  const token = req.headers.authorization;
+  const token = req.headers.authentication;
   if(token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if(err) {
@@ -72,7 +72,9 @@ server.post('/api/register', (req, res) => {
     .then(ids => {
       res.status(201).json(ids);
     })
-    .catch(err => json(err));
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
 
 server.get('/', (req, res) => {
