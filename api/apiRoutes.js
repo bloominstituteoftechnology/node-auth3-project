@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const { protected } = require('../middleware')
 const db = require('../data/dbConfig');
 
 const router = express();
@@ -25,18 +26,45 @@ const register = async (req, res) => {
   }
 
 }
-const generateToken = user => {
+
+function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    roles: ['sales', 'marketing']
-  }
-  const secret = proccess.env.JWT_SECRET;
+    roles: ['sales', 'marketing'], // this will come from the database
+  };
+
+  const secret = process.env.JWT_SECRET;
   const options = {
-    expiresIn: '1h'
-  }
-  return jwt.sign(payload, secret, options)
+    expiresIn: '1m',
+  };
+
+  return jwt.sign(payload, secret, options);
 }
+
+const login = (req, res) => {
+  // grab username and password from body
+  const creds = req.body;
+
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        // passwords match and user exists by that username
+        // created a session > create a token
+        // library sent cookie automatically > we send the token manually
+        const token = generateToken(user);
+        console.log('token', token)
+        res.status(200).json({ message: 'welcome!', token });
+      } else {
+        // either username is invalid or password is wrong
+        res.status(401).json({ message: 'you shall not pass!!' });
+      }
+    })
+    .catch(err => res.json(err));
+}
+/*
 const login = async (req, res) => {
   try {
     const creds = req.body
@@ -57,7 +85,7 @@ const login = async (req, res) => {
   catch(err) {
     res.status(500).json({err})
   }
-}
+}*/
 
 const getUsers = async (req, res) => {
   try {
@@ -81,8 +109,9 @@ const test = (req, res) => {
 router.get('/', (req, res) => {
   res.status(200).json({message: 'api connected'})
 })
-router.post('/login', login)
+
+router.post('/login',  login)
 router.post('/register', register)
-router.get('/users', getUsers)
+router.get('/users', protected, getUsers)
 
 module.exports = router;
