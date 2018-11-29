@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -27,6 +28,7 @@ const generateToken = user => {
 
 // middleware
 server.use(express.json());
+server.use(cors());
 
 // custom middleware
 const protected = (req, res, next) => {
@@ -63,29 +65,24 @@ server.listen(port, () => console.log(`Listening to port: ${port}`));
 
 // ====================== ENDPOINTS ======================
 // retrieve users
-server.get(
-  "/api/users",
-  protected,
-  checkRole("ministry of magic"),
-  (req, res) => {
-    const { department } = req.decodedToken;
+server.get("/api/users", protected, (req, res) => {
+  const { department } = req.decodedToken;
 
-    if (department === "admin") {
-      db("users")
-        .then(users => {
-          res.status(200).json(users);
-        })
-        .catch(err => res.status(500).json(err));
-    } else {
-      db("users")
-        .where({ department })
-        .then(users => {
-          res.status(200).json(users);
-        })
-        .catch(err => res.status(500).json(err));
-    }
+  if (department === "admin") {
+    db("users")
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => res.status(500).json(err));
+  } else {
+    db("users")
+      .where({ department })
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => res.status(500).json(err));
   }
-);
+});
 
 // register a new user
 server.post("/api/register", (req, res) => {
