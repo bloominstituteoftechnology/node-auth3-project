@@ -28,7 +28,7 @@ export default class Register extends Component {
 
         axios.post(`${url}/api/register`, this.state.user)
         .then((res) => {
-            if (res.status === 200) {
+            if (res.status === 201) {
                 this.setState({
                     message: 'Registration Successful',
                     user: { ...initialUser },
@@ -79,7 +79,7 @@ export default class Register extends Component {
             />
             <button type="submit">Submit</button>
             </form>
-            { this.state.message ? (<h4>{this.state.message}</h4>) : (<h4>Registration Failed</h4>)}
+            { this.state.message ? (<h4>{this.state.message}</h4>) : undefined}
         </div>
 
         );
