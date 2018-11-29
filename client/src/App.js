@@ -15,6 +15,7 @@ class App extends Component {
           <NavLink to='/login'>Login</NavLink>
           <NavLink to='/register'>Register</NavLink>
         </nav>
+        <h1> Welcome Please Register or Login</h1>
         <section>
           <Switch>
             <Route path='/register' component={Register} />
@@ -22,7 +23,6 @@ class App extends Component {
             <Route path='/users' component={Users} />
           </Switch>
         </section>
-        <h1> Welcome Please Register or Login</h1>
       </div>
     );
   }

@@ -54,12 +54,13 @@ router.post('/register', (req, res) => {
     db('users')
         .insert(creds)
         .then(ids => {
-            const id = ids[0];
-            res.status(201).json(ids);
+            console.log(creds);
+            res.status(201).json(creds.username);
         })
         .catch(err =>
             res.status(500).json({ message: 'unable to join' }))
 });
+
 
 // get
 

@@ -30,3 +30,16 @@
     transform: rotate(360deg);
   }
 }
+
+
+input{
+  margin: 10px;
+}
+
+nav{
+  margin: 10px 0;
+}
+
+nav a{
+  margin: 10px;
+}

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const url = process.env.REACT_APP_API_URL;
+const url = 'http://localhost:3900';
 
 const initialUser = {
-    username: '',
-    password: '',
-    department: '',
+    username: "",
+    password: "",
+    department: ""
 };
 
 class Register extends Component {
@@ -14,7 +14,7 @@ class Register extends Component {
         super(props);
         this.state = {
             user: { ...initialUser },
-            message: '',
+            message: "",
         };
     };
 
@@ -26,7 +26,7 @@ class Register extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        axios.post(`${url}/api/register`, this.setState.user)
+        axios.post(`${url}/api/register`, this.state.user)
             .then((res) => {
                 if (res.status === 201) {
                     this.setState({
@@ -48,37 +48,37 @@ class Register extends Component {
     render() {
         return (
             <div>
-                <h2>Please Register</h2>
+                <h2>Register</h2>
                 <form onSubmit={this.submitHandler}>
-                    <label htmlFor='username'>Username</label>
+                    <label htmlFor="username">Username</label>
                     <input
-                        type='text'
-                        id='username'
-                        name='username'
+                        type="text"
+                        id="username"
+                        name="username"
                         value={this.state.user.username}
                         onChange={this.inputHandler}
                     />
-                    <label htmlFor='password'>Password</label>
+                    <label htmlFor="password">Password</label>
                     <input
-                        type='text'
-                        id='password'
-                        name='password'
+                        type="text"
+                        id="password"
+                        name="password"
                         value={this.state.user.password}
                         onChange={this.inputHandler}
                     />
-                    <label htmlFor='department'>Department</label>
+                    <label htmlFor="department">Department</label>
                     <input
-                        type='text'
-                        id='department'
-                        name='department'
+                        type="text"
+                        id="department"
+                        name="department"
                         value={this.state.user.department}
                         onChange={this.inputHandler}
                     />
-                    <button type ='submit'>Submit</button>
+                    <button type='submit'>Submit</button>
                 </form>
                 {this.state.message
-                ? (<h4>{this.state.message}</h4>)
-                 : undefined   }
+                    ? (<h4>{this.state.message}</h4>)
+                    : undefined}
             </div>
         )
     }
