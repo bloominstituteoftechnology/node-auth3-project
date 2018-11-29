@@ -61,7 +61,7 @@ export default class Login extends Component {
         }
         return (
             <div>
-                <h3>Log in here!</h3>
+                <h1>Log in here!</h1>
                 <form onSubmit={this.logIn}>
 
                     <input type='text' placeholder='username' name='username' value={this.value} onChange={this.changeHandler}/>

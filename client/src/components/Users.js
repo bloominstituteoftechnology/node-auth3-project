@@ -3,7 +3,17 @@ import React, {Component} from 'react';
 class Users extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            users: null,
+        }
     }
+
+    componentWillMount() {
+        this.setState({
+            users: this.props.users
+        })
+    }
+
 
     render() { 
         if (this.props.users) {
@@ -14,7 +24,7 @@ class Users extends Component {
             )
         } else {
             return (
-                <h2>Access denied.</h2>
+                <h1>Access denied. Please log in.</h1>
             )
         }
     }

@@ -54,13 +54,11 @@ class App extends Component {
     return (
       <div className="App">
   
-          <nav>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/signup">Register</NavLink>
-          </nav>
-
-        {token ? <button onClick={() => {localStorage.removeItem('token'); window.location.reload()}}>Logout</button> : null}
+        <nav>
+          <NavLink to="/" >Home</NavLink>
+          <NavLink to="/login" >Login</NavLink>
+          <NavLink to="/signup" >Register</NavLink>
+        </nav>
   
         <Switch>
           <Route exact path='/' render={(props) => (
@@ -79,6 +77,8 @@ class App extends Component {
             )} 
           />
         </Switch>
+
+        {token ? <button onClick={() => {localStorage.removeItem('token'); window.location.reload()}}>Logout</button> : null}
 
       </div>
     )

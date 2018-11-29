@@ -55,7 +55,7 @@ class Signup extends Component {
     render() { 
         return (
             <div>
-                <h3>Sign up here!</h3>
+                <h1>Sign up here!</h1>
                 <form onSubmit={this.signUp}>
                     <input type='text' placeholder='username' name='username' value={this.value} onChange={this.changeHandler}/>
                     <input type='text' placeholder='department' name='department' value={this.value} onChange={this.changeHandler}/>
