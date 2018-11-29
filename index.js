@@ -4,7 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 
 const db = require('./database/dbConfig');
@@ -13,13 +12,42 @@ const server = express();
 
 server.use(helmet());
 server.use(express.json());
-server.use(cors());
-
-  
-
-// | GET    | /api/users    | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'. Use this endpoint to verify that the password is hashed before it is saved.       
+server.use(cors());  
 
 
+//middleware to restrict users 
+function restricted(req, res, next) {
+  const token = req.headers.authorization;
+  if(token){
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: 'invalid token'});
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'no token provided' });
+  }
+}
+
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    role: user.department
+  };
+
+  const secret = process.env.JWT_SECRET;
+  const options = {
+    expiresIn: '1m',
+  };
+
+  return jwt.sign(payload, secret, options);
+}
+
+//users can login
 server.post('/api/login', (req,res) => {
   const creds = req.body;
 
@@ -28,15 +56,14 @@ server.post('/api/login', (req,res) => {
     .first()
     .then(user => {
       if(user && bcrypt.compareSync(creds.password, user.password)){
-        const token = generateToken(user)
+        const token = generateToken(user);
         res.status(200).json({ message: 'Welcome!', token})
       } else  {
-        res.status(401.json({ message: 'you shall not pass' }))
+        res.status(401).json({ message: 'you shall not pass' })
       }
     })
     .catch( error => res.json(error))
 })
-
 
 //registers new users
 server.post('/api/register', (req, res) => {
@@ -55,7 +82,21 @@ server.post('/api/register', (req, res) => {
     .catch(error => json(error))
 })
 
-//test to se if it's live
+
+//only logged in users should see this list of users
+server.get('/api/users', restricted, (req,res) => {
+  db('users')
+    .select('id', 'username', 'password', 'department')
+    .where({ department: req.decodedToken.role })
+    .then(users => {
+      res.json(users);
+    })
+    .catch(error => res.send(error))
+})
+
+
+
+//test to see if it's live
 server.get('/', (req,res) => {
   res.send('It\'s Alive');
 })
