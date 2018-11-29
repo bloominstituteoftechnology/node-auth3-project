@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const knex = require("knex");
 const helmet = require("helmet");
+const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -13,6 +14,7 @@ const db = knex(knexConfig.development);
 
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
 server.get("/", (req, res) => res.send("Welcome!"));
 
@@ -47,7 +49,9 @@ server.post("/api/login", (req, res) => {
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json({ message: "Logged In Successful!", token });
+        res
+          .status(200)
+          .json({ message: "Logged In Successful!", token: token });
       } else {
         res.status(401).json({ message: "You shall not pass!" });
       }
