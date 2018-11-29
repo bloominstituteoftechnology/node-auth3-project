@@ -26,10 +26,10 @@ export default class Signin extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post(`${url}/api/login`, this.state.user)
+			.post(`http://localhost:9000/api/login`, this.state.user)
 			.then((res) => {
 				if (res.status === 201 && res.data) {
-					localStorage.setItem('this_is_weird_secret_thingy', res.data);
+					localStorage.setItem('my_random_token_name', res.data);
 					this.props.history.push('/');
 				} else {
 					throw new Error();
@@ -52,14 +52,6 @@ export default class Signin extends Component {
 						id="username"
 						name="username"
 						value={this.state.user.username}
-						onChange={this.changeHandler}
-					/>
-					<label htmlFor="department">Department</label>
-					<input
-						type="text"
-						id="department"
-						name="department"
-						value={this.state.user.department}
 						onChange={this.changeHandler}
 					/>
 					<label htmlFor="password">Password</label>

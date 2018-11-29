@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const url = process.env.REACT_APP_API_URL;
-
 const initialUser = {
 	username: '',
 	password: '',
@@ -26,7 +24,7 @@ export default class Signup extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		axios
-			.post(`${url}/api/register`, this.state.user)
+			.post(`http://localhost:9000/api/register`, this.state.user)
 			.then((res) => {
 				if (res.status === 201) {
 					this.setState({

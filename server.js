@@ -11,7 +11,7 @@ server.use(express.json());
 server.use(cors());
 
 // creating a token that sends payload of information to keep in the client
-function generateToken(user) {
+const generateToken = (user) => {
 	const payload = {
 		// ...user,
 		userId: user.id,
@@ -23,7 +23,7 @@ function generateToken(user) {
 		expiresIn: '1h'
 	};
 	return jwt.sign(payload, secret, options);
-}
+};
 
 server.post('/api/login', (req, res) => {
 	// grab username and password from body
@@ -48,7 +48,7 @@ server.post('/api/login', (req, res) => {
 		.catch((err) => res.json(err));
 });
 
-function protected(req, res, next) {
+const protected = (req, res, next) => {
 	// token is normally sent in the authorization header
 	const token = req.headers.authorization;
 
@@ -69,7 +69,7 @@ function protected(req, res, next) {
 		// bounce
 		res.status(401).json({ message: 'no token provided' });
 	}
-}
+};
 
 // protect this route, only authenticated users should see it
 server.get('/api/me', protected, (req, res) => {
@@ -107,7 +107,7 @@ server.post('/api/register', (req, res) => {
 	// grab username and password from body
 	const creds = req.body;
 	// generate the hash from the user's password
-	const hash = bcrypt.hashSync(creds.password, 4); // rounds is 2^X
+	const hash = bcrypt.hashSync(creds.password, 14); // rounds is 2^X
 	// override the user.password with the hash
 	creds.password = hash;
 	// save the user to the database

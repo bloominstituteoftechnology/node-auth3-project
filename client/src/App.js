@@ -18,7 +18,7 @@ class App extends Component {
 	}
 
 	authenticate = () => {
-		const token = localStorage.getItem('secret_bitcoin_token');
+		const token = localStorage.getItem('my_random_token_name');
 		const options = {
 			headers: {
 				authentication: token
