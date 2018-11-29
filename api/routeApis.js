@@ -4,14 +4,6 @@ const db = require('../database/dbConfig')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
-// const protected = (req, res, next)=> {
-//     if(req.session && req.session.userID){
-//         next();
-//     } else{
-//         res.status(401).json({message : "Log in required"})
-//     }
-// }
-
 function generateToken(user) {
     const payload = {
       subject: user.id,
@@ -78,10 +70,10 @@ const login = (req, res, next) => {
   
                 res.status(200).json({message: "Login Successful!", token})
             }
-            else{res.status(401).json({message : "You shall not PASS !!"})}
+            else{ res.status(401).json({message : "You shall not PASS !!"})}
         })
         
-        .catch(()=>next(new Error("could not login")));
+        .catch( () =>   next(new Error("could not login")));
     }
 
 // register a new user
@@ -89,10 +81,10 @@ const login = (req, res, next) => {
 const registerUser = (req, res, next) => {
     
     const newUser = req.body;
-    const hash = bcrypt.hashSync(newUser.password, process.env.HASH_COUNT);
+    const hash = bcrypt.hashSync(newUser.password, 4);
 
     newUser.password = hash;
-
+console.log('registerUser newUser = ', newUser);
     db('users')
         .insert(newUser)
         .then(ids =>{res.status(200).json(ids)})
@@ -112,9 +104,7 @@ const getUsers = (req, res, next) => {
 
 
 
-route.get('/', (req, res) => {
-    res.send("route is RUNNING !");
-})
+
 
 
 // Register
@@ -124,7 +114,10 @@ route.get('/users', protected, checkRole('CIA'), getUsers)
 // LOGIN
 route.post('/login', login)
 
-
+// check server
+route.get('/', (req, res) => {
+    res.send("route is RUNNING !");
+})
 
 
 

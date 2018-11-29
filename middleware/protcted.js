@@ -1,4 +1,4 @@
-const protected = (req, res, next)=> {
+module.exports = (req, res, next)=> {
     if(req.session && req.session.userID){
         next();
     } else{
@@ -6,4 +6,4 @@ const protected = (req, res, next)=> {
     }
 }
 
-module.exports = protected;
+
