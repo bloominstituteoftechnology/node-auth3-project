@@ -7,8 +7,10 @@ class Register extends Component {
   }
   register = async (creds) => {
     try {
-      const userId = await axios.post(process.env.API_REACT_HOST + '/api/register', creds)
-      await this.setState({ userId })
+      const userId = await axios.post(process.env.REACT_APP_API_URL + '/api/register', creds)
+      if (userId) {
+        await this.setState({ hasRegistered: true })
+      }
       console.log('register', userId)
     } catch(err) {
       console.log(err)

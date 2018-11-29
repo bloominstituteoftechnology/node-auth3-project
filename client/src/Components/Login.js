@@ -8,10 +8,9 @@ class Login extends Component {
   login = async (creds) => {
     try {
 
-      const login = await axios.post(process.env.API_REACT_HOST + '/api/login', creds)
+      const login = await axios.post(process.env.REACT_APP_API_URL + '/api/login', creds)
       console.log('login', login)
       window.localStorage.setItem('react_auth_token', login.data.token);
-      await this.setState({ loggedIn: true })
     } catch(err) {
       console.log(err)
     }

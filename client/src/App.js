@@ -7,9 +7,7 @@ import './App.css';
 
 const port = 5000
 
-export const proccess = { env: {
-  host: ('http://localhost:' + port)
-}}
+export const hostServer = 'http://localhost:' + port
 
 class App extends Component {
   constructor(props) {
@@ -20,20 +18,19 @@ class App extends Component {
     }
   }
 
-
   componentDidMount() {
     this.getUsers();
   }
+
   register = async (creds) => {
     try {
-      const userId = await axios.post(process.env.API_REACT_HOST + '/api/register', creds)
+      const userId = await axios.post(process.env.REACT_APP_API_URL + '/api/register', creds)
       await this.setState({ userId })
       console.log('register', userId)
     } catch(err) {
       console.log(err)
     }
   }
-
 
   getUsers = async () => {
     try {
@@ -43,22 +40,26 @@ class App extends Component {
           Authentication: token,
         },
       };
-      const users = await axios.get(process.env.API_REACT_HOST + '/api/users', options)
+      console.log(options)
+      const users = await axios.get(process.env.REACT_APP_API_URL + '/api/users', options)
       console.log('getUsers', users)
       await this.setState({ users: users.data })
     } catch(err) {
       console.log(err)
     }
   }  
+
   logOut = async () => {
     try {
-      const loggedOut = await axios.post(process.env.API_REACT_HOST + '/api/logout')
+      window.localStorage.removeItem('react_auth_token')
+      const loggedOut = await axios.post(process.env.REACT_APP_API_URL + '/api/logout')
       console.log('getUsers', loggedOut)
       await this.setState({ loggedIn: false })
     } catch(err) {
       console.log(err)
     }
   }
+
   render() {
     return (
       <div className="App" style={styles.App}>
@@ -75,7 +76,8 @@ class App extends Component {
           <Route path='/' render={() => {
             return (
               <React.Fragment>
-                <h2>Users</h2>       
+                <h2>Users</h2>  
+                <button onClick={()=>this.getUsers()}>get users</button>
                 <ol>
                   {this.state.users.map(user => <User {...{
                     key: user.id, 
@@ -113,7 +115,7 @@ const User = (props) => {
 
 const styles = {
   App: {
-    display: 'flex'
+    // display: 'flex'
   },
   loginBar: {
     height: 'auto',
