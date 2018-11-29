@@ -1,3 +1,92 @@
+const express = require('express');
+const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv').config();
+const cors = require('cors');
+const db = require('knex')(require('./knexfile').development);
+
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 8000;
+const secret = process.env.SECRET || 'secretWithSevenSssssss';
+
+const server = express();
+server.use(express.json());
+server.use(morgan('dev'));
+server.use(cors());
+
+function authenticate(req, res, next) {
+  const { authentication: token } = req.headers;
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      res.status(401).json({ message: 'Authentication failed.'});
+    } else {
+      req.locals = { authorization: decoded };
+      next();
+    }
+  });
+}
+
+server.use('/api/restricted/', authenticate);
+
+server.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
+  bcrypt
+    .hash(password, 12)
+    .then(hash => db('users').insert({ username, hash }))
+    .then((id) => {
+      res.status(200).json(username);
+    })
+    .catch((err) => {
+      console.log('An error occurred', err);
+      res.status(400).json({ message: 'We were unable to register this user successfully' });
+    });
+});
+
+server.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  db('users')
+    .select('hash')
+    .where('username', '=', username)
+    .first()
+    .then(({ hash }) => {
+      return bcrypt.compare(password, hash)
+    })
+    .then((verdict) => {
+      if (verdict) {
+        const token = jwt.sign({ username }, secret, { expiresIn: '24h' });
+        res.status(200).json(token);
+      } else {
+        res.status(406).json({ message: 'System could not log user in.' });
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred', err);
+      res.status(400).json({ message: 'An error occurred when attempting log-in.' });
+    });
+});
+
+server.get('/api/restricted/authenticate', (req, res) => {
+  if (req.locals.authorization) {
+    res.status(200).json(req.locals.authorization);
+  }
+});
+
+server.get('/api/restricted/users', (req, res) => {
+  db('users')
+    .select('username', 'id')
+    .then((usernames) => {
+      return res.status(200).json(usernames);
+    })
+    .catch((err) => {
+      console.log(`Error: ${err}`);
+      return res.status(500).json({ message: 'Could not obtain requested data' });
+    });
+});
+
+server.listen(8000, () => console.log('\nrunning on port 8000\n'));
+
+/*
 const dotenv = require('dotenv').config();
 
 const express = require('express');
@@ -16,67 +105,57 @@ const host = process.env.HOST || 'localhost';
 
 
 //________ FUNCTIONS / MIDDLEWARE_______
-
-function generateToken(user) {
-    const payload = {
-      subject: user.id,
-      username: user.username,
-      department: user.department,
-    };
-
-const secret = process.env.JWT_SECRET;
-const options = {
-    expiresIn: '1m',
-  };
-  return jwt.sign(payload, secret, options);
+function authenticate(req, res, next) {
+  const { authentication: token } = req.headers;
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      res.status(401).json({ message: 'Authentication failed.'});
+    } else {
+      req.locals = { authorization: decoded };
+      next();
+    }
+  });
 }
 
-function protected(req, res, next) {
-    // token is normally sent in the the Authorization header
-    const token = req.headers.authorization;
-
-  
-    if (token) {
-      // is it valid
-      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-        if (err) {
-          // token is invalid
-          res.status(401).json({ message: 'invalid token' });
-        } else {
-          // token is gooooooooooood
-          req.decodedToken = decodedToken;
-          next();
-        }
-      });
-    } else {
-      // bounced
-      res.status(401).json({ message: 'not token provided' });
-    }
-  }
+server.use('/api/restricted/', authenticate);
 
   ///________________ POST ________________
-  server.post('/api/login', (req, res) => {
-    const creds = req.body;
-  
+  server.post('/api/restricted/login', (req, res) => {
+    const { username, password } = req.body;
     db('users')
-      .where({ username: creds.username })
+      .select('hash')
+      .where('username', '=', username)
       .first()
-      .then(user => {
-        if (user && bcrypt.compareSync(creds.password, user.password)) {
-          // created a session > create a token
-          // library sent cookie automatically > we send the token manually
-          const token = generateToken(user);
-          res.status(200).json({ message: 'welcome!', token, });
+      .then(({ hash }) => {
+        return bcrypt.compare(password, hash)
+      })
+      .then((verdict) => {
+        if (verdict) {
+          const token = jwt.sign({ username }, secret, { expiresIn: '24h' });
+          res.status(200).json(token);
         } else {
-          // either username is invalid or password is wrong
-          res.status(401).json({ message: 'you shall not pass!!' });
+          res.status(406).json({ message: 'System could not log user in.' });
         }
       })
-      .catch(err => res.json(err));
+      .catch((err) => {
+        console.log('An error occurred', err);
+        res.status(400).json({ message: 'An error occurred when attempting log-in.' });
+      });
   });
- 
-server.post('/api/register', (req, res) => {
-    // grab username and password from body
+server.post('/api/restricted/register', (req, res) => {
+  const { username, password } = req.body;
+  bcrypt
+    .hash(password, 12)
+    .then(hash => db('users').insert({ username, hash }))
+    .then((id) => {
+      res.status(200).json(username);
+    })
+    .catch((err) => {
+      console.log('An error occurred', err);
+      res.status(400).json({ message: 'We were unable to register this user successfully' });
+    });
+});
+    / grab username and password from body
     const creds = req.body;
   
     // generate the hash from the user's password
@@ -89,11 +168,10 @@ server.post('/api/register', (req, res) => {
     db('users')
       .insert(creds)
       .then(ids => {
-        res.status(201).json(ids);
+        res.status(200).json(ids);
       })
       .catch(err => json(err));
   });
-
   /// ********** PROTECTED ************
   //______________ GET users________________
   server.get('/api/users', protected, (req, res) => {
@@ -104,5 +182,4 @@ server.post('/api/register', (req, res) => {
       })
       .catch(err => res.send(err));
   });
-
-  server.listen(8000, () => console.log('\nrunning on port 8000\n'));
+  */

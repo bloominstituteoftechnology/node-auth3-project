@@ -26,13 +26,15 @@ authenticate = () => {
     },
   };
   if (token) {
-    axios.get(`${url}/api/users`, options)
+    axios.get(`${url}/api/restricted/users`, options)
     //url environmental variable
       .then((res) => {
         if (res.status === 200 && res.data) {
           this.setState({ loggedIn: true, users: res.data });
         }
+        
         else {
+          console.log('hi')
           throw new Error();
         }
       })

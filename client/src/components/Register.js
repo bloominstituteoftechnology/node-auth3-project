@@ -7,6 +7,7 @@ const url = process.env.REACT_APP_API_URL;
 const initialUser = {
   username: '',
   password: '',
+  department:'',
 };
 
 export default class Register extends Component {
@@ -58,6 +59,7 @@ render() {
             value={this.state.user.username}
             onChange={this.inputHandler}
           />
+          <label htmlFor="department">Department</label>
             <input
             type="text"
             id="department"
@@ -73,6 +75,7 @@ render() {
             value={this.state.user.password}
             onChange={this.inputHandler}
           />
+           <button type="submit">Submit</button>
             </form>
         { this.state.message
           ? (<h4>{this.state.message}</h4>)

@@ -70,6 +70,7 @@ render() {
             value={this.state.user.password}
             onChange={this.inputHandler}
           />
+           <button type="submit">Submit</button>
             </form>
         { this.state.message
           ? (<h4>{this.state.message}</h4>)
