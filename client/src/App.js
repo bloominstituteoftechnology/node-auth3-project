@@ -10,14 +10,30 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      loggedIn: false
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:9000/api/users").then(res => {
-      this.setState({ users: res.data });
-    });
+    this.authenticate();
   }
+  authenticate = () => {
+    const token = localStorage.getItem("token");
+    const options = {
+      headers: {
+        authentication: token
+      }
+    };
+    if (token) {
+      axios.get("http://localhost:9000/api/users", options).then(res => {
+        if (res.status === 200 && res.data) {
+          this.setState({ loggedIn: true, users: res.data });
+        }
+      });
+    } else {
+      this.props.history.push("/sign-in");
+    }
+  };
   getUsers = () => {
     axios.get("http://localhost:9000/api/users").then(res => {
       this.setState({ users: res.data });
@@ -43,4 +59,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
