@@ -20,7 +20,7 @@ function generateToken(user) {
         roles: 'user'
     };
     const jwtOptions = {
-        expiresIn: '1m',
+        expiresIn: '10m',
     }
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
 };

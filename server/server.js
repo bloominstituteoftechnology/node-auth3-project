@@ -12,7 +12,7 @@ server.use(morgan('dev'));
 
 server.get('/', (req, res) => {
     res.json("it's alive!")
-}); 
+});
 
 
 module.exports = server;

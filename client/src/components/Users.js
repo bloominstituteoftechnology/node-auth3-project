@@ -54,17 +54,22 @@ class Users extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-       localStorage.removeItem('secret_bit_token')
-       this.props.history.push('/login')
+        localStorage.removeItem('secret_bit_token')
+        this.props.history.push('/login')
     };
 
     render() {
         return (
             <div>
-                <button onClick= {this.submitHandler}>Sign Out</button>
+                <button onClick={this.submitHandler}>Sign Out</button>
                 <h1>Users</h1>
                 <ol>
-                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                    <li>User | Department</li>
+                    {this.state.users.map(user =>
+                        <li key={user.id}>
+                            {user.username}
+                            {user.department}
+                        </li>)}
                 </ol>
             </div>
         )
