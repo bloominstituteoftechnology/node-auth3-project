@@ -29,6 +29,7 @@ class Login extends Component {
             if(res.status === 200) {
                 localStorage.setItem(keyName, res.data.token)
                 this.setState({mesage: res.data.message, user: { ...initialUser }})
+                this.props.history.push('/users')
             } else {
                 throw new Error()
             }

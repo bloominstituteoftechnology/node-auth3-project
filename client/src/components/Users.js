@@ -28,7 +28,6 @@ class Users extends Component {
             };
             axios.get(`${url}/api/users`, options)
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     this.setState({isLoggedIn: true, users: res.data.users});
                 } else {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, NavLink } from 'react-router-dom';
 
 import Login from './components/Login';
 import Users from './components/Users';
@@ -24,12 +24,15 @@ class App extends Component {
           >
             Learn React
           </a>
-          <div> 
-
-          </div>
+          <nav>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/users">Users</NavLink>
+            <NavLink to="/login">Login</NavLink>
+            {/* <NavLink to="/register">Register</NavLink> */}
+          </nav>
           <Switch>
             <Route path="/users" component={Users} />
-            <Route path="/login" component={Login} />
+            <Route path="/login" render={props => <Login {...props} />}/>
             {/* <Route path="/register" component={} /> */}
           </Switch>
         </header>
