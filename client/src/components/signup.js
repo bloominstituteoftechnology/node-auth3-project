@@ -17,9 +17,14 @@ class SignUp extends Component {
 
     registration = (ev) => {
         ev.preventDefault();
-        axios
+        return axios
         .post('http://localhost:9000/api/register', this.state.userInfo)
-        .then(id => console.log(id))
+        .then((res) => {
+            if(res.status === 201 && res.data) {
+                window.location = "/users"
+                localStorage.setItem('user-token', res.data);
+            }
+        })
         .catch(err => console.log(err))
     }
 
@@ -39,7 +44,9 @@ class SignUp extends Component {
                     <input type='text' placeholder='Username' name='username' onChange={this.inputChangeHandler}/>
                     <input type='text' placeholder='Password' name='password' onChange={this.inputChangeHandler}/>
                     <input type='text' placeholder='Department' name='department' onChange={this.inputChangeHandler}/>
-                    <button onClick={this.registration}>Register</button>
+                    <NavLink to=''>
+                        <button onClick={this.registration}>Register</button>
+                    </NavLink>
                 </form>
             </div>
         )
