@@ -14,8 +14,8 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        departments: ['sales', 'development']
-    }
+        department: user.department,
+        }
     const secret = process.env.JWT_SECRET;
     const options = {
         expiresIn: '1h'
@@ -40,15 +40,15 @@ function protected(req, res, next) {
     }
 }
 
-function checkDepartment(department) {
-    return function(req, res, next) {
-        if (req.decodedToken && req.decodedToken.departments.includes(department)){
-            next
-        } else {
-            res.status(403).json({ message: 'access denied' })
-        }
-    }
-}
+// function checkDepartment(department) {
+//     return function(req, res, next) {
+//         if (req.decodedToken && req.decodedToken.departments.includes(department)){
+//             next
+//         } else {
+//             res.status(403).json({ message: 'access denied' })
+//         }
+//     }
+// }
 
 //Check server
 
@@ -56,9 +56,9 @@ server.get('/', (req, res) => {
     res.send('server is running');
 })
 
-//List of users only accessed by employees in development
+//List of users
 
-server.get('/api/users', protected, checkDepartment('development'), (req, res) => {
+server.get('/api/users', protected, (req, res) => {
     db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -76,7 +76,7 @@ server.post('/api/register', (req, res) => {
     db('users')
     .insert(creds)
     .then(ids => {
-        res.status(201).json(ids);
+        res.status(200).json(ids);
     })
     .catch(err => res.status(500).json(ids))
 })
