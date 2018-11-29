@@ -10,7 +10,7 @@ class App extends Component {
       <div className="App">
         <section>
           <Switch>
-            <Route path="/register" Component={Register}></Route>
+            <Route path="/Register" component={Register} />
           </Switch>
         </section>
       </div>

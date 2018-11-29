@@ -11,6 +11,7 @@ const initialUser = {
 export default class Register extends Component {
     constructor(props) {
         super(props);
+        console.log("another test")
         this.state = {
             user: { ...initialUser },
             message: '',
