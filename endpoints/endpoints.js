@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcrypjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const db = require('../database/dbConfig.js');
@@ -17,7 +17,7 @@ function generateToken(user) {
     const jwtPayload = {
         subject: user.id,
         hello: 'fsw14',
-        roles: ['admin', 'root']
+        roles: 'user'
     };
     const jwtOptions = {
         expiresIn: '1m',
