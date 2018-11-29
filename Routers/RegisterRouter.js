@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const db = require("../database/dbconfig");
 
 const router = express.Router();
+router.use(express.json());
 
 router.post("/", (req, res) => {
   //get username and password from body

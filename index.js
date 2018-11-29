@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const server = express();
+const logger = require("morgan");
 
 const UserRouter = require("./Routers/UserRouter");
 const LoginRouter = require("./Routers/LoginRouter");
@@ -12,6 +13,7 @@ const RegisterRouter = require("./Routers/RegisterRouter");
 server.use(express.json());
 server.use(helmet());
 server.use(cors());
+server.use(logger("dev"));
 server.use("/api/users", UserRouter); //make sure the routes are always last in the list
 server.use("/api/login", LoginRouter);
 server.use("/api/register", RegisterRouter);
