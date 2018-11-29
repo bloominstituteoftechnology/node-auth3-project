@@ -48,6 +48,7 @@ export default class Register extends Component {
     render() {
         return (
             <div>
+                <h1> Sign Up </h1>
                 <form onSubmit={this.submitHandler}>
                 <label htmlFor = 'username'> Username </label>
                 <input 

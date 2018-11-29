@@ -39,12 +39,17 @@ class App extends Component {
         }
       })
       .catch((err) => {
-        this.props.history.push('/login');
+        this.props.history.push('/signin');
       })
     } else {
-      this.props.history.push('/login');
+      this.props.history.push('/signin');
     }
   } 
+
+  //  logoutHandler() {
+  //   localStorage.removeItem('secret_bitcoin_token')
+    
+  // }
 
   componentDidMount() {
     this.authenticate();
@@ -57,14 +62,21 @@ class App extends Component {
     }
     
   }
+  
 
   render() {
+  const logout = () => {
+      localStorage.removeItem('secret_bitcoin_token');
+      this.props.history.push('/signin');
+    }
+
     return (
       <div className="App">
       <nav>
         <NavLink className='links' to='/'>Home</NavLink>
         <NavLink className='links' to='/signin'>Sign In</NavLink>
         <NavLink className='links' to='/signup'>Sign Up</NavLink>
+        <NavLink className='links' to='/' onClick={logout}>Log Out</NavLink>
       </nav>
       <section>
          <Switch>
@@ -77,6 +89,7 @@ class App extends Component {
                   <ol>
                     {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
                   </ol>
+                  
                 </React.Fragment>
               );
             }} />
