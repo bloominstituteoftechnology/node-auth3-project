@@ -1,15 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
-import { withRouter, Switch, Route, NavLink } from "react-router-dom";
-
-import Users from "./components/Users";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import "./App.css";
 
 const url = process.env.REACT_APP_API_URL;
 
-class App extends Component {
+export default class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,24 +42,28 @@ class App extends Component {
     this.authenticate();
   }
 
+  logout = event => {
+    event.preventDefault();
+    localStorage.removeItem("tolkien_token");
+    window.location.reload();
+  };
+
   render() {
     return (
-      <div className="App">
-        <nav>
-          <NavLink to="/users">Users</NavLink>
-          <NavLink to="/signin">Login</NavLink>
-          <NavLink to="/signup">Register</NavLink>
-        </nav>
-        <section>
-          <Switch>
-            <Route path="/signup" component={Register} />
-            <Route path="/signin" component={Login} />
-            <Route path="/users" component={Users} />
-          </Switch>
-        </section>
-      </div>
+      <React.Fragment>
+        {this.state.loggedIn ? (
+          <button onClick={this.logout}>Logout</button>
+        ) : (
+          undefined
+        )}
+
+        <h2>User</h2>
+        <ol>
+          {this.state.users.map(user => (
+            <li key={user.id}>{user.username}</li>
+          ))}
+        </ol>
+      </React.Fragment>
     );
   }
 }
-
-export default withRouter(App);

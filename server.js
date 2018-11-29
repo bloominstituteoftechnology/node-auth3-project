@@ -71,8 +71,9 @@ server.post("/api/register", (req, res) => {
     //save to db
     db("users")
       .insert(user)
-      .then(id => {
-        res.status(201).json(id);
+      .then(user => {
+        const token = generateToken(user);
+        res.status(201).json({ message: "Registration successful!", token });
       })
       .catch(err =>
         res
@@ -119,7 +120,7 @@ server.get("/api/users", restricted, (req, res) => {
   db("users")
     //following line completes stretch goal but can be taken out for testing MVP
     //will only return a list of users with the same department as the logged-in user's department(read on decoded token)
-    .where({ department: req.decodedToken.department })
+    // .where({ department: req.decodedToken.department })
     .select("id", "username") //never pull password in production, but this is just to verify it was saved as hash
     .then(users => {
       res.status(200).json(users);

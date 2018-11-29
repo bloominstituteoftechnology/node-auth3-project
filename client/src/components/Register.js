@@ -25,14 +25,14 @@ export default class Register extends React.Component {
 
   submitHandler = event => {
     event.preventDefault();
+
     axios
       .post(`${url}/api/register`, this.state.user)
       .then(res => {
-        if (res.status === 201) {
-          this.setState({
-            message: "Registration successful!",
-            user: { ...initialUser }
-          });
+        if (res.status === 201 && res.data) {
+          localStorage.setItem("tolkien_token", res.data.token);
+
+          this.props.history.push("/users");
         } else {
           throw new Error();
         }
