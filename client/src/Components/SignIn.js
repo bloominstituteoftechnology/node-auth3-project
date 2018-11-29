@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-flow: column nowrap;
   width: 100%;
   align-items: center;
-  height: 100vh;
+  height: 50vh;
   justify-content: center;
 
   form {
