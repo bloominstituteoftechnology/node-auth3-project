@@ -55,14 +55,43 @@ server.post('/api/login', (req, res) => {
         .catch(error => res.json({error}))
 })
 
-server.get('/api/users', (req, res)=> {
+
+const protected = (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (error, decodedToken) => {
+            if (error) {
+                res.status(401).json({ message: 'invalid token' });
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        });
+    } else {
+        res.status(401).json({ message: 'no token provided' });
+    }
+}
+
+
+const checkDepartment = (department) => {
+    return function (req, res, next) {
+        if (req.decodedToken && req.decodedToken.department.includes(department)) {
+            next();
+        } else {
+            res.status(403).json({ message: 'you cannot access this resource' });
+        }
+    }
+}
+
+server.get('/api/users', protected, checkDepartment('FSW14'), (req, res) => {
     db('users')
         .select('id', 'username', 'password', 'department')
         .then(users => {
             res.json(users);
         })
-        .catch(error => res.send(error))
-})
+        .catch(error => res.send(error));
+});
 
 const port = 8000;
 server.listen(port, () => console.log(`running on port: ${port}`));
