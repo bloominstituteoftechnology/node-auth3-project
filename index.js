@@ -12,6 +12,9 @@ server.use(express.json());
 server.use(morgan('dev'));
 server.use(cors());
 
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 8000;
+
 //________ FUNCTIONS / MIDDLEWARE_______
 
 function generateToken(user) {
@@ -102,4 +105,7 @@ server.post('/api/register', (req, res) => {
       .catch(err => res.send(err));
   });
 
-  server.listen(5300, () => console.log('\nrunning on port 5300\n'));
+  server.listen(port, () => {
+    console.log(`Listening on ${port}`);
+  });
+  

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+//environmental variable
+const url = process.env.REACT_APP_API_URL;
 
 export default class Register extends Component {
     constructor(props) {
@@ -10,6 +12,34 @@ export default class Register extends Component {
         message: '',
       };
     }
+
+inputHandler = (event) => {
+    const { name, value } = event.target;
+    this.setState({ user: { ...this.state.user, [name]: value } });
+      } //user :{copying whatever is in user, replacing the property we are sent}
+
+submitHandler = (event) => {
+    event.preventDefault();
+    //using environmental variables 
+    axios.post(`${url}/api/register`, this.state.user)
+    .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            message: 'Registration successful',
+            user: { ...initialUser },
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          message: 'Registration failed.',
+          user: { ...initialUser },
+        });
+      });
+  }
+
 
 render() {
     return (
