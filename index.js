@@ -37,13 +37,16 @@ server.post('/api/login', (req,res) => {
     .catch( error => res.json(error))
 })
 
+
+//registers new users
 server.post('/api/register', (req, res) => {
+  //gets username and password
   const creds = req.body;
-
-  const hash = bcrypt.hashSync(creds.password, 4);
-
+//generates the hash
+  const hash = bcrypt.hashSync(creds.password, 14);
+//overwrite the password with the hash
   creds.password = hash;
-
+//save user to DB
   db('users')
     .insert(creds)
     .then(ids => {
@@ -51,3 +54,11 @@ server.post('/api/register', (req, res) => {
     })
     .catch(error => json(error))
 })
+
+//test to se if it's live
+server.get('/', (req,res) => {
+  res.send('It\'s Alive');
+})
+
+const port = 7000;
+server.listen(port, () => console.log(`server is running on port ${port}`));
