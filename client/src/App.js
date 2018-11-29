@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './App.css';
+
+import logo from './logo.png';
 
 import Register from './components/Register.js';
 import Login from './components/Login.js';
@@ -10,7 +12,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>My App</header>
+        <header>
+          <div className="content-container">
+            <img src={logo} />
+            <nav className="nav-bar">
+              <Link to='/register'>Register</Link>
+              <Link to='/login'>Login</Link>
+              <Link to='/users'>Users</Link>
+            </nav>
+          </div>
+        </header>
         <section>
           <Switch>
             <Route path='/register' component={Register} />

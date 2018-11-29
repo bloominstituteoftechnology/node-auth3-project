@@ -95,7 +95,6 @@ router.get('/checkUsername/:username', (req, res) => {
     db('users')
         .where({ username: req.params.username})
         .then(user => {
-            console.log(user);
             if(user.length) {
                 res.status(200).json({message: 'anything'});
             } else {
