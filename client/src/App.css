@@ -19,6 +19,7 @@ h1 {
 
 h2 {
   font-size: 2.6rem;
+  line-height: 1.5;
 }
 
 h3 {
@@ -34,7 +35,7 @@ h3 {
 h4 {
   color: #76323F;
   font-size: 2rem;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 p {
@@ -45,4 +46,8 @@ p {
 a {
   color: #062F4F;
   font-size: inherit;
+}
+
+.welcome a, .users a {
+  color: #76323F;
 }

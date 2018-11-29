@@ -105,7 +105,7 @@ class Login extends React.Component {
         />
         <StyledLabel htmlFor='password'>Password</StyledLabel>
         <StyledInput
-          type='text'
+          type='password'
           id='password'
           name='password'
           value={this.state.user.password}

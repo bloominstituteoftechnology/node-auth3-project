@@ -98,7 +98,7 @@ class Register extends React.Component {
     }
     return (
       <div>
-      <h3>Please provide the information below to set up your account</h3>
+      <h3>Register</h3>
       <StyledForm onSubmit={this.submitHandler}>
         <StyledLabel htmlFor='username'>Username</StyledLabel>
         <StyledInput
@@ -110,7 +110,7 @@ class Register extends React.Component {
         />
         <StyledLabel htmlFor='password'>Password</StyledLabel>
         <StyledInput
-          type='text'
+          type='password'
           id='password'
           name='password'
           value={this.state.user.password}

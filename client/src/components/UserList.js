@@ -44,7 +44,7 @@ class UserList extends React.Component {
   }
   render() {
     if (!this.state.isLoggedIn) {
-      return (<React.Fragment><h3>It looks like you're not signed in. </h3><h3> Please <Link to='/signin'>Login</Link> or <Link to='/signup'>Register</Link></h3></React.Fragment>)
+      return (<div className='users'><h2>It looks like you're not signed in. </h2><h2> Please <Link to='/signin'>Login</Link> or <Link to='/signup'>Register</Link></h2></div>)
     }
     return (
     <div className='users'>
