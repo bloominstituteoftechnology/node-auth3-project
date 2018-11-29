@@ -5,6 +5,7 @@ import axios from "axios";
 import { withRouter, Switch, Route } from "react-router-dom";
 import Users from "./components/Users";
 import Signup from "./components/Signup";
+import Signin from "./components/Signin";
 
 class App extends Component {
   constructor() {
@@ -52,6 +53,11 @@ class App extends Component {
             exact
             path="/sign-up"
             render={props => <Signup {...props} getUsers={this.getUsers} />}
+          />
+          <Route
+            exact
+            path="/sign-in"
+            render={props => <Signin {...props} getUsers={this.getUsers} />}
           />
         </Switch>
       </div>
