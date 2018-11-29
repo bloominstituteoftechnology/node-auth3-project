@@ -3,6 +3,7 @@ import './App.css';
 import {Switch, Route, NavLink, withRouter} from 'react-router-dom'
 import Signup from './components/Signup';
 import Signin from './components/Signin';
+import Users from './components/Users';
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
           <Switch>
               <Route path='/signup' component={Signup} />
               <Route path='/signin' component={Signin} />
+              <Route paht='/users' component={Users} />
           </Switch>
         </section>
       </div>

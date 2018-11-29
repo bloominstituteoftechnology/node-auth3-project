@@ -26,6 +26,8 @@ export default class Signin extends Component {
         event.preventDefault();
         axios.post(`${url}/api/login`, this.state.user)
             .then(res => {
+                console.log(res.data)
+                console.log(this.state.user)
                 if(res.status === 200 && res.data) {
                     localStorage.setItem('my_token', res.data)
                     this.props.history.push('/users')

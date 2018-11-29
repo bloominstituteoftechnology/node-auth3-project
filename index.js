@@ -58,7 +58,7 @@ server.post('/api/login', (req, res) => {
             if(user && bcrypt.compareSync(creds.password, user.password)) {
                 // password match and user exist by the username
                 const token = generateToken(user);
-                res.status(200).json({message: 'welcome', token});
+                res.status(200).json(token);
             } else {
                 // either username is invalid or password is wrong
                 res.status(401).json({message:'You shall not pass!'})
