@@ -30,7 +30,7 @@ class Signup extends Component {
         if (!username || !department || !password) {
             alert("Please enter a username, department, and password");
         } else {
-            axios.post('http://localhost:9000/api/register', this.state.user)
+            axios.post('https://authpractice.herokuapp.com/api/register', this.state.user)
                 .then(res => {
                     if (res.status === 201) {
                         this.setState({

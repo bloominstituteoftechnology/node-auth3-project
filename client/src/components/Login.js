@@ -30,7 +30,7 @@ export default class Login extends Component {
         if (!username || !password) {
             alert("Please enter a username and password");
         } else {
-            axios.post('http://localhost:9000/api/login', this.state.user)
+            axios.post('https://authpractice.herokuapp.com/api/login', this.state.user)
                 .then(res => {
                     if (res.status === 200 && res.data) {
                         localStorage.setItem('token', res.data.token);
