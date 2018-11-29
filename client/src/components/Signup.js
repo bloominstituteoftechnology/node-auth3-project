@@ -74,6 +74,10 @@ export default class Signup extends Component {
                     />
                     <button type='submit'>Submit</button>
                 </form>
+                {this.state.message
+                    ?(<h4>{this.state.message}</h4>)
+                    : undefined
+                }
             </div>
         )
     }
