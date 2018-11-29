@@ -1,14 +1,12 @@
 import React from 'react'
+import LoggedOutLandingPage from './LoggedOutLandingPage.js'
+import LoggedInLandingPage from './LoggedInLandingPage.js'
 
 
 const LandingPage = props => {
     return (
         <div>
-           <h1>Welcome!</h1>
-           <p>Already a user? Click here to sign in:   </p><button onClick={ev => {ev.preventDefault(); props.history.push('/sign-in')}}>Sign In</button>
-           <br/>
-           <br/>
-           <p>Not a user? Click here to register:   </p><button onClick={ev => {ev.preventDefault(); props.history.push('/sign-up')}}>Register</button>
+        {props.loggedIn === false ? <LoggedOutLandingPage props={props}/> : <LoggedInLandingPage />}
         </div>
     )
 }

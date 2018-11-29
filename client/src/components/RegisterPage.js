@@ -4,7 +4,7 @@ import React from 'react'
 const RegisterPage = props => {
     return (
         <div>
-            <h1>Register Page</h1>
+            <h1>Register A New User</h1>
             <form action="onSubmit">
             <input 
             placeholder="enter username"
