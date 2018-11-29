@@ -16,8 +16,11 @@ export default class Register extends Component {
   };
 
   inputHandler = (event) => {
-    const { name, value } = event.target;
-    this.setState({ user: { ...this.state.user, [name]: value } });
+    const { name, value } = event.target; // destructuring event.target.name and event.target.value
+    this.setState({
+      // [name] refers to event.target.name--changes depending on target
+      user: { ...this.state.user, [name]: value },
+    });
   };
 
   submitHandler = (event) => {
