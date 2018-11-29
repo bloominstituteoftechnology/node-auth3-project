@@ -4,6 +4,7 @@ import './App.css';
 
 import Register from './components/Register.js';
 import Login from './components/Login.js';
+import Users from './components/Users.js';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
           <Switch>
             <Route path='/register' component={Register} />
             <Route path='/login' component={Login} />
+            <Route path='/users' component={Users} />
           </Switch>
         </section>
       </div>

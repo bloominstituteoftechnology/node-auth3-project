@@ -31,7 +31,7 @@ class Login extends React.Component {
             .then(res => {
                 if (res.status === 200 && res.data) {
                     localStorage.setItem('unimportant', res.data.token);
-                    this.props.history.push('/');
+                    this.props.history.push('/users');
                 } else {
                     throw new Error();
                 }
