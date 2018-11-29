@@ -24,7 +24,23 @@ export default class Register extends React.Component {
 
     submitHandler = ev => {
         ev.preventDefault();
-        axios.post(url);
+        axios.post(`${url}/api/register`, this.state.user)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        message: "Registration successful",
+                        user: { ...initialUser }
+                    });
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(err => {
+                this.setState({
+                    message: "Registration failed",
+                    user: { ...initialUser }
+                });
+            });
     }
 
     render() {
@@ -36,14 +52,16 @@ export default class Register extends React.Component {
                         type="text" 
                         id="username" 
                         name="username" 
-                        value={this.state.user.username} 
+                        value={this.state.user.username}
+                        onChange={this.inputHandler}
                     />
                     <label htmlFor="password">Password</label>
                     <input 
                         type="text" 
                         id="password" 
                         name="password" 
-                        value={this.state.user.password} 
+                        value={this.state.user.password}
+                        onChange={this.inputHandler} 
                     />
                 </form>
                 { this.state.message ? 
