@@ -6,7 +6,14 @@ import axios from 'axios';
 import './App.css';
 
 
- const url = process.env.REACT_APP_API_URL
+const url = process.env.REACT_APP_API_URL
+
+function logout() {
+  localStorage.removeItem('secret_bitcoin_token');
+  
+  this.props.history.push('/signin');
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -63,12 +70,9 @@ class App extends Component {
     
   }
   
+  
 
   render() {
-  const logout = () => {
-      localStorage.removeItem('secret_bitcoin_token');
-      this.props.history.push('/signin');
-    }
 
     return (
       <div className="App">
