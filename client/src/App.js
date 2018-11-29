@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter, Switch, Route, NavLink } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import "./App.css";
 import Signup from "./components/Signup.js";
 import Login from "./components/Login";
@@ -45,7 +45,7 @@ class App extends Component {
   signOut = () => {
     localStorage.removeItem("secret_token_key");
     this.props.history.push("/login");
-  }
+  };
 
   componentDidMount() {
     this.authenticate();
@@ -77,11 +77,13 @@ class App extends Component {
                 return (
                   <React.Fragment>
                     <h2>Users</h2>
-                    <ol>
+                    <div>
                       {this.state.users.map(user => (
-                        <li key={user.id}>{user.username}</li>
+                        <div>
+                          <h3 key={user.id}>Name: {user.username} | Department: {user.department}</h3>
+                        </div>
                       ))}
-                    </ol>
+                    </div>
                   </React.Fragment>
                 );
               }}
