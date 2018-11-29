@@ -39,7 +39,6 @@ function authenticate(req, res, next) {
                 res.status(401).json({message: "your token is invalid"})
             } else {
                 req.decodedToken = decodedToken;
-                console.log(decodedToken)
                 next();
             }
         })
