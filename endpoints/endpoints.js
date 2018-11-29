@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypjs');
 const jwt = require('jsonwebtoken');
 
 const db = require('../database/dbConfig.js');
@@ -60,8 +60,6 @@ router.post('/register', (req, res) => {
         .catch(err =>
             res.status(500).json({ message: 'unable to join' }))
 });
-
-
 
 // get
 
