@@ -29,7 +29,7 @@ class SignIn extends Component {
         axios.post(`${url}/api/login`, this.state.user)
             .then(res => {
                 if (res.status === 200) {
-                    localStorage.setItem('auth_token', res.data);
+                    localStorage.setItem('auth_token', res.data.token);
                     this.setState({
                         message: 'Login Successful',
                         user: { ...initialUser }

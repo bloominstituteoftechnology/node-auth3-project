@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Users from './components/Users';
 import SignIn from './components/SignIn';
@@ -26,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
