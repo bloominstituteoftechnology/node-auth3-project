@@ -16,9 +16,11 @@ class App extends Component {
     const token = localStorage.getItem('token')
     const options = {
       headers: {
-        authentication: token
+        authorization: token
       }
     }
+
+    console.log(token)
 
     if (token) {
       axios
