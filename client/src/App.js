@@ -6,7 +6,9 @@ import Login from './components/Login';
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)= {
+    loggedIn: false,
+    users: [],
   }
 }
 
