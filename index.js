@@ -15,7 +15,7 @@ server.use(cors());
 function generateToken(user) {
   const payload = {
     username: user.username,
-    department: ["test"]
+    department: ["test", "test2"]
   };
 
   const secret = process.env.JWT_SECRET;
@@ -60,20 +60,9 @@ function protected(req, res, next) {
   }
 }
 
-server.get("/api/me", protected, (req, res) => {
-  db("users")
-    .select("id", "username", "password")
-    .where({ id: req.session.user })
-    .first()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
-});
-
 server.get("/api/users", protected, (req, res) => {
   db("users")
-    .select("id", "username", "password")
+    .select("id", "username", "department")
     .then(users => {
       res.json(users);
     })
