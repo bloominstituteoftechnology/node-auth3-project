@@ -34,9 +34,9 @@ router.post('/', (req, res) => {
         const token = generateToken(user)
 
         // send back success
-        res.status(200).json({ message: 'welcome', token })
+        res.status(200).json({ id: user.id })
       } else {
-
+        res.status(401).json({ message: 'You shall not pass' });
       }
     })
 })
