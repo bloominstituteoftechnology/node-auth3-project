@@ -5,7 +5,7 @@ import './index.css';
 import Login from './components/Login';
 import Register from './components/Register';
 
-const url = 'http://localhost:9000'
+const url = 'http://localhost:9000';
 
 
 
@@ -18,7 +18,35 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){}
+  authenticate = () => {
+    const token = localStorage.getItem('Token');
+    const options = {
+      headers: {
+        authentication: token,
+      },
+    };
+
+    if (token) {
+      axios.get(`${url}/api/users`, options)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            this.setState({ loggedIn: true, users: res.data });
+          }
+          else {
+            throw new Error();
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      this.props.history.push('/login');
+    }
+  }
+
+  componentDidMount(){
+    this.authenticate();
+  }
 
   render() {
     return (
@@ -29,6 +57,7 @@ class App extends Component {
           <NavLink to="/register">Register</NavLink>
         </nav>
         <section>
+          <h1>Logged in as {localStorage.getItem('Token')}</h1>
           <Switch>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />

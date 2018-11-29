@@ -73,8 +73,8 @@ server.post('/api/register', (req, res) => {
     creds.password = hash;
     db('users')
         .insert(creds)
-    .then(user => {
-        res.status(201).json(user);
+    .then(userId => {
+        res.status(201).json(userId);
     })
     .catch(err => json(err));
 });

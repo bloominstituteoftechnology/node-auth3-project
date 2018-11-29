@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const url = process.env.REACT_APP_API_URL;
+const url = 'http://localhost:9000';
 
 const initialUser = {
     username: '',
@@ -27,7 +27,7 @@ submitHandler = (event) => {
     axios.post(`${url}/api/login`, this.state.user)
         .then((res) => {
             if (res.status === 200 && res.data) {
-            localStorage.setItem('secret_bitcoin_token', res.data);
+            localStorage.setItem('Token', res.data);
             this.props.history.push('/');
         } else {
             throw new Error();
@@ -44,6 +44,7 @@ submitHandler = (event) => {
     render() {
         return (
             <div>
+                <h2>Login</h2>
                 <form onSubmit={this.submitHandler}>
                     <label htmlFor="username">Username</label>
                     <input
