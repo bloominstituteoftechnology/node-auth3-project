@@ -1,33 +1,20 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, {Component} from 'react';
 
 class Users extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            users: []
-        }
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:9000/api/users')
-            .then(res => this.setState({
-                users: res.data
-            }))
-            .catch(err => console.log(err));
     }
 
     render() { 
-        const {users} = this.state;
-        if (users) {
-            return ( 
+        if (this.props.users) {
+            return (
                 <div>
-                    {users.map(user => <p key={user.id}>{user.username}</p>)}
+                    {this.props.users.map(user => <p key={user.id}>{user.username} works in {user.department}</p>)}
                 </div>
-             );
+            )
         } else {
             return (
-                <div>Loading...</div>
+                <h2>Access denied.</h2>
             )
         }
     }

@@ -20,11 +20,11 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: ['sales', 'engineering', 'design', 'product']
+        role: user.department
     }
     const secret = process.env.JWT_SECRET;
     const options = {
-        expiresIn: '5m',
+        expiresIn: '10m',
     }
 
     return jwt.sign(payload, secret, options);
@@ -87,7 +87,7 @@ server.post('/api/login', (req, res) => {
 // make sure you copy the token from the login POST into the GET headers
 server.get('/api/users', authenticate, (req, res) => {
     db('users')
-        .select('id', 'username')
+        .select('id', 'username', 'department')
         .then(users => {
             res.status(200).json(users);
         })

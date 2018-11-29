@@ -2,38 +2,54 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
-class Login extends Component {
+const initialUser = {
+    username: '',
+    password: ''
+}
+
+export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            password: null,
+            user: { ...initialUser },
+            message: '',
             loggedIn: false,
         }
     }
 
     changeHandler = event => {
-        event.preventDefault();
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        const { name, value } = event.target;
+        this.setState({ 
+            user: { ...this.state.user, [name]: value } 
+        });
     }
 
     logIn = event => {
         event.preventDefault();
-        const {username, password} = this.state;
+        const {username, password} = this.state.user;
         if (!username || !password) {
             alert("Please enter a username and password");
         } else {
-            axios.post('http://localhost:9000/api/login', {username, password})
-                .then(res => console.log(res))
-                .catch(err => console.dir(err));
+            axios.post('http://localhost:9000/api/login', this.state.user)
+                .then(res => {
+                    if (res.status === 200 && res.data) {
+                        localStorage.setItem('token', res.data.token);
+                        this.setState({
+                            loggedIn: true,
+                            user: {...initialUser}                        
+                        })
+                    } else {
+                        throw new Error('Something is wrong.');
+                    }
+                })
+                .catch(err => {
+                    this.setState({
+                        message: 'Login failed.',
+                        user: {...initialUser}  
+                    })
+                    console.dir(err);
+                });
         }
-        this.setState({
-            username: null,
-            password: null,
-            loggedIn: true
-        })
         event.target.reset();
     }
 
@@ -47,13 +63,15 @@ class Login extends Component {
             <div>
                 <h3>Log in here!</h3>
                 <form onSubmit={this.logIn}>
+
                     <input type='text' placeholder='username' name='username' value={this.value} onChange={this.changeHandler}/>
+
                     <input type='password' placeholder='password' name='password' value={this.value} onChange={this.changeHandler}/>
+
                     <input type='submit' />
                 </form>
+                <h4>{this.state.message !== '' ? this.state.message : null}</h4>
             </div>
         );
     }
 }
- 
-export default Login;
