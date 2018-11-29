@@ -73,6 +73,16 @@ class App extends Component {
     }
     axios
       .post("http://localhost:9000/api/register", this.state.credentials)
+      .then(res => {
+        this.setState({
+          username: '',
+          password: '',
+          department: ''
+        })
+        if(res.status === 201) {
+          alert('New user has been successfully registered.')
+        }
+      })
       .catch(err => console.log(`There was an error: ${err}`));
   };
 
