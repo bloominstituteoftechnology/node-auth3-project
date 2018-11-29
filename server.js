@@ -37,7 +37,7 @@ function generateToken(user) {
 
 
 function protected(req, res, next){
-    const token = req.headers.authorization;
+    const token  = req.headers.authorization;
     if(token){
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if(err) {
@@ -69,7 +69,7 @@ server.post('/api/login', (req, res) => {
     .then(user => {
         if(user && bcrypt.compareSync(creds.password, user.password)) {
             const token = generateToken(user);
-            res.status(200).json({message: "Logged in!", token}); //only including token for dev purposes
+            res.status(200).json(token); //only including token for dev purposes
         } else {
             res.status(401).json({message: "You shall not pass!"});
         }
@@ -100,7 +100,7 @@ server.post('/api/register', (req, res) => {
 //==========GET USERS=========
 server.get('/api/users', protected, (req, res) => {
     db('users')
-    .select('id', 'username', 'password') //get rid of password if you dont want to see the hash passwords
+    .select('id', 'username', 'password', 'department') //get rid of password if you dont want to see the hash passwords
     .then(users => {
         res.json(users);
     })
@@ -109,4 +109,4 @@ server.get('/api/users', protected, (req, res) => {
 
 
 
-server.listen(3000, () => console.log('\nrunning on port 3000\n'));
+server.listen(8000, () => console.log('\nrunning on port 8000\n'));
