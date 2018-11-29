@@ -45,7 +45,7 @@ const Container = styled.div`
   }
 `;
 
-export default class SignIn extends Component {
+export default class SignUp extends Component {
   state = {};
 
   handleChange = e => {
