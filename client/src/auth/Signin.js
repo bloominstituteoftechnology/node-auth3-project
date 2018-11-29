@@ -45,11 +45,13 @@ class Signin extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const endpoint = 'http://localhost:8000/api/login';
+
     console.log(this.state);
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
+        localStorage.setItem('jwt', res.data.token);
       })
       .catch(err => {
         console.log('big time error bruh', err);

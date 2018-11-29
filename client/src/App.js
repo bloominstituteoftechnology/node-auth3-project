@@ -17,7 +17,6 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <h1>test</h1>
         <header className='App-header'>
           <nav>
             <NavLink to='/' exact>

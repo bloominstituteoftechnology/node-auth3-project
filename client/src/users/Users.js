@@ -11,10 +11,15 @@ class Users extends Component {
   }
 
   componentDidMount() {
+    const token = localStorage.getItem('jwt');
     const endpoint = 'http://localhost:8000/api/users';
-
+    const options = {
+      headers: {
+        Authorization: token
+      }
+    };
     axios
-      .get(endpoint)
+      .get(endpoint, options)
       .then(res => {
         console.log(res.data);
       })
