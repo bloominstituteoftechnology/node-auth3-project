@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
       .then(ids => {
         res.status(201).json(ids);
       })
-      .catch(err => json(err));
+      .catch(err => res.status(500).json({message: `An error occured: ${err}`}))
   });
 
   module.exports = router;

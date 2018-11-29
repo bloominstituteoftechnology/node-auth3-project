@@ -8,7 +8,7 @@ router.get('/', protected, (req, res) => {
     db('users')
       .select('id', 'username', 'password', 'department') // ***************************** added password to the select
       .then(users => {
-        res.json(users);
+        res.status(200).json(users);
       })
       .catch(err => res.send(err));
   });
