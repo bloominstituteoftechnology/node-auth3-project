@@ -81,21 +81,28 @@ server.post('/api/login', (req, res) => {
 server.post('/api/register', (req, res) => {
     //get username and password from body
     const creds = req.body;
+    if(creds.username && creds.password){
+        //hash that password
+        const hash = bcrypt.hashSync(creds.password, 6);
 
-    //hash that password
-    const hash = bcrypt.hashSync(creds.password, 6);
+        //override pass with my new hash
+        creds.password = hash;
 
-    //override pass with my new hash
-    creds.password = hash;
+        //save that info to my db
+        db('users')
+        .insert(creds)
+        .then(ids => {
+            res.status(201).json({message: "Registration Successful", ids}) //if reg doesnt work, try removing ids
+        })
+        .catch(err => res.status(400).json({error: "Unable to Register", err}));
+    } else {
+        res.status(412).json({error: 'Username and Password required'})
+    }
 
-    //save that info to my db
-    db('users')
-    .insert(creds)
-    .then(ids => {
-        res.status(201).json({message: "Registration Successful", ids}) //if reg doesnt work, try removing ids
-    })
-    .catch(err => res.status(400).json({error: "Unable to Register", err}));
-});
+}
+
+);
+
 
 //==========GET USERS=========
 server.get('/api/users', protected, (req, res) => {
