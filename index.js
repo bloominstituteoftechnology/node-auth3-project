@@ -7,9 +7,12 @@ const keys = require('./config/keys')
 const knexConfig = require('./knexfile');
 const knex = require('knex');
 const db = knex(knexConfig.development)
+const cookieCrisps = require('cookie-parser');
 
 server.listen(8888, ()=> console.log(`Server listening on Port 8888`))
+
 server.use(cors());
+server.use(cookieCrisps())
 server.use(express.json())
 //SECRET
 const jwtSecret = keys.secret;
@@ -21,7 +24,7 @@ const payload = {
         department: user.department
     }
 const options = {
-    expiresIn: '1h'
+    expiresIn: '20m'
 }
 
 return jwt.sign(payload, jwtSecret, options)
@@ -29,15 +32,17 @@ return jwt.sign(payload, jwtSecret, options)
 
 //MIDDLEWARE
 function protected(req, res, next){
-    let token = req.header.authorization;
+    let token = req.headers.authorization;
     console.log(token)
+    
     if(token){
         jwt.verify(token, jwtSecret, (err, decodedToken) =>{
             if(err){
+                /* console.log('error', err) */
             res.status(500).json({message: 'Authentication error.'})
         }
             else{
-                console.log(decodedToken)
+                console.log('decodedtoken:',decodedToken)
                 req.decodedToken = decodedToken
 
                 next()
@@ -56,9 +61,9 @@ server.post('/api/register', (req, res) =>{
     if(user.password && user.username){
         let hash = bcrypt.hashSync(user.password, 12)
         user.password = hash;
-        
+        req.cookies.jwt = generateToken(user)
         db('users').insert(user)
-        .then(user => res.status(201).json({user}))
+        .then(user => {res.status(201).json({user})})
         .catch(err => res.status(500).json({message: 'Error occurred while retrieving data.'}))
     }
     else{
@@ -76,6 +81,7 @@ server.post('/api/login', async (req, res) =>{
         
         if(user && bcrypt.compareSync(password, user.password) ){
             let token = generateToken(user)
+            res.cookie('jwt', token)
             res.status(200).json({message: `Welcome, ${user.username}!`, token})
         }
         else{
@@ -96,13 +102,15 @@ server.post('/api/login', async (req, res) =>{
 });
 
 //LOGOUT
-server.get('/logout', (req, res) =>{
-    req.session.destroy(err => {
-        if(err){
-            res.status(500).json({message: 'An error occurred while logging out.'})
-        }
-        else{
-            res.status(200).json({message: 'See you next time!'})
-        }
-    })
+server.post('/api/logout', logout, (req, res) =>{
+    
+    res.status(200).json({message: 'See you next time!'})
 })
+
+//LOGOUT MIDDLEWARE
+function logout(req, res, next){
+   
+    req.cookies.jwt = 'loggedout';
+    
+    next()
+}
