@@ -12,7 +12,7 @@ const corsConfig = {
 const middlewareConfig = server => {
   server.use(express.json());
   server.use(morgan('dev'));
-  server.use(cors(corsConfig));
+  server.use(cors());
   server.use(helmet());
 };
 

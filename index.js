@@ -93,8 +93,10 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password', 'department')
-    .then(users => res.json(users))
-    .catch(error => res.json(error));
+    .then(users => res.status(200).json(users))
+    .catch(error =>
+      res.status(500).json({ message: 'Could not get users', error })
+    );
 });
 
 server.listen(8000, () => console.log('==== Listening on port 8000 ===='));
