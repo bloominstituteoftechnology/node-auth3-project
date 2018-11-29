@@ -1,16 +1,17 @@
 import React  from 'react'
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 const LoginForm = props => {
   return (
-    <form>
+    <form className='login-form'>
+      <label htmlFor='username'>Username</label>
       <input
         onChange={props.handleChange}
         placeholder="Username"
         value={props.username}
         name="username"
       />
+      <label htmlFor='password'>password</label>
       <input
         onChange={props.handleChange}
         placeholder="password"
@@ -19,7 +20,6 @@ const LoginForm = props => {
         type="password"
       />
       <button onClick={props.login}>Submit</button>
-      <Link to='/register'>Register</Link>
     </form>
   )
 }

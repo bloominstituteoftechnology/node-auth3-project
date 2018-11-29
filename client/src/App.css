@@ -1,25 +1,49 @@
+* {
+  font-size: 62.5%;
+}
+
 .App {
   text-align: center;
+
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.nav-bar {
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  background-color: black;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.4rem;
+  padding: 20px 20px;
+}
+
+.login-form {
+  width: 90%;
+  font-size: 1rem; 
+  border: 1px solid skyblue;
+  margin: 30px 5%; 
+}
+
+.register-form {
+  width: 90%;
+  font-size: 1rem; 
+  border: 1px solid skyblue;
+  margin: 30px 5%; 
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {

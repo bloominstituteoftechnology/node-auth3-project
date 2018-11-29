@@ -5,6 +5,7 @@ import User from './User';
 const UsersList = props => {
   return (
     <div>
+      <h2>Users</h2>
       {props.users.map(user => 
         <User key={user.id} user={user} />
       )}

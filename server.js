@@ -46,7 +46,7 @@ app.post('/api/login', (req, res) => {
     .then(user => {
       if(user && bcrypt.compareSync(creds.password, user.password)){
         const token = generateToken(user);
-        res.status(200).json({ message: 'welcome', token });
+        res.status(200).json(token);
       }else{
         res.status(401).json({ message: 'You Shall Not Pass!!!!' })
       }
@@ -63,7 +63,7 @@ app.get('/api/users', protected, checkRole('manager'), (req, res) => {
 });
 
 function protected(req, res, next) {
-  const token = req.headers.authorization;
+  const{ authentication: token} = req.headers;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken)=>{
       if(err){
