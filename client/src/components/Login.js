@@ -4,22 +4,45 @@ import axios from 'axios';
 
 //styled components
 const StyledForm = styled.form`
+  background: #76323F;
+  border-radius: 5px;
+  color: #D7CEC7;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 3%; 
+  margin: 3% auto;
+  padding: 30px 10px;
+  width: 50%;
 `;
 
 const StyledLabel = styled.label`
-  font-size: 1rem;
+  font-size: 1.2rem;
 `;
 
 const StyledInput = styled.input`
+  background: #D7CEC7;
   border: 1px solid gray;
   border-radius: 5px;
   margin: 10px;
 `;
+
+const StyledButton = styled.button`
+  background: #C09F80;
+  border: 1px solid #565656;
+  border-radius: 3px;
+  color: #565656;
+  cursor: pointer;
+  padding: 7px;
+  margin-top: 10px;
+
+  &&:hover {
+    background: #565656;
+    border: qpx solid #C09F80;
+    color: #C09F80;
+  }
+`;
+
 //url stored in .env
 const url = process.env.REACT_APP_API_URL;
 
@@ -88,7 +111,7 @@ class Login extends React.Component {
           value={this.state.user.password}
           onChange={this.inputHandler}
         />
-        <button type='submit'>submit</button>
+        <StyledButton type='submit'>submit</StyledButton>
       </StyledForm>
       { this.state.message && (<h3>{this.state.message}</h3>) }
     </div>

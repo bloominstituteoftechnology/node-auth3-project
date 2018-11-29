@@ -2,30 +2,39 @@ import React from 'react';
 import styled from 'styled-components'
 
 const SuccessMessage = styled.div`
-  background-color: gray;
-  border: 1px solid black;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  margin: 10vh auto;
-  padding: 10%;
-  width: 70%;
+background: #76323F;
+border-radius: 5px;
+color: #D7CEC7;
+display: flex;
+align-items: center;
+flex-direction: column;
+height: 60vh;
+justify-content: space-between;
+margin: 3% auto;
+padding: 30px 10px;
+width: 55%;
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid gray;
+  background: #C09F80;
+  border: 1px solid #565656;
   border-radius: 3px;
+  color: #565656;
   cursor: pointer;
-  padding: 10px;
-  margin-top: 10%;
+  padding: 7px;
+  margin-top: 10px;
+
+  &&:hover {
+    background: #565656;
+    border: qpx solid #C09F80;
+    color: #C09F80;
+  }
 `;
 
 const RegSuccess = props => {
     return (
     <SuccessMessage>
-    <h3>Registration successful. Please login with these new credentials.</h3>
+    <h3>Registration was successful</h3><h4>Please login with these new credentials</h4>
     <StyledButton onClick={props.goToLogin} >Login Now</StyledButton>
     </SuccessMessage>
     )

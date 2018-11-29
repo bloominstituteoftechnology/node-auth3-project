@@ -44,12 +44,11 @@ class UserList extends React.Component {
   }
   render() {
     if (!this.state.isLoggedIn) {
-      return (<h3>It looks like you're not signed in. Please <Link to='/signin'>Login</Link> or <Link to='/signup'>Register</Link></h3>)
+      return (<React.Fragment><h3>It looks like you're not signed in. </h3><h3> Please <Link to='/signin'>Login</Link> or <Link to='/signup'>Register</Link></h3></React.Fragment>)
     }
     return (
-    <div>
-    {this.state.users.length > 0 ? <h3>Here is the list for the {this.state.department} department:</h3> : <h3>Loading...</h3>}
-
+    <div className='users'>
+    {this.state.users.length > 0 ? <h4>Here is the list for the {this.state.department} department:</h4> : <h4>Loading...</h4>}
     {this.state.users.map(user => {
       return <p key={user.id}>{user.username}</p>
     })}

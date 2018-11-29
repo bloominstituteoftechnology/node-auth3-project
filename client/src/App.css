@@ -5,9 +5,12 @@
 section {
   padding: 7%;
 }
-
+body {
+  background: #D7CEC7;
+}
 html, body {
-
+  color: #565656;
+  font-family: 'Montserrat', sans-serif;
 }
 
 h1 {
@@ -23,8 +26,15 @@ h3 {
   line-height: 1.7;
 }
 
+.users {
+  margin: 0 auto;
+  width: 80%;
+}
+
 h4 {
+  color: #76323F;
   font-size: 2rem;
+  margin-bottom: 10px; 
 }
 
 p {
@@ -33,5 +43,6 @@ p {
 }
 
 a {
-  font-size: inherit
+  color: #062F4F;
+  font-size: inherit;
 }

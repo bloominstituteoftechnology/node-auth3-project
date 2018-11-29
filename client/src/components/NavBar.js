@@ -8,20 +8,20 @@ display: flex;
 justify-content: space-around;
 align-items: center;
 width: 100%;
-background: tomato;
+background: #F0EFF0;
 height: 10vh;
 `;
 
 const StyledNav = styled.nav`
   display: flex;
-  font-size: 1rem; 
+  font-size: 1rem;
   justify-content: space-between;
   width: 50%;
   align-items: center;
 `;
 
 const active = {
-  color: 'blue',
+  color: '#76323F',
   fontWeight: 'bold',
 }
 
