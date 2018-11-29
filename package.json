@@ -8,13 +8,15 @@
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.15.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "sqlite3": "^4.0.4"
   },
   "name": "auth-ii",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon server.js"
   },
   "repository": "https://github.com/Hunter315/auth-ii.git",
   "author": "Hunter315 <hunter.mckay.smith@gmail.com>",
@@ -22,5 +24,4 @@
   "devDependencies": {
     "nodemon": "^1.18.7"
   }
-
 }

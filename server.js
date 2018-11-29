@@ -71,7 +71,7 @@ server.post('/api/login', (req, res) => {
             const token = generateToken(user);
             res.status(200).json({message: "Logged in!", token}); //only including token for dev purposes
         } else {
-            res.status(401).json({message: "Either username is invalid or password is incorrect"});
+            res.status(401).json({message: "You shall not pass!"});
         }
     })
     .catch(err => res.status(401).json({message: "Error logging you in"}));
@@ -104,9 +104,9 @@ server.get('/api/users', protected, (req, res) => {
     .then(users => {
         res.json(users);
     })
-    .catch(err => res.status(400).json({ message: "Could not retrieve information", err}));
+    .catch(err => res.status(400).json({ message: "You shall not pass!", err}));
 });
 
 
 
-server.listen(8800, () => console.log('\nrunning on port 8800\n'));
+server.listen(3000, () => console.log('\nrunning on port 3000\n'));
