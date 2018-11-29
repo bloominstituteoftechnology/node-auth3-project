@@ -21,6 +21,9 @@ class App extends Component {
               <Route path='/signup' component={Signup} />
               <Route path='/signin' component={Signin} />
               <Route paht='/users' component={Users} />
+              <Route path='/' render={() => {
+                this.props.history.push('/users')
+              }} />
           </Switch>
         </section>
       </div>
