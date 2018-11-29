@@ -50,7 +50,7 @@ function protected(req, res, next) {
     }
   }
 
-  ///________________ POST --- LOGIN ________________
+  ///________________ POST ________________
   server.post('/api/login', (req, res) => {
     const creds = req.body;
   
@@ -70,8 +70,7 @@ function protected(req, res, next) {
       })
       .catch(err => res.json(err));
   });
-  //______________ POST register________________
-
+ 
 server.post('/api/register', (req, res) => {
     // grab username and password from body
     const creds = req.body;
