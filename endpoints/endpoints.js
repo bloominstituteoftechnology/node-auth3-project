@@ -69,7 +69,7 @@ router.get('/users', protected, (req, res) => {
         .select('id', 'username', 'department')
         .then(users => {
             console.log(users);
-            res.json(users);
+            res.status(200).json(users);
         })
         .catch(err => {
             res.json(err);
