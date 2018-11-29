@@ -1,0 +1,135 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Nav-Bar a {
+  padding: 20px;
+  text-decoration: none;
+  color: rgb(41, 207, 223);
+
+}
+
+.currTime {
+  font-size: 25px;
+}
+
+.timeAndLocation {
+  color: #016881;
+}
+
+.timeAndLocation h1 {
+  font-size: 14px;
+}
+
+.signup-form input {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  margin: 5px auto;
+  width: 300px;
+  font-weight: bold;
+}
+
+.signup-form select {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  margin: 15px auto;
+  width: 120px;
+  font-size: 15px;
+  color: #016881;
+  border: 1px solid #016881;
+}
+
+option.department {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 250px;
+  margin: 50px auto;
+  color: #016881;
+  font-weight: bold;
+  border: 1px solid #016881;
+}
+
+.signup-form input.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  background-color: #016881;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  width: 90px;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 12px;
+}
+
+.signin-form input.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  background-color: #016881;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  width: 90px;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 12px;
+}
+
+.signin-form input {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  margin: 5px auto;
+  width: 300px;
+  font-weight: bold;
+}
+
+.signin-form select {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  margin: 15px auto;
+  width: 120px;
+  font-size: 15px;
+  color: #016881;
+  border: 1px solid #016881;
+}
+
+.users {
+  color: #016881;
+}
