@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route } from 'react-router-dom';
 import './App.css';
 
+// import Routes
+import SignUpPg from './components/SignUpPg';
+import LogInPg from './components/LogInPg';
+import UsersListPg from './components/UsersListPg';
+
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      usersList: []
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        < Route path='/api/signup' component={SignUpPg} />
+        < Route path='/api/login' component={LogInPg} />
+        < Route path='/api/users' component={UsersListPg} />
       </div>
     );
   }
