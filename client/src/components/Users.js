@@ -18,7 +18,7 @@ class Users extends Component {
           },
         }
         if (token) {
-          axios.get(`http://localhost:9000/api/users`, options)
+          axios.get(`https://authpractice.herokuapp.com/api/users`, options)
             .then(res => {
               if (res.status === 200 && res.data) {
                 this.setState({loggedIn: true, users: res.data})
