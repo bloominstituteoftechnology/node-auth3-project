@@ -20,7 +20,11 @@ export default class Signup extends Component {
 
     axios
       .post("http://localhost:9000/api/register", this.state)
-      .then(res => this.props.getUsers(), this.props.history.push("/users"));
+      .then(
+        res => localStorage.setItem("token", res.data.token),
+        this.props.getUsers(),
+        this.props.history.push("/users")
+      );
   };
   render() {
     return (

@@ -1,18 +1,39 @@
+require("dotenv").config();
 const express = require("express");
 const knex = require("knex");
 const knexConfig = require("../knexfile");
 const db = knex(knexConfig.development);
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-router.post('/', (req, res) => {
+// generate JWT token
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    department: ["marketing", "development"]
+  };
+
+  const secret = process.env.JWT_SECRET;
+  const options = {
+    expiresIn: "1h"
+  };
+  return jwt.sign(payload, secret, options);
+}
+
+router.post("/", (req, res) => {
   const creds = req.body;
 
-  const hash = bcrypt.hashSync(creds.password, 10)
+  const hash = bcrypt.hashSync(creds.password, 10);
+
   creds.password = hash;
-  db('users')
+  db("users")
     .insert(creds)
-    .then(ids => res.status(201).json(ids))
-    .catch(err => res.status(500).json(err))
-})
+    .then(ids => {
+      const token = generateToken(ids);
+      res.status(201).json({ id: ids[0], token });
+    })
+    .catch(err => res.status(500).json(err));
+});
 module.exports = router;
