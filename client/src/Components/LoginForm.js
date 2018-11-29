@@ -3,7 +3,7 @@ import React from 'react';
 const withLoggedIn = Component => props =>
   props.loggedIn
     ? <div>
-      <span>Logged in 😎</span>
+      <span>Logged in <span role="img" aria-label="sunglasses">😎</span></span>
     </div>
     : <Component {...props} />
 

@@ -28,17 +28,18 @@ class App extends Component {
   }
   register = async (creds) => {
     try {
-      console.log('register', userId)
       const userId = await axios.post(proccess.env.host + '/api/register', creds)
       await this.setState({ userId })
+      console.log('register', userId)
     } catch(err) {
       console.log(err)
     }
   }
   login = async (creds) => {
     try {
-      console.log('login', login)
       const login = await axios.post(proccess.env.host + '/api/login', creds)
+      console.log('login', login)
+      window.localStorage.setItem('token', login.token);
       await this.setState({ loggedIn: true })
     } catch(err) {
       console.log(err)
@@ -46,8 +47,8 @@ class App extends Component {
   }
   getUsers = async () => {
     try {
-      console.log('getUsers', users)
       const users = await axios.get(proccess.env.host + '/api/users')
+      console.log('getUsers', users)
       await this.setState({ users })
     } catch(err) {
       console.log(err)
@@ -55,8 +56,8 @@ class App extends Component {
   }  
   logOut = async () => {
     try {
-      console.log('getUsers', loggedOut)
       const loggedOut = await axios.post(proccess.env.host + '/api/logout')
+      console.log('getUsers', loggedOut)
       await this.setState({ loggedIn: false })
     } catch(err) {
       console.log(err)
@@ -69,8 +70,15 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <Form {...{ 
             inputs: { username: '', password: ''},
+            onSubmit: this.register,
+            formTitle: 'register',
+            action: 'register'
+          }} />
+          <Form {...{ 
+            inputs: { username: '', password: ''},
             onSubmit: this.login,
-            formTitle: 'login'
+            formTitle: 'login',
+            action: 'login'
           }} />
           <LoginForm 
             {...{
@@ -78,12 +86,10 @@ class App extends Component {
               handleCreds: this.handleCreds
               }}
             loggedIn={this.state.loggedIn} ></LoginForm>
-          <div style={styles.buttons}>
-            <button onClick={this.login}>Login</button>
-            <button onClick={this.register}>Register</button>
+          <div style={styles.buttonsContainer}>
             <button onClick={this.logOut}>Log Out</button>
+            <button onClick={this.getUsers}>Get Users</button>
           </div>
-          <button onClick={this.getUsers}>Get Users</button>
 
         </header>
       </div>
@@ -92,7 +98,7 @@ class App extends Component {
 }
 
 const styles = {
-  buttons: {
+  buttonsContainer: {
     display: 'flex',
     flexDirection: 'row'
   }

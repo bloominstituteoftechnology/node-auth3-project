@@ -7,7 +7,7 @@ const db = require('../data/dbConfig')
 
 module.exports = server => {
   // set static routes 
-  // server.use(express.static('./client/build'))
+  server.use(express.static('./client/build'))
   server.use(helmet());
   // server.use(restrictPath())
   server.use(express.json());
