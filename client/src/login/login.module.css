@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+	margin-top: 20px;
+	width: 295px;
+}
+
+.login {
+  background-color: #fffc00;
+  border: none;
+	border-radius: 100px;
+	box-shadow: 7px 3.5px #e5e200;
+  cursor: pointer;
+  font-family: Lato;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 16px 32px 16px;
+  text-transform: uppercase;
+  width: 140px;
+}
