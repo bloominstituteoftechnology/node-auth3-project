@@ -29,7 +29,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id, 
         username: user.username,
-        roles: []
+        department: user.department,
     };
     const secret = process.env.JWT_SECRET;
     const options = {
