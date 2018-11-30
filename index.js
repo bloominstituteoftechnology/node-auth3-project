@@ -81,9 +81,9 @@ server.get('/api/me', protected, (req, res) => {
 
 server.get('/api/users', protected, (req, res) => {
   db('users')
-    .select('id', 'username', 'password')
+    .select('username')
     .then(users => {
-      res.json(users);
+      res.json(users).status(200);
     })
     .catch(err => res.send(err));
 });
