@@ -30,7 +30,7 @@ class App extends Component {
     if (token) {
       axios.get(`${url}/api/restricted/users`, options)
         .then((res) => {
-          if (res.status === 201 && res.data) {
+          if (res.status === 200 && res.data) {
             this.setState({ loggedIn: true, users: res.data });
           }
           else {

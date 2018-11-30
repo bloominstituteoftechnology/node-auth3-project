@@ -15,7 +15,7 @@ server.use(cors());
 server.use(morgan());
 server.use(helmet());
 
-
+const secret = process.env.JWT_SECRET;
 //test to make sure server works
 server.get("/api", (req, res) => {
     res.send("Welcome To The Black Parade!");
@@ -28,7 +28,6 @@ function generateToken(user) {
         username: user.username,
         department: ['sales', 'engineering', 'management'],
     };
-    const secret = process.env.JWT_SECRET;
     const options = {
         expiresIn: '1m',
     };
@@ -42,7 +41,8 @@ function authenticate(req, res, next) {
         if (err) {
             res.status(401).json({ message: 'Authentication failed.' });
         } else {
-            req.locals = { authorization: decoded };
+            req.decodedToken = decoded
+            //req.locals = { authorization: decoded };
             next();
         }
     });
@@ -71,9 +71,12 @@ server.post('/api/register', (req, res) => {
     db('users')
         .insert(creds)
         .then(id => {
-            res.status(201).json(id); //might need to change id to username
+            res.status(201).json(username); //might need to change id to username
         })
-        .catch(err => res.json(err));
+        .catch(err => {
+            console.log(err)
+            res.json(err)
+        })
 })
 
 //login in a current user
@@ -83,14 +86,20 @@ server.post('/api/login', (req, res) => {
         .where({ username: creds.username })
         .first()
         .then(user => {
+            console.log(creds.password, user)
             if (user && bcrypt.compareSync(creds.password, user.password)) {
+                console.log("inside")
                 const token = generateToken(user);
-                res.status(200).json({ message: 'hey we know you!', token })
+                res.status(200).json({ token })
             } else {
                 res.status(401).json({ message: 'go away' })
             }
         })
-        .catch(err => res.json(err));
+        .catch(err => {
+            console.log(error)
+            res.json(err)
+        }
+        )
 });
 
 //get info on users

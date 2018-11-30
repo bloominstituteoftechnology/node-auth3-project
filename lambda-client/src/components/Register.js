@@ -7,6 +7,7 @@ const url = process.env.REACT_APP_API_URL;
 const initialUser = {
     username: '',
     password: '',
+    department: 'sales',
 }
 export default class Register extends Component {
     constructor(props) {

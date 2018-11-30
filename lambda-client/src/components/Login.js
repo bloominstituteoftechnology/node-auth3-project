@@ -27,7 +27,7 @@ export default class Login extends Component {
         axios.post(`${url}/api/login`, this.state.user)
             .then((res) => {
                 if (res.status === 200 && res.data) {
-                    localStorage.setItem('secret_token', res.data);
+                    localStorage.setItem('secret_token', res.data.token);
                     this.props.history.push('/');
                 } else {
                     throw new Error();
