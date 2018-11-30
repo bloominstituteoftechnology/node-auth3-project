@@ -65,10 +65,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/register">Register</NavLink>
+        <nav className="nav-container">
+          <NavLink to="/" className="nav-link">Home</NavLink>
+          <NavLink to="/login" className="nav-link">Login</NavLink>
+          <NavLink to="/register" className="nav-link">Register</NavLink>
         </nav>
         <section>
           <Switch>
@@ -77,11 +77,16 @@ class App extends Component {
             <Route path="/" render={() => {
               return (
                 <React.Fragment>
-                <h2>Users</h2>
-                  <ol>
-                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                <h2 className="users-heading">Users</h2>
+                  <ol className="list-container">
+                    {this.state.users.map(user => 
+                    <ul key={user.id} className="display-users"
+                    >
+                    {user.username}
+                    </ul>
+                    )}
                   </ol>
-                  <button onClick={this.onSignOut}>Sign Out</button>
+                  <button onClick={this.onSignOut} className="sign-out">Sign Out</button>
                 </React.Fragment>
               );
             }} />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './registerLogin.css'
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -47,7 +48,7 @@ export default class Register extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.submitHandler} className="login-form">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -72,7 +73,7 @@ export default class Register extends Component {
             value={this.state.user.department}
             onChange={this.inputHandler}
           />
-          <button type="submit">Submit</button>
+          <button type="submit" className="login-button">Register</button>
         </form>
         { this.state.message
           ? (<h4>{this.state.message}</h4>)

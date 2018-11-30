@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './registerLogin.css'
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -44,7 +46,7 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.submitHandler} className="login-form">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -61,7 +63,15 @@ export default class Login extends Component {
             value={this.state.user.password}
             onChange={this.inputHandler}
           />
-          <button type="submit">Submit</button>
+          <button type="submit" className="login-button">Login</button>
+          <h4 className="button-sep">or</h4>
+          <Link to="/register" >
+            <button 
+            className="login-button"
+            >
+            Register
+            </button>
+          </Link>
         </form>
         { this.state.message
           ? (<h4>{this.state.message}</h4>)
