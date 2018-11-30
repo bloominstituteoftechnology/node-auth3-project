@@ -33,6 +33,7 @@ class App extends Component {
   signout = () => {
     localStorage.removeItem('token')
     this.setState({ loggedIn: false })
+    this.props.history.push('/')
   }
 
   // make first api call when component mounts
@@ -62,6 +63,7 @@ class App extends Component {
         <nav>
           <NavLink to="/signin">Login</NavLink>
           <NavLink to="/signup">Register</NavLink>
+          <button onClick={this.signout}>sign out</button>
         </nav>
         <section>
           <Switch>
