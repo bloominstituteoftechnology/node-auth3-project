@@ -4,14 +4,14 @@ export const StyledForm = styled.form`
   background: #fff;
   display: flex;
   flex-direction: column;
-  width: 40%;
-  margin: 5rem auto 0;
+  width: 30%;
+  margin: 8rem auto 0;
   padding: 2rem;
   border-radius: 2px;
-  box-shadow: 3px 6px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.2);
   h3 {
     font-weight: 300;
-    font-size: 3rem;
+    font-size: 3.6rem;
     text-align: center;
     padding-bottom: 1rem;
     border-bottom: 2px solid #ebebeb;

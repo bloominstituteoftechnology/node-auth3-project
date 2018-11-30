@@ -26,7 +26,6 @@ class Register extends Component {
     axios
       .post(`${url}/api/register`, this.state.user)
       .then(res => {
-        // console.log(res);
         if (res.status === 201) {
           this.setState({
             message: 'Register Successful',
@@ -37,7 +36,7 @@ class Register extends Component {
       })
       .catch(err => {
         this.setState({
-          message: 'Registration failed',
+          message: err.response.data.message,
           user: { ...initalUser }
         });
       });

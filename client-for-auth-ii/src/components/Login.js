@@ -29,14 +29,17 @@ class Login extends Component {
         if (res.status === 200 && res.data) {
           localStorage.setItem('auth_token', res.data.token);
           this.setState({
-            user: { ...initalUser }
+            user: { ...initalUser },
+            message: res.data.message
           });
+          alert(this.state.message);
           this.props.history.push('/');
         }
       })
       .catch(err => {
+        console.dir(err.response.data.message);
         this.setState({
-          message: 'Login failed',
+          message: err.response.data.message,
           user: { ...initalUser }
         });
       });

@@ -59,7 +59,7 @@ class App extends Component {
     return (
       <div className="App">
         {/* Routes and stuff! */}
-        <Navbar logout={this.logout} />
+        <Navbar logout={this.logout} loggedIn={this.state.loggedIn} />
         <Route
           exact
           path="/"

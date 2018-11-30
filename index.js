@@ -88,7 +88,7 @@ server.post('/api/login', async (req, res) => {
       .first();
     if (user && bcrypt.compareSync(loginData.password, user.password)) {
       const token = generateToken(user);
-      res.status(200).json({ message: 'welcome!', token });
+      res.status(200).json({ message: `welcome ${user.username}`, token });
     } else {
       res.status(401).json({ message: 'Password is wrong.' });
     }
