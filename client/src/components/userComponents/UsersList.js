@@ -8,7 +8,7 @@ class UsersList extends Component {
   }
   render(){
     return (
-      <div>
+      <div className='users'>
         <h2>Users</h2>
         <h3>{this.props.message}</h3>
         {this.props.users.map(user => 

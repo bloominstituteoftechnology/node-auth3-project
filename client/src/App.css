@@ -52,12 +52,23 @@
   font-size: 1rem; 
   margin: 30px 5%; 
   height: 1200px;
+  padding-top: 80px;
 }
 
 .register-form {
   width: 90%;
   font-size: 1rem; 
-  margin: 30px 5%; 
+  margin: 30px 5%;
+  height: 1200px;
+  padding-top: 80px; 
+}
+
+.users {
+  width: 90%;
+  font-size: 1rem; 
+  margin: 30px 5%;
+  height: 1200px;
+  padding-top: 80px;
 }
 
 .App-logo {
