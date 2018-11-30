@@ -5,28 +5,29 @@ import WrongURL from './components/WrongURL';
 import axios from 'axios';
 import './App.css';
 
-import UserList from './components/UserList';
+// import UserList from './components/UserList';
 
 const url = process.env.REACT_APP_API_URL;
 
-const users = [
-  {
-    firstName: 'Gem',
-    lastName: 'P',
-    username: 'GemP',
-    id: Date.now(),
-    password: 'password',
-    department: 'product'
-  }
-];
+// const users = [
+//   {
+//     firstName: 'Gem',
+//     lastName: 'P',
+//     username: 'GemP',
+//     id: Date.now(),
+//     password: 'password',
+//     department: 'product'
+//   }
+// ];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: true,
-      // users: []
-      users,
+      // loggedIn: true,
+      loggedIn: false,
+      users: []
+
     };
   }
 
@@ -50,7 +51,7 @@ class App extends React.Component {
           }
         })
         .catch((err) => {
-          this.props.history.push('/users'); //login
+          this.props.history.push('/login'); //login
           
         });
     } else {
@@ -73,6 +74,7 @@ class App extends React.Component {
 
 
   render() {
+    console.log('THIS.STATE', this.state)
     return (
       <div className='App'>
         <Navigation />  
@@ -87,7 +89,10 @@ class App extends React.Component {
               component={SignUp}
                 />
             <Route exact path='/signin' component={SignIn} />
-            <Route exact path='/users' component={Users} />
+            <Route 
+              exact path='/users' 
+              render={props => <Users {...props} users={this.state.users} /> } 
+            />
             </div>
           <Route component={WrongURL} />
         </Switch> 
@@ -99,6 +104,3 @@ class App extends React.Component {
 
 
 export default withRouter(App);
-
-
-//  render={props => <SignUp {...props} addUser={newUser => this.state.addUser(newUser)} />} 

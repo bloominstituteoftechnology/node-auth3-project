@@ -1,36 +1,19 @@
 import React, { Component } from 'react';
-// import {Link, NavLink } from 'react-router-dom';
 
-// const Users = () => (
-class Users extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // loggedIn: false,
-      // users: [],
-      ...users
-    }
-  }
+const Users = (props) => {
 
-  render() {
-    console.log('THIS', this.state.users)
-    return (
-      <div className='users'>
-        <i className='fas fa-users'></i>
-        <i className='fas fa-users'></i>
-        <i className='fas fa-users'></i>
-          <ol>
-            {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
-          </ol>
-          ))}
-      </div>
-    )
-  }
-};
+  console.log('PROPS', props.users)
+  return (
+    <div className='users'>
+      <i className='fas fa-users'></i>
+      <i className='fas fa-users'></i>
+      <i className='fas fa-users'></i>
+        <ol>
+          {props.users.map(user => <li key={user.id}>{user.username}</li>)}
+        </ol>
 
-                {/*
-                  <ol>
-                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
-                  </ol> */}
+    </div>
+  )
+}
 
 export default Users;

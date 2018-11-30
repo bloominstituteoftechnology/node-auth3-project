@@ -12,6 +12,7 @@ const knex = require('knex');
 const knexConfig = require('./knexfile.js');
 const db = knex(knexConfig.development);
 
+
 ## Changes, Removals, and Additions to knexfile.js
 ### Change filename e.g., './data/lambda.sqlite3'
 ### Remove
@@ -67,3 +68,13 @@ const db = knex(knexConfig.development);
     }
   }
 };
+
+
+npm init -y
+touch .gitignore
+yarn add express knex sqlite3 cors bcryptjs jsonwebtoken
+yarn add nodemon -D
+
+yarn add dotenv -D
+
+npx knex init > generates the knexfile.js
