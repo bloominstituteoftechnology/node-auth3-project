@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 const url = "http://localhost:3334";
 
@@ -7,14 +7,18 @@ const SignIn = () => {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [bounced, setBounced] = useState(false);
+  const [loggedIn, setLogin] = useState(false)
 
   const submit = async e => {
     e.preventDefault();
+    setBounced(false)
     try{
     const reply = await axios.post(`${url}/api/login`, { username, password });
     if (reply.status === 200) {
       localStorage.setItem("token", reply.data.token);
-      //return <Redirect to="/" />;
+      setPassword("");
+    setUser("");
+     return setLogin(true)
     } 
 }catch(err){
         setBounced(true)
@@ -23,6 +27,11 @@ const SignIn = () => {
     setUser("");
   };
 
+
+
+  if(loggedIn){
+    return <Redirect to="/" />;
+    }
   return (
     <div>
         <h2>SignIn</h2>

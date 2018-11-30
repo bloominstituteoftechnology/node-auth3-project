@@ -8,18 +8,24 @@ const SignUp =()=>{
   const [username, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [department, setDepartment] = useState('')
+  const [newUserStatus, setNUS] = useState(false)
 
   const submit = async e =>{
       e.preventDefault();
-        const reply = await axios.post(`${url}/api/register`, {username,  password, department})
+      try{
+        await axios.post(`${url}/api/register`, {username,  password, department})
         setPassword('')
         setUser('')
-        if (Array.isArray(reply)){
-            localStorage.setItem('token',reply.token)
-            return <Redirect to='/'></Redirect>
-        }
+        setNUS(true)
+      }catch(err){
+        setPassword('')
+        setUser('')
+      }  
+        
   }
-
+  if (newUserStatus){
+      return <Redirect to='/'></Redirect>
+  }
     return (
       <div>
           <h2>Sign up</h2>
