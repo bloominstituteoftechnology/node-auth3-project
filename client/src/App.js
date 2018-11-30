@@ -4,7 +4,8 @@ import {withRouter} from 'react-router';
 import axios from 'axios';
 import Register from './components/Register';
 import Login from './components/Login';
-import './App.css';
+
+document.body.classList.add('app-background');
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -60,9 +61,9 @@ class App extends Component {
     return (
       <div className="App">
       <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/register">Register</NavLink>
+        <NavLink to="/" className="navlink">Home</NavLink>
+        <NavLink to="/login" className="navlink">Log In</NavLink>
+        <NavLink to="/register" className="navlink">Register</NavLink>
       </nav>
       <Switch>
         <Route path ='/register' component={Register}/>

@@ -1,0 +1,46 @@
+.app-background {
+  background-color: #282c37;
+}
+.App {
+  color: #d9e1e8;
+}
+nav {
+  border: 5px solid #2b90d9;
+  background-color: #d9e1e8;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  width: 50%;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+nav .navlink {
+  color: #282c37;
+  text-decoration: none;
+  font-size: 20px;
+}
+.notification {
+  margin: 0 auto;
+  width: 150px;
+  font-size: 15px;
+}
+form {
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 400px;
+  height: 200px;
+}
+form input {
+  height: 25px;
+  border-radius: 5px;
+  background-color: #d9e1e8;
+  color: #282c37;
+  font-size: 16px;
+}
+form button {
+  height: 28px;
+  font-size: 18px;
+  border-radius: 5px;
+}

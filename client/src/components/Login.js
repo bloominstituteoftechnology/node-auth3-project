@@ -50,6 +50,15 @@ export default class Login extends Component{
     render(){
         return (
             <div>
+
+            <section className="notification">
+            { this.state.message
+                ? (<h4>{this.state.message}</h4>)
+                : " "
+            }                
+            </section>
+
+
             <form onSubmit={this.submitHandler}>
             
             <label htmlFor="username">Username</label>
@@ -72,10 +81,6 @@ export default class Login extends Component{
 
             </form>
 
-            { this.state.message
-                ? (<h4>{this.state.message}</h4>)
-                : undefined
-            }
             </div>
         )
     }
