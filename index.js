@@ -1,6 +1,6 @@
 const express = require('express');
 const knex = require('knex');
-// const cors = require('cors');
+const cors = require('cors');
 const knexConfig = require('./knexfile.js');
 const jwt = require('jsonwebtoken');
 const db = knex(knexConfig.development);
@@ -9,7 +9,7 @@ const server = express();
 
 
 server.use(express.json());
-// server.use(cors());
+server.use(cors());
 server.get('/', (req, res) => {
   res.send(`Hello`)
 })
@@ -38,7 +38,6 @@ protected = (req, res, next) => {
         res.status(401).json({message: 'invalid token'})
       } else {
         req.decodedToken = decodedToken
-console.log('decoded token:', decodedToken);
         next()
       }
     })

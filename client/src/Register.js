@@ -27,9 +27,9 @@ export default class Register extends Component {
 
   submitHandler = (event) => {
     event.preventDefault()
-    axios.post('http://localhost:3300/api/register', this.state.user)
+    axios.post('http://localhost:9000/api/users', this.state.user)
     .then(res => {
-      if(res.status === 200) {
+      if(res.status === 201) {
         this.setState({message: 'Registration successful', user: {...initialUser}})
       } else {
         throw new Error();
