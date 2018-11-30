@@ -27,7 +27,6 @@ class SignUp extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        console.log(this.state.user);
         axios.post(`${url}/api/register`, this.state.user)
             .then(res => {
                 if (res.status === 200) {

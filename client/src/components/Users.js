@@ -40,8 +40,11 @@ class Users extends Component {
         this.authenticateUser();
     }
 
-    signOut() {
+    signOut = (event) => {
+        event.preventDefault();
         localStorage.removeItem('auth_token');
+        this.props.history.push('/signin');
+        // this.authenticateUser();
     }
 
     render() {
