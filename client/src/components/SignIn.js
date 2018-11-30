@@ -34,6 +34,7 @@ class SignIn extends Component {
                         message: 'Login Successful',
                         user: { ...initialUser }
                     })
+                    this.props.history.push('/users');
                 } else {
                     throw new Error();
                 }

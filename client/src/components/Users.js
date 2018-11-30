@@ -40,9 +40,24 @@ class Users extends Component {
         this.authenticateUser();
     }
 
+    signOut() {
+        localStorage.removeItem('auth_token');
+    }
+
     render() {
         return (
-            <p>this is something</p>
+            <div>
+                <h2>User List</h2>
+                <ul>
+                    {this.state.users.map(user => {
+                        return (
+                            <li key={user.id}>{user.username}</li>
+                        )
+                    })}
+                </ul>
+                <button onClick={this.signOut}>Sign Out</button>
+
+            </div>
         );
 
     }

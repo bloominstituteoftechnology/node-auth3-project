@@ -35,7 +35,7 @@ server.get('/', (req, res) => {
 
 server.get('/api/users', protected, async (req, res) => {
     try {
-        const users = await db('users').select('id', 'username');
+        const users = await db('users').select('id', 'username', 'department');
         res.status(200).json(users);
     } catch (error) {
         res.status(401).json({ message: 'invalid user' })
