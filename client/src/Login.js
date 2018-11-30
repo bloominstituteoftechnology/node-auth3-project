@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import axios from 'axios';
 
@@ -9,7 +10,7 @@ const initialUser = {
 }
 
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props)
       this.state = {
@@ -27,11 +28,12 @@ export default class Register extends Component {
 
   submitHandler = (event) => {
     event.preventDefault()
-    axios.post('http://localhost:9000/api/users', this.state.user)
+    axios.post('http://localhost:9000/api/login', this.state.user)
     .then(res => {
-      if(res.status === 201) {
-        console.log(res)
-        this.setState({message: 'Registration successful', user: {...initialUser}})
+      console.log(res.data.token)
+      if(res.status === 200 && res.data) {
+        localStorage.setItem('seecret', res.data.token)
+        this.props.history.push('/')
       } else {
         throw new Error();
       }
@@ -39,7 +41,7 @@ export default class Register extends Component {
     })
     .catch(err => {
       this.setState({
-        message: 'Registration failed',
+        message: 'Login failed',
         user: {...initialUser}
       })
 
@@ -50,7 +52,7 @@ export default class Register extends Component {
   render() {
     return(
         <div>
-        Register
+        Login
           <form onSubmit={this.submitHandler}>
             <label htmlFor='username'>Username</label>
             <input type='text' 
