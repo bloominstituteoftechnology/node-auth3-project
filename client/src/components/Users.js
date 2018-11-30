@@ -33,7 +33,7 @@ export default class Users extends Component {
                     this.props.history.push('/signin')
                 })
         } else {
-            this.props.history.push('/login')
+            this.props.history.push('/signin')
         }
     }
     
@@ -43,16 +43,20 @@ export default class Users extends Component {
 
     componentDidUpdate(prevProps) {
         const { pathname } = this.props.location;
-        console.log(this.props);
-        console.log(prevProps);
         if (pathname === '/' && pathname !== prevProps.location.pathname) {
           this.authenticate();
         }
+    }
+      
+      logout = () => {
+          localStorage.removeItem('my_token')
+          this.props.history.push('/')
       }
 
     render() {
         return (
             <div>
+                <button onClick={this.logout}>Logout</button>
                 <h2>Users</h2>
                 <ol>
                     {this.state.users.map(user => 
