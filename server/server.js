@@ -112,10 +112,22 @@ server.get('/api/users', protected, (req, res) => {
     db('users')
       .select('id', 'username', 'password') // ***************************** added password to the select
       .then(users => {
-        res.json(users);
+        res.status(200).json(users);
       })
       .catch(err => res.send(err));
   });
+
+  server.get('/api/restricted/users', (req, res) => {
+  db('users')
+    .select('username', 'id')
+    .then((usernames) => {
+      return res.status(200).json(usernames);
+    })
+    .catch((err) => {
+      console.log(`Error: ${err}`);
+      return res.status(500).json({ message: 'Could not obtain requested data' });
+    });
+});
   
 
 
