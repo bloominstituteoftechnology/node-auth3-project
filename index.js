@@ -11,14 +11,14 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
-
+const secret = 'process.env.JWT_SECRET';
 function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username
   };
 
-  const secret = process.env.JWT_SECRET;
+  const secret = 'process.env.JWT_SECRET';
   const options = {
     expiresIn: '1h',
   };
@@ -80,7 +80,7 @@ server.get('/api/me', protected, (req, res) => {
     .catch(err => res.send(err));
 });
 
-server.get('/api/users', protected, checkRole('sales'), (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -89,15 +89,6 @@ server.get('/api/users', protected, checkRole('sales'), (req, res) => {
     .catch(err => res.send(err));
 });
 
-function checkRole(role) {
-  return function(req, res, next) {
-    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-      next();
-    } else {
-      res.status(403).json({ message: 'you have no access to this resource' });
-    }
-  };
-}
 
 server.post('/api/register', (req, res) => {
   // grab username and password from body

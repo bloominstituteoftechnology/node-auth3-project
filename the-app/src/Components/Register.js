@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 const initialUser = {
   username: "",
-  password: ""
+  password: "",department:"IT",
 };
-const url= process.env.REACT_APP_API_URL;
 export default class Register extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,7 @@ export default class Register extends Component {
   submitHandler = event => {
     event.preventDefault();
     axios
-      .post(`${url}/api/register`, this.state.user)
+      .post(`http://localhost:3300/api/register`, this.state.user)
       .then(res => {
         if (res.status === 201) {
           this.setState({
@@ -33,7 +32,7 @@ export default class Register extends Component {
       })
       .catch(err => {
         this.setState({
-          message: "Registration successful",
+          message: "Registration fail",
           user: { ...initialUser }
         });
       });
