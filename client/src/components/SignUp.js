@@ -22,10 +22,11 @@ export default class SignUp extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    const endPoint = "http://localhost:4200/api/register";
     console.log(this.state.user);
+    const endPoint = process.env.REACT_APP_API_URL;
+
     axios
-      .post(endPoint, this.state.user)
+      .post(`${endPoint}/api/register`, this.state.user)
       .then(res => {
         if (res.status === 201) {
           this.setState({

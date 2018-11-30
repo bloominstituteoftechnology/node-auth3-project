@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-// const endPoint = process.env.APP_API_URL;
+const endPoint = process.env.REACT_APP_API_URL;
 
 class Login extends Component {
   constructor() {
@@ -14,9 +14,8 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const endPoint = "http://localhost:4200/api/login";
     axios
-      .post(endPoint, this.state)
+      .post(`${endPoint}/api/login`, this.state)
       .then(res => {
         console.log(res.data);
         localStorage.setItem("jwt", res.data.token);
@@ -32,6 +31,7 @@ class Login extends Component {
   };
 
   render() {
+    console.log(process.env.REACT_APP_API_URL);
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
