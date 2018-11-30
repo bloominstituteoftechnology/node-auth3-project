@@ -23,14 +23,10 @@ class Register extends Component {
     axios
       .post(`http://localhost:3300/api/register`, this.state.user)
       .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            message: 'Registration successful',
-            user: { ...initialUser }
-          })
-        } else {
-          throw new Error()
-        }
+        this.setState({
+          message: 'Registration successful',
+          user: { ...initialUser }
+        })
       })
       .catch(err => {
         this.setState({
