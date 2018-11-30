@@ -50,12 +50,14 @@ server.post('/api/register', (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 14)
   creds.password = hash;
+  console.log(creds, hash)
   db('users')
     .insert(creds)
     .then(ids => {
       res.status(201).json({ id: ids[0]});
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({ message: 'Error inserting', err })
     })
 })
@@ -76,8 +78,9 @@ server.post('/api/login', (req, res) => {
       }
     })
 })
+// , protectedAreas, checkDepartment('product')
 //, protectedAreas, checkDeparment('product')
-server.get('/api/users', protectedAreas, checkDepartment('product'),(req, res) => {
+server.get('/api/users',(req, res) => {
 
   db('users')
     .select('id', 'username', 'password', 'department')

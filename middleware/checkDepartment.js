@@ -1,5 +1,5 @@
 module.exports = (dept, req, res, next) => {
-  console.log(req)
+  // console.log(req)
   return function (req, res, next) {
     if (req.decodedToken && req.decodedToken.department.includes(dept)) {
       next();

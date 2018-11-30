@@ -80,7 +80,7 @@ option.department {
   border: 1px solid #016881;
 }
 
-.signup-form input.btn {
+.signup-form button.btn {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -90,7 +90,7 @@ option.department {
   font-size: 15px;
   font-weight: bold;
   width: 90px;
-  padding: 10px;
+  padding: 5px 10px;
   margin: 10px auto;
   border-radius: 12px;
 }
@@ -105,7 +105,7 @@ option.department {
   font-size: 15px;
   font-weight: bold;
   width: 90px;
-  padding: 10px;
+  padding: 5px 10px;
   margin: 10px auto;
   border-radius: 12px;
 }
