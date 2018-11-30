@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
     table.increments()
     table.string('username')
     table.string('password')
-    table.string('deparment')
   })
   
 };
