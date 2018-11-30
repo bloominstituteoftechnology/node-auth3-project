@@ -11,7 +11,6 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
-const secret = 'process.env.JWT_SECRET';
 function generateToken(user) {
   const payload = {
     subject: user.id,

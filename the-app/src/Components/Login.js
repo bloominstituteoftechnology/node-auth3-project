@@ -24,7 +24,7 @@ export default class Login extends Component {
       .then(res => {
           console.log(res)
         if (res.status === 200 && res.data) {
-          localStorage.setItem("stop_hacking", res.data);
+          localStorage.setItem("stop_hacking", res.data.token);
           this.setState({
             message: "login successful",
             user: { ...initialUser }
