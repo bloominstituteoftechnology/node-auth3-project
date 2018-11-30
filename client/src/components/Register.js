@@ -26,7 +26,7 @@ export default class Register extends React.Component {
         ev.preventDefault();
         axios.post(`${url}/api/register`, this.state.user)
             .then(res => {
-                if (res.status === 200) {
+                if (res.status === 201) {
                     this.setState({
                         message: "Registration successful",
                         user: { ...initialUser }
@@ -63,6 +63,7 @@ export default class Register extends React.Component {
                         value={this.state.user.password}
                         onChange={this.inputHandler} 
                     />
+                    <button type="submit">Submit</button>
                 </form>
                 { this.state.message ? 
                     (<h4>{this.state.message}</h4>) : 

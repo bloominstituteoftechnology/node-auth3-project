@@ -26,8 +26,9 @@ export default class Login extends React.Component {
         ev.preventDefault();
         axios.post(`${url}/api/login`, this.state.user)
             .then(res => {
+                // console.log(res.data);
                 if (res.status === 200 && res.data) {
-                    localStorage.setItem("secretBitcoinToken", res.data);
+                    localStorage.setItem("secretBitcoinToken", res.data.token);
                     this.setState({
                         message: "Login successful",
                         user: { ...initialUser }
@@ -64,6 +65,7 @@ export default class Login extends React.Component {
                         value={this.state.user.password}
                         onChange={this.inputHandler} 
                     />
+                    <button type="submit">Submit</button>
                 </form>
                 { this.state.message ? 
                     (<h4>{this.state.message}</h4>) : 

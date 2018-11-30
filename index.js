@@ -30,7 +30,7 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
-    const token = req.headers.authorization;
+    const token = req.headers.authentication;
 
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
@@ -92,7 +92,7 @@ server.post("/api/login", (req, res) => {
         });
 });
 
-server.get("/api/users", protected, (req, res) => {
+server.get("/api/restricted/users", protected, (req, res) => {
     db("users")
         .select('id', 'username', 'password', 'department')
         .where({ department: req.decodedToken.department })
