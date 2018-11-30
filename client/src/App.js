@@ -17,7 +17,8 @@ class App extends Component {
       username:'',
       password:'',
       department:'',
-      loggedIn: false
+      loggedIn: false,
+      message: ''
     }
   }
   handleLogin = e => {
@@ -44,9 +45,9 @@ class App extends Component {
   handleLogout = e => {
     e.preventDefault();
     if (this.state.loggedIn){
-      localStorage.getItem('BANK CODE');
+      localStorage.removeItem('BANK CODE');
       this.props.history.push('/login');
-      this.setState({ loggedIn: true });
+      this.setState({ loggedIn: false });
     } 
   }
   handleRegister = e => {
@@ -82,13 +83,16 @@ class App extends Component {
       Axios
       .get(`${url}/api/users`, options)
       .then(response => this.setState({ users: response.data }))
-      .catch(err => {console.log(err)});
-    }else{
-      console.log('this crap aint mounting')
+      .catch(err => err);
+    } else {
+      this.setState({ loggedIn: 'please log in as a manager to view users'})
     }    
   }
   componentDidMount() {
-    this.fetchUsers();
+    const token = localStorage.getItem('BANK CODE');
+    if(token){
+      this.setState({ loggedIn: true });
+    }    
   }
   
   render() {
@@ -99,6 +103,7 @@ class App extends Component {
             <NavLink to='/' >HOME</NavLink>
             <NavLink to='/login' >LOGIN</NavLink>
             <NavLink to='/register' >REGISTER</NavLink>
+          <NavLink to='/users' >USERS</NavLink>
           </div>
           <Route path='/login' render={(props) => 
             <LoginForm 
@@ -129,10 +134,13 @@ class App extends Component {
           <NavLink to='/' >HOME</NavLink>
           <NavLink to='/login' >LOGIN</NavLink>
           <NavLink to='/register' >REGISTER</NavLink>
+          <NavLink to='/users' >USERS</NavLink>
         </div>
         <Route path='/users' render={() => 
           <UsersList 
-            users={this.state.users} 
+            users={this.state.users}
+            message={this.state.message}
+            fetchUsers={this.fetchUsers} 
             logout={this.handleLogout}
         /> 
         }/>

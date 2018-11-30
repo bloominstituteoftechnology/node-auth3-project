@@ -63,7 +63,7 @@ app.get('/api/users', protected, checkRole('manager'), (req, res) => {
 });
 
 function protected(req, res, next) {
-  const{ authentication: token} = req.headers;
+  const { authentication: token} = req.headers;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken)=>{
       if(err){

@@ -22,7 +22,7 @@ const RegisterForm = props => {
       <select name="department" value={props.department} onChange={props.handleChange}>
         <option value="manager">Manager</option>
         <option value="developer">Developer</option>
-        <option value="engineer">Engineer</option>
+        <option defaultChecked value="engineer">Engineer</option>
       </select>
       <button onClick={props.register}>Register</button>
     </form>
