@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialUser = {
     username: '',
-    password: ''
+    password: '',
 }
 
 const url = process.env.REACT_APP_API_URL;
@@ -29,7 +29,8 @@ export default class Login extends Component{
         axios.post(`${url}/api/login`, this.state.user)
         .then(res => {
            if (res.status === 200 && res.data){
-            localStorage.setItem('secret_token', res.data)   
+
+            localStorage.setItem('secret_token', res.data.token) 
             this.setState({
                    message: 'login successful',
                    user: {...initialUser},

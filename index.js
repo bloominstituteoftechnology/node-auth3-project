@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
@@ -9,6 +8,7 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
+// server.use('/api/', authenticate)
 
 function generateToken(user) {
     const payload = {
@@ -23,9 +23,8 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options)
 }
 
-function protected(req, res, next) {
+function authenticate(req, res, next) {
     const token = req.headers.authorization;
-
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err) {
@@ -51,14 +50,9 @@ function protected(req, res, next) {
 // }
 
 //Check server
-
-server.get('/', (req, res) => {
-    res.send('server is running');
-})
-
 //List of users
 
-server.get('/api/users', protected, (req, res) => {
+server.get('/api/users', authenticate, (req, res) => {
     db('users')
     .select('id', 'username', 'password')
     .then(users => {
@@ -75,10 +69,10 @@ server.post('/api/register', (req, res) => {
     creds.password = hash;
     db('users')
     .insert(creds)
-    .then(ids => {
+    .then((ids) => {
         res.status(200).json(ids);
     })
-    .catch(err => res.status(500).json(ids))
+    .catch(err => res.status(400).json({message: 'unable to register', ids}))
 })
 
 //Login

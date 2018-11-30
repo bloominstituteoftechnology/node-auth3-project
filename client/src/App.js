@@ -18,10 +18,10 @@ class App extends Component {
   }
 
   authenticate = () => {
-    const token = localStorage.getItem('secret_bitcoin_token');
+    const token = localStorage.getItem('secret_token');
     const options = {
       headers: {
-        authentication: token,
+        authorization: token,
       }
     }
     if (token) {
@@ -36,12 +36,24 @@ class App extends Component {
       })
       .catch((err) => {
         console.log(err);
+        this.props.history.push('/login');
       })
+    } else {
+      this.props.history.push('/login');
     }
   }
 
   componentDidMount(){
     this.authenticate();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {pathname} = this.props.location;
+    console.log(this.props);
+    console.log(prevProps);
+    if (pathname === '/' && pathname !== prevProps.location.pathname) {
+      this.authenticate();
+    }
   }
 
   render() {
@@ -55,14 +67,20 @@ class App extends Component {
       <Switch>
         <Route path ='/register' component={Register}/>
         <Route path ='/login' component={Login}/>
+        <Route exact path ='/' render={() => {
+          return (
+            <React.Fragment>
+              <h2>users</h2>
+              <ol>
+                {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+              </ol>
+            </React.Fragment>
+          );
+        }}/>
       </Switch>
-      <ol>
-        {this.state.users.map(user => <li key={user.id}>user.username</li>)}
-      </ol>
-
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

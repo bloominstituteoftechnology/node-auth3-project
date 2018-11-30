@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const initialUser = {
     username: '',
-    password: ''
+    password: '',
+    department: ''
 }
 
 const url = process.env.REACT_APP_API_URL;
@@ -25,9 +26,10 @@ export default class Register extends Component{
     }
 
     submitHandler = (event) => {
+        console.log('submit');
         event.preventDefault();
         axios.post(`${url}/api/register`, this.state.user)
-        .then(res => {
+        .then((res) => {
            if (res.status === 200){
                this.setState({
                    message: 'registration successful',
@@ -48,6 +50,7 @@ export default class Register extends Component{
     render(){
         return (
             <div>
+
             <form onSubmit={this.submitHandler}>
             
             <label htmlFor="username">Username</label>
@@ -55,7 +58,7 @@ export default class Register extends Component{
             type="text"
             id="username"
             name="username"
-            value={this.state.username}
+            value={this.state.user.username}
             onChange={this.inputHandler}/>
 
             <label htmlFor="password">Password</label>
@@ -63,7 +66,15 @@ export default class Register extends Component{
             type="text"
             id="password"
             name="password"
-            value={this.state.password}
+            value={this.state.user.password}
+            onChange={this.inputHandler}/>
+
+            <label htmlFor="department">Department</label>
+            <input
+            type="text"
+            id="department"
+            name="department"
+            value={this.state.user.department}
             onChange={this.inputHandler}/>
 
             <button type='submit'>Submit</button>
