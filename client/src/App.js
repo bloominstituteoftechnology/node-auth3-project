@@ -19,18 +19,18 @@ class App extends Component {
   }
 
   authenticate = () => {
-    const token = localStorage.getItem('secret_bitcoin_token');
+    const token = localStorage.getItem('jwtToken');
     const options = {
       headers: {
-        protected: token,
+        authorization: token,
       },
     };
 
     if (token) {
       axios.get(`${url}/api/users`, options)
         .then((res) => {
-            console.log(res.data)
-            this.setState({ loggedIn: true, users: res.data.token });
+            console.log("res data",res.data)
+            this.setState({ loggedIn: true, users: res.data});
         })
         .catch((err) => {
           this.props.history.push('/login');
@@ -45,6 +45,16 @@ class App extends Component {
     this.authenticate();
   }
 
+  
+  componentDidUpdate(prevProps) {
+    const { pathname } = this.props.location;
+    console.log(this.props);
+    console.log(prevProps);
+    if (pathname === '/' && pathname !== prevProps.location.pathname) {
+      this.authenticate();
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -57,11 +67,17 @@ class App extends Component {
           <Switch>
             <Route path="/register" component={Register}/>
             <Route path="/login" component={Login} />
+            <Route path="/" render={() => {
+              return (
+                <React.Fragment>
+                <h2>Users</h2>
+                  <ol>
+                    {this.state.users.map(user => <li key={user.id}>{user.username}</li>)}
+                  </ol>
+                </React.Fragment>
+              );
+            }} />
           </Switch>
-          <h2>Users</h2>
-          <ol>
-            {this.state.users.map(user =>  <li key={user.id}>{user.username}</li>)}
-          </ol>
        </section>
       </div>
     );
