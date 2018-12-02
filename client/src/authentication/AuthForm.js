@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import Row from '../components/row';
-import styles from './authForm.module.css';
+import styles from './AuthForm.module.css';
 
 const AuthForm = props => {
   const [username, setUsername] = useState('');
@@ -51,7 +51,7 @@ const AuthForm = props => {
         </Row>
       </section>
       <button className={styles.button} type="submit">
-        login
+        {props.label}
       </button>
     </form>
   );
