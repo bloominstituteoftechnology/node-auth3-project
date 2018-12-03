@@ -4,7 +4,6 @@ import { Ghost } from 'react-kawaii';
 import styles from './users.module.css';
 
 const Users = ({ unauthorize, users }) => {
-  console.log(users);
   const logout = () => {
     window.localStorage.removeItem('jwt');
     window.localStorage.setItem('auth', false);
@@ -12,11 +11,13 @@ const Users = ({ unauthorize, users }) => {
   };
 
   const renderUsers = () =>
-    users.map(user => (
-      <li key={user.id} className={styles.user}>
-        {user.username}
-      </li>
-    ));
+    users.map(user => {
+      return (
+        <li key={user.id} className={styles.user}>
+          {user.username}
+        </li>
+      );
+    });
 
   return (
     <div className={styles.container}>
