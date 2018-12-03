@@ -16,11 +16,9 @@ const Login = props => {
     const credentials = { username, password };
     try {
       const res = await axios.post('/api/login', credentials);
-      if (res.status === 200) {
-        localStorage.setItem('jwt', res.data.token);
-        localStorage.setItem('auth', true);
-        props.authorize(true);
-      }
+      localStorage.setItem('jwt', res.data.token);
+      localStorage.setItem('auth', true);
+      props.authorize(true);
     } catch {
       setMood('sad');
       setUsername('');

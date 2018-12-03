@@ -37,6 +37,12 @@
   width: 230px;
 }
 
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
 .button {
   background-color: #fffc00;
   border: none;
@@ -48,6 +54,24 @@
   font-weight: 800;
   letter-spacing: 2px;
   padding: 16px 32px 16px;
+  text-transform: uppercase;
+  width: 140px;
+}
+
+.link {
+  background-color: #fffc00;
+  border: none;
+  border-radius: 100px;
+  box-shadow: 7px 3.5px #e5e200;
+  color: inherit;
+  cursor: pointer;
+  font-family: Lato;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 18px 32px 16px;
+  text-align: center;
+  text-decoration: none;
   text-transform: uppercase;
   width: 140px;
 }

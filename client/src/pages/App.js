@@ -24,6 +24,7 @@ const App = props => {
       } catch {
         window.localStorage.removeItem('jwt');
         window.localStorage.setItem('auth', false);
+        setUsers([]);
       }
     }
   };
