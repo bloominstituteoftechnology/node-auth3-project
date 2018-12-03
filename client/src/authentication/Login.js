@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Ghost } from 'react-kawaii';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import Row from '../components/row';
 import styles from './auth.module.css';
@@ -59,9 +60,14 @@ const Login = props => {
             />
           </Row>
         </section>
-        <button className={styles.button} type="submit">
-          Login
-        </button>
+        <div className={styles.buttons}>
+          <button className={styles.button} type="submit">
+            Login
+          </button>
+          <Link className={styles.link} to="/">
+            Home
+          </Link>
+        </div>
       </form>
     </div>
   );

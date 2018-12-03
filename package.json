@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "yarn --cwd ./client build",
+    "postinstall": "yarn --cwd ./client install && yarn --cwd ./client build"
   },
   "repository": {
     "type": "git",

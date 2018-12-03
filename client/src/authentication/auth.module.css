@@ -76,16 +76,19 @@
   width: 140px;
 }
 
-.button:hover {
+.button:hover,
+.link:hover {
   background-color: #e5e200;
   box-shadow: 7px 3.5px #ccc800;
 }
 
-.button:active {
+.button:active,
+.link:active {
   box-shadow: 5px 2.5px #e5e200;
   transform: translate(2px, 2px);
 }
 
-.button:focus {
+.button:focus,
+.link:focus {
   outline: none;
 }
