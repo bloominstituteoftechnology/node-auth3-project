@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Ghost } from 'react-kawaii';
 import axios from 'axios';
 
@@ -9,15 +9,24 @@ const Login = props => {
   const [mood, setMood] = useState('blissful');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const usernameInput = useRef(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
     const credentials = { username, password };
-    const res = await axios.post('/api/login', credentials);
-    if (res.status === 200) {
-      localStorage.setItem('jwt', res.data.token);
-      props.history.push('/users');
-    } else setMood('sad');
+    try {
+      const res = await axios.post('/api/login', credentials);
+      if (res.status === 200) {
+        localStorage.setItem('jwt', res.data.token);
+        localStorage.setItem('auth', true);
+        props.authorize(true);
+      }
+    } catch {
+      setMood('sad');
+      setUsername('');
+      setPassword('');
+      usernameInput.current.focus();
+    }
   };
 
   const handleUsernameChange = e => setUsername(e.target.value);
@@ -36,6 +45,7 @@ const Login = props => {
               placeholder="Username"
               value={username}
               name="username"
+              ref={usernameInput}
               required
             />
           </Row>
