@@ -2,6 +2,7 @@
 // ==============================================
 const jwt = require('jsonwebtoken');
 
+const keys = require('./config/keys');
 const config = require('./authConfig');
 
 // AUTH MIDDLEWARE
@@ -13,14 +14,14 @@ module.exports = {
       username: user.username,
       department: user.department
     };
-    const secret = process.env.JWT_SECRET;
+    const secret = keys.jwtSecret;
     const options = { expiresIn: '1m' };
     return jwt.sign(payload, secret, options);
   },
   protected: function(req, res, next) {
     const token = req.headers.authorization;
     if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      jwt.verify(token, keys.jwtSecret, (err, decodedToken) => {
         if (err) {
           res.status(401).json({ message: config.TOKEN_INVALID });
         } else {

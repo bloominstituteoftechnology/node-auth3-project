@@ -15,7 +15,6 @@ const SignUp = props => {
   const handleSubmit = async e => {
     e.preventDefault();
     const credentials = { username, password, department: 'sales' };
-    console.log(credentials);
     try {
       await axios.post('/api/register', credentials);
       props.history.push('/');
