@@ -18,6 +18,7 @@ const App = props => {
       const options = { headers: { Authorization: token } };
       try {
         const res = await axios.get('api/users', options);
+        console.log(res.data);
         if (res.status === 200) {
           setUsers(res.data);
         }

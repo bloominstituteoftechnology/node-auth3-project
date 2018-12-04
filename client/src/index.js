@@ -13,4 +13,4 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
-serviceWorker.register();
+serviceWorker.unregister();
