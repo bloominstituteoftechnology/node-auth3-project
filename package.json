@@ -1,4 +1,4 @@
-{ 
+{
   "name": "authii",
   "version": "1.0.0",
   "main": "index.js",
@@ -6,9 +6,10 @@
     "server": "nodemon"
   },
   "keywords": [],
-	"author": "Lambda School",
-	"license": "MIT",
+  "author": "Lambda School",
+  "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "connect-session-knex": "^1.4.0",
     "cors": "^2.8.5",
