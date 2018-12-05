@@ -1,5 +1,9 @@
+require('dotenv').config();
+
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const knex = require('knex');
 const knexConfig = require('./knexfile');
@@ -8,6 +12,18 @@ const db = knex(knexConfig.development);
 const server = express();
 
 server.use(express.json());
+
+function generateToken(user) {
+  const payload = {
+    subject: user.userId,
+    username: user.username
+  };
+  const secret = process.env.JWT_SECRET;
+  const options = {
+    expiresIn: "1h",
+  };
+  return jwt.sign(payload, secret, options);
+}
 
 server.get('/', (req, res) => {
     res.send('The hills are alive...');
@@ -46,8 +62,8 @@ server.get("/users", (req, res) => {
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(creds.password, user.password)) {
-          req.session.userId = user.id;
-          res.status(200).json({ welcome: creds.username });
+          const token = generateToken(user);
+          res.status(200).json({ welcome: creds.username, token });
         } else {
           res.status(401).json({ message: "you shall not pass!" });
         }
