@@ -1,0 +1,9 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "Second authorization project",
+  "main": "index.js",
+  "repository": "https://github.com/JoeBugajski/auth-ii.git",
+  "author": "Joe Bugajski <yogurtmystery@gmail.com>",
+  "license": "MIT"
+}
