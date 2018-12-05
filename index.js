@@ -67,6 +67,7 @@ function generateToken(user){
         ...user,
         hello: 'Homie',
         roles: ['admin', 'root'],
+        
 
     }
 
