@@ -16,7 +16,7 @@ function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    roles: ['sales', 'marketing'], //added manually here; normally would come from db
+    department: user.department, //added manually here; normally would come from db
   }
 
   //const secret = 'afoiu2389u_caiocja;l3?vu80vnqa909jk&claksma';
@@ -70,6 +70,34 @@ server.post('/api/register', (req,res) => {
   })
   .catch(err => res.json({message:"attempt registration again", err}))
 })
+
+server.post('/api/login', (req,res) => {
+  //grab username and password from body
+  const creds = req.body;
+
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if(user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({message: 'you made it!', token})
+      } else {
+        res.status(401).json({message: 'incorrect inputs'})
+      }
+    })
+    .catch(err => res.json({message: 'no'}))
+})
+
+server.get('/api/users', (req, res) => {
+  //if they are logged in, provide access to users
+  db('users')
+    .select('id', 'username', 'password') // added password to the select****
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send({message:"you are not able to view this", err}));
+});
 
 
 // server working?
