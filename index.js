@@ -36,6 +36,8 @@ function protected(req, res, next){
 
 function checkRole(role){
     return function (req, res, next) {
+        console.log(req.decodedToken)
+        console.log(req.decodedToken.roles)
         if (req.decodedToken && req.decodedToken.roles.includes(role)) {
             next()
         } else {
@@ -65,15 +67,32 @@ const jwtSecret = 'nobody tosses a dwarf!';
 function generateToken(user){
     const jwtPayload = {
         ...user,
-        hello: 'Homie',
-        roles: ['admin', 'root'],
+        hello: 'Admin',
+        roles: ['admin', 'root',],
         
 
     }
 
 
     const jwtOptions = {
-        expiresIn: '1m',
+        expiresIn: '5m',
+    }
+
+    return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
+}
+
+function generateUserToken(user){
+    const jwtPayload = {
+        ...user,
+        hello: 'User',
+        roles: ['user'],
+        
+
+    }
+
+
+    const jwtOptions = {
+        expiresIn: '2m',
     }
 
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
@@ -81,6 +100,25 @@ function generateToken(user){
 
 
 server.post('/api/login', (req, res) => {
+    const logger = req.body
+
+    db('users')
+    .where({ username: logger.username })
+    .first()
+    .then(user => {
+        if (user && bcrypt.compareSync(logger.password, user.password)){
+            const token = generateUserToken(user);
+
+            res.status(200).json({ message: `Logged In: Welcome ${user.username}!`, token })
+        } else {res.status(401).json({ message: 'You Shall Not Pass!' })}
+    }).catch(error => res.status(500).json({ message: 'error', error }));
+    
+    // db('users').insert(logger)
+    // .then(user => res.status(201).json(user))
+    // .catch(error => res.status(500).json({ message: "You done F'd Up", error }))
+});
+
+server.post('/api/login/admin', (req, res) => {
     const logger = req.body
 
     db('users')
@@ -99,11 +137,21 @@ server.post('/api/login', (req, res) => {
     // .catch(error => res.status(500).json({ message: "You done F'd Up", error }))
 });
 
-server.get('/api/users', protected, checkRole('admin'), (req, res) => {
+server.get('/api/users', protected, checkRole('user'), (req, res) => {
+    console.log('\n O_O **Decoded Token Information** O_O \n', req.decodedToken);
+    db('users')
+        .select('username', 'id', 'department')
+        .where('users.department', '=', req.decodedToken.department)
+        .then(user => res.status(200).json(user))
+        .catch(error => res.status(500).json({ message: 'Could Not Retrieve Users', error }));
+
+
+})
+
+server.get('/api/users/admin', protected, checkRole('admin'), (req, res) => {
     console.log('\n O_O **Decoded Token Information** O_O \n', req.decodedToken);
     db('users')
         .select('username', 'id', 'password', 'department')
-        .where('users.department', '=', req.decodedToken.department)
         .then(user => res.status(200).json(user))
         .catch(error => res.status(500).json({ message: 'Could Not Retrieve Users', error }));
 
