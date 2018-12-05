@@ -29,16 +29,6 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-function checkRole(role) {
-  return function(req,res,next) {
-    if (req.decodedToken && req.decodedToken.roles.includes(role)) {
-      next();
-    } else {
-      res.status(403).json({ message: 'you have no access to this resource' })
-    }
-  }
-}
-
 function protected(req,res,next) {
   const token = req.headers.authorization;
   if (token) {
@@ -83,7 +73,7 @@ server.post('/api/login', (req, res) => {
     .catch(err => res.json(err))
 });
 
-server.get('/api/users', protected, checkRole('jedi'), (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   db('users')
   .select('id','username', 'password', 'department')
   .then(users => {
@@ -92,7 +82,16 @@ server.get('/api/users', protected, checkRole('jedi'), (req, res) => {
   .catch(err => res.send(err));
 })
 
-
+server.delete('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  db('users')
+  .where({ id: id })
+  .del()
+  .then(count => {
+    res.status(200).json({ count });
+  })
+  .catch(err => res.status(500).json(err));
+})
 
 
 server.listen(8000, () => console.log('\nrunning on port 8000\n'));
