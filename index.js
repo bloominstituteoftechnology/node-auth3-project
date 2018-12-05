@@ -128,7 +128,7 @@ server.post('/api/login/admin', (req, res) => {
         if (user && bcrypt.compareSync(logger.password, user.password)){
             const token = generateToken(user);
 
-            res.status(200).json({ message: `Logged In: Welcome ${user.username}!`, token })
+            res.status(200).json({ message: `Logged In: Welcome Admin ${user.username}!`, token })
         } else {res.status(401).json({ message: 'You Shall Not Pass!' })}
     }).catch(error => res.status(500).json({ message: 'error', error }));
     
