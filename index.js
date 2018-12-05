@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const db = require('./data/dbConfig');
 const server = express();
 
+
+
 // Middleware
 server.use(express.json());
 // JWT Config
@@ -66,7 +68,7 @@ server.post('/api/register', async(req, res) => {
 });
 
 
-// POST login
+// POST LOGIN
 server.post('/api/login', async(req, res) => {
     const loginData = req.body;
     if (!loginData.username || !loginData.password) {
@@ -91,7 +93,7 @@ server.post('/api/login', async(req, res) => {
 
 
 
-// GET users
+// GET USERS
 server.get('/api/users', protected, async(req, res) => {
     try {
         const users = await db('users').select('id', 'username', 'password');
