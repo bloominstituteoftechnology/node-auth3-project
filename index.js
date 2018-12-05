@@ -24,13 +24,24 @@ function generateToken(user) {
   };
   return jwt.sign(payload, secret, options);
 }
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  if(token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if(err) {
+        res.status(401).json({ message: 'incorrect token'})
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    } )
+  } else {
+    res.status(401).json({ message: 'no token provided'})
+  }
+};
 
-server.get('/', (req, res) => {
-    res.send('The hills are alive...');
-});
-
-server.get("/users", (req, res) => {
-      db("authorize")
+server.get("/users",  protected, (req, res)=> {
+      db("users")
       .then(creds => {
         res.json(creds);
       }
@@ -43,7 +54,7 @@ server.get("/users", (req, res) => {
     const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
   
-    db("authorize")
+    db("users")
       .insert(credentials)
       .then(ids => {
         const id = ids[0];
@@ -57,7 +68,7 @@ server.get("/users", (req, res) => {
   server.post("/api/login", (req, res) => {
     const creds = req.body;
   
-    db("authorize")
+    db("users")
       .where({ username: creds.username })
       .first()
       .then(user => {
