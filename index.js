@@ -102,7 +102,8 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', protected, checkRole('admin'), (req, res) => {
     console.log('\n O_O **Decoded Token Information** O_O \n', req.decodedToken);
     db('users')
-        .select('username', 'id', 'password')
+        .select('username', 'id', 'password', 'department')
+        .where('users.department', '=', req.decodedToken.department)
         .then(user => res.status(200).json(user))
         .catch(error => res.status(500).json({ message: 'Could Not Retrieve Users', error }));
 
