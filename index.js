@@ -13,6 +13,17 @@ server.use(express.json());
 server.use(cors());
 
 
+server.post('/api/register', (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 14);
+  creds.password = hash;
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => res.json(err));
+})
 
 
 
