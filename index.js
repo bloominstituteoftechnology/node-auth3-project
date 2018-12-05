@@ -16,12 +16,12 @@ function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    roles: ['sales', 'marketing'],
+    roles: ['sales', 'marketing'], // this comes from the database
   };
 
   const secret = process.env.JWT_SECRET;
   const options = {
-    expiresIn: '60m',
+    expiresIn: '60m', //time changed here before another login attempt is needed
   };
 
   return jwt.sign(payload, secret, options);
@@ -47,21 +47,21 @@ server.post('/api/login', (req, res) => {
 function protected(req, res, next) {
   const token = req.headers.authorization;
 
-  if (token) {
+  if (token) { // is valid
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-      if (err) {
+      if (err) { // is invalid
         res.status(401).json({ message: 'invalid token' });
-      } else {
+      } else { // token is good
         req.decodedToken = decodedToken;
         next();
       }
     });
-  } else {
+  } else { //bounced
     res.status(401).json({ message: 'not token provided' });
   }
 }
 
-
+//protect this route! Authenticate users only!
 server.get('/api/users', protected, checkRole('sales'), (req, res) => {
   db('users')
     .select('id', 'username', 'password')
@@ -82,10 +82,10 @@ function checkRole(role) {
 }
 
 server.post('/api/register', (req, res) => {
-  const creds = req.body;
-  const hash = bcrypt.hashSync(creds.password, 4); 
-  creds.password = hash;
-
+  const creds = req.body; //grabbing username and password from body
+  const hash = bcrypt.hashSync(creds.password, 4); //generate hash from the user's password
+  creds.password = hash; //override the user.password with the hash
+    //save the user to the DB
   db('users')
     .insert(creds)
     .then(ids => {
