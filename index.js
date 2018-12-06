@@ -81,6 +81,7 @@ server.post('/api/login', (req,res) => {
     .then(user => {
       if(user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
+        console.log('token:', token);
         res.status(200).json({message: 'you made it!', token})
       } else {
         res.status(401).json({message: 'incorrect inputs'})

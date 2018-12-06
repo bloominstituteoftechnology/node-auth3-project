@@ -6,11 +6,10 @@ const url = process.env.REACT_APP_API_URL;
 
 const initialUser = {
   username: '',
-  password: '',
-  department: '',
+  password: ''
 };
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,14 +24,12 @@ export default class Register extends Component {
   }
 
   submitHandler = (event) => {
-    console.log('hello')
     event.preventDefault();
-    axios.post(`${url}/api/register`, this.state.user)
+    axios.post(`${url}/api/login`, this.state.user)
       .then(res => {
-        console.log(res)
-        if (res.status === 201) {
-          this.setState({
-            message: 'Registration Successful!',
+        if (res.status === 200 && res.data) {
+          localStorage.setItem('secret_bitcoin_token', res.data);         this.setState({
+            message: 'Login Successful!',
             user: {...initialUser},
           })
         } else {
@@ -42,7 +39,7 @@ export default class Register extends Component {
       .catch(err => {
         console.dir(err);
         this.setState({
-          message: 'Registration Failed!',
+          message: 'Authentication Failed!',
           user: {...initialUser},
         })
       });
@@ -67,14 +64,6 @@ export default class Register extends Component {
       id='password' 
       name='password' 
       value={this.state.user.password}
-      onChange={this.inputHandler}></input>
-
-      <label htmlFor="department">Department</label>
-      <input 
-      type='text' 
-      id='department' 
-      name='department' 
-      value={this.state.user.department}
       onChange={this.inputHandler}></input>
       
       <button type="submit">Submit</button>
