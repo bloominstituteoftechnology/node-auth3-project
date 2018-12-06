@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+}
+
+section {
+  padding: 7%;
+}
+body {
+  background: #D7CEC7;
+}
+html, body {
+  color: #565656;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2.6rem;
+  line-height: 1.5;
+}
+
+h3 {
+  font-size: 2rem;
+  line-height: 1.7;
+}
+
+.users {
+  margin: 0 auto;
+  width: 80%;
+}
+
+h4 {
+  color: #76323F;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.6rem;
+  line-height: 1.7;
+}
+
+a {
+  color: #062F4F;
+  font-size: inherit;
+}
+
+.welcome a, .users a {
+  color: #76323F;
+}
