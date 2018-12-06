@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
-require('dotenv').config(); 
+// require('dotenv').config(); 
 
 const server = express();
 
@@ -24,12 +24,33 @@ function generateToken(user) {
       username: user.username,
       department: user.department,
     };
-    const secret = process.env.JWT_SECRET;
+    const secret = 'holla natalia. Claro que si corazon. Ya voy.';
     const options = {
         expiresIn: '1m',
     };
         return jwt.sign(payload, secret, options);
 }
+
+function protected(req, res, next) {
+    const token = req.headers.authorization; //affixed to the header as Authorization
+
+    // valid token exsists
+    if (token) {
+      jwt.verify(token, jwtSecret, (err, decodedToken) => {
+        // invalid token
+        if (err) {
+          res.status(401).json({ message: 'invalid token' });
+        } else {
+          req.decodedToken = decodedToken;
+          next();
+        }
+      });
+    } else {
+      // nonexsistent token
+      res.status(401).json({ message: 'not token provided' });
+    }
+  }
+
 
 // SANITY CHECK
 server.get('/', (request, response) => {
