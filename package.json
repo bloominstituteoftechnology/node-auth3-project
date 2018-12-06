@@ -4,6 +4,7 @@
   "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
   "main": "index.js",
   "dependencies": {
+    "auth-client": "^0.4.10",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",

@@ -23,6 +23,9 @@ create migration(s)/schema
 create index.js file
   -add require(s) and routes/middleware
 
+  #ADDING REACT
+
+
 
 
 

@@ -89,7 +89,7 @@ server.post('/api/login', (req,res) => {
     .catch(err => res.json({message: 'no'}))
 })
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protected, (req, res) => {
   //if they are logged in, provide access to users
   db('users')
     .select('id', 'username', 'password') // added password to the select****
