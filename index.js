@@ -71,6 +71,17 @@ server.get('/api/users', protected, checkRole('sales'), (req, res) => {
     .catch(err => res.send(err));
 });
 
+server.get('/api/me', protected, (req, res) => {
+    db('users')
+      .select('id', 'username', 'password') 
+      .where({ id: req.session.user })
+      .first()
+      .then(users => {
+        res.json(users);
+      })
+      .catch(err => res.send(err));
+  });
+
 function checkRole(role) {
   return function(req, res, next) {
     if (req.decodedToken && req.decodedToken.roles.includes(role)) {
