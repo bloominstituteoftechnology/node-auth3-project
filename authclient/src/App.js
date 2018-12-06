@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import { NavLink, Route } from 'react-router-dom';
 import './App.css';
 import Users from './users/Users';
+import Login from './auth/Login';
 
 const Home = props => {
   return (
@@ -22,10 +23,13 @@ class App extends Component {
               <NavLink to= "/" exact>Home</NavLink>
               &nbsp; | &nbsp;
               <NavLink to= "/users" >Users</NavLink>
+              &nbsp; | &nbsp;
+              <NavLink to= "/signin" >Log In</NavLink>
             </nav>
             <main>
               <Route path = "/" component={ Home } exact/>
               <Route path = "/users" component={ Users }/>
+              <Route path = "/signin" component={ Login }/>
             </main>
         </header>
       </div>
