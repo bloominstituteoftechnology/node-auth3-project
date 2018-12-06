@@ -102,7 +102,7 @@ function checkRole(role) {
   };
 }
 
-server.post('/api/register', (req, res) => {
+server.post('api/register', (req, res) => {
   // grab username and password from body
   const creds = req.body;
 
@@ -116,7 +116,7 @@ server.post('/api/register', (req, res) => {
   db('users')
     .insert(creds)
     .then(ids => {
-      res.status(201).json(ids);
+      res.status(200).json(ids);
     })
     .catch(err => res.json(err));
 });
@@ -125,4 +125,4 @@ server.get('/', (req, res) => {
   res.send('Its Alive!');
 });
 
-server.listen(3300, () => console.log('\nrunning on port 3300\n'));
+server.listen(3300, () => console.log('\nRunning on port 3300\n'));
