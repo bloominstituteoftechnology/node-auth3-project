@@ -68,7 +68,7 @@ function generateToken(user){
     const jwtPayload = {
         ...user,
         hello: 'Admin',
-        roles: ['admin', 'root',],
+        roles: ['admin', 'root', 'user'],
         
 
     }
