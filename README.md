@@ -61,4 +61,6 @@ sqlite3 -->
 <!-- // create knex file: knex init
 // node index.js
 // in package.json "scipts": "server": "nodemon" -->
+<!-- // knex migrate:make users
+// knex migrate:latest // to spit out db.file -->
 
