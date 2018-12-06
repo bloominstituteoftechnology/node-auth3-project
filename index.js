@@ -83,7 +83,7 @@ function generateToken(user){
     const jwtOptions = {
         expiresIn: '5m',
     }
-
+    console.log('token from process.env:', jwtSecret);
     return jwt.sign(jwtPayload, jwtSecret, jwtOptions)
 }
 
@@ -164,7 +164,18 @@ server.get('/api/users/admin', protected, checkRole('admin'), (req, res) => {
 
 })
 
+server.put('/api/users/admin/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
 
+    db('users')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+        res.status(200).json({ count })
+    })
+    .catch(error => res.status(500).json({ message: `Could Not Implement '${changes}'`, error }))
+});
 
 const port = process.env.PORT || 7777;
 server.listen(port, () => console.log('\n === API Running On Port 7777 => http://localhost:7777 ===\n'))

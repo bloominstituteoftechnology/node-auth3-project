@@ -4,6 +4,7 @@ import { NavLink, Route } from 'react-router-dom';
 import './App.css';
 import Users from './users/Users';
 import Login from './auth/Login';
+import Signup from './auth/Signup';
 
 const Home = props => {
   return (
@@ -14,6 +15,10 @@ const Home = props => {
 }
 
 class App extends Component {
+  signout = () => {
+  
+    localStorage.removeItem('jwt');
+  }
   render() {
     return (
       <div className="App">
@@ -26,12 +31,15 @@ class App extends Component {
               &nbsp; | &nbsp;
               <NavLink to= "/signin" >Log In</NavLink>
               &nbsp; | &nbsp;
+              <NavLink to= "/signup" >Register</NavLink>
+              &nbsp; | &nbsp;
               <button onClick={this.signout}>Sign Out</button>
             </nav>
             <main>
               <Route path = "/" component={ Home } exact/>
               <Route path = "/users" component={ Users }/>
               <Route path = "/signin" component={ Login }/>
+              <Route path = "/signup" component={ Signup }/>
             </main>
         </header>
       </div>
@@ -39,9 +47,6 @@ class App extends Component {
   }
 }
 
-signout = () => {
-  
-  localStorage.removeItem('jwt')
-}
+
 
 export default App;
