@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -58,11 +59,16 @@ server.post('/api/register', (req, res) => {
     const hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
     db('users').insert(credentials)
-    .then(user => {res.status(201).json(user)})
+    .then(user => {
+        const token = generateToken({ username: credentials.username })
+        res.status(201).json(user, token)
+        
+    })
     .catch(error => res.status(500).json({ message: "You done F'd Up", error }))
 });
 
-const jwtSecret = 'nobody tosses a dwarf!';
+const jwtSecret = 
+process.env.JWT_SECRET || 'add a secret to your .env file with this key';
 
 function generateToken(user){
     const jwtPayload = {
@@ -160,5 +166,5 @@ server.get('/api/users/admin', protected, checkRole('admin'), (req, res) => {
 
 
 
-
-server.listen(7777, () => console.log('\n === API Running On Port 7777 => http://localhost:7777 ===\n'))
+const port = process.env.PORT || 7777;
+server.listen(port, () => console.log('\n === API Running On Port 7777 => http://localhost:7777 ===\n'))
