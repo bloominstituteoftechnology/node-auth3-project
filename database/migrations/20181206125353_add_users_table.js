@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique();
     users
-      .string('department')
+      .string('role')
       .notNullable();
     users
       .string('password', 128)
@@ -16,5 +16,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  
+  return knex.schema.dropTableIfExists('users');
 };

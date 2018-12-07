@@ -6,11 +6,11 @@ const router = express.Router();
 router.post('/', (req, res) => {
   // grab username and password from body
   const credentials = req.body;
-  if(credentials.username.length === 0 || credentials.password.length === 0 || credentials.department.length === 0) {
+  if(credentials.username.length === 0 || credentials.password.length === 0 || credentials.role.length === 0) {
     res
       .status(406)
       .json({
-        message: "Username, password and department required for registration."
+        message: "Username, password and department role required for registration."
       })
   } else {
     // generate the hash from the user's password
