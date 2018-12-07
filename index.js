@@ -81,7 +81,7 @@ server.post('/api/login', (req,res) => {
     .then(user => {
       if(user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
-        console.log('token:', token);
+        //console.log('token:', token);
         res.status(200).json({message: 'you made it!', token})
       } else {
         res.status(401).json({message: 'incorrect inputs'})
@@ -95,9 +95,12 @@ server.get('/api/users', protected, (req, res) => {
   db('users')
     .select('id', 'username', 'password') // added password to the select****
     .then(users => {
-      res.json(users);
+      return res.status(200).json(users);
     })
-    .catch(err => res.send({message:"you are not able to view this", err}));
+    .catch((err) => {
+      return res.status(500)
+      .json({message:"you are not able to view this", err});
+    });
 });
 
 

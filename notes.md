@@ -23,7 +23,39 @@ create migration(s)/schema
 create index.js file
   -add require(s) and routes/middleware
 
-S#ADDING REACT
+#CONNECTING TO FRONT END
+steps to connect a font end react app to a server.
+add dependency on server json file
+```yarn add cors```
+on server.js file, require cors.
+```const cors = require('cors');```
+use as middleware
+```server.use(cors());```
+or for more specific/secure connection to a react front end running on port 3000
+```server.use(cors({ origin: 'http://localhost:3000'}));```
+
+
+On react app add axios as dependency
+```yarn add axios```
+import axios
+```import axios from 'axios';```
+
+
+get the data...maybe like this
+
+```componentWillMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    axios
+      .get('http://localhost:5000/posts')
+      .then((response) => {
+        //console.log('response', response.data.posts);
+        this.setState({posts: response.data.posts})
+      })
+      .catch(err => console.log(err));
+  }```
 
 
 
