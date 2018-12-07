@@ -72,7 +72,7 @@ server.post('/api/login', (req, res) => {
     })
     .catch(err => res.json(err))
 });
-
+                            
 server.get('/api/users', protected, (req, res) => {
   db('users')
   .select('id','username', 'password', 'department')
@@ -93,5 +93,16 @@ server.delete('/api/users/:id', (req, res) => {
   .catch(err => res.status(500).json(err));
 })
 
+server.get('/api/currentuser', protected, (req, res) => {
+  const { id } = req.params;
+  db('users')
+    .select('id', 'username', 'password') 
+    .where({ id: id })
+    .first()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
 
 server.listen(8000, () => console.log('\nrunning on port 8000\n'));
