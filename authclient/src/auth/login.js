@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export class Login extends Component {
+export default class Login extends Component {
   state = {
     username: 'Steve',
     password: 'pass'

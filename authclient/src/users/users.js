@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export class Users extends Component {
+export default class Users extends Component {
   state = {
     users: [],
   };
