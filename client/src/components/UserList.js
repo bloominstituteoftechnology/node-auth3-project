@@ -7,7 +7,7 @@ class UserList extends React.Component {
     state = { users: '' }
 
     componentDidMount(){
-        console.log('UserList')
+        
         axios.get('http://localhost:8888/api/users', {headers: {authorization: localStorage.getItem('jwt')}})
              .then(res => {
                  console.log(res)

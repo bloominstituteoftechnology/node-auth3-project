@@ -44,6 +44,28 @@ class App extends Component {
          .catch(err => console.log(err))
     
   }
+  googleSubmit = () => {
+    const params = {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:3001",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+          "Access-Control-Allow-Headers": "X-Requested-With,content-type",
+          "Access-Control-Allow-Credentials": true,
+      },
+      withCredentials: true,
+      data: undefined
+  }
+    
+    
+    axios.post('http://localhost:8888/signin/google', params)
+         .then(res => {
+          console.log('google submit:', res)
+        })
+         .catch(err => console.dir(err))
+    
+  }
   login = () => {
     let user = {
       username: this.state.username,
@@ -68,7 +90,6 @@ class App extends Component {
 
   logout = () => {
     localStorage.removeItem('jwt');
-
   }
 
 
@@ -112,6 +133,9 @@ class App extends Component {
                                                                  /> }/>
           <Route path="/users" render={props => <UserList />} />
         </Switch>
+        <a href="http://localhost:8888/signin/google">
+          <div className="btn">Login w/ google</div>
+        </a>
 
       </div>
     );
