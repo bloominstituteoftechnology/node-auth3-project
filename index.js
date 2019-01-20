@@ -16,11 +16,33 @@ server.use(cors());
 const secret = 'a very complex secret you could never guess';
 
 generateToken = (user) => {
+    const payload = {
+        username: user.username,
+        department: user.department
+    };
+    
+    const options = {
+        expiresIn: '1h',
+        jwtid: '12345',
+    };
 
+    return jwt.sign(payload, secret, options);
 };
 
 protect = (req, res, next) => {
+    const token = req.headers.authorization;
 
+    if(token){
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if(err){
+                res.status(401).json({ message: "Invalid token!" })
+            } else {
+                next();
+            }
+        })
+    } else {
+        res.status(401).json({ message: "Your token is missing!" })
+    }
 };
 
 
