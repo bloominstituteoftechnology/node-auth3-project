@@ -104,8 +104,10 @@ server.post('/api/login', loginCheck, (req, res) => {
         .catch(err => res.status(500).json({ message: "Unable to login" }))
 });
 
-server.get('/api/users', (req, res) => {
-
+server.get('/api/users', protect, (req, res) => {
+    db.fetch()
+        .then(users => res.json(users))
+        .catch(err => res.status(500).json({ message: "Unable to fetch users." }))
 });
 
 
