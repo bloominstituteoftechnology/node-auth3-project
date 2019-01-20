@@ -54,29 +54,54 @@ passwordProtection = (password) => {
     }
 }
 
+allFields = (req, res, next) => {
+    const user = req.body;
+    if(user.username && user.password && user.department) {
+        next();        
+    } else if (user.username && user.password){
+        res.status(400).json({ message: "New accounts require a department." })
+    } else if (user.username && user.department){
+        res.status(400).json({ message: "New accounts require a password." })
+    } else if (user.password & user.department){
+        res.status(400).json({ message: "New accounts require a username." })
+    } else {
+        res.status(400).json({ message: "New accounts need a username, password and department." })
+    }
+}
+
+loginCheck = (req, res, next) => {
+    const user = req.body;
+    if(user.username && user.password) {
+        next();        
+    } else {
+        res.status(400).json({ message: "Invalid username or password." })
+    }
+}
+
 
 //ENDPOINTS
-server.post('/api/register', (req, res) => {
+server.post('/api/register', allFields, (req, res) => {
     const user = req.body;
-
-    if(user.username && user.department){
-        user.password = passwordProtection(user.password);
-        db.add(user)
-            .then(response => {
-                res.status(201).json({ message: "Account created successfully!" })
-            })
-            .catch(err => res.status(500).json({ message: "Unable to add new account." }))
-    } else if (user.department) {
-        res.status(400).json({ message: "New accounts require a username." })
-    } else if (user.username) {
-        res.status(400).json({ message: "New accounts require a department." })
-    } else {
-        res.status(400).json({ message: "New accounts require a username and department." })
-    }
+    user.password = passwordProtection(user.password);
+    db.add(user)
+        .then(response => {
+            res.status(201).json({ message: "Account created successfully!" })
+        })
+        .catch(err => res.status(500).json({ message: "Unable to add new account." }))
 });
 
-server.post('/api/login', (req, res) => {
-
+server.post('/api/login', loginCheck, (req, res) => {
+    const loginUser = req.body;
+    db.login(loginUser.username)
+        .then(response => {
+            if(bcrypt.compareSync(loginUser.password, response.password) === true ){
+                const token = generateToken(loginUser);
+                res.status(200).json(token)
+            } else {
+                res.status(404).json({ message: "Invalid username or password" })
+            }
+        })
+        .catch(err => res.status(500).json({ message: "Unable to login" }))
 });
 
 server.get('/api/users', (req, res) => {

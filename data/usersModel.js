@@ -6,14 +6,20 @@ add = (user) => {
     return db('users').insert(user)
 }
 
-findByUsername = (username) => {
+login = (username) => {
     return db('users').where('username', username).first();
 }
 
 fetch = () => {
-    return db('users').select('id', 'username');
+    return db('users')
+        .then(response => {
+            const mapped = response.map(x => {
+                return x.username
+            })
+            return mapped
+        })
 }
 
 module.exports = {
-    add, findByUsername, fetch
+    add, login, fetch
 }
