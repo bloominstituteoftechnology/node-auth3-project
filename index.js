@@ -24,7 +24,7 @@ function protect(req, res, next) {
             res.status(400).send("You shall not pass! Invalid Token")
          } else {
             console.log(decodedToken)
-            console.log(req)
+            console.log(req.username) 
             req.username = decodedToken.username ?
             next() : res.status(400).send("You shall not pass! Please Login")
          }
