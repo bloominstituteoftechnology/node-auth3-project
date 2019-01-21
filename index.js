@@ -23,10 +23,9 @@ function protect(req, res, next) {
          if(err) {
             res.status(400).send("You shall not pass! Invalid Token")
          } else {
-            console.log(decodedToken)
-            console.log(req.username) 
-            req.username = decodedToken.username ?
-            next() : res.status(400).send("You shall not pass! Please Login")
+//not sure what this does need to ask about this tuesday**
+            req.username = decodedToken.username
+            next();
          }
       })
    } else {
@@ -37,6 +36,7 @@ function protect(req, res, next) {
 //generates jwt
 function generateToken(user) {
    const payload = {
+      jwtid: user.id,
       username: user.username
    }
    const options = {
