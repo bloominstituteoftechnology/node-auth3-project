@@ -20,7 +20,14 @@ function protect(req, res, next) {
    const token = req.headers.authorization;
    if(token){
       jwt.verify(token, secret, (err, decodedToken) => {
-         err ? res.status(400).send("You shall not pass!") : next();
+         if(err) {
+            res.status(400).send("You shall not pass! Invalid Token")
+         } else {
+            console.log(decodedToken)
+            console.log(req)
+            req.username = decodedToken.username ?
+            next() : res.status(400).send("You shall not pass! Please Login")
+         }
       })
    } else {
       res.status(401).json({err: "token missing"});
@@ -45,16 +52,13 @@ server.get("/", (req, res) => {
 /*Creates a user using the information sent inside the body of the request. Hash the password before saving the user to the database.*/
 server.post("/api/register", (req, res) => {
    const user = req.body;
-   console.log(user)
    if (user.username && user.password) {
    user.password = bcrypt.hashSync(user.password, 14);
    db.insert(user)
       .then(ids => {
          const id = ids[0];
-         console.log(id)
          db.findById(id)
             .then(user => {
-               console.log(user)
                if(user){
                   const token = generateToken(user);
                   res.status(201).json({id: ids[0], token});
@@ -76,7 +80,7 @@ server.post("/api/login", (req, res) => {
       db.findByUsername(login.username)
          .then(users => {
             if(users.length && bcrypt.compareSync(login.password, users[0].password)) {
-            const token = generateToken(users)
+            const token = generateToken(users[0])
             res.send(`Welcome ${login.username}`);
              } else { res.status(404).send("You shall not pass!");}
          })
