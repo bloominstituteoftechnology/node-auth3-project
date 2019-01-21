@@ -13,8 +13,8 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 ### Download Project Files
 
-- **Fork** and **Clone** this repository.
-- **CD into the folder** where you cloned the repository.
+- [x] **Fork** and **Clone** this repository.
+- [x] **CD into the folder** where you cloned the repository.
 - Do your magic!
 
 ## Assignment
