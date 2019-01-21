@@ -60,7 +60,7 @@ server.post("/api/register", (req, res) => {
          db.findById(id)
             .then(user => {
                if(user){
-                  const token = generateToken(user);
+                  const token = generateToken(user[0]);
                   res.status(201).json({id: ids[0], token});
                } else {
                   res.status(404).send("User not found");
