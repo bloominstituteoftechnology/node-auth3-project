@@ -52,7 +52,16 @@ server.post('/api/login', (req,res) => {});
 // - If the user is logged in, respond with an array of all the users contained in the database. 
 // - If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'. 
 // - Use this endpoint to verify that the password is hashed before it is saved.
-server.get('/api/users', (req, res) => {});
+server.get('/api/users', (req, res) => {
+  db('users').select('id', 'user', 'dept')
+    .then( (users) => {
+      res.json(users);
+    })
+    .catch( (err) => {
+      res.status(500).json({ error: err });
+    });
+  // end-db
+});
 
 
 
