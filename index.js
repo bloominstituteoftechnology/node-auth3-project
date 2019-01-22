@@ -75,8 +75,8 @@ server.post("/api/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcyrpt.compareSync(credentials.password, user.password)) {
-        req.session.userId = user.id;
-        res.status(200).json({ message: "Logged in" });
+        const token = generateToken(user);
+        res.status(200).json({ message: "Logged in", token });
       } else {
         res.status(401).json({ message: "You shall not pass!" });
       }
