@@ -1,3 +1,6 @@
+// tim password Engineering
+// john password HR
+
 const express = require('express');
 const knex = require('knex');
 const knexConfig = require('./knexfile');
@@ -11,12 +14,12 @@ const db = knex(knexConfig.development);
 server.use(express.json());
 server.use(cors());
 
+const secert = 'Thats Eighty Hundred';
+
 function generateToken(username){
     const payload = {
         username
     };
-
-    const secert = 'Thats Eighty Hundred';
 
     const options = {
         expiresIn: '2h',
@@ -24,6 +27,23 @@ function generateToken(username){
     }
 
     return jwt.sign(payload, secert, options)
+}
+
+function protected(req, res, next){
+    const token = req.headers.authorization;
+    if(token){
+        jwt.verify(token, secert, (error, decodedToken)=>{
+            if(error){
+                res.status(401).json({error: 'Invalid token'});
+            }
+            else{
+                next();
+            }
+        })
+    }
+    else{
+        res.status(401).json({errorMessage: 'No token found'})
+    }
 }
 
 server.post('/api/register', (req, res)=>{
@@ -69,7 +89,9 @@ server.post('/api/login', (req, res)=>{
     }
 })
 
-server.get('/api/users', (req, res)=>{
+// logout -> destroy token on client side
+
+server.get('/api/users', protected, (req, res)=>{
     db('users')
     .select('id', 'username', 'department')
     .then(users=>{
