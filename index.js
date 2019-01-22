@@ -18,7 +18,25 @@ server.use(express.json());
 // - /api/register
 // - Creates a user using the information sent inside the body of the request. 
 // - Hash the password before saving the user to the database.
-server.post('/api/register', (req,res) => {});
+server.post('/api/register', (req,res) => {
+  const newUser = req.body;
+
+  // Only add if non-empty user, pass & dept
+  if( newUser.user && newUser.pass && newUser.dept ){
+    newUser.pass = bcrypt.hashSync(newUser.pass, 3);
+
+    db(`users`).insert(newUser)
+      .then( (newId) => {
+        res.status(201).json(newId);
+      })
+      .catch( (err) => {
+        res.status(500).json({ error: `Could not register new user: ${err}` });
+      });
+    // end-db
+  } else {
+    res.status(400).json({ error: "All fields are mandatory to register." });
+  }
+});
 
 
 // POST:
