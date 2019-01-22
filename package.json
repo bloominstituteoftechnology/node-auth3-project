@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": ""
+    "server": "nodemon"
   },
   "repository": "https://github.com/TexaCaliCoder/auth-ii.git",
   "author": "Chris Roth <c.roth.lambda@gmail.com>",
