@@ -3,6 +3,7 @@ const knex = require('knex');
 const knexConfig = require('./knexfile');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const server = express();
 const db = knex(knexConfig.development);
@@ -10,7 +11,20 @@ const db = knex(knexConfig.development);
 server.use(express.json());
 server.use(cors());
 
+function generateToken(username){
+    const payload = {
+        username
+    };
 
+    const secert = 'Thats Eighty Hundred';
+
+    const options = {
+        expiresIn: '2h',
+        jwtid: '12345'
+    }
+
+    return jwt.sign(payload, secert, options)
+}
 
 server.post('/api/register', (req, res)=>{
     const user = req.body;
@@ -19,7 +33,9 @@ server.post('/api/register', (req, res)=>{
         db('users')
         .insert(user)
         .then(ids=>{
-            res.status(201).json({id: ids[0]});
+            // Query database if more user data is needed
+            const token = generateToken(user.username);
+            res.status(201).json({id: ids[0], token: token});
         })
         .catch(error=>{
             res.status(500).json({error: 'Failed to add users'});
@@ -37,7 +53,8 @@ server.post('/api/login', (req, res)=>{
         .where('username', user.username)
         .then(users=>{
             if(users.length && bcrypt.compareSync(user.password, users[0].password)){
-                res.json({info: `Welcome ${user.username}`});
+                const token = generateToken(user.username);
+                res.json({info: `Welcome ${user.username}`, token: token});
             }
             else{
                 res.status(404).json({errorMessage: 'Invalid username or password'});
