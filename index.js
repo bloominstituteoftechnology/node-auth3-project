@@ -5,6 +5,9 @@ const bcyrpt = require("bcryptjs");
 const configureMiddleware = require("./config/middleware");
 const db = require("./data/dbConfig");
 
+const secret =
+  "932EB5EA15E5A6497DA4DE9F1EF5FA111C79CF0FD576935E661989DCDFD424FC";
+
 // Create server
 const server = express();
 const PORT = 3000;
@@ -12,13 +15,31 @@ const PORT = 3000;
 // Middlware
 configureMiddleware(server);
 
+function restricted(req, res, next) {
+  // Read the token string from the authorization header
+  const token = req.headers.authorization;
+
+  // Check if token exists
+  if (token) {
+    // Verify the token
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if (err) {
+        // Token is invalid
+        res.status(401).json({ message: "Invalid token." });
+      } else {
+        // Token is invalid
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "No token provided." });
+  }
+}
+
 function generateToken(user) {
   const payload = {
     username: user.username
   };
-
-  const secret =
-    "932EB5EA15E5A6497DA4DE9F1EF5FA111C79CF0FD576935E661989DCDFD424FC";
 
   const options = {
     expiresIn: "1h",
@@ -91,7 +112,7 @@ server.post("/api/login", (req, res) => {
 // database. If the user is not logged in repond with the correct status code and the
 // message: 'You shall not pass!'. Use this endpoint to verify that the password is
 // hashed before it is saved.
-server.get("/api/users", (req, res) => {
+server.get("/api/users", restricted, (req, res) => {
   if (req.session && req.session.userId) {
     db("users")
       .select("id", "username")
