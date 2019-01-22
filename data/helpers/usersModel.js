@@ -15,7 +15,7 @@ function addUser(data) {
 }
 
 function getUserByUsername(username) {
-  return db('users').where('username', username)
+  return db('users').where('username', username).first()
 }
 
 function getUserById(id) {
