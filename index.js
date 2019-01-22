@@ -25,8 +25,20 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options)
 }
 
-function protected() {
+function protected(req, res, next) {
+  const token = req.headers.authorization
 
+  if (token) {
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if(err) {
+        res.status(401).json({errMessage: "invalid token"})
+      } else {
+        next()
+      }
+    })
+  } else {
+    res.status(401).json({errMessage: "no token attached"})
+  }
 }
 
 server.post('/api/register', (req, res ) => {
@@ -58,7 +70,7 @@ server.post('/api/login', (req, res ) => {
   if (userCreds.username) {
     userDB.getUserByUsername(userCreds.username)
       .then(user => {
-        if(user.length && bcrypt.compareSync(userCreds.password, user[0].password)) {
+        if(user && bcrypt.compareSync(userCreds.password, user.password)) {
           const token = generateToken(user)
           res.status(200).json({user, token})
         } else {
@@ -74,8 +86,14 @@ server.post('/api/login', (req, res ) => {
 })
 
 
-server.get('/api/users', (req, res ) => {
-  
+server.get('/api/users', protected, (req, res ) => {
+  userDB.getUsers()
+    .then( users => {
+      res.status(200).json(users)
+    })
+    .catch( err => {
+      res.status(500).json({errMessage: 'unable to get users'})
+    })
 })
 
 server.listen(PORT, () => {
