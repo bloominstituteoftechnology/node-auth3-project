@@ -12,6 +12,22 @@ const PORT = 3000;
 // Middlware
 configureMiddleware(server);
 
+function generateToken(user) {
+  const payload = {
+    username: user.username
+  };
+
+  const secret =
+    "932EB5EA15E5A6497DA4DE9F1EF5FA111C79CF0FD576935E661989DCDFD424FC";
+
+  const options = {
+    expiresIn: "1h",
+    jwtid: "023948"
+  };
+
+  return jwt.sign(payload, secret, options);
+}
+
 // Test server
 server.get("/", (req, res) => {
   res.send("🔑 🔑 🔑");
@@ -32,7 +48,14 @@ server.post("/api/register", (req, res) => {
     .insert(credentials)
     .then(ids => {
       const id = ids[0];
-      res.status(201).json({ newUserId: id });
+
+      db("users")
+        .where({ id })
+        .first()
+        .then(user => {
+          const token = generateToken(user);
+          res.status(201).json({ id: user.id, token });
+        });
     })
     .catch(err => {
       res.status(500).json(err);
