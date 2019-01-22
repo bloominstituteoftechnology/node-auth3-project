@@ -113,18 +113,14 @@ server.post("/api/login", (req, res) => {
 // message: 'You shall not pass!'. Use this endpoint to verify that the password is
 // hashed before it is saved.
 server.get("/api/users", restricted, (req, res) => {
-  if (req.session && req.session.userId) {
-    db("users")
-      .select("id", "username")
-      .then(users => {
-        res.json(users);
-      })
-      .catch(err => {
-        res.send(err);
-      });
-  } else {
-    res.status(400).json({ message: "You shall not pass!" });
-  }
+  db("users")
+    .select("id", "username")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.send(err);
+    });
 });
 
 // Log out endpoint
