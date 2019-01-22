@@ -4,7 +4,7 @@ const db = knex(knexConfig.development)
 
 
 module.exports = {
-    find: () => {
+    getUser: () => {
         return db('users')
             .select('id', 'username')
             .orderby('department')

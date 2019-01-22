@@ -19,7 +19,13 @@ server.post('/api/login', (req, res) => {
 })
 
 server.get('/api/users', (req, res) => {
-
+    db.getUser()
+        .then(users => {
+            res.status(201).json(users)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
 })
 
 
