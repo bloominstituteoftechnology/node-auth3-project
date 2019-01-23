@@ -110,4 +110,18 @@ server.post('/api/login', (req, res) => {
     }
 });
 
+server.get('/api/users', protected, (req, res) => {
+    db('users_table')
+        .select('id', 'username')
+        .then(users => {
+            res
+                .json(users)
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({message: `The users' information could not be retrieved at this time.`})
+        })
+})
+
 server.listen(PORT, () => console.log(`Running on ${PORT}`));
