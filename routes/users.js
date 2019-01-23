@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const userDB = require('../data/helpers/usersDb');
+const userDB = require('../data/helpers/userDb');
+
 
 router.post('/register', (req, res) => {
     const user = req.body;
@@ -25,29 +26,35 @@ router.post('/login', (req, res) => {
    userDB.get(user)
     .then(users => {
         if(users.length && bcrypt.compareSync(user.password, users[0].password)) {
-            jwt.sign({ username: users[0].username }, 'shhhhh');
-            res.json({ message: 'Logged in' });
+            const token = jwt.sign({ username: users[0].username }, 'shhhhh');
+            res.json({ message: 'Logged in', token: token });
         } else {
-            res.status(404).json({ message: 'You shall not pass' })
+            res.status(404).json({ message: 'You shall not pass' });
         }
     })
     .catch(err => {
-        res.status(500).json({ errorMessage: 'Failed to verify. Please try again.' })
+        res.status(500).json({ errorMessage: 'Failed to verify. Please try again.' });
     });
 });
 
-// router.get('/users', (req, res) => {
-//     if(req.session && req.session.username) {
-//         userDB.findUsers()
-//             .then(users => {
-//                 res.json(users);
-//             })
-//             .catch(err => {
-//                 res.status(500).send(err);
-//             })
-//     } else {
-//         res.status(400).json({ message: 'You shall not pass' });
-//     }
-// });
+router.get('/users', (req, res) => {
+    const token = req.headers['x-access-token'];
+
+    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+
+    jwt.verify(token, 'shhhhh', function(err, decoded) {
+        if (err) {
+            return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+        } else {
+            userDB.findUsers()
+                .then(users => {
+                    res.json(users);
+                })
+                .catch(err => {
+                    res.status(500).send(err);
+                })
+        }
+    });
+});
 
 module.exports = router;
