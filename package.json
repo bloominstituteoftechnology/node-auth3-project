@@ -4,6 +4,7 @@
   "description": "- Authentication..\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
     "flagged-respawn": "^1.0.1",
     "for-in": "^1.0.2",
@@ -23,6 +24,7 @@
     "is-accessor-descriptor": "^0.1.6",
     "is-buffer": "^1.1.6",
     "is-data-descriptor": "^0.1.4",
+    "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
     "sqlite3": "^4.0.6"
   },
