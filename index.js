@@ -10,6 +10,10 @@ server.get('/', (req, res) =>{
     res.json('Working!!');
 })
 
+//import route handlers 
+const usersRoutes = require('./Routers/usersRouter');
+server.use('/api/', usersRoutes);
+
 //Listener
 const PORT = 4000;
 server.listen(PORT, ()=>{

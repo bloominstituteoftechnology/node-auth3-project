@@ -16,11 +16,13 @@ function tokenGenerator(user){
     const payload = {
         username: user.username,
         department: user.department
-    },
+    }
+
     const options = {
         expiresIn: '1h',
         jwtid: '12345'  //jti
     }
+    
     return jwt.sign(payload, secret, options);
 }
 
