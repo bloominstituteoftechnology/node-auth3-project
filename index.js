@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -6,11 +7,11 @@ const configureMiddleware = require("./config/middleware");
 const db = require("./data/dbConfig");
 
 const secret =
-  "932EB5EA15E5A6497DA4DE9F1EF5FA111C79CF0FD576935E661989DCDFD424FC";
+  process.env.JWT_SECRET || "Add your own secret to the .env file.";
 
 // Create server
 const server = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middlware
 configureMiddleware(server);
