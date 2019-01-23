@@ -84,8 +84,14 @@ server.post('/api/login', (req, res) => {
 
 })
 
-server.get('/api/users', (req, res) => {
-
+server.get('/api/users', protect, (req, res) => {
+    db('users')
+    .then(users => {
+        res.json(users)
+    })
+    .catch(err => {
+        res.status(500).json({message: 'error getting users'})
+    })
 })
 
 server.listen(PORT, () => {
