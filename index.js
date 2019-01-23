@@ -63,8 +63,28 @@ server.post('/api/register', (req, res) => {
     });
 });
 
+server.post('/api/login',(req, res) => {
+  const loginInfo = req.body;
+  db.findByUsername(loginInfo.username)
+  .then(user => {
+    if (user && bcrypt.compareSync(loginInfo.password),user.password){
+      const token = newToken(user);
+      res.status(200).json({id: user.id, token});
+      req.session.username = user.username;
+    } else {
+      res.status(401).json({error: 'Cannot Login'})
+    }
+    })
+  .catch(err => res.json({error: `cannot login ${err}`}));
+});
 
-
+server.get('/api/users', protected, (req,res) =>{
+  db.getUsers
+  .then(user => {
+    res.json(users);
+  })
+  .catch(err => res.send(err));
+})
 
 
 
