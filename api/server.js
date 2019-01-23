@@ -16,26 +16,25 @@ server.use(helmet());
 server.use(express.json());
 
 server.get('/', (req, res) => {
-  res.send('sanity check');
+  res.send('Working!');
 });
 
-server.post('/register', (req, res) => {
-  const userInfo = req.body;
-  const hash = bcrypt.hashSync(userInfo.password, 12);
-  userInfo.password = hash;
-  db('users')
-    .insert(userInfo)
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => res.status(500).json(err));
+server.post('/register', async (req, res) => {
+  try {
+    const userInfo = req.body;
+    const hash = bcrypt.hashSync(userInfo.password, 12);
+    userInfo.password = hash;
+    const ids = await db('users').insert(userInfo);
+    res.status(201).json(ids);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 function generateToken(user) {
   const payload = {
     username: user.username,
-    name: user.name,
-    roles: ['admin', 'sales'] // should come from database user.roles
+    department: ['admin', 'NYC']
   };
   const secret = process.env.JWT_SECRET;
   const options = {
@@ -44,28 +43,28 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-server.post('/login', (req, res) => {
-  const creds = req.body;
-  db('users')
-    .where({ username: creds.username })
-    .first()
-    .then(user => {
-      if (user && bcrypt.compareSync(creds.password, user.password)) {
-        // login is successful
-        // create the token
-        const token = generateToken(user);
-        res.status(200).json({ message: `welcome ${user.username}`, token });
-      } else {
-        res.status(401).json({ message: 'You shall not pass!!' });
-      }
-    })
-    .catch(err => res.status(500).json(err));
+server.post('/login', async (req, res) => {
+  try {
+    const creds = req.body;
+    const user = await db('users')
+      .where({ username: creds.username })
+      .first(); // this would show two instances of the user without first. Not sure why atm
+    if (user && bcrypt.compareSync(creds.password, user.password)) {
+      // login is successful
+      // create the token
+      const token = generateToken(user);
+      res.status(200).json({ message: `Welcome ${user.username}`, token });
+    } else {
+      res.status(401).json({ message: 'You shall not pass!' });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 function lock(req, res, next) {
   // the auth token is normally sent in the Authorization header
   const token = req.headers.authorization;
-
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
@@ -80,39 +79,23 @@ function lock(req, res, next) {
   }
 }
 
-function checkRole(role) {
+function checkDepartment(department) {
   return function(req, res, next) {
-    if (req.decodedToken.roles.includes(role)) {
+    if (req.decodedToken.department.includes(department)) {
       next();
     } else {
-      res.status(403).json({ message: `you need to be an ${role}` });
+      res.status(403).json({ message: `you need to be an ${department}` });
     }
   };
 }
 
 // protect this endpoint so only logged in users can see it
-server.get('/users', lock, checkRole('admin'), async (req, res) => {
+server.get('/users', lock, checkDepartment('admin'), async (req, res) => {
   const users = await db('users').select('id', 'username');
   res.status(200).json({
     users,
     decodedToken: req.decodedToken
   });
-});
-
-server.get('/users/me', lock, checkRole('accountant'), async (req, res) => {
-  const user = await db('users')
-    .where({ username: req.decodedToken.username })
-    .first();
-
-  res.status(200).json(user);
-});
-
-server.get('/users/:id', lock, async (req, res) => {
-  const user = await db('users')
-    .where({ id: req.params.id })
-    .first();
-
-  res.status(200).json(user);
 });
 
 module.exports = server;
