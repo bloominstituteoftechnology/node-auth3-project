@@ -1,0 +1,28 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "repository": "git+https://github.com/jm020801/auth-ii.git",
+  "keywords": [],
+  "author": "Jarrad Miller <jm020801@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jm020801/auth-ii/issues"
+  },
+  "homepage": "https://github.com/jm020801/auth-ii#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
+    "jsonwebtoken": "^8.4.0",
+    "knex": "^0.16.3",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
+    "sqlite3": "^4.0.6"
+  }
+}
