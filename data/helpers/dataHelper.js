@@ -8,12 +8,15 @@ module.exports = {
     getUser: () => {
         return db('users')
             .select('id', 'username')
-            .orderBy('department')
+            .orderBy('id')
     },
     insert: (user) => {
         return db('users').insert(user)
     },
     findByUser: (username) => {
         return db('users').where('username', username).first()
+    },
+    getUserById: (id) => {
+        return db('users').where({id}).first()
     }
-}
+ }
