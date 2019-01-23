@@ -9,9 +9,8 @@ const Joi = require('joi');
 const validate = require('./helpers/validations');
 
 
-const dbConfig = require('./knexfile');
-const db = knex(dbConfig.development);
 
+const db = require('./helpers/helpers');
 const server = express();
 
 const PORT = 5555;
@@ -32,6 +31,23 @@ function generateToken(user) {
         jwtid: '123'
     }
     return jwt.sign(payload, jwtSecret, options)
+};
+
+function gateKeeper(req, res, next){
+    const token = req.headers.authorization;
+
+    if(token){
+        
+        jwt.verify(token, jwtSecret, (err, decodedToken)=>{
+            if(err){
+                res.status(401).json({error: "Invalid Token"})
+            }else{
+                next();
+            }
+        })
+    }else{
+        res.status(401).json({message:"No Token Provided"})
+    }
 }
 
 
@@ -47,10 +63,10 @@ server.post('/api/register', (req, res) => {
     } else {
         const hash = bcrypt.hashSync(user.password);
         user.password = hash;
-        db('users').insert(user)
+        db.addUser()
             .then(ids => {
                 const id = ids[0];
-                db('users').where('id', id).first().then(user => {
+                db.userById().then(user => {
                     const token = generateToken(user);
                     res.status(201).json({
                         id: user.id,
@@ -76,8 +92,16 @@ server.post('/api/login', (req, res)=>{
             const token = generateToken(user);
             res.json({token, message: 'access granted'})
         }else{
-            res.status(401).json({message: 'invalid username or password'});
+            res.status(401).json({message: "You shall not pass"});
         }
+    }).catch(err=>{
+        res.status(500).send(err);
+    })
+})
+
+server.get('/api/users', gateKeeper, (req, res)=>{
+    db('users').select('id', 'username', 'department').then(users=>{
+        res.json(users)
     }).catch(err=>{
         res.status(500).send(err);
     })
