@@ -42,8 +42,8 @@ function generateToken(user) {
 }
 
 server.get("/", (req, res) => {
-    res.send("Live Server!");
-  });
+  res.send("Live Server!");
+});
 
 server.post("/api/register", (req, res) => {
   const credentials = req.body;
@@ -68,7 +68,26 @@ server.post("/api/register", (req, res) => {
     });
 });
 
+server.post("/api/login", (req, res) => {
+  const credentials = req.body;
 
-  server.listen(PORT, () => {
-    console.log(`\n=== API Listening on http://localhost:${PORT} ===\n`);
-  });
+  db("users")
+    .where({ username: credentials.username })
+    .first()
+    .then(user => {
+      if (user && bcyrpt.compareSync(credentials.password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({ message: "Logged in", token });
+      } else {
+        res.status(401).json({ message: "You shall not pass!" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+});
+
+
+server.listen(PORT, () => {
+  console.log(`\n=== API Listening on http://localhost:${PORT} ===\n`);
+});
