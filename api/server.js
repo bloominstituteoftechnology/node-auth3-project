@@ -26,7 +26,7 @@ server.post("/register", (req, res) => {
 
   userInfo.password = hash;
 
-  db("users")
+  db("decodedToken")
     .insert(userInfo)
     .then(ids => {
       res.status(201).json(ids);
@@ -75,7 +75,14 @@ function protected(req, res, next) {
   const token = req.headers.authorization;
 
   if (token) {
-    next();
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "Invalid token" });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
   } else {
     res.status(401).json({ message: "No token provided" });
   }
@@ -83,9 +90,9 @@ function protected(req, res, next) {
 
 // protect this endpoint so only logged in users can see it
 server.get("/users", protected, async (req, res) => {
-  const users = await db("users");
+  const users = await db("users").select("id", "username", "name");
 
-  res.status(200).json(users);
+  res.status(200).json({ users, decodedToken: req.decodedToken });
 });
 
 module.exports = server;
