@@ -13,6 +13,6 @@ module.exports = {
     return db('users').where('id', id).first();
   },
   getUsers: (users) => {
-    return db('users').select('id', 'username')
+    return db('users').select('id', 'username','password')
   }
 }

@@ -39,13 +39,14 @@ function protected(req, res, next) {
       }
     })
   }
+  else (res.json('no token'));
 };
 
 server.post('/api/register', (req, res) => {
-  const loginInfo = req.body;
-  const hashedPass = bcrypt.hashSync(loginInfo.password, 12);
-  loginInfo.password = hashedPass;
-  db.insertUser(loginInfo)
+  const user = req.body;
+  const hashedPass = bcrypt.hashSync(user.password, 12)
+  user.password = hashedPass;
+  db.insertUser(user)
     .then(ids => {
       const id = ids[0];
       db.findByID(id)
@@ -63,27 +64,26 @@ server.post('/api/register', (req, res) => {
     });
 });
 
-server.post('/api/login',(req, res) => {
-  const loginInfo = req.body;
-  db.findByUsername(loginInfo.username)
-  .then(user => {
-    if (user && bcrypt.compareSync(loginInfo.password),user.password){
-      const token = newToken(user);
-      res.status(200).json({id: user.id, token});
-      req.session.username = user.username;
-    } else {
-      res.status(401).json({error: 'Cannot Login'})
-    }
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
+  db.findByUsername(creds.username)
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = newToken(user);
+        res.status(200).json({ id: user.id, token });
+      } else {
+        res.status(401).json({ error: 'Cannot Login' })
+      }
     })
-  .catch(err => res.json({error: `cannot login ${err}`}));
+    .catch(err => res.send(`${err}`));
 });
 
-server.get('/api/users', protected, (req,res) =>{
-  db.getUsers
-  .then(user => {
-    res.json(users);
-  })
-  .catch(err => res.send(err));
+server.get('/api/users', protected, (req, res) => {
+  db.getUsers()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
 })
 
 
