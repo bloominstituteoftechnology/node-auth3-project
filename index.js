@@ -9,6 +9,7 @@ const db = knex(db_config.development);
 
 const server = express();
 const PORT = 3300;
+const secret = 'randomNumberGeneratorYesNoMaybe';
 
 server.use(express.json());
 server.use(cors());
@@ -19,8 +20,6 @@ function generateToken(user) {
         department: user.department
     };
 
-    const secret = 'randomNumberGeneratorYesNoMaybe';
-
     const options = {
         expiresIn: '1h',
         jwtid: '98765'
@@ -30,7 +29,21 @@ function generateToken(user) {
 }
 
 function protected(req, res, next) {
+    const token = req.headers.authorization;
 
+    if (token) {
+        jwt.verify(token, secret, (error, decodedToken) => {
+            if (error) {
+                res.status(401).json({message: 'Client sent an invalid token.'});
+            }
+            else {
+                next();
+            }
+        });
+    }
+    else {
+        res.status(401).json({message: 'You need to login to get access to this resource.'});
+    }
 }
 
 server.post('/api/register', (req, res) => {
@@ -67,12 +80,11 @@ server.post('/api/register', (req, res) => {
 server.post('/api/login', (req, res) => {
     const userFromBody = req.body;
     if (userFromBody.username && userFromBody.password) {
-        dbhelpers.getUser(userFromBody.username)
+        db('users').where('username', userFromBody.username)
         .then((user) => {
-            if (user.length && 
-                bcrypt.compareSync(userFromBody.password, user[0].password)) {
-                    req.session.userID = user[0].id;
-                    res.status(200).json({message: `User ${user[0].username} logged in...`});
+            if (user.length && bcrypt.compareSync(userFromBody.password, user[0].password)) {
+                    const token = generateToken(user[0]);
+                    res.status(200).json({message: `User ${user[0].username} logged in...`, token: token});
                 }
             else {
                 res.status(403).json({message: 'Username or password not recognized.'});
@@ -86,6 +98,16 @@ server.post('/api/login', (req, res) => {
         res.status(400).json({message: 'Logging in requires both a username and password'});
     }
 });
+
+server.get('/api/users', protected, (req, res) => {
+    db('users').select()
+    .then((usernames) => {
+        res.status(200).json({usernameList: usernames});
+    })
+    .catch((error) => {
+        res.status(500).json({message: `Server sent an error of: ${error}`});
+    })
+})
 
 server.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);
