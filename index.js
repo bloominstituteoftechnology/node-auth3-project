@@ -48,7 +48,7 @@ server.post('/api/register', (req, res) => {
     const hash = bcrypt.hashSync(user.password, 14);
     user.password = hash;
     db("users")
-        .insert(credentials)
+        .insert(user)
         .then(ids => {
             const id = ids[0];
             db("users")
