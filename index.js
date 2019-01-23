@@ -12,6 +12,8 @@ server.use(express.json(), cors());
 
 const secret = `terces`;
 
+// method to generate token
+
 function generateToken(user) {
     const payload = {
         username: user.username
@@ -23,6 +25,8 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options);
 };
 
+// method to protect endpoint
+
 function protected(req, res, next) {
     const token = req.headers.authorization;
     if (token) {
@@ -30,7 +34,7 @@ function protected(req, res, next) {
             if (err) {
                 res
                     .status(401)
-                    .json({message: 'You shall not pass!'})
+                    .json({message: 'You shall not pass!'});
             }
             else {
                 next();
@@ -40,9 +44,11 @@ function protected(req, res, next) {
     else {
         res
             .status(401)
-            .json({message: 'No token provided.'})
+            .json({message: 'No token provided.'});
     }
 };
+
+// method to register new user and return token
 
 server.post('/api/register', (req, res) => {
     const creds = req.body;
@@ -80,6 +86,8 @@ server.post('/api/register', (req, res) => {
     }
 });
 
+// method to login existing user and return token
+
 server.post('/api/login', (req, res) => {
     const creds = req.body;
     if (req.body.username && req.body.password) {
@@ -109,6 +117,8 @@ server.post('/api/login', (req, res) => {
             .json({message: 'Please provide a username and a password to log in.'})
     }
 });
+
+// method to get users using protected method to verify token
 
 server.get('/api/users', protected, (req, res) => {
     db('users_table')
