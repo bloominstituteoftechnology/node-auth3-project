@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { UikFormInputGroup, UikInput, UikButton } from "../@uik";
+import { UikInput, UikButton } from "../@uik";
 import "../@uik/styles.css";
 import axios from "axios";
 import styled from "styled-components";
@@ -7,7 +7,7 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   width: 400px;
-  margin: 0 auto;
+  margin: 0 100px;
   flex-direction: column;
 `;
 
@@ -18,18 +18,20 @@ class Signin extends Component {
   };
 
   handleSubmit = event => {
-    // event.preventDefault();
+    event.preventDefault();
 
     const endpoint = "http://localhost:3000/api/login";
-    console.log(this.state);
     axios
       .post(endpoint, this.state)
       .then(res => {
         console.log(res.data);
+        localStorage.setItem("jwt", res.data.token);
       })
       .catch(err => {
         console.log("ERROR");
       });
+
+    this.props.history.push("/home");
   };
 
   handleInput = event => {
@@ -40,33 +42,33 @@ class Signin extends Component {
   render() {
     return (
       <Container>
-        <UikFormInputGroup onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div>
-            {/* <label htmlFor="username">Username</label> */}
             <UikInput
               label="Username"
               name="username"
+              placeholder="your@email.com"
               value={this.state.username}
               onChange={this.handleInput}
               type="text"
             />
           </div>
           <div>
-            {/* <label htmlFor="password">Password</label> */}
             <UikInput
               label="Password"
               name="password"
+              placeholder="·····"
               value={this.state.password}
               onChange={this.handleInput}
               type="password"
             />
           </div>
           <div>
-            <UikButton primary type="submit">
+            <UikButton primary lg type="submit">
               Sign In
             </UikButton>
           </div>
-        </UikFormInputGroup>
+        </form>
       </Container>
     );
   }

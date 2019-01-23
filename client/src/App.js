@@ -5,7 +5,8 @@ import {
   UikNavPanel,
   UikContainerVertical,
   UikNavSection,
-  UikNavLink
+  UikNavLink,
+  UikButton
 } from "./@uik/index";
 
 import Users from "./components/Users";
@@ -18,11 +19,13 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  /* margin: 0 auto;
-  max-width: 880px; */
 `;
 
 class App extends Component {
+  signOut = () => {
+    localStorage.removeItem("jwt");
+  };
+
   render() {
     return (
       <Container>
@@ -38,6 +41,9 @@ class App extends Component {
               <UikNavLink Component={NavLink} to={"/signin"}>
                 Login
               </UikNavLink>
+              <UikButton onClick={this.signOut} error>
+                Sign Out
+              </UikButton>
             </UikNavSection>
           </UikContainerVertical>
         </UikNavPanel>

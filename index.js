@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const bcyrpt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const configureMiddleware = require("./config/middleware");
 const db = require("./data/dbConfig");
@@ -49,11 +49,6 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-// Test server
-server.get("/", (req, res) => {
-  res.send("🔑 🔑 🔑");
-});
-
 // Register endpoint
 // Creates a user using the information sent inside the body of the request.
 // Hash the password before saving the user to the database.
@@ -62,7 +57,7 @@ server.post("/api/register", (req, res) => {
   const credentials = req.body;
 
   // Hash password
-  const hash = bcyrpt.hashSync(credentials.password, 14);
+  const hash = bcrypt.hashSync(credentials.password, 14);
   credentials.password = hash;
 
   db("users")
@@ -95,7 +90,7 @@ server.post("/api/login", (req, res) => {
     .where({ username: credentials.username })
     .first()
     .then(user => {
-      if (user && bcyrpt.compareSync(credentials.password, user.password)) {
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({ message: "Logged in", token });
       } else {
