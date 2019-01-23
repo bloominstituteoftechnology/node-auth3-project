@@ -1,6 +1,5 @@
 const express = require("express");
 const server = express();
-const jwt = require("jsonwebtoken");
 
 const cors = require("cors")
 const helmet = require("helmet");
