@@ -15,15 +15,15 @@ server.use(cors());
 
 const secret = 'a very complex secret you could never guess';
 
-generateToken = (user) => {
+generateToken = (user, id) => {
     const payload = {
         username: user.username,
-        department: user.department
+        department: user.department,
+        sub: `${id}`,
     };
     
     const options = {
         expiresIn: '1h',
-        jwtid: '12345',
     };
 
     return jwt.sign(payload, secret, options);
@@ -95,8 +95,8 @@ server.post('/api/login', loginCheck, (req, res) => {
     db.login(loginUser.username)
         .then(response => {
             if(bcrypt.compareSync(loginUser.password, response.password) === true ){
-                const token = generateToken(loginUser);
-                res.status(200).json(token)
+                const token = generateToken(loginUser, response.id);
+                res.status(200).json({ message: "Successful login!", token: token })
             } else {
                 res.status(404).json({ message: "Invalid username or password" })
             }
