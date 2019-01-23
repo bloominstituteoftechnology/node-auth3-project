@@ -7,6 +7,10 @@ exports.up = function(knex, Promise) {
       .unique()
       .notNullable();
 
+      tbl
+      .string("name", 255)
+      .notNullable();
+
     tbl.string("password", 255).notNullable();
   });
 };

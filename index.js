@@ -1,13 +1,16 @@
+require('dotenv').config();
 const express = require("express");
 // const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 const dbFuncs = require("./dbFunctions");
 const jwt = require("jsonwebtoken");
+const morgan = require("morgan");
 // const KnexSessionStore = require("connect-session-store")(session);
 const server = express();
 
 // server.use(helmet());
 server.use(express.json());
+server.use(morgan())
 
 
 server.get("/", (req, res) => {
@@ -16,7 +19,6 @@ server.get("/", (req, res) => {
 
 server.post("/users/register", async (req, res) => {
   const userInfo = req.body;
-  const token = generateToken(userInfo);
   const hash = bcrypt.hashSync(userInfo.password, 12);
   userInfo.password = hash;
 
@@ -29,13 +31,28 @@ server.post("/users/register", async (req, res) => {
   }
 });
 
+function generateToken(user) {
+	const payload = {
+		username: user.username,
+		name: user.name
+	};
+
+	const secret = process.env.JWT_SECRET;
+
+	const options = {
+		expiresIn: '2m',
+	};
+
+	return jwt.sign(payload, secret, options);
+}
+
 server.post("/login", async (req, res) => {
   const creds = req.body;
   try {
     const user = await dbFuncs.getUser(creds);
     if (user && bcrypt.compareSync(creds.password, user.password)) {
-    //   req.session.user = user;
-      res.status(200).json({ message: `Welcome ${user.name}` });
+        const token = generateToken(user);
+        res.status(200).json({ message: `Welcome ${user.name}`,token });
     } else {
       res
         .status(401)
@@ -58,40 +75,50 @@ server.get("/users", async (req, res) => {
 });
 
 function protected(req,res,next){
-    // console.log(req.session);
-    // if(req.session && req.session.user){
-    //     next()
-    // } else {
-    //     res.status(401).json({message:"Not Authorized or Not Logged in"})
-    // }
-    next();
+    const token = req.headers.authorization;
+
+	if (token) {
+		jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+			if (err) {
+				res.status(401).json({ message: 'invalid token' });
+			} else {
+				req.decodedToken = decodedToken;
+				next();
+			}
+		});
+	} else {
+		res.status(401).json({ message: 'no token provided' });
+	}
 }
 
 server.get("/user", protected, async (req, res) => {
-    console.log(req)
+    // console.log(Object.keys(req));
+    console.log(req.headers.authorization)
     try {
       const user = await dbFuncs.getUser(req.body);
-      res.status(200).json(user);
+      res.status(200).json({
+		user,
+		decodedToken: req.decodedToken,
+	});
     } catch (err) {
       console.log(err);
       return err;
     }
   });
 
-server.get("/logout",(req,res) => {
-    // console.log(req.session)
-    if(req.session.user){
-        req.session.destroy(err => {
-            if(err){
-                res.status(500).send("<h1>Error with logout request</h1>")
-            } else {
-                res.status(500).send("<h1>You have successfully logged out</h1>")
-            }
-        })
-    } else {
-        res.send("<h1>You are already logged out</h1>")
-    }
-})
+// server.get("/logout",(req,res) => {
+//     if(req.session.user){
+//         req.session.destroy(err => {
+//             if(err){
+//                 res.status(500).send("<h1>Error with logout request</h1>")
+//             } else {
+//                 res.status(500).send("<h1>You have successfully logged out</h1>")
+//             }
+//         })
+//     } else {
+//         res.send("<h1>You are already logged out</h1>")
+//     }
+// })
 
 const port = process.env.PORT || 3300;
 
