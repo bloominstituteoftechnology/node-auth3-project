@@ -5,8 +5,7 @@ const bcyrpt = require("bcryptjs");
 const db = require("./data/dbConfig");
 const configureMiddleware = require("./middleware");
 
-const secret =
-  "932EB5EA15E5A6497DA4DE9F1EF5FA111C79CF0FD576935E661989DCDFD424FC";
+const secret = "BIGBOB454624EEE54TT54efg445GHJ";
 
 const server = express();
 const PORT = 3300;
@@ -18,7 +17,7 @@ function restricted(req, res, next) {
   if (token) {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ message: "Invalid token." });
+        res.status(401).json({ message: "Invalid token" });
       } else {
         next();
       }
@@ -35,7 +34,7 @@ function generateToken(user) {
 
   const options = {
     expiresIn: "1h",
-    jwtid: "027648"
+    jwtid: "023076"
   };
 
   return jwt.sign(payload, secret, options);
@@ -87,6 +86,16 @@ server.post("/api/login", (req, res) => {
     });
 });
 
+server.get("/api/users", restricted, (req, res) => {
+  db("users")
+    .select("id", "username")
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 server.listen(PORT, () => {
   console.log(`\n=== API Listening on http://localhost:${PORT} ===\n`);
