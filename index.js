@@ -62,7 +62,23 @@ server.post("/api/login", (req, res) => {
 });
 
 server.get("/api/users", (req, res) => {
-    
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
+            if (error) {
+                res.status(401).json({ message: "Invalid token", error: error });
+            } else {
+                console.log(decodedToken);
+                db("users").then(dbUsers => {
+                    res.status(200).json(dbUsers);
+                }).catch(error => {
+                    res.status(500).json({message: "Error getting users", error: error});
+                });
+            }
+        });
+    } else {
+        res.status(401).json({message: "You must be logged in to access this page"});
+    }
 });
 
 const port = 3300;
