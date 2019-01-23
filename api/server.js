@@ -1,7 +1,10 @@
+require("dotenv").config();
+
 const express = require("express");
 const helmet = require("helmet");
 const knex = require("knex");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const knexConfig = require("../knexfile.js");
 
@@ -31,6 +34,17 @@ server.post("/register", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+const generateToken = user => {
+  const payload = {
+    username: user.username,
+    name: user.name
+  };
+
+  const secret = process.env.JWT_SECRET;
+
+  return jwt.sign(payload, secret, options);
+};
+
 server.post("/login", (req, res) => {
   const creds = req.body;
 
@@ -39,6 +53,10 @@ server.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
+        // login successful
+        // create web token
+        const token = generateToken(user);
+
         res.status(200).json({ message: `welcome ${user.name}` });
       } else {
         res.status(401).json({ you: "shall not pass!!" });
