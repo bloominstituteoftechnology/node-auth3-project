@@ -37,6 +37,21 @@ server.post('/api/register', (req, res) => {
     })
 })
 
+server.post('/api/login', (req, res) => {
+    const user = req.body;
+    const id = req.body.id;
+    db.findUserById(id)
+        .then(users => {
+            if (user.token && bcrypt.compareSync(user.password, users[0].password, 10)) {
+                res.json({ creds: 'correct' })
+            } else {
+                res.status(404).json({message: 'Username or Password incorrect'})
+          }
+            
+        })
+    })
+    
+
 
 
 
