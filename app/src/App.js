@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from "react-router";
+import LogIn from './components/LogIn';
+import Welcome from './components/Welcome';
+import Signup from './components/SignUp';
 
 class App extends Component {
 
@@ -30,26 +34,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <div className="login-container">
             <div className="login-box">
-              <p className="title">Welcome to the Authentication Page</p>
-              <form onSubmit={this.handleSubmit} className="loginInput">
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={this.state.username}
-                  onChange={this.handleInput}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.handleInput}
-                />
-              </form>
-              <button onClick={this.handleSubmit} className="login-button">
-                Log in
-          </button>
+              <Route path='/' exact render={() => <Welcome />} />
+              <Route path='/signup' render={() => <Signup />} />
+              <Route path='/login' render={() => <LogIn />} />
             </div>
           </div>
         </header>

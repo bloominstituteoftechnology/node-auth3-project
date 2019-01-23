@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors')
 
 // server requirements
 const server = express();
@@ -8,6 +9,7 @@ const db = require('./data/dbHelpers.js');
 const PORT = 2323;
 
 server.use(express.json());
+server.use(cors());
 
 // secret hardcoded
 const secret = 'i am def not telling anyone';
