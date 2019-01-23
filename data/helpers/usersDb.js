@@ -1,9 +1,9 @@
 const db = require("../dbConfig");
 
 module.exports = {
-  get: (id) => {
-    id
-    ? db("users").where("id", id).select("id", "username", "department")
+  get: (username) => {
+    username
+    ? db("users").where("username", username)
     : db("users").select("id", "username", "department")
   },
   getByDepartment: (department) => {
@@ -14,4 +14,4 @@ module.exports = {
       .insert(user)
       .then(ids => ({ id: ids[0] }));
   }
-};
+}
