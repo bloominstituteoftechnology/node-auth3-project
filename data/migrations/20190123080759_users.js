@@ -3,9 +3,10 @@ exports.up = function(knex, Promise) {
         table.increments();
         table.string("username", 42).unique().notNullable();
         table.string("password", 42).unique().notNullable();
+        table.string("department", 42).notNullable();
     });
-};
+}
 
 exports.down = function(knex, Promise) {
     return knex.schema.dropTableIfExists("users");
-};
+}
