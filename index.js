@@ -41,7 +41,24 @@ server.post("/api/register", (req, res) => {
 });
 
 server.post("/api/login", (req, res) => {
-    
+    if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
+        let user = req.body;
+        db("users")
+            .where("username", user.username)
+            .then(dbUsers => {
+                if (dbUsers.length 
+                    && bcrypt.compareSync(user.password, dbUsers[0].password)) {
+                        const token = generateToken(user.username);
+                        res.status(200).json({ userId: dbUsers[0].id, token: token });
+                    } else {
+                        res.status(422).json({ error: "Incorrect username or password" })
+                    }
+            }).catch(error => {
+                res.status(500).json({message: "Error logging in", error: error});
+            });
+    } else {
+        res.status(400).json({ error: "Incorrectly formatted user data" });
+    }
 });
 
 server.get("/api/users", (req, res) => {
