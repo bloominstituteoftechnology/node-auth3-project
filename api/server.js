@@ -19,15 +19,25 @@ server.get('/', (req, res) => {
   res.send('Working!');
 });
 
+const responseStatus = {
+  success: 200,
+  postCreated: 201,
+  badRequest: 400,
+  unauthorised: 401,
+  forbidden: 403,
+  notFound: 404,
+  serverError: 500
+};
+
 server.post('/register', async (req, res) => {
   try {
     const userInfo = req.body;
     const hash = bcrypt.hashSync(userInfo.password, 12);
     userInfo.password = hash;
     const ids = await db('users').insert(userInfo);
-    res.status(201).json(ids);
+    res.status(responseStatus.postCreated).json(ids);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(responseStatus.serverError).json(error);
   }
 });
 
@@ -53,12 +63,16 @@ server.post('/login', async (req, res) => {
       // login is successful
       // create the token
       const token = generateToken(user);
-      res.status(200).json({ message: `Welcome ${user.username}`, token });
+      res
+        .status(responseStatus.success)
+        .json({ message: `Welcome ${user.username}`, token });
     } else {
-      res.status(401).json({ message: 'You shall not pass!' });
+      res
+        .status(responseStatus.unauthorised)
+        .json({ message: 'You shall not pass!' });
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(responseStatus.serverError).json(error);
   }
 });
 
@@ -68,14 +82,18 @@ function lock(req, res, next) {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ message: 'invalid token' });
+        res
+          .status(responseStatus.unauthorised)
+          .json({ message: 'Invalid token' });
       } else {
         req.decodedToken = decodedToken;
         next();
       }
     });
   } else {
-    res.status(401).json({ message: 'no token provided' });
+    res
+      .status(responseStatus.unauthorised)
+      .json({ message: 'No token provided' });
   }
 }
 
@@ -84,7 +102,9 @@ function checkDepartment(department) {
     if (req.decodedToken.department.includes(department)) {
       next();
     } else {
-      res.status(403).json({ message: `you need to be an ${department}` });
+      res
+        .status(responseStatus.forbidden)
+        .json({ message: `You need to be an ${department}` });
     }
   };
 }
@@ -92,7 +112,7 @@ function checkDepartment(department) {
 // protect this endpoint so only logged in users can see it
 server.get('/users', lock, checkDepartment('admin'), async (req, res) => {
   const users = await db('users').select('id', 'username');
-  res.status(200).json({
+  res.status(responseStatus.success).json({
     users,
     decodedToken: req.decodedToken
   });
