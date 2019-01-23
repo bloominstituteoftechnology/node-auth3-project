@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const knex = require('knex');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const middleware = require('../middleware/main');
 
 const knexConfig = require('../knexfile');
 
@@ -66,6 +67,15 @@ server.post('/api/login/', (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
-server.get('api/users/');
+server.get('/api/users', middleware.auth, (req, res) => {
+    db('users')
+        .select('id', 'username')
+        .then(users => {
+            res.status(200).json({
+                users,
+                decodedToken: req.decodedToken,
+            });
+        });
+});
 
 module.exports = server;
