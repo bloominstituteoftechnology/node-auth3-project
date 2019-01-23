@@ -1,17 +1,22 @@
 {
-  "name": "auth-ii",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/freitagdavid/auth-ii.git",
-  "author": "FreitagDavid <freitagdavid@outlook.com>",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "nodemon": "^1.18.9"
-  },
-  "dependencies": {
-    "express": "^4.16.4",
-    "knex": "^0.16.3",
-    "sqlite3": "^4.0.6"
-  }
+    "name": "auth-ii",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/freitagdavid/auth-ii.git",
+    "author": "FreitagDavid <freitagdavid@outlook.com>",
+    "license": "MIT",
+    "private": true,
+    "devDependencies": {
+        "nodemon": "^1.18.9"
+    },
+    "scripts": {
+        "start": "nodemon index.js",
+        "debug": "nodemon --inspect index.js"
+    },
+    "dependencies": {
+        "dotenv": "^6.2.0",
+        "express": "^4.16.4",
+        "knex": "^0.16.3",
+        "sqlite3": "^4.0.6"
+    }
 }
