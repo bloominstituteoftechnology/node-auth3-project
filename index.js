@@ -59,4 +59,34 @@ server.post('/api/register', (req, res) => {
     }
 });
 
+server.post('/api/login', (req, res) => {
+    const creds = req.body;
+    if (req.body.username && req.body.password) {
+        db('users_table')
+            .where('username', creds.username)
+            .then(user => {
+                if (user.length && bcrypt.compareSync(creds.password, user[0].password)) {
+                    const token = generateToken(user);
+                    res
+                        .json({subject: user[0].id, token});
+                }
+                else {
+                    res
+                        .status(401)
+                        .json({message: 'You shall not pass!!!'});
+                }
+            })
+            .catch(err => {
+                res
+                    .status(500)
+                    .json({message: 'The user could not be logged in at this time.'})
+            });
+    }
+    else {
+        res
+            .status(400)
+            .json({message: 'Please provide a username and a password to log in.'})
+    }
+});
+
 server.listen(PORT, () => console.log(`Running on ${PORT}`));
