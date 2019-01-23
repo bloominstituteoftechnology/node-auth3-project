@@ -2,7 +2,7 @@
 
 ## Topics
 
-- Authentication.
+- Authentication..
 - Express Middleware.
 - JSON Web Tokens (JWTs).
 - Hashing Passwords.
