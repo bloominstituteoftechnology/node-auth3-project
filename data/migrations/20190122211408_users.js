@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
             .unique()
             .notNullable();
         table.string('password')
+            .notNullable(); 
+        table.string('department')
             .notNullable();    
     });
 };
