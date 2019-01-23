@@ -11,9 +11,9 @@ module.exports = {
 
     },
 
-    getUserById: function(id){
+    getUserByUsername: function(username){
         return db('users')
-            .where('users.id', id)
+            .where('users.username', username)
             .first();
     },
 
