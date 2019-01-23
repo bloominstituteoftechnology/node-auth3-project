@@ -39,6 +39,8 @@ function makeToken(user) {
     return jwt.sign(payload, secret, options);
 }
 
+server.use(express.json())
+
 server.get('/', (req, res) => {
     res.send("it works!");
 });
