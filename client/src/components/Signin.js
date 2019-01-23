@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import TextField from "@atlaskit/textfield";
-import Button from "@atlaskit/button";
+import { UikFormInputGroup, UikInput, UikButton } from "../@uik";
+import "../@uik/styles.css";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -18,7 +18,7 @@ class Signin extends Component {
   };
 
   handleSubmit = event => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const endpoint = "http://localhost:3000/api/login";
     console.log(this.state);
@@ -40,10 +40,11 @@ class Signin extends Component {
   render() {
     return (
       <Container>
-        <form onSubmit={this.handleSubmit}>
+        <UikFormInputGroup onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
-            <input
+            {/* <label htmlFor="username">Username</label> */}
+            <UikInput
+              label="Username"
               name="username"
               value={this.state.username}
               onChange={this.handleInput}
@@ -51,8 +52,9 @@ class Signin extends Component {
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
-            <input
+            {/* <label htmlFor="password">Password</label> */}
+            <UikInput
+              label="Password"
               name="password"
               value={this.state.password}
               onChange={this.handleInput}
@@ -60,9 +62,11 @@ class Signin extends Component {
             />
           </div>
           <div>
-            <button type="submit">Sign In</button>
+            <UikButton primary type="submit">
+              Sign In
+            </UikButton>
           </div>
-        </form>
+        </UikFormInputGroup>
       </Container>
     );
   }
