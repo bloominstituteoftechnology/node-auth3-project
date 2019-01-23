@@ -21,6 +21,8 @@ createToken = (user) => {
     return jwt.sign(payload, secret, options);
 }
 
+
+
 server.disable("etag");
 server.use(express.json());
 server.use(helmet());
@@ -80,7 +82,7 @@ server.post('/api/login', (req, res) => {
 server.get('/api/users', (req, res) => {
     const token = req.headers.authorization;
     console.log(typeof token)
-    jwt.verify((token, secret, (err, decodedToken) => {
+    jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
             res
                 .status(401)
@@ -93,7 +95,7 @@ server.get('/api/users', (req, res) => {
                 })
                 .catch(err => res.send(err));
         }
-    }))
+    })
 
 });
 
