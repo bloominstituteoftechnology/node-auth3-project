@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@atlaskit/textfield";
 import Button from "@atlaskit/button";
-import Form, {
-  Field,
-  FormFooter,
-  HelperMessage,
-  ErrorMessage,
-  ValidMessage
-} from "@atlaskit/form";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -19,77 +12,57 @@ const Container = styled.div`
 `;
 
 class Signin extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const endpoint = "http://localhost:3000/api/login";
+    console.log(this.state);
+    axios
+      .post(endpoint, this.state)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log("ERROR");
+      });
+  };
+
+  handleInput = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     return (
       <Container>
-        <Form
-          onSubmit={data => {
-            console.log("form data", data);
-          }}
-        >
-          {({ formProps, submitting }) => (
-            <form {...formProps}>
-              <Field
-                name="username"
-                label="User name"
-                isRequired
-                defaultValue=""
-              >
-                {({ fieldProps, error }) => (
-                  <>
-                    <TextField autoComplete="off" {...fieldProps} />
-                    {!error && (
-                      <HelperMessage>
-                        You can use letters, numbers & symbols.
-                      </HelperMessage>
-                    )}
-                    {error && (
-                      <ErrorMessage>
-                        This user name is already in use, try another one.
-                      </ErrorMessage>
-                    )}
-                  </>
-                )}
-              </Field>
-              <Field
-                name="password"
-                label="Password"
-                defaultValue=""
-                isRequired
-                validate={value => (value.length < 8 ? "TOO_SHORT" : undefined)}
-              >
-                {({ fieldProps, error, meta }) => (
-                  <>
-                    <TextField type="password" {...fieldProps} />
-                    {!error && !meta.valid && (
-                      <HelperMessage>
-                        Use 8 or more characters with a mix of letters, numbers
-                        & symbols.
-                      </HelperMessage>
-                    )}
-                    {error && (
-                      <ErrorMessage>
-                        Password needs to be more than 8 characters.
-                      </ErrorMessage>
-                    )}
-                    {meta.valid && (
-                      <ValidMessage>Awesome password!</ValidMessage>
-                    )}
-                  </>
-                )}
-              </Field>
-              <FormFooter>
-                <Button
-                  type="submit"
-                  appearance="primary"
-                  isLoading={submitting}
-                >
-                  Sign In
-                </Button>
-              </FormFooter>
-            </form>
-          )}
-        </Form>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              name="username"
+              value={this.state.username}
+              onChange={this.handleInput}
+              type="text"
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              name="password"
+              value={this.state.password}
+              onChange={this.handleInput}
+              type="password"
+            />
+          </div>
+          <div>
+            <button type="submit">Sign In</button>
+          </div>
+        </form>
       </Container>
     );
   }
