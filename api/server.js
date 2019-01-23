@@ -15,6 +15,7 @@ server.get('/', (req, res) => {
 
 server.post('/register', (req, res) => {
    const userInfo = req.body;
+   console.log(userInfo);
 
    const hash = bcrypt.hashSync(userInfo.password, 12);
 
@@ -25,7 +26,7 @@ server.post('/register', (req, res) => {
       .then(ids => {
          res.status(code.accepted).json(ids);
       })
-      .catch(err => res.status(code.intSerErr).json(err));
+      .catch(err => res.status(code.intServErr).json(err));
 });
 
 server.post('/login', (req, res) => {
@@ -41,11 +42,13 @@ server.post('/login', (req, res) => {
             const token = authHelper.generateToken(user);
 
             res.status(code.okay).json({
-               message: `welcome ${user.name}`,
+               message: `Welcome ${user.name}!`,
                token,
             });
          } else {
-            res.status(code.unauthorized).json({ you: 'shall not pass!!' });
+            res.status(code.unauthorized).json({
+               message: 'You shall not pass!!',
+            });
          }
       })
       .catch(err => res.status(code.intSerErr).json(err));
@@ -53,12 +56,9 @@ server.post('/login', (req, res) => {
 
 // protect this endpoint so only logged in users can see it
 server.get('/users', authHelper.protected, async (req, res) => {
-   const users = await db('users').select(
-      'id',
-      'username',
-      'name',
-      'department'
-   );
+   const users = await db('users')
+      .select('id', 'username', 'name', 'department')
+      .where({ department: req.decodedToken.department });
 
    res.status(code.okay).json({ users, decodedToken: req.decodedToken });
 });
