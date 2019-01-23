@@ -42,6 +42,10 @@ const generateToken = user => {
 
   const secret = process.env.JWT_SECRET;
 
+  const options = {
+    expiresIn: "10m"
+  };
+
   return jwt.sign(payload, secret, options);
 };
 
@@ -57,7 +61,7 @@ server.post("/login", (req, res) => {
         // create web token
         const token = generateToken(user);
 
-        res.status(200).json({ message: `welcome ${user.name}` });
+        res.status(200).json({ message: `welcome ${user.name}`, token });
       } else {
         res.status(401).json({ you: "shall not pass!!" });
       }
@@ -65,8 +69,16 @@ server.post("/login", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// protected middleware is like a lock and the token will be the key to unlock it
 function protected(req, res, next) {
-  next();
+  // the auth token is normally sent in the Authorization header
+  const token = req.headers.authorization;
+
+  if (token) {
+    next();
+  } else {
+    res.status(401).json({ message: "No token provided" });
+  }
 }
 
 // protect this endpoint so only logged in users can see it
