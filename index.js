@@ -43,6 +43,66 @@ server.get('/', (req, res) => {
     res.send("it works!");
 });
 
+server.post('/api/register', (req, res) => {
+    const user = req.body;
+    const hash = bcrypt.hashSync(user.password, 14);
+    user.password = hash;
+    db("users")
+        .insert(credentials)
+        .then(ids => {
+            const id = ids[0];
+            db("users")
+                .where({ id })
+                .first()
+                .then(user => {
+                    const token = makeToken(user);
+                    res
+                        .status(201)
+                        .json({ id: user.id, token });
+        });
+    })
+    .catch(err => {
+        res
+            .status(500)
+            .json(err);
+    });
+})
+
+server.post('/api/login', (req, res) => {
+    const credentials = req.body;
+    db("users")
+        .where({ username: credentials.username })
+        .first()
+        .then(user => {
+            if (user && bcrypt.compareSync(credentials.password, user.password)) {
+                const token = makeToken(user);
+                res
+                    .status(200)
+                    .json({ message: "You made it!", token });
+            } else {
+                res
+                    .status(401)
+                    .json({ message: "You shall not pass!" });
+            }
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({ err });
+        });
+})
+
+server.get('/api/users', (req, res) => {
+    db("users")
+        .select("id", "username")
+        .then(users => {
+            res.json(users);
+        })
+        .catch(err => {
+            res.send(err);
+        });
+})
+
 server.listen(PORT, () => {
     console.log(`working so far, on port ${PORT}`);
 });
