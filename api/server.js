@@ -1,98 +1,66 @@
-require("dotenv").config();
-
-const express = require("express");
-const helmet = require("helmet");
-const knex = require("knex");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-const knexConfig = require("../knexfile.js");
+const express = require('express');
+const configMiddleware = require('../config/middleware');
+const db = require('../data/dbConfig');
+const bcrypt = require('bcryptjs');
 
 const server = express();
 
-const db = knex(knexConfig.development);
+const code = require('../common/errHandler.js');
+const authHelper = require('../common/helpers');
+configMiddleware(server);
 
-server.use(helmet());
-server.use(express.json());
-
-server.get("/", (req, res) => {
-  res.send("sanity check");
+server.get('/', (req, res) => {
+   res.send('sanity check');
 });
 
-server.post("/register", (req, res) => {
-  const userInfo = req.body;
+server.post('/register', (req, res) => {
+   const userInfo = req.body;
 
-  const hash = bcrypt.hashSync(userInfo.password, 12);
+   const hash = bcrypt.hashSync(userInfo.password, 12);
 
-  userInfo.password = hash;
+   userInfo.password = hash;
 
-  db("decodedToken")
-    .insert(userInfo)
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => res.status(500).json(err));
+   db('users')
+      .insert(userInfo)
+      .then(ids => {
+         res.status(code.accepted).json(ids);
+      })
+      .catch(err => res.status(code.intSerErr).json(err));
 });
 
-const generateToken = user => {
-  const payload = {
-    username: user.username,
-    name: user.name
-  };
+server.post('/login', (req, res) => {
+   const creds = req.body;
 
-  const secret = process.env.JWT_SECRET;
+   db('users')
+      .where({ username: creds.username })
+      .first()
+      .then(user => {
+         if (user && bcrypt.compareSync(creds.password, user.password)) {
+            // login successful
+            // create web token
+            const token = authHelper.generateToken(user);
 
-  const options = {
-    expiresIn: "10m"
-  };
-
-  return jwt.sign(payload, secret, options);
-};
-
-server.post("/login", (req, res) => {
-  const creds = req.body;
-
-  db("users")
-    .where({ username: creds.username })
-    .first()
-    .then(user => {
-      if (user && bcrypt.compareSync(creds.password, user.password)) {
-        // login successful
-        // create web token
-        const token = generateToken(user);
-
-        res.status(200).json({ message: `welcome ${user.name}`, token });
-      } else {
-        res.status(401).json({ you: "shall not pass!!" });
-      }
-    })
-    .catch(err => res.status(500).json(err));
+            res.status(code.okay).json({
+               message: `welcome ${user.name}`,
+               token,
+            });
+         } else {
+            res.status(code.unauthorized).json({ you: 'shall not pass!!' });
+         }
+      })
+      .catch(err => res.status(code.intSerErr).json(err));
 });
-
-// protected middleware is like a lock and the token will be the key to unlock it
-function protected(req, res, next) {
-  // the auth token is normally sent in the Authorization header
-  const token = req.headers.authorization;
-
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-      if (err) {
-        res.status(401).json({ message: "Invalid token" });
-      } else {
-        req.decodedToken = decodedToken;
-        next();
-      }
-    });
-  } else {
-    res.status(401).json({ message: "No token provided" });
-  }
-}
 
 // protect this endpoint so only logged in users can see it
-server.get("/users", protected, async (req, res) => {
-  const users = await db("users").select("id", "username", "name");
+server.get('/users', authHelper.protected, async (req, res) => {
+   const users = await db('users').select(
+      'id',
+      'username',
+      'name',
+      'department'
+   );
 
-  res.status(200).json({ users, decodedToken: req.decodedToken });
+   res.status(code.okay).json({ users, decodedToken: req.decodedToken });
 });
 
 module.exports = server;
