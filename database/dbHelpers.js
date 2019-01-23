@@ -9,7 +9,7 @@ module.exports = {
         return db('users').insert(user)
     },
 
-    findUserById: (userId) => {
-        return db('users').where({id: userId})
+    findUserById: (username) => {
+        return db('users').where({username: username})
     }
 }
