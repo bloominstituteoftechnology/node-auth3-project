@@ -9,6 +9,21 @@ const server = express();
 
 server.use(express.json());
 
+function generateToken(username) {
+    const payload = {
+        username: username
+    };
+
+    const secret = "reallysecuresecret";
+
+    const options = {
+        expiresIn: "12h",
+        jwtid: "98765"
+    };
+
+    return jwt.sign(payload, secret, options);
+}
+
 server.post("/api/register", (req, res) => {
     if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
         let user = req.body;
