@@ -12,13 +12,17 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+
+const secret = 'seecreeettt';
+
 // use jwts instead of sessions
 function generateToken(user) {
   const payload = {
     username: user.username,
     department: user.department
   };
-  const secret = 'seecreeettt';
+  // the secret is typically on another file (ENV)
+  
 
   const options = {
     expiresIn: '1h',
@@ -28,6 +32,7 @@ function generateToken(user) {
   // return token;
   return jwt.sign(payload, secret, options);
 };
+
 
 server.get('/', (req, res) => {
   res.send('Server up and running!!!!');
@@ -60,6 +65,52 @@ server.post('/api/register', (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 });
+
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
+
+  db('users')
+  .where({ username: creds.username })
+  .first()
+  .then(user => {
+    if (user && bcrypt.compareSync(creds.password, user.password)) {
+      // generate a token
+      const token = generateToken(user);
+      //attach that token to the response
+      res.status(200).json({ token });
+    } else {
+      res.status(401).json({ message: "You shall not pass!" });
+    }
+  })
+  .catch(err => res.status(500).send(err));
+});
+
+function protected(req, res, next) {
+  // use jswt instead of sessions
+  // read the token string from the Authorization header
+  const token = req.headers.authorization;
+  // verify the token
+  jwt.verify(token, secret, (err, decodedToken) => {
+    if(err) {
+
+    } else {
+
+      next();
+    }
+  })
+
+}
+
+
+server.get('/api/users', protected, (req, res) => {
+  db('users')
+    .select('id', 'username', 'password', 'department')
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
+
 
 
 server.listen(PORT, () => {
