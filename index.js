@@ -3,7 +3,20 @@ const bcrypt = require('bcryptjs');
 const logger = require('morgan');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const uuid = require('uuid/v1');
 const server = express();
+
+//JWT function
+const newToken = (user) => {
+   const payload = { username: user.username, userID: user.id  };
+   const options = { algorithm: 'HS256', expiresIn: '1h', jwtid: uuid()};
+   return jwt.sign(payload, secret, options);
+
+}
+
+
+//secret
+const secret = ("I love coding");
 // Database 
 const db = require('./database/dbHelper.js');
 //PORT
@@ -13,7 +26,9 @@ server.use(express.json());
 server.use(logger('dev'));
 server.use(cors());
 //Initial get request
-server.get('/', (req,res) => {res.json(`Server is and running`); })
+server.get('/', (req,res) => {res.json(`Server is and running`); });
+
+
 // Post - Register
 server.post('/api/register', (req,res) => {
      const user = req.body;
@@ -30,14 +45,15 @@ server.post('/api/register', (req,res) => {
           db.findById(id)
             .then( user => {
                if(!user) res.status(404).json({Message: `There is no user with this ID`});
-               res.status(201).json(user.username);
-            })
+               const token = newToken(user);
+               res.status(201).json({token: token, id: user.id});
+            });
        })
        .catch(err => {
           res.status(500).json({Message: `Failed to register at this time`});
        });
 });
-
+//Post - login
 server.post('/api/login', (req,res) => {
       const user = req.body;
       const submittedPassword = user.password;
