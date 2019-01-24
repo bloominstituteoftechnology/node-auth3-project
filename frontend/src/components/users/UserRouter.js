@@ -8,9 +8,9 @@ import UserList from './UserList';
 class UserRouter extends React.Component {
   render() {
     return (
-      <div className="Users">
+      <>
         <Route path="/users" component={UserList} />
-      </div>
+      </>
     );
   }
 };

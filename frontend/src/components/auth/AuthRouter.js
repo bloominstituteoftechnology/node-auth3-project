@@ -12,10 +12,10 @@ class AuthRouter extends React.Component {
 
   render() {
     return (
-      <div className="Auth">
+      <>
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/logout" render={this.logout} />
-      </div>
+      </>
     );
   }
 };

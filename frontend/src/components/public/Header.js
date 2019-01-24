@@ -7,9 +7,16 @@ class Header extends React.Component {
 
         return (
             <header>
-                <h1>Authentication Example</h1>
-                <h2>JSON Web Tokens</h2>
-                { localStorage.getItem('jwt') ? <Link to="/auth/logout">Logout</Link> : null }
+                <Link to="/" className="header-title">
+                    <h1>Authentication</h1>
+                    <h2> with <span className="">JSON Web Tokens</span></h2>
+                </Link>
+                <section className="header-controls">
+                    {localStorage.getItem('jwt') ?
+                        <><p>Hello, {localStorage.getItem('username')}</p> | <Link to="/auth/logout">Logout</Link></> :
+                        <><Link to="/auth/login">Login</Link> | <Link to="auth/register">Register</Link></>
+                    }
+                </section>
             </header>
         );
     }

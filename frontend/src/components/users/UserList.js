@@ -29,16 +29,14 @@ class UserList extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                <header>
-                    <h2>Users:</h2>
-                </header>
+            <section className="users-content">
+                <h1>Users:</h1>
                 <section className="user-list">
                     { this.state.loading === true ? <h3>Loading...</h3>: null }
                     { this.state.error !== null ? <h3>{this.state.error}</h3> : null }
                     { this.state.users.map(user => <UserItem user={user} key={user.id} /> ) }
                 </section>
-            </React.Fragment>
+            </section>
         )
     }
 }

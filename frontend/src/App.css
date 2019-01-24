@@ -1,3 +1,130 @@
+body {
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Righteous', Verdana;
+}
+
 .App {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  padding: 15px 2%;
+  background: navy;
+  color: whitesmoke;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.8rem;
+}
+
+header h2 {
+  font-size: 1.2rem;
+}
+
+header a {
+  font-family: 'Crete Round', serif;
+  font-size: 1.2rem;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+header p {
+  font-family: 'Crete Round', serif;
+  font-size: 1.2rem;
+  color: whitesmoke;
+  display: inline-block;
+}
+
+.header-title {
+  width: 25%;
   text-align: center;
+}
+
+.header-controls {
+  width: 25%;
+  text-align: center;
+}
+
+.content {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+.content h1 {
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.content p {
+  font-size: 1.3rem;
+  line-height: 1.6rem;
+  margin: 20px 0;
+}
+
+.login-wrapper {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px 0;
+  padding: 40px 0;
+  border: 2px solid lightslategray;
+  border-radius: 5px;
+  background: ghostwhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 5px 10px;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  margin-bottom: 25px;
+  border-radius: 5px;
+}
+
+button {
+  width: 30%;
+  padding: 5px 10px;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.login-message {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.users-content {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.users-content h1 {
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.users-content a {
+  font-size: 1.3rem;
+  line-height: 1.6rem;
+  text-decoration: none;
 }
