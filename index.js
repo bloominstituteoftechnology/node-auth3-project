@@ -5,18 +5,34 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const uuid = require('uuid/v1');
 const server = express();
+//secret
+const {secret} = require('./database/secret.js');
 
 //JWT function
 const newToken = (user) => {
-   const payload = { username: user.username, userID: user.id  };
+   const payload = { username: user.username };
    const options = { algorithm: 'HS256', expiresIn: '1h', jwtid: uuid()};
    return jwt.sign(payload, secret, options);
-
 }
-
-
-//secret
-const secret = ("I love coding");
+// Protected function
+function protected(req, res, next) {
+   const token = req.headers.authorization;
+   if (token) {
+     jwt.verify(token, secret, (err, decodedToken) => {
+       if (err) {
+         res.status(401).json({ error: 'invalid token' })
+       } else {
+         console.log('decoded token', decodedToken);
+         if (req.username = decodedToken.username) {
+           next()
+         } else {
+           res.status(401).json({ error: 'bad token' });
+         };
+       }
+     })
+   }
+   else (res.json({message: 'no token'}));
+ };
 // Database 
 const db = require('./database/dbHelper.js');
 //PORT
@@ -64,7 +80,8 @@ server.post('/api/login', (req,res) => {
            console.log(`Line 48`, user);
            if(!user) res.status(404).json({Message: `There is no user with this name`});
            if(user && bcrypt.compareSync(submittedPassword, user.password)) {
-               res.status(200).json(user.id);
+               const token = newToken(user);
+               res.status(200).json({token: token, id:user.id});
            } else {
                res.status(401).json({Message:`Invalid password or username`});
            }
@@ -74,7 +91,7 @@ server.post('/api/login', (req,res) => {
         })
 });
 
-server.get('/api/users', (req,res) => {
+server.get('/api/users', protected, (req,res) => {
      db.findUsers()
        .then( users=> {
            res.status(200).json(users);
