@@ -8,6 +8,17 @@ const db = require('./dbHelpers');
 const server = express();
 const secret = 'super-secret';
 
+const authorize = (req, res, next) => {
+  const token = req.headers.authorization;
+  token
+    ? jwt.verify(token, secret, (err, decoded) => {
+        err
+          ? res.status(401).json({ message: 'Invalid token received' })
+          : next();
+      })
+    : res.status(401).json({ message: 'No token received' });
+};
+
 const generateToken = user => {
   const payload = {
     username: user.username
@@ -42,9 +53,25 @@ server.post('/api/register', (req, res) => {
     });
 });
 
-server.post('/api/login', (req, res) => {});
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
+  db.findByUsername(creds.username)
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res.json({ id: user.id, token });
+      } else {
+        res.status(404).json({
+          error: 'Invalid credentials were entered. Please try again.'
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', authorize, (req, res) => {
   db.getUsers()
     .then(users => {
       res.json(users);
