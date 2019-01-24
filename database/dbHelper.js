@@ -1,8 +1,8 @@
 const knex = require('knex');
-const dbConfig = require('../knexfile');
-const db = knex('dbConfig.development');
+const dbConfig = require('../knexfile.js');
+const db = knex(dbConfig.development);
 
-const insert = (user) => {
+const insertUser = (user) => {
    return db('users').insert(user);
 };
 
@@ -15,11 +15,11 @@ const findById = (id) => {
 };
 
 const findUsers = () => {
-   return db('users').select('id', username);
+   return db('users').select('id', 'username');
 };
 
 module.exports = {
-    insert, findByUsername, findById, findUsers
+    insertUser, findByUsername, findById, findUsers
 }
 
 
