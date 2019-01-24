@@ -4,7 +4,7 @@ class UsersPage extends React.Component{
     constructor(){
         super()
         this.state = {
-
+            users : []
         }
     }
     render(){
