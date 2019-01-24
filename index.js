@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const db = require('./data/dbConfig.js');
 
 const server = express();
-const PORT = 4040;
 
 server.use(express.json(), cors());
 
@@ -133,5 +132,7 @@ server.get('/api/users', protected, (req, res) => {
                 .json({message: `The users' information could not be retrieved at this time.`})
         })
 })
+
+const PORT = 4040;
 
 server.listen(PORT, () => console.log(`Running on ${PORT}`));
