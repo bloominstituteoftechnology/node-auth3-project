@@ -12,7 +12,6 @@ const PORT = 4020;
 const secret = 'This is not my secret!';
 
 const generateToken = user => {
-  console.log(user);
   const payload = {
     department: user.department
   };
@@ -21,7 +20,6 @@ const generateToken = user => {
     jwtid: bcrypt.hashSync(user.username, 4),
     subject: `${user.id}`
   };
-  console.log('second time', user);
   return jwt.sign(payload, secret, options);
 };
 
@@ -39,7 +37,7 @@ const protectRoute = (req, res, next) => {
 };
 
 const checkDepartment = (req, res, next) => {
-  req.department === 'webpt1'
+  req.department === 'webpt2'
     ? next()
     : res.status(401).send('Wrong Department!!!');
 };
@@ -52,7 +50,10 @@ server.post('/api/register', (req, res) => {
   user.password = bcrypt.hashSync(user.password, 12);
   db('users')
     .insert(user)
-    .then(ids => res.status(201).json(ids[0]))
+    .then(ids => {
+      user.id = ids[0];
+      res.status(201).json(generateToken(user));
+    })
     .catch(err => res.status(500).json(err));
 });
 
@@ -71,6 +72,7 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', protectRoute, checkDepartment, (req, res) => {
   db('users')
+    .select('id', 'username', 'department')
     .then(users =>
       !users.length
         ? res.status(404).json({
