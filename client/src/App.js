@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Users from './components/Users';
+import TopBar from './components/TopBar';
 import { Route } from 'react-router-dom';
 import './App.css';
 
@@ -16,10 +17,10 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Route exact path="/" component={Users} />
+                <TopBar />
+                <Route exact path="/users" component={Users} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
-                <Login />
             </div>
         );
     }
