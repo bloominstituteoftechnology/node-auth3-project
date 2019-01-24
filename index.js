@@ -8,8 +8,8 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const server = express();
 const db = knex(knexConfig.development);
+const server = express();
 
 server.use(express.json());
 server.use(cors());
