@@ -27,7 +27,7 @@ server.use(helmet());
 server.use(logger('dev'));
 
 
-server.post('/api/register', (req, res) => {
+server.post('api/register', (req, res) => {
     const newUser = req.body;
     if (!newUser.password || !newUser.username) {
         return res
