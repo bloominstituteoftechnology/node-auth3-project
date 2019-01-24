@@ -5,8 +5,13 @@ class SignIn extends React.Component{
     constructor(){
         super()
         this.state ={
-
+            username: '',
+            password: ''
         }
+    }
+
+    inputHandler = (event) =>{
+        this.setState({[event.target.name]: event.target.value})
     }
     render(){
         return(
@@ -17,14 +22,22 @@ class SignIn extends React.Component{
                     <h3>Username: </h3>
                     <input 
                         className = 'username-input'
-            
+                        type = 'text'
+                        placeholder = 'Enter username'
+                        value = {this.state.username}
+                        name = 'username'
+                        onChange = {this.inputHandler}
                     />
                 </div>
                 <div className = 'password-container'>
                      <h3>Password: </h3>
                      <input
                         className = 'password-input'
-
+                        type = 'text'
+                        placeholder = 'Enter password'
+                        value = {this.state.password}
+                        name = 'password'
+                        onChange = {this.inputHandler}
                         />
                 </div>
                 <div className = 'button-container'>
