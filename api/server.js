@@ -9,12 +9,8 @@ const code = require('../common/errHandler.js');
 const authHelper = require('../common/helpers');
 configMiddleware(server);
 
-server.get('/', (req, res) => {
-   res.send('sanity check');
-});
-
 // Register
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
    const userInfo = req.body;
 
    const hash = bcrypt.hashSync(userInfo.password, 12);
@@ -34,7 +30,7 @@ server.post('/register', (req, res) => {
 });
 
 // Login
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
    const creds = req.body;
 
    db('users')
@@ -61,7 +57,7 @@ server.post('/login', (req, res) => {
 
 // Get list of users
 // protect this endpoint so only logged in users can see it
-server.get('/users', authHelper.protected, async (req, res) => {
+server.get('/api/users', authHelper.protected, async (req, res) => {
    const users = await db('users')
       .select('id', 'username', 'name', 'department')
       .where({ department: req.decodedToken.department });

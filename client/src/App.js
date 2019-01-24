@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, NavLink, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { logout } from './store/actions/authActions';
 
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
@@ -11,11 +13,13 @@ class App extends Component {
       return (
          <BrowserRouter>
             <div className="app">
-               <nav>
-                  <NavLink to="/">Home</NavLink>
-                  <NavLink to="/login">Login</NavLink>
-                  <NavLink to="/signup">Sign Up</NavLink>
-               </nav>
+               <NavLink to="/">Home</NavLink>
+               <NavLink to="/login">Login</NavLink>
+               <NavLink to="/signup">Sign Up</NavLink>
+               <NavLink to="/login" onClick={this.props.logout}>
+                  Sign Out
+               </NavLink>
+
                <Switch>
                   <Route exact path="/" component={Dashboard} />
                   <Route path="/login" component={Login} />
@@ -27,4 +31,7 @@ class App extends Component {
    }
 }
 
-export default App;
+export default connect(
+   null,
+   { logout }
+)(App);
