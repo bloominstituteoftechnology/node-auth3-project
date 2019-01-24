@@ -26,7 +26,7 @@ router.post('/login', (req, res) => {
                 const token = authHelper.generateToken(users[0].username);
                 res.json({username: users[0].username, token});
             } else {
-                res.status(404).json({err: "Invalid username or password"});
+                res.status(404).json({message: "Invalid username or password"});
             }
         })
         .catch(err => {
