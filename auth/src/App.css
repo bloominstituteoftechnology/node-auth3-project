@@ -1,32 +1,124 @@
 .App {
   text-align: center;
+  background-color: black;
+  color: white;
+  width: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+body {
+  background-color: black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-header {
+  /*  border: 2px solid blue; */
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.title {
+  /* border: 2px solid green; */
+  width: 100%;
+  background-color: #9e3a41;
+  color: white;
+  font-size: 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
+.container-1 {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  /*  border: 2px solid red; */
+}
+
+.text {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
   color: white;
+  /*  border: 2px solid yellow; */
+  height: 100px;
+  background-color: black;
+  border-left: 2px solid gray;
+  border-right: 2px solid gray;
 }
 
-.App-link {
-  color: #61dafb;
+.main-form {
+  width: 100%;
+  padding-top: 6px;
+  background-color: gray;
+  height: 156px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  color: black;
+  background-color: darkgray;
+  height: 30px;
+  width: 75px;
+}
+
+.user-list {
+  width: 100%;
+  height: auto;
+  border: 2px solid gray;
+}
+
+.btnLogout {
+ /*  color: black; */
+  border: 0px solid blue;
+  border-left: 1px solid gray;
+   background-color: #9e3a41;
+   color: white; 
+} 
+
+.btn-register,
+.btn-login {
+  border: 0px solid blue;
+  border-right: 1px solid gray;
+  color: white;
+  background-color: #3a499e;
+}
+
+.message {
+  font-size: 12px;
+  border-left: 2px solid gray;
+  border-right: 2px solid gray;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+}
+
+.btnNoWork {
+  color: black;
+}
+
+.disable {
+  display: inline;
+}
+
+#register:hover, #login:hover  {
+  color: yellow;
+  background-color: blue;
+
+}
+
+#logout, #user-list {
+  background-color: #3a499e;
+
+} 
+
+/* #logout:hover, #user-list:hover {
+  background-color: blue;
+  
+}  */
+
+#department {
+  margin-bottom: 4px;
 }

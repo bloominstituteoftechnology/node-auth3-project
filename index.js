@@ -4,11 +4,9 @@ const bcrypt = require('bcryptjs')
 const db = require('./data/dbConfig.js');
 const session = require('express-session')
 const server = express();
-const userRouter = require('./router/userRouter');
 
 server.use(express.json());
 server.use(cors());
-server.use('/api/users', userRouter);
 server.use(session({
   name: 'notsession', // default is connect.sid
   secret: 'nobody tosses a dwarf!',
