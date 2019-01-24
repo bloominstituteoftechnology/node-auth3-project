@@ -16,11 +16,10 @@ server.use(morgan('dev'));
 function generateToken(user) {
     const payload = {
         username: user.username,
-        department: user.department
     };
 
     const options = {
-        expiresIn: '10000',
+        expiresIn: '10h',
         jwtid: '7562248',
     };
     return jwt.sign(payload, secret, options);
@@ -31,7 +30,7 @@ function protectThis (req, res, next) {
     if(token) {
         jwt.verify(token, secret, (err, decodedToken) => {
             if(err) {
-                res.status9401.json({ errMessage: 'Invalid Token' });
+                res.status(401).json({ errorMessage: 'Invalid Token' });
             }
             else {
                 req.username = decodedToken.username;
@@ -40,21 +39,43 @@ function protectThis (req, res, next) {
         });
     }
     else {
-        res.status(401).json({ errMessage: 'No Token Provided.' });
+        res.status(401).json({ errorMessage: 'No Token Provided.' });
     }
 };
 
 server.post('/api/register', (req, res) => {
-    next();
-});
+    const user = req.body;
+    user.password = bcrypt.hashSync(user.password, 14);
+    const token = generateToken(user)
+    db.insert(user)
+      .then(ids => {
+          res.status(201).json({ id: ids[0], token });
+        })
+      .catch(err => {
+        res.status(500).json({ errorMessage: 'Failed to create user.' });
+      });
+  });
 
 server.post('/api/login', (req, res) => {
-    next();
+    const credentials = req.body;
+    db.findByUsername(credentials.username)
+    .then(users => {
+        if (users && bcrypt.compareSync(credentials.password, users[0].password)) {
+            const token = generateToken(users)
+            res.status(200).json({ users, token });
+        }
+        else {
+            res.status(404).json({ errorMessage: 'Invalid username or password.' });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: 'Failed to login.' });
+    });
 });
 
-server.get('/api/users', protectThis, (req, res) => {
-    next();
-});
+// server.get('/api/users', protectThis, (req, res) => {
+//     next();
+// });
 
 server.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
