@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { UikWidget, UikHeadline, UikHeadlineDesc } from "../@uik";
+import "../@uik/styles.css";
 
 class Home extends Component {
   render() {
     return (
-      <div>
-        <h2>This is Home</h2>
-      </div>
+      <UikWidget padding>
+        <UikHeadline>Home</UikHeadline>
+        <UikHeadlineDesc>Authentication with tokens is great!</UikHeadlineDesc>
+      </UikWidget>
     );
   }
 }

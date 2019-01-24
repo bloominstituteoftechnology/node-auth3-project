@@ -12,6 +12,7 @@ import {
 import Users from "./components/Users";
 import Home from "./components/Home";
 import Signin from "./components/Signin";
+import Signup from "./components/Signup";
 
 import "./@uik/styles.css";
 import "./App.css";
@@ -38,6 +39,9 @@ class App extends Component {
               <UikNavLink Component={NavLink} to={"/users"}>
                 Users
               </UikNavLink>
+              <UikNavLink Component={NavLink} to={"/signup"}>
+                Register
+              </UikNavLink>
               <UikNavLink Component={NavLink} to={"/signin"}>
                 Login
               </UikNavLink>
@@ -50,6 +54,7 @@ class App extends Component {
         <main>
           <Route exact path="/" component={Home} />
           <Route path="/users" component={Users} />
+          <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
         </main>
       </Container>
