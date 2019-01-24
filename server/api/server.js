@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const knex = require('knex');
@@ -15,6 +16,7 @@ const server = express();
 const db = knex(knexConfig.development);
 
 server.use(morgan('combined'));
+server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
