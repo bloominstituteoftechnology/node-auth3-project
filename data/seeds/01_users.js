@@ -1,13 +1,15 @@
 
+const bcrypt = require('../../node_modules/bcrypt')
+
+let USERS = [{username: "Carson", password: "1", department: "sheriff"}, {username: "Chester", password: "2", department: "deputy"}, {username: "Caleb", password: "3", department: "citizen"}]
+
+let HASHEDU = USERS.map( (user) => {return user.password = bcrypt.hashSync(user.password, 16)})
+
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
+
+  return knex('users').truncate()
     .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
+
+      return knex('users').insert(HASHEDU);
     });
 };
