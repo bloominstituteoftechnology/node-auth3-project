@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 export class LogIn extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            authenticated: null
         }
     }
 
@@ -16,31 +18,48 @@ export class LogIn extends Component {
         });
     };
 
+    handleSubmit = () => {
+        const user = {
+            username: this.state.username,
+            password: this.state.password
+        };
+        axios
+            .post("http://localhost:2323/api/login", user)
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    this.setState({
+                        username: '',
+                        password: '',
+                        authenticated: true
+                    });
+                    this.props.history.push('/users');
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
     render() {
         return (
-            <div className="App">
-                        <div className="login-container">
-                            <div className="login-box">
-                                <p className="title">Log In Here</p>
-                                <form onSubmit={this.handleSubmit} className="loginInput">
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        placeholder="Username"
-                                        value={this.state.username}
-                                        onChange={this.handleInput}
-                                    />
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        placeholder="Password"
-                                        value={this.state.password}
-                                        onChange={this.handleInput}
-                                    />
-                                </form>
-                                <button onClick={this.handleSubmit} className="login-button">Log in</button>
-                            </div>
-                        </div>
+            <div >
+                <p className="title">Log In Here</p>
+                <form onSubmit={this.handleSubmit} className="loginInput">
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={this.state.username}
+                        onChange={this.handleInput}
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={this.handleInput}
+                    />
+                </form>
+                <button onClick={this.handleSubmit} className="login-button">Log in</button>
             </div>
         )
     }

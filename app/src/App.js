@@ -5,6 +5,7 @@ import { Route } from "react-router";
 import LogIn from './components/LogIn';
 import Welcome from './components/Welcome';
 import Signup from './components/SignUp';
+import UsersList from './components/UsersList';
 
 class App extends Component {
 
@@ -36,7 +37,8 @@ class App extends Component {
             <div className="login-box">
               <Route path='/' exact render={() => <Welcome />} />
               <Route path='/signup' render={() => <Signup />} />
-              <Route path='/login' render={() => <LogIn />} />
+              <Route path='/login' render={props => <LogIn {...props} />} />
+              <Route path='/users' render={() => <UsersList />} />
             </div>
           </div>
         </header>
