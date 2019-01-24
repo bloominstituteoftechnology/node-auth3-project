@@ -74,7 +74,7 @@ server.post('/api/login', (req, res)=>{
         .then(users=>{
             if(users.length && bcrypt.compareSync(user.password, users[0].password)){
                 const token = generateToken(user.username);
-                res.json({info: `Welcome ${user.username}`, token: token});
+                res.json({username: user.username, department: users[0].department, token: token});
             }
             else{
                 res.status(404).json({errorMessage: 'Invalid username or password'});
@@ -95,7 +95,9 @@ server.get('/api/users', protected, (req, res)=>{
     db('users')
     .select('id', 'username', 'department')
     .then(users=>{
-        res.json(users);
+        const newUsers = users.filter(user=>user.department === req.headers.xdepartment);
+        console.log(req.headers.xdepartment);
+        res.json(newUsers);
     })
     .catch(error=>{
         res.status(500).json({error: 'Failed to return users'});

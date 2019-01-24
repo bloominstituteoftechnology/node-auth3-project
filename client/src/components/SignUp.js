@@ -7,20 +7,30 @@ class SignUp extends Component {
         this.state = {
             username: '',
             password: '',
-            department: ''
+            department: '',
+            failedSignup: false
         };
     }
 
     submit = (event)=>{
         event.preventDefault();
-        console.log(this.state);
-        axios.post('http://localhost:3300/api/register', this.state)
+        const body = {
+            username: this.state.username,
+            password: this.state.password,
+            department: this.state.department
+        }
+        axios.post('http://localhost:3300/api/register', body)
         .then(res=>{
-            this.props.history.push('/users');
+            console.log(this.state);
             localStorage.setItem('jwt', res.data.token);
+            localStorage.setItem('username', this.state.username);
+            localStorage.setItem('department', this.state.department);
+            this.props.history.push('/users');
         })
         .catch(error=>{
-            console.log(error);
+            this.setState({
+                failedSignup: true
+            })
         })
     }
 
@@ -45,7 +55,10 @@ class SignUp extends Component {
                 <input type="text" name="department" onChange={this.handleInput} placeholder="department..." value={this.state.department}></input>
             </div>
             <div>
-                <button type="submit">Sign In</button>
+                <button type="submit">Sign Up</button>
+            </div>
+            <div>
+                {this.state.failedSignup ? 'Please include a valid username, password and department' : null}
             </div>
         </form>
         );

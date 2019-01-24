@@ -8,20 +8,24 @@ class SignIn extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            failedSignin: false
         };
     }
 
     submit = (event)=>{
         event.preventDefault();
-        console.log(this.state);
         axios.post('http://localhost:3300/api/login', this.state)
         .then(res=>{
-            this.props.history.push('/users');
             localStorage.setItem('jwt', res.data.token);
+            localStorage.setItem('username', res.data.username);
+            localStorage.setItem('department', res.data.department);
+            this.props.history.push('/users');
         })
         .catch(error=>{
-            console.log(error);
+            this.setState({
+                failedSignin: true
+            })
         })
     }
 
@@ -43,6 +47,9 @@ class SignIn extends Component {
             </div>
             <div>
                 <button type="submit">Sign In</button>
+            </div>
+            <div>
+                {this.state.failedSignin ? 'Wrong username or password' : null}
             </div>
         </form>
         );
