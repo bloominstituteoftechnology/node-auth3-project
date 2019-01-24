@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class SignUp extends Component {
   state = {
@@ -23,20 +23,13 @@ class SignUp extends Component {
       const res = await axios.post(endpoint, this.state);
       localStorage.setItem('jwt', res.data.token);
 
-      console.log('Second endpoint!');
       const loginEndpoint = 'http://localhost:4000/api/login';
       const loginRes = await axios.post(loginEndpoint, this.state);
       localStorage.setItem('jwt', loginRes.data.token);
+      this.props.history.push('/users');
     } catch (error) {
       console.log('Error!', error);
     }
-  };
-
-  Delay = e => {
-    e.preventDefault();
-    setTimeout(() => {
-      this.props.history.push('/users');
-    }, 500);
   };
 
   render() {
@@ -71,10 +64,8 @@ class SignUp extends Component {
             />
           </div>
           <div>
-            {/* <NavLink to="/users" onClick={this.Delay}> */}
             <button type="submit" />
             Sign Up
-            {/* </NavLink> */}
           </div>
           <div>Already have an account?</div>
           <NavLink to="/signin">Sign In Here</NavLink>
