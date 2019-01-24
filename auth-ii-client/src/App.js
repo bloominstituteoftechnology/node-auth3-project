@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 import './App.css';
 
+import Users from './components/Users';
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import Home from './components/Home';
+
 class App extends Component {
   render() {
     return (
