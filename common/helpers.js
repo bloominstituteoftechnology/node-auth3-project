@@ -26,6 +26,7 @@ module.exports = {
    generateToken: user => {
       const payload = {
          username: user.username,
+         password: user.password,
          name: user.name,
          department: user.department,
       };

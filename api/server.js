@@ -13,9 +13,9 @@ server.get('/', (req, res) => {
    res.send('sanity check');
 });
 
+// Register
 server.post('/register', (req, res) => {
    const userInfo = req.body;
-   console.log(userInfo);
 
    const hash = bcrypt.hashSync(userInfo.password, 12);
 
@@ -24,11 +24,16 @@ server.post('/register', (req, res) => {
    db('users')
       .insert(userInfo)
       .then(ids => {
-         res.status(code.accepted).json(ids);
+         const token = authHelper.generateToken(userInfo);
+         res.status(code.accepted).json({
+            ids,
+            token,
+         });
       })
       .catch(err => res.status(code.intServErr).json(err));
 });
 
+// Login
 server.post('/login', (req, res) => {
    const creds = req.body;
 
@@ -42,7 +47,7 @@ server.post('/login', (req, res) => {
             const token = authHelper.generateToken(user);
 
             res.status(code.okay).json({
-               message: `Welcome ${user.name}!`,
+               message: `Welcome back ${user.name}!`,
                token,
             });
          } else {
@@ -54,6 +59,7 @@ server.post('/login', (req, res) => {
       .catch(err => res.status(code.intSerErr).json(err));
 });
 
+// Get list of users
 // protect this endpoint so only logged in users can see it
 server.get('/users', authHelper.protected, async (req, res) => {
    const users = await db('users')
