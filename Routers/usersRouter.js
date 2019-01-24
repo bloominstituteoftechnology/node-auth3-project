@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 //import jsonwebtoken 
 const jwt = require('jsonwebtoken');
 
+
 //**TOKEN GENERATOR FUNCTION */
 const secret = 'williewonka';  //placed in global for use in verification middleware
 function tokenGenerator(user){
@@ -17,20 +18,40 @@ function tokenGenerator(user){
         username: user.username,
         department: user.department
     }
-
+    
     const options = {
         expiresIn: '1h',
         jwtid: '12345'  //jti
     }
-
+    
     return jwt.sign(payload, secret, options);
+}
+
+//***VERIFICATION OF TOKEN MIDDLEWARE**** */
+function verifyUser(req, res, next){
+    //read token string from authorization header
+    //if user not logged in there will be no token
+    const token = req.headers.authorization;
+
+    if(token){
+        //verify the token
+        jwt.verify(token, secret, (err, decodedToken) =>{
+            if(err){
+                res.status(401).json({error: "Invalid Token"})
+            }else{
+                next();
+            }
+        })
+    } else{
+        res.status(401).json("No Token Provided")
+    }
+
 }
 
 //**ROUTE HANDLERS/ENDPOINTS FOR APPLICATION */
 //REGISTER USER
 router.post('/register', (req, res) =>{
     const credentials = req.body;
-
     const hashedPW = bcrypt.hashSync(credentials.password, 8);
     credentials.password = hashedPW;
 
@@ -50,7 +71,7 @@ router.post('/register', (req, res) =>{
         
     })
     .catch(err =>{
-        JSON.status(500).res({error: "Unable to add user"})
+        res.status(500).json({error: "Unable to add user"})
     })
 })
 
@@ -76,4 +97,19 @@ router.post('/login', (req, res) =>{
 
 
 
+
+//GET ALL USERS
+router.get('/users', verifyUser, (req,res) =>{
+    usersDb.getUsers()
+    .then(users =>{
+        res.status(200).json(users)
+    })
+    .catch(err =>{
+        res.status(500).json({error: "Unable to get users"})
+    })
+})
+
+
+
 module.exports = router;
+    

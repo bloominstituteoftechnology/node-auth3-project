@@ -16,6 +16,11 @@ module.exports = {
             .where('users.username', username)
             .first();
     },
+    getUserById: function(id){
+        return db('users')
+            .where('users.id', id)
+            .first();
+    },
 
     getUsers: function(){
         return db('users')
