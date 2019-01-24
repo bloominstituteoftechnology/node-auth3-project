@@ -30,7 +30,8 @@ function protector(req, res, next){
             if(err){
                 res.status(401).json({message: 'Invalid token'})
             }else{
-                next()
+                req.username = decodedToken.username;
+                next();
             }
         })
     }else{
