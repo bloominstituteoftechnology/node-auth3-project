@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class Signin extends Component {
+class SignUp extends Component {
   state = {
-    username: 'Nick',
-    password: 'Test'
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    const endpoint = 'http://localhost:4000/api/login';
-    axios
-      .post(endpoint, this.state)
-      .then(res => {
-        console.log(res.data);
-        localStorage.setItem('jwt', res.data.token);
-      })
-      .catch(err => console.log('Error!', err));
+    username: 'Davo',
+    password: 'Test',
+    department: 'admin'
   };
 
   handleInputChange = event => {
@@ -24,6 +13,18 @@ class Signin extends Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const endpoint = 'http://localhost:4000/api/register';
+    axios
+      .post(endpoint, this.state)
+      .then(res => {
+        console.log('handleSubmit from Sign-up', res.data);
+        localStorage.setItem('jwt', res.data.token);
+      })
+      .catch(err => console.log('Error!', err));
   };
 
   render() {
@@ -49,6 +50,15 @@ class Signin extends Component {
             />
           </div>
           <div>
+            <label htmlFor="department">Department</label>
+            <input
+              name="department"
+              value={this.state.department}
+              onChange={this.handleInputChange}
+              type="department"
+            />
+          </div>
+          <div>
             <button type="submit" />
             Sign In
           </div>
@@ -58,4 +68,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default SignUp;

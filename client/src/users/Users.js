@@ -7,7 +7,6 @@ class Users extends Component {
   };
 
   async componentDidMount() {
-    // const token = localStorage.getItem('jwt');
     const endpoint = 'http://localhost:4000/api/users';
 
     try {
@@ -17,28 +16,11 @@ class Users extends Component {
           authorization: token
         }
       };
-
       const response = await axios.get(endpoint, requestOptions);
-
       this.setState({ users: response.data.users });
     } catch (error) {
       console.error('Problem getting the users');
     }
-
-    // const options = {
-    //   headers: {
-    //     Authorization: token
-    //   }
-    // };
-    // axios
-    //   .get(endpoint, options)
-    //   .then(res => {
-    //     console.log('From Users!', res.data);
-    //     this.setState({ users: res.data });
-    //   })
-    //   .catch(err => {
-    //     console.log('Error!', err);
-    //   });
   }
   render() {
     return (
