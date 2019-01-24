@@ -6,9 +6,26 @@ class SignUp extends React.Component{
     constructor(){
         super()
         this.state = {
-
+            username: '',
+            password: '',
+            department: '',
         }
     }
+
+    inputHandler = (event) =>{
+        this.setState({[event.target.name] : event.target.value})
+    }
+
+    submitHandler = (event) =>{
+        event.preventDefault()
+        this.props.registerUser(this.state)
+        this.setState({
+            username: '',
+            password: '',
+            department: '',
+        })
+    }
+
     render(){
         return(
           <div className = 'sign-up-container'>
@@ -18,20 +35,40 @@ class SignUp extends React.Component{
                     <h3>Username: </h3>
                     <input 
                         className = 'username-input'
+                        type = 'text'
+                        placeholder = 'Enter username'
+                        value = {this.state.username}
+                        name = 'username'
+                        onChange = {this.inputHandler}
                     />
                 </div>
                 <div className = 'password-input-container'>
                     <h3>Password: </h3>
                     <input 
                         className = 'password-input'
+                        type = 'text'
+                        placeholder = 'Enter password'
+                        value = {this.state.password}
+                        name = 'password'
+                        onChange = {this.inputHandler}
                     />
                 </div>
                 <div className = 'department-input-container'>
                     <h3>Department: </h3>
                     <input 
                         className = 'department-input'
+                        type = 'text'
+                        placeholder = 'Enter department'
+                        value = {this.state.department}
+                        name = 'department'
+                        onChange = {this.inputHandler}
                     />
                 </div>
+            </div>
+            <div className = 'button-container'>
+                <Link exact to = '/' onClick = {this.submitHandler}>
+                    <div className = 'submit-button'>Register User</div>
+                </Link>
             </div>
           </div>
         ) 
