@@ -89,16 +89,24 @@ function protected(req, res, next) {
   // use jswt instead of sessions
   // read the token string from the Authorization header
   const token = req.headers.authorization;
-  // verify the token
-  jwt.verify(token, secret, (err, decodedToken) => {
-    if(err) {
 
-    } else {
+  if (token) {
+    // verify the token
+    jwt.verify(token, secret, (err, decodedToken) => {
+      if(err) {
+        // token is invalid
+        res.status(401).json({ message: "Invalid Token" });
+      } else {
+        // token is valid
+        console.log(decodedToken);
+        req.username = decodedToken.username;
 
-      next();
-    }
-  })
-
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "no token provided" });
+  }
 }
 
 
