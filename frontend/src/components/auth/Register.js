@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
-class Login extends React.Component {
+class Register extends React.Component {
 
     state = {
         username: "",
         password: "",
+        department: "",
         message: "",
     };
 
@@ -17,14 +18,22 @@ class Login extends React.Component {
         this.setState({ password: event.target.value });
     };
 
+    handleDepartment = event => {
+        this.setState({ department: event.target.value });
+    };
+
     handleSubmit = event => {
         event.preventDefault();
-        if (this.state.username.length === 0 || this.state.password.length === 0) {
-            this.setState({ message: "Must enter username and password to login" });
+        if (this.state.username.length === 0 || this.state.password.length === 0 || this.state.department.length === 0) {
+            this.setState({ message: "Must enter username, password, and department to register" });
         } else {
-            this.setState({ message: "Logging in..." });
-            const creds = { username: this.state.username, password: this.state.password };
-            axios.post('http://localhost:5000/api/auth/login', creds)
+            this.setState({ message: "Registering..." });
+            const creds = { 
+                username: this.state.username, 
+                password: this.state.password, 
+                department: this.state.department 
+            };
+            axios.post('http://localhost:5000/api/auth/register', creds)
                 .then(response => {
                     localStorage.setItem('jwt', response.data.token);
                     localStorage.setItem('username', response.data.username);
@@ -39,8 +48,8 @@ class Login extends React.Component {
     render() {
         return (
             <>
-                <div className="login-wrapper">
-                    <form className="login-form" onSubmit={this.handleSubmit}>
+                <div className="register-wrapper">
+                    <form className="register-form" onSubmit={this.handleSubmit}>
                         <input
                             className="username-field"
                             text="text"
@@ -55,11 +64,18 @@ class Login extends React.Component {
                             value={this.state.password}
                             onChange={this.handlePassword}
                         />
+                        <input
+                            className="department-field"
+                            type="department"
+                            placeholder="department"
+                            value={this.state.department}
+                            onChange={this.handleDepartment}
+                        />
                         <button
-                            className="login-button"
+                            className="register-button"
                             type="submit"
                             onClick={this.handleSubmit}>
-                            Login
+                            Register
                     </button>
                     </form>
                 </div>
@@ -71,4 +87,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Register;

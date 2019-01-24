@@ -51,7 +51,7 @@ header p {
 }
 
 .header-controls {
-  width: 25%;
+  width: 30%;
   text-align: center;
 }
 
@@ -72,7 +72,7 @@ header p {
   margin: 20px 0;
 }
 
-.login-wrapper {
+.login-wrapper, .register-wrapper {
   width: 90%;
   max-width: 600px;
   margin: 20px 0;
@@ -85,7 +85,7 @@ header p {
   align-items: center;
 }
 
-.login-form {
+.login-form, .register-form {
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -108,7 +108,7 @@ button {
   border-radius: 5px;
 }
 
-.login-message {
+.form-message {
   text-align: center;
   font-size: 1.4rem;
 }

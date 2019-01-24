@@ -12,7 +12,7 @@ class Header extends React.Component {
                 <section className="header-controls">
                     {localStorage.getItem('jwt') ?
                         <><p>Hello, {localStorage.getItem('username')}</p> | <Link to="/users">Users</Link> | <Link to="/auth/logout">Logout</Link></> :
-                        <><Link to="/auth/login">Login</Link> | <Link to="auth/register">Register</Link></>
+                        <><Link to="/auth/login">Login</Link> | <Link to="/auth/register">Register</Link></>
                     }
                 </section>
             </header>

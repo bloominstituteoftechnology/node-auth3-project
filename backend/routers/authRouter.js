@@ -11,10 +11,15 @@ router.post('/register', (req, res) => {
     creds.password = bcrypt.hashSync(creds.password, 16);
     usersDB.insertUser(creds)
         .then(ids => {
-            res.status(201).json({username: creds.username});
+            if (ids.length) {
+                const token = authHelper.generateToken(creds.username);
+                res.status(201).json({username: creds.username, token});
+            } else {
+                res.status(400).json({message: "Unable to register user"});
+            }
         })
         .catch(err => {
-            res.status(500).json({err: "Server error"});
+            res.status(500).json({message: "Server error"});
         });
 });
 
@@ -30,7 +35,7 @@ router.post('/login', (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).json({err: "Server error"});
+            res.status(500).json({message: "Server error"});
         });
 });
 
