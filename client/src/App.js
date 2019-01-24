@@ -1,30 +1,45 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { NavLink, Route, Link } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import styled from 'styled-components';
+import Users from './users/Users';
+import Signin from './auth/Signin';
 
-const StyledLink = styled(Link)`
-  font-size: 2rem;
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-  }
-`;
+const Home = props => {
+  return (
+    <div>
+      <h1>Home Component</h1>
+    </div>
+  );
+};
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      username: 'vera',
+      password: 'password'
     };
   }
   render() {
     return (
       <div className="App">
-        <StyledLink to="/signup">Sign up!</StyledLink>
-        <div>
-          <Route path="/signup" render={props => <SignUp {...props} />} />
-        </div>
+        <nav>
+          <NavLink to="/" exact>
+            Home
+          </NavLink>
+          &nbsp;|&nbsp;
+          <NavLink to="/users" exact>
+            Users
+          </NavLink>
+          &nbsp;|&nbsp;
+          <NavLink to="signin">Sign In</NavLink>
+        </nav>
+        <main>
+          <Route exact path="/" component={Home} />
+          <Route path="/users" component={Users} />
+          <Route path="/signin" component={Signin} />
+        </main>
       </div>
     );
   }

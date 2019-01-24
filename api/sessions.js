@@ -4,6 +4,7 @@ const knex = require('knex');
 const bcrypt = require('bcryptjs'); // added
 const session = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(session);
+const cors = require('cors');
 
 const knexConfig = require('../knexfile.js');
 
@@ -30,6 +31,7 @@ const sessionConfig = {
   })
 };
 
+server.use(cors());
 server.use(helmet());
 server.use(express.json());
 server.use(session(sessionConfig));
@@ -38,7 +40,7 @@ server.get('/', (req, res) => {
   res.send('sanity check');
 });
 
-server.post('/register', (req, res) => {
+server.post('/api/register', (req, res) => {
   const userInfo = req.body;
   const hash = bcrypt.hashSync(userInfo.password, 12);
   userInfo.password = hash;
@@ -50,7 +52,7 @@ server.post('/register', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-server.post('/login', (req, res) => {
+server.post('/api/login', (req, res) => {
   const creds = req.body;
   db('users')
     .where({ username: creds.username })
@@ -76,12 +78,12 @@ function protected(req, res, next) {
 }
 
 // protect this endpoint so only logged in users can see it
-server.get('/users', protected, async (req, res) => {
+server.get('/api/users', protected, async (req, res) => {
   const users = await db('users');
   res.status(200).json(users);
 });
 
-server.get('/logout', (req, res) => {
+server.get('/api/logout', (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {

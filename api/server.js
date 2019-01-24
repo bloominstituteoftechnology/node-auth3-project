@@ -12,6 +12,7 @@ const server = express();
 
 const db = knex(knexConfig.development);
 
+server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
@@ -29,7 +30,7 @@ const responseStatus = {
   serverError: 500
 };
 
-server.post('/register', async (req, res) => {
+server.post('/api/register', async (req, res) => {
   try {
     const userInfo = req.body;
     const hash = bcrypt.hashSync(userInfo.password, 12);
@@ -53,7 +54,7 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-server.post('/login', async (req, res) => {
+server.post('/api/login', async (req, res) => {
   try {
     const creds = req.body;
     const user = await db('users')
@@ -110,7 +111,7 @@ function checkDepartment(department) {
 }
 
 // protect this endpoint so only logged in users can see it
-server.get('/users', lock, checkDepartment('admin'), async (req, res) => {
+server.get('/api/users', lock, checkDepartment('admin'), async (req, res) => {
   const users = await db('users').select('id', 'username');
   res.status(responseStatus.success).json({
     users,
