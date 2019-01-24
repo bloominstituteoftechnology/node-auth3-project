@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { NavLink, Route } from 'react-router-dom';
 
 class SignUp extends Component {
   state = {
@@ -25,6 +26,23 @@ class SignUp extends Component {
         localStorage.setItem('jwt', res.data.token);
       })
       .catch(err => console.log('Error!', err));
+
+    const loginEndpoint = 'http://localhost:4000/api/login';
+    console.log('from second endpoint!');
+    axios
+      .post(loginEndpoint, this.state)
+      .then(res => {
+        console.log(res.data);
+        localStorage.setItem('jwt', res.data.token);
+      })
+      .catch(err => console.log('Error!', err));
+  };
+
+  Delay = e => {
+    e.preventDefault();
+    setTimeout(() => {
+      this.props.history.push('/users');
+    }, 500);
   };
 
   render() {
@@ -59,9 +77,13 @@ class SignUp extends Component {
             />
           </div>
           <div>
-            <button type="submit" />
-            Sign In
+            <NavLink to="/users" onClick={this.Delay}>
+              <button type="submit" />
+              Sign Up
+            </NavLink>
           </div>
+          <div>Already have an account?</div>
+          <NavLink to="/signin">Sign In Here</NavLink>
         </form>
       </div>
     );

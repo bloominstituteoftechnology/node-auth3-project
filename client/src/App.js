@@ -37,8 +37,8 @@ class App extends Component {
           <NavLink to="/users" exact>
             Users
           </NavLink>
-          &nbsp;|&nbsp;
-          <NavLink to="signin">Sign In</NavLink>
+          {/* &nbsp;|&nbsp; */}
+          {/* <NavLink to="signin">Sign In</NavLink> */}
           &nbsp;|&nbsp;
           <NavLink to="signup">Sign Up</NavLink>
           &nbsp;|&nbsp;
