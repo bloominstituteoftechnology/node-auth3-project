@@ -114,4 +114,4 @@ server.post('/api/logout', (req, res) => {
   })
 });
 
-server.listen(3000, () => console.log('\nRunning on port 3000\n'))
+server.listen(3300, () => console.log('\nRunning on port 3300\n'));
