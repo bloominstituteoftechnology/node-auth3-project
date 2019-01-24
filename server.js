@@ -1,29 +1,61 @@
-// exports.up = function(knex, Promise) {
-//     return knex.schema.createTable('users', table => {
-//         table.increments();
-//         table.string('username').notNullable();
-//         table.string('password').notNullable();
-//         table.string('department').notNullable();
-  
-//     })
-// };
+const express = require('express');
+const knex = require('knex');
+const bcrypt = require('bcrypt')
+const dbConfig = require('./knexfile.js')
+require('dotenv/config')
 
-// exports.down = function(knex, Promise) {
-//   return knex.schema.dropTableIfExists('users')
-// };
+const PORT = process.env.PORT;
 
 
-// const bcrypt = require('../../node_modules/bcrypt')
+const db = knex(dbConfig[process.env.DEV])
 
-// let USERS = [{username: "Carson", password: "1", department: "sheriff"}, {username: "Chester", password: "2", department: "deputy"}, {username: "Caleb", password: "3", department: "citizen"}]
+const server = express();
 
-// let HASHEDU = USERS.map( (user) => {return user.password = bcrypt.hashSync(user.password, 16)})
+server.use(express.json())
 
-// exports.seed = function(knex, Promise) {
+server.get('/api/users', (req, res) => {
+      db('users')
+      .then(info => {
+        res.json(info);
+      })
+      .catch((err) => {
+        res.status(500).json({err: `Failed to get users! ${err}`})
 
-//   return knex('users').truncate()
-//     .then(function () {
+      }
+)})
 
-//       return knex('users').insert(HASHEDU);
-//     });
-// };
+
+server.post('/api/register', (req,res) => {
+  const user = req.body;
+
+  user.password = bcrypt.hashSync(user.password,16) 
+  const missing = ['username', 'password', 'department'].filter(item => {return user.hasOwnProperty(item) === false})
+  if(missing.length===0)
+  {db('users').insert(user)
+  .then(ids => {
+      res.status(201).json({message: `user ${user.username} added`})})
+  .catch(err => {
+      res.status(500).json({err: `Could not add user! ${err}`})
+  })
+  }
+
+  else {res.status(500).json({message: `missing info: ${missing}`})}
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+server.listen(PORT, (err) => {
+  if (err) {console.log(err)}
+  else {console.log(`listening on port ${PORT}`)}
+})
