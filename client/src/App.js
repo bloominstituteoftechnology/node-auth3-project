@@ -21,6 +21,12 @@ class App extends Component {
       password: 'password'
     };
   }
+
+  signout = event => {
+    // could say if we have the item, remove it
+    localStorage.removeItem('jwt');
+  };
+
   render() {
     return (
       <div className="App">
@@ -34,6 +40,8 @@ class App extends Component {
           </NavLink>
           &nbsp;|&nbsp;
           <NavLink to="signin">Sign In</NavLink>
+          &nbsp;|&nbsp;
+          <button onClick={this.signout}>Signout</button>
         </nav>
         <main>
           <Route exact path="/" component={Home} />
