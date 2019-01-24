@@ -16,26 +16,20 @@ class SignUp extends Component {
     });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const endpoint = 'http://localhost:4000/api/register';
-    axios
-      .post(endpoint, this.state)
-      .then(res => {
-        console.log('handleSubmit from Sign-up', res.data);
-        localStorage.setItem('jwt', res.data.token);
-      })
-      .catch(err => console.log('Error!', err));
+  handleSubmit = async event => {
+    try {
+      event.preventDefault();
+      const endpoint = 'http://localhost:4000/api/register';
+      const res = await axios.post(endpoint, this.state);
+      localStorage.setItem('jwt', res.data.token);
 
-    const loginEndpoint = 'http://localhost:4000/api/login';
-    console.log('from second endpoint!');
-    axios
-      .post(loginEndpoint, this.state)
-      .then(res => {
-        console.log(res.data);
-        localStorage.setItem('jwt', res.data.token);
-      })
-      .catch(err => console.log('Error!', err));
+      console.log('Second endpoint!');
+      const loginEndpoint = 'http://localhost:4000/api/login';
+      const loginRes = await axios.post(loginEndpoint, this.state);
+      localStorage.setItem('jwt', loginRes.data.token);
+    } catch (error) {
+      console.log('Error!', error);
+    }
   };
 
   Delay = e => {
@@ -77,10 +71,10 @@ class SignUp extends Component {
             />
           </div>
           <div>
-            <NavLink to="/users" onClick={this.Delay}>
-              <button type="submit" />
-              Sign Up
-            </NavLink>
+            {/* <NavLink to="/users" onClick={this.Delay}> */}
+            <button type="submit" />
+            Sign Up
+            {/* </NavLink> */}
           </div>
           <div>Already have an account?</div>
           <NavLink to="/signin">Sign In Here</NavLink>
