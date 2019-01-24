@@ -97,7 +97,7 @@ router.post("/login", (req, res) => {
       .then(users => {
         if (users[0] && bcrypt.compareSync(user.password, users[0].password)) {
           const token = generateToken(user);
-          res.status(200).json({ message: "Logged In", token: token });
+          res.status(200).json({ message: "Logged In", token });
         } else {
           res.status(404).json({ message: "You shall not pass!" });
         }
@@ -117,6 +117,52 @@ router.get("/users", protect, (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "trouble getting users" });
     });
+});
+
+router.get("/users/:id", protect, (req, res) => {
+  const { id } = req.params;
+  usersDb
+    .get(id)
+    .then(users => {
+      res.send(users[0]);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "trouble getting user" });
+    });
+});
+
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      res.status(500).send('failed to logout');
+    } else {
+      res.send('logout successful');
+    }
+  });
+});
+
+
+router.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const deleted = await usersDb.get(id);
+
+  usersDb
+    .get(id)
+    .then(user => {
+      if (user[0]) {
+        usersDb
+          .remove(id)
+          .then(rows => res.status(201).json(deleted))
+          .catch(err =>
+            res.status(500).json({ error: "trouble deleting user" })
+          );
+      } else {
+        res.status(404).json({ error: "user does not exist" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({ error: "trouble retrieving user to be deleted" })
+    );
 });
 
 module.exports = {
