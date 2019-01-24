@@ -1,7 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const knex = require('knex');
 
 const db_config = require('./knexfile');
@@ -13,13 +12,15 @@ const dbHelpers = require('./data/dbHelpers.js');
 const server = express();
 const PORT = 5112;
 
+const secret = 'secretsecret';
+
 server.use(express.json());
 
 function generateToken(username) {
     const payload = {
         username: username
     };
-    const secret = 'secretsecret';
+    
     const options = {
         expiresIn: '1h',
         jwtid: '12345'
@@ -30,7 +31,18 @@ function generateToken(username) {
 }
 
 function protected(req, res, next) {
-    next();
+    const token = req.headers.authorization;
+    if(token) {
+    jwt.verify(token, secret, (err, decodeToken) => {
+        if (err) {
+            res.status(401).json({ message: 'Invalid token' })
+        } else {
+            next();
+        }
+    });
+    } else {
+        res.status(401).json({ message: 'No token provided' });
+    }
 }
 
 server.post('/api/register', (req,res) => {
@@ -56,18 +68,17 @@ server.post('/api/register', (req,res) => {
   });
   
   server.post('/api/login', (req, res) => {
-    const user = req.body;
-    dbHelpers.loginUser(user)
-    .then(users => {
-      if (users.length && bcrypt.compareSync(user.password, users[0].password)) {
-        res.status(200).json({ message: 'Success!' });
-      } else {
-        res.status(400).json({ error: 'Invalid username or password' });
-      }
+    const creds = req.body;
+    db('users').where( { username: creds.username }).first()
+    .then(user => {
+        if (user && bcrypt.compareSync(creds.password, user.password)) {
+            const token = generateToken(user);
+            res.status(200).json({ token });
+        } else {
+            res.status(401).json({ message: 'Login Error' });
+        }
     })
-    .catch(err => {
-      res.status(500).json({ error: 'Login Error' });
-    })
+    .catch(err => res.status(500).send(err));
   });
 
   server.get('/api/users', protected, (req, res) => {
