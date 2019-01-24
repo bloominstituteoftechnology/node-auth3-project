@@ -12,9 +12,11 @@ function insertUser(user) {
 }
 
 function findByUsername(username) {
-  return db('users').where('username', username);
+  return db('users')
+    .where('username', username)
+    .first();
 }
 
 function getUsers() {
-  return db('users').select('id', 'username');
+  return db('users').select('id', 'username', 'department');
 }
