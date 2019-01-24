@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Signin extends Component {
-  state = {
-    username: "",
-    password: ""
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: "",
+      password: ""
+    };
   }
 
   render() {
@@ -12,7 +16,7 @@ class Signin extends Component {
       <form onSubmit={this.handleSubmit}>
 
         <div className="form-username">
-          <label htmlfor="username">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             name="username"
             value={this.state.username}
@@ -22,7 +26,7 @@ class Signin extends Component {
         </div>
 
         <div>
-          <label htmlfor="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             name="password"
             value={this.state.password}

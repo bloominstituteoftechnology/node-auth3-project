@@ -7,17 +7,18 @@ class Signup extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      department: ""
     };
   }
   
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
 
         <div className="form-username">
-          <label htmlfor="username">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             name="username"
             value={this.state.username}
@@ -27,10 +28,20 @@ class Signup extends Component {
         </div>
 
         <div>
-          <label htmlfor="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             name="password"
             value={this.state.password}
+            onChange={this.handleChange}
+            type="text"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="department">Department</label>
+          <input
+            name="department"
+            value={this.state.department}
             onChange={this.handleChange}
             type="text"
           />

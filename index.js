@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const knex = require('knex');
@@ -10,6 +11,7 @@ const db = knex(knexConfig.development);
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 const secret = 'heydontlook'
 
@@ -95,7 +97,7 @@ server.post('/api/login', (req, res) => {
 // protect this one
 server.get('/api/users', protected, (req, res) => {
   db('users')
-    .select('id', 'username', 'password')
+    .select('id', 'username', 'password', 'department')
     .then(users => {
       res.json(users)
     })
