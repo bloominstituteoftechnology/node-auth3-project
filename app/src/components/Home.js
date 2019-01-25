@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
+
+  signOut = () => {
+    localStorage.removeItem('token');
+  }
+
   render() {
     return (
       <div>
@@ -11,6 +16,7 @@ class Home extends Component {
             <Link to='/signup'>Sign Up</Link>
             <Link to='/signin'>Sign In</Link>
             <Link to='/users'>Users</Link>
+            <button onClick={this.signOut}>Sign Out</button>
         </nav>
       </div>
     );
