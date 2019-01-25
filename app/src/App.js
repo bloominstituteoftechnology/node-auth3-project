@@ -6,6 +6,7 @@ import LogIn from './components/LogIn';
 import Welcome from './components/Welcome';
 import Signup from './components/SignUp';
 import UsersList from './components/UsersList';
+import { NavLink } from "react-router-dom";
 
 class App extends Component {
 
@@ -32,7 +33,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <NavLink to='/'>
+            <img src={logo} className="App-logo" alt="logo" />
+          </NavLink>
           <div className="login-container">
             <div className="login-box">
               <Route path='/' exact render={() => <Welcome />} />

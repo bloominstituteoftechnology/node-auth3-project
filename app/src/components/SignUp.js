@@ -26,7 +26,7 @@ export class Signup extends Component {
         axios
             .post("http://localhost:2323/api/register", user)
             .then(res => {
-                console.log(res);
+                console.log(res.data);
                 this.setState({
                     username: '',
                     password: ''

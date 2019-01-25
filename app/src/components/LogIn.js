@@ -26,8 +26,9 @@ export class LogIn extends Component {
         axios
             .post("http://localhost:2323/api/login", user)
             .then(res => {
-                console.log(res);
+                console.log(res.data);
                 if (res.status === 200) {
+                    localStorage.setItem('jwt', res.data.token);
                     this.setState({
                         username: '',
                         password: '',
