@@ -38,9 +38,10 @@ class App extends Component {
               Register
             </NavLink>
 
-            <NavLink className='menu-link' to= '/users'>
+            {localStorage.getItem('jwt') ? <NavLink className='menu-link' to= '/users'>
               Users
-            </NavLink>
+            </NavLink> : <div></div>
+            }
           </nav>
           <main>
             <Route path='/' component={Home} exact></Route>

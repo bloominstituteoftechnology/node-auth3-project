@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 class Users extends Component {
@@ -11,14 +12,18 @@ class Users extends Component {
     }
 
     render() {
-        console.log(this.state.userlist);
+        if (!localStorage.getItem('jwt')) {
+            return (
+                <Redirect to='/signin'></Redirect>
+            )
+        }
         if (this.state.userlist !== undefined) {
             return (
                 <div>
                     <h2>Users</h2>
                     <ul>
                     {this.state.userlist.map(user => {
-                        return <li key={user.username}>{user.username} - {user.department}</li>
+                        return <li key={user.id}>{user.username} - {user.department}</li>
                     })}
                     </ul>
                 </div>
@@ -44,16 +49,18 @@ class Users extends Component {
                 Authorization: token,
             }
         }
-        axios.get('http://localhost:3300/api/users', options)
-        .then((res) => {
-            console.log(res.data);
-            this.setState({
-                userlist: res.data,
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        if (token !== null) {
+            axios.get('http://localhost:3300/api/users', options)
+            .then((res) => {
+                console.log(res.data);
+                this.setState({
+                    userlist: res.data,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 class Register extends Component {
@@ -12,6 +13,11 @@ class Register extends Component {
     }
     
     render() {
+        if (localStorage.getItem('jwt')) {
+            return (
+                <Redirect to='/users'></Redirect>
+            )
+        }
         return (
         <form onSubmit={this.formSubmit}>
             <div>
