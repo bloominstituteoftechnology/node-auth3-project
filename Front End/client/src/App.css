@@ -1,0 +1,12 @@
+.users{
+  border: 1px solid blue;
+  width:250px;
+  margin:5px;
+  padding: 5px;
+}
+
+.links{
+  text-decoration: none;
+  margin:5px;
+  
+}

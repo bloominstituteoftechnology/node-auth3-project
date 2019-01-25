@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const knex = require('knex');
 const dbconfig = require('./knexfile');
 const db = knex(dbconfig.development);
@@ -26,6 +27,7 @@ createToken = (user) => {
 server.disable("etag");
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 server.use(logger('dev'));
 
 
@@ -41,9 +43,10 @@ server.post('/api/register', (req, res) => {
     db('users')
         .insert(newUser)
         .then(id => {
+            const token = createToken(newUser);
             res
                 .status(201)
-                .json(id)
+                .json(token)
         })
         .catch(err => {
             res
@@ -81,7 +84,6 @@ server.post('/api/login', (req, res) => {
 
 server.get('/api/users', (req, res) => {
     const token = req.headers.authorization;
-    console.log(typeof token)
     jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
             res
@@ -89,6 +91,7 @@ server.get('/api/users', (req, res) => {
                 .send('Invalid Token');
         } else {
             db('users')
+                .select('username', 'department')
                 .then(users => {
                     res
                         .json(users)
