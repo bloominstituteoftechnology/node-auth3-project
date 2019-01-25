@@ -68,8 +68,8 @@ server.post("/api/register", (req, res) => {
    if (creds.username && creds.password) {
    db.findByUsername(creds.username)
    .then(user => {
-     if (user.length && bcrypt.compareSync(creds.password, user[0].password)) {
-       const token = generateToken(user[0])
+     if (user.length && bcrypt.compareSync(creds.password, user.password)) {
+       const token = generateToken(user)
        res.json({ id: user.id, token });
      } else {
        res.status(404).json({err: "invalid username or password"});
