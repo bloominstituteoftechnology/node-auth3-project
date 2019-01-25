@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {Redirect} from "react-router-dom";
+
 import {
   Card,
   CardBody,
@@ -9,6 +9,8 @@ import {
   Button,
   CardColumns,
 } from "reactstrap";
+
+const jwt = require("jsonwebtoken");
 
 export default class Users extends React.Component {
   state = {
@@ -22,10 +24,13 @@ export default class Users extends React.Component {
         Authorization: token
       }
     };
+    const decoded = jwt.decode(token);
+    const department = decoded.department;
     axios
       .get(endpoint, options)
       .then(res => {
-        this.setState({ users: res.data });
+        const filtered = res.data.filter(user => user.department === department)
+        this.setState({ users: filtered });
       })
       .catch(err => {
         console.log("error from /api/users", err);

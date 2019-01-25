@@ -97,7 +97,7 @@ export default class Register extends React.Component {
           </p> */}
           <hr className="my-2" />
           <p>
-            {this.state.errorMessage}
+            {`${this.state.errorMessage}`}
           </p>
         </Jumbotron>
       </div>

@@ -96,7 +96,8 @@ router.post("/login", (req, res) => {
       .get(user.username)
       .then(users => {
         if (users[0] && bcrypt.compareSync(user.password, users[0].password)) {
-          const token = generateToken(user);
+          usersDb
+          const token = generateToken(users[0]);
           res.status(200).json({ message: "Logged In", token });
         } else {
           res.status(404).json({ message: "You shall not pass!" });
