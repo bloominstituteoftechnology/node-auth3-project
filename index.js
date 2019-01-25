@@ -11,7 +11,19 @@ const jwt = require('jsonwebtoken');
 const db = knex(dbConfig.development)
 const PORT = process.env.PORT || 6789;
 
+function protect(req, res, next) {
+    const token = req.headers.authorization;
 
+    jwt.verify(token, secret, (err, decodedToken) => {
+        if (err) {
+            res
+            .status(401)
+            .json({ message: 'Invalid Token'})
+        } else {
+            next();
+        }
+    });
+}
 
 function generateToken(){
     const payload = {
@@ -87,6 +99,16 @@ server.post('/api/login', (req, res) => {
 
 
 //GET /api/users
+
+server.get('/api/users', protect, (req, res) =>{
+    db('users')
+    .select('id', 'username')
+    .then(users =>{
+        res
+        .json(users);
+    })
+    .catch(err => res.status(500).send(err));
+});
 
 server.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`)
