@@ -24,6 +24,7 @@ class SignUp extends React.Component{
             password: '',
             department: '',
         })
+        this.props.history.push('/');
     }
 
     render(){

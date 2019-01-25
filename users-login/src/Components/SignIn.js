@@ -13,6 +13,16 @@ class SignIn extends React.Component{
     inputHandler = (event) =>{
         this.setState({[event.target.name]: event.target.value})
     }
+
+    submitHandler = (event) =>{
+        event.preventDefault()
+        this.props.logInUser(this.state)
+        this.setState({
+            username: '',
+            password: ''
+        });
+        this.props.history.push('/users')
+    }
     render(){
         return(
             <div className = 'home-page-container'>
@@ -41,7 +51,7 @@ class SignIn extends React.Component{
                         />
                 </div>
                 <div className = 'button-container'>
-                    <div className = 'log-in-button'>Submit Login</div>
+                    <Link exact to = '/users' className = 'log-in-button' onClick = {this.submitHandler}>Submit Login</Link>
                     <Link exact to = '/register' className = 'registration-button'>Register</Link>
                 </div>
              </div>

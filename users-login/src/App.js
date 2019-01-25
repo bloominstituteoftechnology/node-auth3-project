@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   fetchUsers = () =>{
-    axios.get('localhost:4000/api/users')
+    axios.get('http://localhost:4000/api/users')
       .then(res =>{
         this.setState({
           users: res.data
@@ -36,9 +36,10 @@ class App extends Component {
   }
 
   registerUser = (newUser) =>{
-    axios.post('localhost:4000/api/register', newUser)
+    axios.post('http://localhost:4000/api/register', newUser)
       .then(res =>{
-        console.log(res)
+        console.log(res.data);
+        localStorage.setItem("jwt", res.data.token);
       })
       .catch(()=>{
         console.log('Sorry, failed to add new user')
@@ -46,9 +47,10 @@ class App extends Component {
   }
 
   logInUser = (userCreds) =>{
-    axios.post('localhost:4000/api/login', userCreds)
+    axios.post('http://localhost:4000/api/login', userCreds)
       .then(res =>{
-        console.log(res)
+        console.log(res.data);
+        localStorage.setItem("jwt", res.data.token);
       })
       .catch(() =>{
         console.log('Sorry, failed to validate user credentials')
