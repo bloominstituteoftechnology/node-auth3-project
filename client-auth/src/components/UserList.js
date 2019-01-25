@@ -1,7 +1,13 @@
 import React from 'react';
+import axios from 'axios';
 
-import users from '../apis/users';
 import { Spinner } from './Spinner';
+
+const makeOptions = () => ({
+  headers: {
+    Authorization: localStorage.getItem('token')
+  }
+});
 
 export default class UserList extends React.Component {
   state = {
@@ -9,7 +15,10 @@ export default class UserList extends React.Component {
   };
 
   async componentDidMount() {
-    const res = await users.get('/users');
+    const res = await axios.get(
+      'http://localhost:4020/api/users',
+      makeOptions()
+    );
     this.setState({ users: res.data });
   }
 

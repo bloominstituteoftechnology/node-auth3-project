@@ -26,6 +26,7 @@ const generateToken = user => {
 const protectRoute = (req, res, next) => {
   if (req.headers.authorization) {
     const token = req.headers.authorization;
+    console.log(token);
     jwt.verify(token, secret, (err, decodedToken) => {
       err
         ? res.status(401).json({ message: 'Invalid token!' })
