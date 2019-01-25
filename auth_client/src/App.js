@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { withStyles } from "@material-ui/core/styles";
 import Users from "./Users/Users";
 import Signin from "./Auth/Signin";
-import Signup from "./Auth/Signup"
+import Signup from "./Auth/Signup";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const styles = {
@@ -38,7 +38,12 @@ const App = props => {
       <header className="App-header">
         <AppBar className="App-Bar" position="static">
           <Toolbar variant="dense">
-            <NavLink to="/" className={classes.grow} exact>
+            <NavLink
+              style={{ textDecoration: "none", color: "white"}}
+              to="/"
+              className={classes.grow}
+              exact
+            >
               <Typography
                 className={classes.menuButton}
                 color="inherit"
@@ -48,20 +53,19 @@ const App = props => {
               </Typography>
             </NavLink>
             &nbsp;|&nbsp;
-            <NavLink to="/signup" exact>
+            <NavLink to="/signup" style={{ textDecoration: "none", color: "white"}} exact>
               <Typography variant="h6" color="inherit">
                 Signup
               </Typography>
             </NavLink>
-
             &nbsp;|&nbsp;
-            <NavLink to="/signin" exact>
+            <NavLink to="/signin" style={{ textDecoration: "none", color: "white"}} exact>
               <Typography variant="h6" color="inherit">
                 Signin
               </Typography>
             </NavLink>
             &nbsp;|&nbsp;
-            <NavLink to="/users" exact>
+            <NavLink to="/users" style={{ textDecoration: "none", color:"white"}} exact>
               <Typography variant="h6" color="inherit">
                 Users
               </Typography>
