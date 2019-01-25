@@ -8,8 +8,8 @@ export default class Home extends React.Component {
         <Jumbotron className="homeDiv">
           <h1 className="display-3">Auth-ii</h1>
           <p className="lead borderP">
-            This is the landing page for Angelina La Salle's HTTP-AJAX Friends
-            Project. This web application fulfills the MVP requirements.
+            This is the landing page for Angelina La Salle's Auth-ii
+            Project. This web application fulfills the MVP requirements and stretch goals.
           </p>
           <hr className="my-2" />
           <p>
