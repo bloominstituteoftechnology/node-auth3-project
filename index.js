@@ -79,7 +79,7 @@ server.post('/api/register', (req,res) => {
 // - If login fails, respond with the correct status code and the message: 'You shall not pass!'
 server.post('/api/login', (req,res) => {
   const login = req.body;
-  console.log( "/api/login" );
+  console.log( "/api/login", login.user, login.pass );
 
   db('users').where('user', login.user).limit(1)
     .then( (user) => {
