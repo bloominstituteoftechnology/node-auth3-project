@@ -100,9 +100,9 @@ server.post('/api/login', (req, res) => {
 });
 
 server.get('/api/users', protected,  (req, res) => {
-    db('users').select()
+    db('users').select('id', 'username', 'department')
     .then((usernames) => {
-        res.status(200).json({usernameList: usernames});
+        res.status(200).json(usernames);
     })
     .catch((error) => {
         res.status(500).json({message: `Server sent an error of: ${error}`});

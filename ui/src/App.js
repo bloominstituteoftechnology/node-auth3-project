@@ -14,6 +14,12 @@ const Home = props => {
 }
 
 class App extends Component {
+  
+  signOut = (event) => {
+    event.preventDefault();
+    localStorage.removeItem('jwt');
+  }
+
   render() {
     return (
       <div className="App">
@@ -35,6 +41,7 @@ class App extends Component {
             <Route path='/' component={Home} exact></Route>
             <Route path='/signin' component={Auth} exact></Route>
             <Route path='/users' component={Users} exact></Route>
+            <button name='signout' onClick={this.signOut}>Sign Out</button>
           </main>
         </header>
       </div>
