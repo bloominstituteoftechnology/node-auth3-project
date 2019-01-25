@@ -8,11 +8,7 @@ import './App.css';
 
 class App extends Component {
 
-  signout(){
-    console.log('hello');
-    localStorage.removeItem('jwt');
-    window.location.reload();
-  }
+
 
   render() {
     return (
@@ -25,12 +21,11 @@ class App extends Component {
             &nbsp;|&nbsp;
             <Link to="/users">User List</Link>
             &nbsp;|&nbsp;
-            <button onClick={this.signout}>Sign-out</button>
           </nav>
           <main>
-            <Route path="/register" component={Register}>Register</Route>
-            <Route path="/signin" component={Signin}>Register</Route>
-            <Route path="/users" component={Users}>Register</Route>
+            <Route path="/register" component={Register}></Route>
+            <Route path="/signin" component={Signin}></Route>
+            <Route path="/users" component={Users}></Route>
 
           </main>
         </header>

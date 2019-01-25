@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 class Users extends React.Component{
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       users: []
     }
@@ -30,6 +30,13 @@ class Users extends React.Component{
     })
 
   }
+
+  signout = () => {
+    //Remove token from localStorage and direct user to signin page
+    localStorage.removeItem('jwt');
+    this.props.history.push('/signin')
+    window.location.reload();
+  }
   
   render(){
 
@@ -40,6 +47,8 @@ class Users extends React.Component{
             <li key={user.id}>Username:{user.username}&nbsp;&nbsp;Department:{user.department}</li>
           )}
         </ul>
+        <button onClick={this.signout}>Sign-out</button>
+        
       </div>
     )
   }

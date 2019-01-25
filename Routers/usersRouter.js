@@ -51,7 +51,6 @@ function verifyUser(req, res, next){
 //**ROUTE HANDLERS/ENDPOINTS FOR APPLICATION */
 //REGISTER USER
 router.post('/register', (req, res) =>{
-    console.log('register', req.body);
     const credentials = req.body;
     const hashedPW = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hashedPW;
