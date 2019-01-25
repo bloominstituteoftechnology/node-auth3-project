@@ -26,7 +26,6 @@ class Navbar extends Component {
 
   signout = () => {
     localStorage.removeItem('jwt');
-    // window.location.reload();
   };
 }
 

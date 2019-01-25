@@ -4,6 +4,7 @@ import './App.css';
 import Home from './components/Home';
 import SignIn from './components/SignIn';
 import Register from './components/Register';
+import Users from './components/Users';
 
 import Navbar from './components/Navbar';
 
@@ -16,6 +17,7 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/signin" component={SignIn} />
         <Route path="/register" component={Register} />
+        <Route path="/users" component={Users} />
       </div>
     );
   }
