@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-class Register extends Component {
+class Signup extends Component {
   state = {
     username: "",
     password: "",
@@ -19,7 +19,7 @@ class Register extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const endpoint = "http://localhost:3300/api/register";
+    const endpoint = "http://localhost:3300/api/Signup";
     axios
       .post(endpoint, this.state)
       .then(res => {
@@ -30,7 +30,7 @@ class Register extends Component {
         console.log("ERROR");
       });
 
-    //    this.props.history.push("/users");
+    this.props.history.push("/users");
   };
 
   handleInput = event => {
@@ -83,4 +83,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default Signup;
