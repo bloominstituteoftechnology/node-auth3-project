@@ -13,7 +13,8 @@ class UserList extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        console.log('UserList: componentWillMount()');
         this.setState({...this.state, loading: true});
         const token = localStorage.getItem('jwt');
         const headers = { headers: {"Authorization" : token} };
@@ -28,6 +29,7 @@ class UserList extends React.Component {
     }
 
     render() {
+        console.log('UserList: render()');
         return (
             <section className="users-content">
                 <h1>Users:</h1>

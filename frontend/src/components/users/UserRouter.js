@@ -7,6 +7,7 @@ import UserList from './UserList';
 
 class UserRouter extends React.Component {
   render() {
+    console.log('UserRouter: render()');
     return (
       <>
         <Route path="/users" component={UserList} />

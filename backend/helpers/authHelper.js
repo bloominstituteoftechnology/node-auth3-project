@@ -8,7 +8,7 @@ module.exports = {
         }
         const secret = config.secret;
         const options = {
-            expiresIn: '1h',
+            expiresIn: '30s',
             jwtid: '12345'
         }
         return jwt.sign(payload, secret, options);

@@ -9,6 +9,7 @@ const Authenticate = Component => {
         }
 
         componentWillMount() {
+            console.log('Authenticate: componentWillMount()');
             if (!localStorage.getItem('jwt')) {
                 this.setState({ loggedIn: false });
             } else {
@@ -17,6 +18,7 @@ const Authenticate = Component => {
         }
 
         render() {
+            console.log('Authenticate: render()');
             return !this.state.loggedIn ? <Redirect to="/auth/login" /> : <Component />;
         }
     }

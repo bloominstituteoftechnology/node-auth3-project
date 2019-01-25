@@ -8,6 +8,9 @@ import PublicRouter from './components/public/PublicRouter';
 import AuthRouter from './components/auth/AuthRouter';
 import UserRouter from './components/users/UserRouter';
 
+import axiosConfig from './config/axiosConfig';
+axiosConfig(localStorage);
+
 class App extends Component {
   render() {
     return (
