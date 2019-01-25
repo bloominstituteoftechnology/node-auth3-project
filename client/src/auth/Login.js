@@ -25,7 +25,7 @@ class Login extends Component{
                     <input 
                         type="text"
                         name="password"
-                        value ={this.state.username}
+                        value ={this.state.passwordusername}
                         onChange={this.handleInputChange}>
                     </input>
                 </div>
@@ -58,4 +58,4 @@ class Login extends Component{
     }
 }
 
-export default Signin
+export default Login
