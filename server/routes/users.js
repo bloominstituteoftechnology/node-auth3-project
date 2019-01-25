@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/users', (req, res) => {
-    const token = req.headers['x-access-token'];
+    const token = req.headers['auth'];
 
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
