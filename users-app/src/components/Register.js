@@ -90,7 +90,7 @@ export default class Register extends React.Component {
     } else if (this.state.error) {
       return (
         <div>
-          <Jumbotron className="homeDiv">
+          <Jumbotron className="homeDiv bodyRoute">
             <h1 className="display-3">Registration Error</h1>
             {/* <p className="lead borderP">
             {this.state.errorMessage}
@@ -103,7 +103,7 @@ export default class Register extends React.Component {
     }
     return (
       <div>
-        <Jumbotron className="homeDiv">
+        <Jumbotron className="homeDiv bodyRoute">
           <Button className="button" color="danger" onClick={this.toggle}>
             Register
           </Button>

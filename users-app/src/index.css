@@ -1,5 +1,4 @@
 .listDiv {
-  /* padding-top: 60px; */
   min-height: 100vh;
   margin-bottom: 5px;
   display: flex;
@@ -31,4 +30,17 @@
 .button {
   width: 20%;
   margin: 0 40% 0 40%;
+}
+
+.navBar {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.bodyRoute {
+  margin-top: 56px;
+  z-index: 0;
 }

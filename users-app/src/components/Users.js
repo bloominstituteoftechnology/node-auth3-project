@@ -7,14 +7,17 @@ import {
   CardTitle,
   CardSubtitle,
   Button,
-  CardColumns
+  CardColumns,
+  Jumbotron
 } from "reactstrap";
 
 const jwt = require("jsonwebtoken");
 
 export default class Users extends React.Component {
   state = {
-    users: []
+    users: [],
+    error: false,
+    errorMessage: ""
   };
   componentDidMount() {
     const token = localStorage.getItem("jwt");
@@ -24,7 +27,9 @@ export default class Users extends React.Component {
         Authorization: token
       }
     };
-    const decoded = jwt.decode(token);
+
+    if (token) {
+      const decoded = jwt.decode(token);
     const department = decoded.department;
     axios
       .get(endpoint, options)
@@ -32,11 +37,13 @@ export default class Users extends React.Component {
         const filtered = res.data.filter(
           user => user.department === department
         );
-        this.setState({ users: filtered });
+        this.setState({ users: filtered, error: false, errorMessage: "" });
       })
       .catch(err => {
-        console.log("error from /api/users", err);
+        this.setState({ error: true, errorMessage: err });
       });
+    }
+    
   }
 
   deleteUser = user => {
@@ -52,15 +59,40 @@ export default class Users extends React.Component {
       .then(res => {
         axios
           .get(endpoint, options)
-          .then(res => this.setState({ users: res.data }))
-          .catch(err => console.log(err));
+          .then(res =>
+            this.setState({ users: res.data, error: false, errorMessage: "" })
+          )
+          .catch(err => this.setState({ error: true, errorMessage: err }));
       })
-      .catch(err => console.log(err));
+      .catch(err => this.setState({ error: true, errorMessage: err }));
   };
 
   render() {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      return (
+        <div>
+          <Jumbotron className="homeDiv bodyRoute">
+            <h1 className="display-3">Error</h1>
+            <p className="lead borderP">{`${this.state.errorMessage}`}</p>
+            <hr className="my-2" />
+            <p>You must either register or login</p>
+          </Jumbotron>
+        </div>
+      );
+    } else if (this.state.error) {
+      return (
+        <div>
+          <Jumbotron className="homeDiv bodyRoute">
+            <h1 className="display-3">Error</h1>
+            <hr className="my-2" />
+            <p>{`${this.state.errorMessage}`}</p>
+          </Jumbotron>
+        </div>
+      );
+    }
     return (
-      <div className="listDiv">
+      <div className="listDiv bodyRoute">
         <div className="padding">
           <CardColumns>
             {this.state.users.map(user => (

@@ -5,7 +5,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <Jumbotron className="homeDiv">
+        <Jumbotron className="homeDiv bodyRoute">
           <h1 className="display-3">Auth-ii</h1>
           <p className="lead borderP">
             This is the landing page for Angelina La Salle's Auth-ii

@@ -88,7 +88,7 @@ export default class SignIn extends React.Component {
     } else if (this.state.error) {
       return (
         <div>
-          <Jumbotron className="homeDiv">
+          <Jumbotron className="homeDiv bodyRoute">
             <h1 className="display-3">Login Error</h1>
             {/* <p className="lead borderP">
             {this.state.errorMessage}
@@ -101,7 +101,7 @@ export default class SignIn extends React.Component {
     }
     return (
       <div>
-        <Jumbotron className="homeDiv">
+        <Jumbotron className="homeDiv bodyRoute">
           <Button className="button" color="danger" onClick={this.toggle}>
             Log In
           </Button>
