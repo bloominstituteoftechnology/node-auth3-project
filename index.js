@@ -68,7 +68,7 @@ server.post("/api/register", (req, res) => {
    if (creds.username && creds.password) {
    db.findByUsername(creds.username)
    .then(user => {
-     if (user.length && bcrypt.compareSync(creds.password, user.password)) {
+     if (user && bcrypt.compareSync(creds.password, user.password)) {
        const token = generateToken(user)
        res.json({ id: user.id, token });
      } else {
@@ -89,6 +89,16 @@ server.post("/api/register", (req, res) => {
    .catch(err => {
      res.status(500).send(err);
    })
+ });
+
+ server.post('/api/logout', (req, res) => {
+   req.session.destroy(err => {
+     if (err) {
+       res.status(500).send('failed to logout');
+     } else {
+       res.send('logout successful');
+     }
+   });
  });
 
 //SERVER
