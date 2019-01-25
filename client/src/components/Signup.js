@@ -19,7 +19,7 @@ class Signup extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const endpoint = "http://localhost:3300/api/Signup";
+    const endpoint = "http://localhost:3300/api/register";
     axios
       .post(endpoint, this.state)
       .then(res => {
