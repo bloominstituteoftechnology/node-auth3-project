@@ -63,6 +63,7 @@ server.post('/api/login', (req, res) => {
         if (users && bcrypt.compareSync(credentials.password, users[0].password)) {
             const token = generateToken(users)
             res.status(200).json({ users, token });
+            
         }
         else {
             res.status(404).json({ errorMessage: 'Invalid username or password.' });
@@ -73,9 +74,15 @@ server.post('/api/login', (req, res) => {
     });
 });
 
-// server.get('/api/users', protectThis, (req, res) => {
-//     next();
-// });
+server.get('/api/users', protectThis, (req, res) => {
+    db.get()
+    .then(users => {
+        res.status(200).json(users);
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: 'Failed to get users.' });
+    });
+});;
 
 server.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
