@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const server = express();
 const cors = require('cors');
@@ -13,7 +15,7 @@ server.use(cors());
 
 //MIDDLEWARE
 
-const secret = 'a very complex secret you could never guess';
+const secret = process.env.JWT_SECRET || 'add a secret to your .env file';
 
 generateToken = (user, id) => {
     const payload = {
