@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import Axios from 'axios';
 
 
 class Login extends React.Component {
@@ -7,7 +8,8 @@ class Login extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            error: false
         }
     }
 
@@ -15,19 +17,24 @@ class Login extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleKeyUp = (e) => {
-        if(e.keyCode === 13) return this.register()
-    }
-
     login = (e) => {
         e.preventDefault();
+        const endpoint = 'http://localhost:3500/api/login';
         const loginUser = {
-            Username: this.state.username,
-            Password: this.state.password
+            username: this.state.username,
+            password: this.state.password
         }
-        this.props.login(loginUser);
 
-        this.props.history.push('/users');
+        Axios.post(endpoint, loginUser)
+            .then(res => {
+                localStorage.setItem('jwt', res.data.token);
+                this.props.history.push('/users')
+            })
+            .catch(err => {
+                this.setState({
+                    error: true
+                })
+            })
     }
 
     render(){
@@ -39,7 +46,7 @@ class Login extends React.Component {
                     <input 
                         onChange={this.inputHandler}
                         type ="text" 
-                        placeholder="Username"
+                        placeholder="username"
                         value={this.state.username}
                         name="username"
                     ></input>
@@ -49,7 +56,7 @@ class Login extends React.Component {
                     <input 
                         onChange={this.inputHandler}
                         type ="password" 
-                        placeholder="Password"
+                        placeholder="password"
                         value={this.state.password}
                         name="password"
                     ></input>
