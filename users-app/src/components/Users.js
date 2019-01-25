@@ -62,6 +62,17 @@ export default class Users extends React.Component {
           .then(res =>
             this.setState({ users: res.data, error: false, errorMessage: "" })
           )
+          .then(res => {
+            axios
+            .get(endpoint, options)
+            .then(res => {
+              const list = res.data.filter(users => users.id === user.id)
+              if (list.length === 0) {
+                localStorage.removeItem("jwt")
+              }
+            })
+            .catch(err => this.setState({ error: true, errorMessage: err }))
+          })
           .catch(err => this.setState({ error: true, errorMessage: err }));
       })
       .catch(err => this.setState({ error: true, errorMessage: err }));
@@ -85,6 +96,7 @@ export default class Users extends React.Component {
         <div>
           <Jumbotron className="homeDiv bodyRoute">
             <h1 className="display-3">Error</h1>
+            <p className="lead borderP">{`${this.state.errorMessage}`}</p>
             <hr className="my-2" />
             <p>{`${this.state.errorMessage}`}</p>
           </Jumbotron>
