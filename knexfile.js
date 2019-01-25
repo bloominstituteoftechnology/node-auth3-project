@@ -1,17 +1,12 @@
-// Update with your config settings.
-
 module.exports = {
-
   development: {
     client: 'sqlite3',
-    connection: {
-      filename: './data/auth2.sqlite3'
+    connection: { filename: './data/lambda.sqlite3' }, // change this if you want a different name for the database
+    useNullAsDefault: true, // used to avoid warning on console
+    migrations: {
+      directory: './data/migrations',
+      tableName: 'dbmigrations',
     },
-  scripts: {
-	"server": "nodemon"
-    },
-  useNullAsDefault: true,
-  
-  }
-
+    seeds: { directory: './data/seeds' },
+  },
 };
