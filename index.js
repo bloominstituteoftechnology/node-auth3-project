@@ -1,14 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const logger = require('morgan');
 
 const db = require('./data/dbConfig');
 
 const app = express();
+const secret = 'secretstuff';
 
 const PORT = 8080;
-
-const secret = 'secretstuff';
 
 function protect(req, res, next) {
   const token = req.headers.authorization;
@@ -34,6 +35,8 @@ function genToken(user) {
 }
 
 app.use(express.json());
+app.use(cors());
+app.use(logger('dev'));
 
 app.get('/', (req, res) => {
   res.json({ message: 'hey, the app is running' });
