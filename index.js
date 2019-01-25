@@ -9,7 +9,7 @@ const cors = require("cors");
 const server = express();
 
 server.use(express.json());
-server.use(cors);
+server.use(cors());
 
 function generateToken(username) {
     const payload = {
@@ -27,48 +27,51 @@ function generateToken(username) {
 }
 
 server.post("/api/register", (req, res) => {
+    console.log("handling request...");
     if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
         let user = req.body;
         user.password = bcrypt.hashSync(user.password);
         db("users")
-            .insert(user)
-            .then(ids => {
-                res.status(201).json(ids[0]);
-            }).catch(error => {
-                res.status(500).json({message: "Error registering user", error: error});
-            });
+        .insert(user)
+        .then(ids => {
+            res.status(201).json(ids[0]);
+        }).catch(error => {
+            res.status(500).json({message: "Error registering user", error: error});
+        });
     } else {
         res.status(400).json({ error: "Incorrectly formatted user data" });
     }
 });
 
 server.post("/api/login", (req, res) => {
+    console.log("handling request...");
     if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
         let user = req.body;
         db("users")
-            .where("username", user.username)
-            .then(dbUsers => {
-                if (dbUsers.length 
-                    && bcrypt.compareSync(user.password, dbUsers[0].password)) {
-                        const token = generateToken(user.username);
-                        res.status(200).json({ userId: dbUsers[0].id, token: token });
-                    } else {
-                        res.status(422).json({ error: "Incorrect username or password" })
-                    }
+        .where("username", user.username)
+        .then(dbUsers => {
+            if (dbUsers.length 
+                && bcrypt.compareSync(user.password, dbUsers[0].password)) {
+                    const token = generateToken(user.username);
+                    res.status(200).json({ userId: dbUsers[0].id, token: token });
+                } else {
+                    res.status(422).json({ error: "Incorrect username or password" })
+                }
             }).catch(error => {
                 res.status(500).json({message: "Error logging in", error: error});
             });
-    } else {
-        res.status(400).json({ error: "Incorrectly formatted user data" });
-    }
-});
-
-server.get("/api/users", (req, res) => {
-    const token = req.headers.authorization;
-    if (token) {
-        jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
-            if (error) {
-                res.status(401).json({ message: "Invalid token", error: error });
+        } else {
+            res.status(400).json({ error: "Incorrectly formatted user data" });
+        }
+    });
+    
+    server.get("/api/users", (req, res) => {
+        console.log("handling request...");
+        const token = req.headers.authorization;
+        if (token) {
+            jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
+                if (error) {
+                    res.status(401).json({ message: "Invalid token", error: error });
             } else {
                 console.log(decodedToken);
                 db("users").then(dbUsers => {
