@@ -31,10 +31,13 @@ export class LogIn extends Component {
                     localStorage.setItem('jwt', res.data.token);
                     this.setState({
                         username: '',
-                        password: '',
-                        authenticated: true
+                        password: ''
                     });
                     this.props.history.push('/users');
+                } else {
+                    this.setState({
+                        authenticated: false
+                    })
                 }
             })
             .catch(err => console.log(err))
@@ -61,6 +64,7 @@ export class LogIn extends Component {
                     />
                 </form>
                 <button onClick={this.handleSubmit} className="login-button">Log in</button>
+                <p className ={this.state.authenticated===false ? "warning" : "hide"} >Invalid Username or Password!</p>
             </div>
         )
     }

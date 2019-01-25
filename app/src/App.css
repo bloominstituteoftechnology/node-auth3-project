@@ -4,7 +4,7 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+  height: 10vmin;
 }
 
 .App-header {
@@ -29,4 +29,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.hide {
+  display: none;
+}
+
+.warning {
+  color: skyblue;
 }

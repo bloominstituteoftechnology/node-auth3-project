@@ -7,7 +7,8 @@ export class UsersList extends Component {
     constructor() {
         super();
         this.state = {
-            users: []
+            users: [],
+            authenticated: null
         };
     }
     componentDidMount() {
@@ -16,6 +17,11 @@ export class UsersList extends Component {
             headers: {
                 Authorization: token
             }
+        };
+        if (token) {
+            this.setState ({
+                authenticated: true
+            })
         };
         axios
             .get('http://localhost:2323/api/users', options)
@@ -36,7 +42,8 @@ export class UsersList extends Component {
             <div>
                 <h2 className="title">All Users</h2>
                 <NavLink to='/login'>
-                    <button onClick={this.handleSignout}>Sign Out</button>
+                    <button onClick={this.handleSignout} className={this.state.authenticated ? 'display' : 'hide' }>Sign Out</button>
+                    <p className={this.state.authenticated ? 'hide' : 'display'} style={{color: 'white', textDecoration: 'none' }}>You are not logged in. Please Login Here.</p>
                 </NavLink>
                 <h3>
                     {this.state.users.map(user => (
