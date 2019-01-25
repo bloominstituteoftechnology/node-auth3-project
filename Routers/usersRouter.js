@@ -53,7 +53,7 @@ function verifyUser(req, res, next){
 router.post('/register', (req, res) =>{
     console.log('register', req.body);
     const credentials = req.body;
-    const hashedPW = bcrypt.hashSync(credentials.password, 8);
+    const hashedPW = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hashedPW;
 
     usersDb.addUser(credentials)
@@ -87,7 +87,8 @@ router.post('/login', (req, res) =>{
             //generate token
             const token = tokenGenerator(user);
             //pass token to client
-            res.status(200).json({userId: user.id, msg: 'Login Successful',token: token, })
+            res.status(200).json({userId: user.id, username:user.username,
+                                department: user.department,token: token})
         }else{
             res.status(401).json({error: "Unable to verify user"})
         }
