@@ -16,8 +16,9 @@ class UsersPage extends React.Component{
                     return(
                        <User 
                             username = {user.username}
-                            userId = {user.userId}
+                            userId = {user.id}
                             department = {user.department}
+                            key = {user.id}
                        />
                     )
                 })}

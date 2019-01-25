@@ -20,7 +20,13 @@ class App extends Component {
   }
 
   fetchUsers = () =>{
-    axios.get('http://localhost:4000/api/users')
+    const token = localStorage.getItem('jwt');
+    const options ={
+      headers: {
+        Authorization: token
+      }
+    }
+    axios.get('http://localhost:4000/api/users', options)
       .then(res =>{
         this.setState({
           users: res.data
