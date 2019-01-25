@@ -110,6 +110,18 @@ server.get('/api/users', protect, (req, res) =>{
     .catch(err => res.status(500).send(err));
 });
 
+server.post('/api/logout', (req, res) => {
+    req.session.destroy(err => {
+        if(err) {
+            res
+            .status(500)
+            .send('failed to logout');
+        } else {
+            res.send('logout successful')
+        }
+    })
+})
+
 server.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`)
 })
