@@ -1,9 +1,11 @@
 const knex = require("knex");
-const db = require("./users.sqlite3");
+
+const knexConfig = require('../knexfile');
+const db = knex(knexConfig.development);
 
 module.exports = {
   findUsers: () => {
-    return db("users").select("id", "username");
+    return db("users").select("id", "username", "department");
   },
 
   addUser: user => {
@@ -11,6 +13,10 @@ module.exports = {
   },
 
   findUserByName: username => {
-    return db("users").where("username", username);
+    return db("users").where("username", username).first();
+  },
+
+  findUserByID: id => {
+    return db('users').where('id', id).first();
   }
 };
