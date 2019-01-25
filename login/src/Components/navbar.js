@@ -5,6 +5,7 @@ import Register from './register';
 import Home from './home';
 import Login from './login';
 import Users from './users';
+import { withRouter } from 'react-router';
 
 class NavBar extends Component {
   render() {
@@ -19,7 +20,7 @@ class NavBar extends Component {
           &nbsp; | &nbsp;
           <NavLink to='/users' >Users</NavLink>
           &nbsp; | &nbsp;
-          <button>Logout</button>
+          <button onClick={this.signout}>Logout</button>
         </nav>
 
         <Route exact path='/' component={Home} />
@@ -29,6 +30,11 @@ class NavBar extends Component {
     </header>
     );
   }
+
+  signout = () => {
+      localStorage.removeItem('jwt');
+      this.props.history.push('/');
+  }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
