@@ -87,28 +87,6 @@ function protect(req, res, next){
 }
 
 
-// server.post('/api/login', (req, res) => {
-//     const creds = req.body;
-
-//     db('users')
-//         .where({ username: creds.username })
-//         //.first()
-//         .then(users => {
-//             if(users.length && bcrypt.compareSync(creds.password, users[0].password)) {
-//                 // generate a token
-//                 const token = generateToken(user);
-
-//                 // attach that token to the response
-//                 res.status(200).json({ token });
-//             } else {
-//                 res.status(404).json({ err: "invalid username or password"});
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send(err);
-//         })
-// });
-
 server.post('/api/login', (req, res) => {
     const creds = req.body;
 

@@ -3,6 +3,8 @@ import { NavLink, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
+import Signin from './auth/Signin';
+
 const Home = props => {
   return (
     <div>
@@ -35,7 +37,7 @@ class App extends Component {
             </nav>
             <main>
               <Route path='/' component={Home} exact></Route>
-              {/* <Route path='/signin' component={Signin} exact></Route> */}
+              <Route path='/signin' component={Signin} exact></Route>
               {/* <Route path='/' component={Home} exact></Route>
               <Route path='/' component={Home} exact></Route> */}
             </main>
