@@ -87,7 +87,7 @@ server.post('/api/login', (req,res) => {
         const token = generateToken(user[0]);
         res.status(201).json({ info: "Logged in", token});
       } else {
-        res.status(201).json({ error: "You shall not pass!" });
+        res.status(401).json({ error: "You shall not pass!" });
       }
     })
     .catch( (err) => {
@@ -104,15 +104,16 @@ server.post('/api/login', (req,res) => {
 server.get('/api/users', (req, res) => {
   const token = req.headers.authorization;
 
-  if( !token ){
-    console.log( "Invalid login!" );
-    res.status(401).json({ message: "No token provided."})
-  }
+  // if( !token ){
+  //   console.log( "Invalid login!" );
+  //   res.status(401).json({ message: "No token provided."})
+  // }
+  console.log(token);
 
   jwt.verify(token, secret, (err, decodedToken) => {
     if(err) {
       // invalid token
-      res.status(401).json({ message: "You shall not pass!" });
+      res.status(401).json({ message: `You shall not pass! ${token}` });
     } else {
       // valid token
       db('users').select('id', 'user').where('dept', decodedToken.dept )
