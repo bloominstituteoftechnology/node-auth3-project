@@ -8,21 +8,38 @@ class Users extends React.Component {
         super(props);
         this.state = {
           users: [],
+          deniedAccess: true,
         }
       }
     
     componentDidMount = () => {
-        axios.get('http://localhost:3500/api/users')
+        const token = localStorage.getItem('jwt');
+        const options = {
+            headers: {
+                Authorization: token
+            }
+        }
+        axios.get('http://localhost:3500/api/users', options)
           .then(response => {
-            this.setState({ users: response.data })
+            this.setState({ 
+                users: response.data,
+                deniedAccess: false
+            })
           })
-          .catch(err => console.log(err))
+          .catch(err => {
+              this.setState({
+                  deniedAccess: true
+              })
+          })
     }
 
-    render(){
-        return(
+     content = () => {
+        const isLoggedIn = this.deniedAccess;
+        if (!isLoggedIn) {
+          return (
             <div>
                 <h1 className="header">Users</h1>
+
                 <ul className='outerdiv'>
                     {this.state.users.map(item => {
                         return (
@@ -33,6 +50,18 @@ class Users extends React.Component {
                     })}
                 </ul>
             </div>
+          )
+        }
+        return(
+            <div>
+                <p>You must be logged in to view users.</p>
+            </div>
+        );
+      }
+
+    render(){
+        return(
+            < this.content />
         )
     }
 }
