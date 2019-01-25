@@ -7,6 +7,13 @@ import Register from './components/Register';
 import './App.css';
 
 class App extends Component {
+
+  signout(){
+    console.log('hello');
+    localStorage.removeItem('jwt');
+    window.location.reload();
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,6 +24,8 @@ class App extends Component {
             <Link to="/signin">Sign-in</Link>
             &nbsp;|&nbsp;
             <Link to="/users">User List</Link>
+            &nbsp;|&nbsp;
+            <button onClick={this.signout}>Sign-out</button>
           </nav>
           <main>
             <Route path="/register" component={Register}>Register</Route>
