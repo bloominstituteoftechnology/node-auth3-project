@@ -4,4 +4,16 @@ const knexConfig = require('../../knexfile');
 
 const db = knex(knexConfig.development);
 
-module.exports = {};
+module.exports = {
+  insert: (user) => {
+    return db('users').insert(user);
+  },
+
+  findByUsername: (user) => {
+    return db('users').where('username', user.username);
+  },
+
+  findUsers: () => {
+    return db('users').select('id', 'username');
+  },
+};
