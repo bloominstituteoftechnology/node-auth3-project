@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 
+import Users from '../src/components/Users';
+
 import './App.css';
 
 const Home = props => {
@@ -19,9 +21,11 @@ class App extends Component {
         <header className="App-header">
           <nav>
             <NavLink exact to='/'>Home</NavLink>
+            <NavLink to='/users'>Users</NavLink>
           </nav>
           <div>
             <Route exact path='/' component={Home} />
+            <Route path='/users' component={Users} />
           </div>
         </header>
       </div>
