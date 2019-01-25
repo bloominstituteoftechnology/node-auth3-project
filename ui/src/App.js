@@ -4,6 +4,7 @@ import { NavLink, Route } from 'react-router-dom';
 import './App.css';
 import Users from './Components/Users';
 import Auth from './Components/Auth';
+import Register from './Components/Register';
 
 const Home = props => {
   return (
@@ -33,6 +34,10 @@ class App extends Component {
               Sign In
             </NavLink>
             
+            <NavLink className='menu-link' to='/register'>
+              Register
+            </NavLink>
+
             <NavLink className='menu-link' to= '/users'>
               Users
             </NavLink>
@@ -40,6 +45,7 @@ class App extends Component {
           <main>
             <Route path='/' component={Home} exact></Route>
             <Route path='/signin' component={Auth} exact></Route>
+            <Route path='/register' component={Register} exact></Route>
             <Route path='/users' component={Users} exact></Route>
             <button name='signout' onClick={this.signOut}>Sign Out</button>
           </main>
