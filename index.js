@@ -1,38 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const logger = require('morgan');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const uuid = require('uuid/v1');
 const server = express();
-//secret
-const {secret} = require('./database/secret.js');
-
-//JWT function
-const newToken = (user) => {
-   const payload = { username: user.username };
-   const options = { algorithm: 'HS256', expiresIn: '1h', jwtid: uuid()};
-   return jwt.sign(payload, secret, options);
-}
-// Protected function
-function protected(req, res, next) {
-   const token = req.headers.authorization;
-   if (token) {
-     jwt.verify(token, secret, (err, decodedToken) => {
-       if (err) {
-         res.status(401).json({ error: 'invalid token' })
-       } else {
-         console.log('decoded token', decodedToken);
-         if (req.username = decodedToken.username) {
-           next()
-         } else {
-           res.status(401).json({ error: 'bad token' });
-         };
-       }
-     })
-   }
-   else (res.json({message: 'no token'}));
- };
+//jwt middleware
+const {protected, newToken} = require('./database/Middleware/custom_middleware');
 // Database 
 const db = require('./database/dbHelper.js');
 //PORT
