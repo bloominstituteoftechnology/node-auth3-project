@@ -31,6 +31,7 @@ function protect(req, res, next) {
  function generateToken(user) {
    const payload = {
      username: user.username,
+     department: user.department
    };
  
    const options = {
@@ -42,7 +43,7 @@ function protect(req, res, next) {
 
 server.post("/api/register", (req, res) => {
    const user = req.body;
-   if (user.username && user.password){
+   if (user.username && user.password && user.department) {
    user.password = bcrypt.hashSync(user.password, 10);
    db.insert(user)
       .then(ids => {
@@ -57,17 +58,18 @@ server.post("/api/register", (req, res) => {
             })
            })
       .catch(err => {
-         res.status(500).send(err);
+         res.status(500).send({err: "No token generated"});
       })
     } else res.status(400).json({err: "please provide a username and password"});
 });
 
  server.post('/api/login', (req, res) => {
    const creds = req.body;
+   if (creds.username && creds.password) {
    db.findByUsername(creds.username)
    .then(user => {
-     if (user && bcrypt.compareSync(creds.password, user.password)) {
-       const token = generateToken(user)
+     if (user.length && bcrypt.compareSync(creds.password, user[0].password)) {
+       const token = generateToken(user[0])
        res.json({ id: user.id, token });
      } else {
        res.status(404).json({err: "invalid username or password"});
@@ -76,6 +78,7 @@ server.post("/api/register", (req, res) => {
    .catch(err => {
      res.status(500).send(err);
    });
+} else  res.status(400).json({err: "please provide a username and password"});
  });
 
  server.get('/api/users', protect, (req, res) => {
