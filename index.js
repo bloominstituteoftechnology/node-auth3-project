@@ -99,7 +99,7 @@ server.post('/api/login', (req, res) => {
     }
 });
 
-server.get('/api/users', protected, (req, res) => {
+server.get('/api/users', protected,  (req, res) => {
     db('users').select()
     .then((usernames) => {
         res.status(200).json({usernameList: usernames});
