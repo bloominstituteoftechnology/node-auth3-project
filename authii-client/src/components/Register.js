@@ -18,6 +18,9 @@ class Register extends React.Component{
     //register the user
     axios.post(endpoint, this.state)
       .then(res =>{
+        //store token in browser local storage
+        localStorage.setItem('jwt', res.data.token);
+        this.props.history.push('/users');
         console.log(res.data)
       })
       .catch(err =>{
