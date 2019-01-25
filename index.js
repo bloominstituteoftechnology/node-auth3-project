@@ -13,12 +13,26 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+// Generate Token // 
+function generateToken(user) {
+	const payload = {
+		username: user.username,
+	};
+	const secret = 'Circles are Squares with infinite sides';
+	const options = {
+		expires: "1h",
+		jwtid: '12345' // jtt
+	};
+	return jwt.sign(payload, secret, options);
+	
+}
 
 // Use Middleware //
 function protect(req, res, next){
  // Use JWT instead of Sessions
     if(req.session && req.session.userId){
-        next();
+        //next(); OLD
+	
     } else {
         res.status(500).send("Invalid Credentials");
     }
@@ -35,7 +49,14 @@ server.post('/api/register',(req,res) => {
 		.insert(deets)
 		.then(ids => {
 			const id = ids[0];
-			res.status(200).json(id);
+			// Find user by ID
+			db('users').where(id).first().then(user => {
+				const token = 
+			}).catch();
+			
+			// Generate Token //
+			generateToken(deets.username);
+			res.status(201).json(id);
 		})
 		.catch(err => res.status(500).send(err));
 });
