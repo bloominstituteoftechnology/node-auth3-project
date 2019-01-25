@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
 
 import './App.css';
 
+import Home from './Home';
 import Users from './users/Users';
 import Signup from './auth/Signup'
 import Signin from './auth/Signin';
-
-const Home = props => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  )
-}
 
 class App extends Component {
   render() {
@@ -37,8 +30,8 @@ class App extends Component {
             <NavLink to='/users'>
             Users
             </NavLink>
-            &nbsp;|&nbsp;
-            <Button color='warning' onClick={this.signout}>Sign Out</Button>
+            {/* &nbsp;|&nbsp;
+            <Button color='warning' onClick={this.signout}>Sign Out</Button> */}
           </nav>
           <main>
             <Route path='/' component={Home} exact></Route>
@@ -51,9 +44,9 @@ class App extends Component {
     );
   }
 
-  signout = () => {
-    localStorage.removeItem('jwt');
-  }
+  // signout = () => {
+  //   localStorage.removeItem('jwt');
+  // }
 }
 
 export default App;

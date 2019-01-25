@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Button } from 'reactstrap';
+import { Redirect } from 'react-router';
+
 
 class Users extends Component {
   state = {
     users: [],
+    LoggedIn: true
   }
 
   render() {
+    const redirectToHome = this.state.LoggedIn;
+    if (redirectToHome === false) {
+      return (<Redirect exact to='/' />)
+    }
     return (
       <div>
         <h2>List of Users</h2>
@@ -19,6 +27,7 @@ class Users extends Component {
             )
           }
         </ul>
+        <Button color='warning' onClick={this.signout}>Sign Out</Button>
       </div>
     )
   }
@@ -41,6 +50,12 @@ class Users extends Component {
       console.log('error from /api/users', err);
     })
   }
+
+  signout = () => {
+    localStorage.removeItem('jwt');
+    this.setState({ LoggedIn: false });
+  }
+
 }
 
 export default Users;
