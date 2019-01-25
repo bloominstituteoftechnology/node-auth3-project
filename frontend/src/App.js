@@ -5,6 +5,7 @@ import './App.css';
 
 import Signin from './auth/Signin';
 import Users from './users/Users';
+import Signup from './auth/Signup';
 
 const Home = props => {
   return (
@@ -20,7 +21,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
             <nav>
-                <NavLink to='/signout' exact>
+                <NavLink to='/signup' exact>
                   Sign Up
                 </NavLink>
                 &nbsp;|&nbsp;
@@ -39,10 +40,10 @@ class App extends Component {
                   <button onClick={this.signout}>Sign Out</button>
             </nav>
             <main>
+              <Route path='/signup' component={Signup} exact></Route>
               <Route path='/' component={Home} exact></Route>
               <Route path='/signin' component={Signin} exact></Route>
               <Route path='/users' component={Users} exact></Route>
-              {/* <Route path='/' component={Home} exact></Route> */}
             </main>
         </header>
       </div>
