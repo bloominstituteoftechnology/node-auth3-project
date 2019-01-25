@@ -4,10 +4,12 @@ const knexConfig = require("./knexfile.js");
 const db = knex(knexConfig.development);
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const server = express();
 
 server.use(express.json());
+server.use(cors);
 
 function generateToken(username) {
     const payload = {
