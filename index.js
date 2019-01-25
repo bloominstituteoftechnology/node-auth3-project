@@ -43,24 +43,33 @@ server.post("/api/register", (req, res) => {
 });
 
 // POST	/api/login	Use the credentials sent inside the body to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client. If login fails, respond with the correct status code and the message: 'You shall not pass!'
-server.post('./api/login', (req,res) => {
+server.post("/api/login", (req, res) => {
   const creds = req.body;
-  db.findUserByName(creds.username).then(user => {
-    if (user && bcrypt.compareSync(creds.password, user.password)) {
-      const token = generateToken(user)
-      res.status(200).json({ token });
-      res.status(200).send(`Welcome ${user.username}`)
-    } else {
-      res.status(401).send("You shall not pass!")
-    }
-  }).catch(err => {
-    res.status(500).send(err)
-  });
-})
+  db.findUserByName(creds.username)
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({ token });
+        res.status(200).send(`Welcome ${user.username}`);
+      } else {
+        res.status(401).send("You shall not pass!");
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
 
 // GET	/api/users	If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'. Use this endpoint to verify that the password is hashed before it is saved.
-
-
+server.get("/api/users", protected, (req, res) => {
+  db.findUsers()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
