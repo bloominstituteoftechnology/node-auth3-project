@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 
-import Users from '../src/components/Users';
-
 import './App.css';
+
+import Users from './users/Users';
+import Signin from './auth/Signin';
 
 const Home = props => {
   return (
     <div>
-      <h2>Welcome to</h2>
-      <h1>Auth-II!!</h1>
+      <h1>Home</h1>
     </div>
   )
 }
@@ -20,16 +20,32 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <nav>
-            <NavLink exact to='/'>Home</NavLink>
-            <NavLink to='/users'>Users</NavLink>
+            <NavLink exact to='/'>
+            Home
+            </NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to='/signin'>
+            Sign In
+            </NavLink>
+            &nbsp;|&nbsp;
+            <NavLink to='/users'>
+            Users
+            </NavLink>
+            &nbsp;|&nbsp;
+            <button onClick={this.signout}>Sign Out</button>
           </nav>
-          <div>
-            <Route exact path='/' component={Home} />
-            <Route path='/users' component={Users} />
-          </div>
+          <main>
+            <Route path='/' component={Home} exact></Route>
+            <Route path='/signin' component={Signin} exact></Route>
+            <Route path='/users' component={Users} exact></Route>
+          </main>
         </header>
       </div>
     );
+  }
+
+  signout = () => {
+    localStorage.removeItem('jwt');
   }
 }
 
