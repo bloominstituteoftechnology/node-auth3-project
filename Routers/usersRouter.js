@@ -51,6 +51,7 @@ function verifyUser(req, res, next){
 //**ROUTE HANDLERS/ENDPOINTS FOR APPLICATION */
 //REGISTER USER
 router.post('/register', (req, res) =>{
+    console.log('register', req.body);
     const credentials = req.body;
     const hashedPW = bcrypt.hashSync(credentials.password, 8);
     credentials.password = hashedPW;
@@ -63,7 +64,8 @@ router.post('/register', (req, res) =>{
                 //generate token
                 const token = tokenGenerator(user);
                 //pass token to client
-                res.status(201).json({userId: id, token: token});
+                res.status(201).json({userId: user.id, username:user.username,
+                                        department: user.department,token: token});
             })
             .catch(err =>{
                 res.status(500).json({error: 'Unable to add user'});

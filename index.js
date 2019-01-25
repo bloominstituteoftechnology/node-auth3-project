@@ -4,6 +4,8 @@ const server = express();
 
 //3rd party & built in middleware
 server.use(express.json());
+const cors = require('cors');
+server.use(cors());
 
 //test route to check server
 server.get('/', (req, res) =>{
