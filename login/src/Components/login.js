@@ -41,7 +41,7 @@ class Login extends React.Component {
     return(
         <div>
             <h1>Login to the Authenticator!</h1>
-            <form onSubmit={this.login} onKeyUp={this.handleKeyUp}>
+            <form onSubmit={this.login}>
                 <div>
                     <input 
                         onChange={this.inputHandler}
