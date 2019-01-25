@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Route} from 'react-router-dom'
 import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import UsersPage from './Components/UsersPage';
@@ -64,7 +64,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="app-container">
           
             <Route exact path = '/register' render = {(props) => <SignUp {...props} users = {this.state.users} registerUser = {this.registerUser}/>} />
             <Route exact path = '/' render = {(props) => <SignIn {...props} users = {this.state.users} logInUser = {this.logInUser}/>} />

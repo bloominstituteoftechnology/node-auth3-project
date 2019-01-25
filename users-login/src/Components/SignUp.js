@@ -2,6 +2,8 @@ import React from 'react';
 
 import {Link} from 'react-router-dom';
 
+import '../css/SignUp.css';
+
 class SignUp extends React.Component{
     constructor(){
         super()
@@ -32,7 +34,7 @@ class SignUp extends React.Component{
           <div className = 'sign-up-container'>
             <h1>Lambda User Registration</h1>
             <div className ='sign-up-input-container'>
-                <div className = 'username-input-container'> 
+                <div className = 'username-container'> 
                     <h3>Username: </h3>
                     <input 
                         className = 'username-input'
@@ -43,7 +45,7 @@ class SignUp extends React.Component{
                         onChange = {this.inputHandler}
                     />
                 </div>
-                <div className = 'password-input-container'>
+                <div className = 'password-container'>
                     <h3>Password: </h3>
                     <input 
                         className = 'password-input'
@@ -54,7 +56,7 @@ class SignUp extends React.Component{
                         onChange = {this.inputHandler}
                     />
                 </div>
-                <div className = 'department-input-container'>
+                <div className = 'department-container'>
                     <h3>Department: </h3>
                     <input 
                         className = 'department-input'
@@ -68,7 +70,7 @@ class SignUp extends React.Component{
             </div>
             <div className = 'button-container'>
                 <Link exact to = '/' onClick = {this.submitHandler}>
-                    <div className = 'submit-button'>Register User</div>
+                    <div className = 'registration-button'>Register User</div>
                 </Link>
             </div>
           </div>

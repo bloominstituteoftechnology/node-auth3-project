@@ -1,0 +1,9 @@
+.user-container{
+    width:100%;
+    margin:10px auto;
+    font-size:22px;
+    text-align:center;
+    border: 5px solid rgb(42, 49, 51);
+    background-color: rgb(66, 88, 97);
+    border-radius:3px;
+}

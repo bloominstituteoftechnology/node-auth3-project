@@ -1,0 +1,10 @@
+.app-container{
+  max-width:900px;
+  width:100%;
+  margin:30px auto;
+  border: 10px solid rgb(54, 64, 68);
+  background-color: rgb(90, 113, 122);
+  color:white;
+ 
+  border-radius:3px;
+}

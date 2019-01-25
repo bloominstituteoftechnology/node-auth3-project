@@ -1,0 +1,17 @@
+.sign-up-container{
+    width:90%;
+    margin: 20px auto;
+}
+h1{
+    font-size:62px;
+    margin:40px auto;
+    text-align:center;
+    text-decoration:underline;
+    color:white;
+}
+.sign-up-input-container{
+    margin:0px auto;
+    font-size:32px;
+    text-align:center;
+    text-decoration:underline;
+}

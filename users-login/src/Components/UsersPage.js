@@ -1,5 +1,6 @@
 import React from 'react';
 import User from './User';
+import '../css/UsersPage.css';
 
 class UsersPage extends React.Component{
     constructor(){

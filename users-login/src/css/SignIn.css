@@ -1,0 +1,46 @@
+.home-page-container{
+    width:90%;
+    margin: 20px auto;
+}
+.home-page-header{
+    font-size:62px;
+    margin:40px auto;
+    text-align:center;
+    text-decoration:underline;
+    color:white;
+}
+.login-input-container{
+    margin:0px auto;
+    font-size:32px;
+    text-align:center;
+    text-decoration:underline;
+}
+.username-container, .password-container, .department-container{
+    display:flex;
+    justify-content: space-around;
+    margin:0px auto;
+    text-align:center;
+}
+
+input{
+    width:400px;
+    height:40px;
+    margin-top:40px;
+}
+.button-container{
+    width:70%;
+    margin:40px auto;
+    display:flex;
+    flex-direction:column;
+}
+.log-in-button, .registration-button{
+    color:white;
+    border: 2px solid rgb(54, 64, 68);
+    width:40%;
+    background-color: rgb(65, 83, 90);
+    font-size:24px;
+    border-radius:3px;
+    margin:10px auto;
+    height:40px;
+    text-align:center;
+}
