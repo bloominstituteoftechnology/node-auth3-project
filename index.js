@@ -10,10 +10,10 @@ const jwt = require('jsonwebtoken');
 
 const db = knex(dbConfig.development)
 const PORT = process.env.PORT || 6789;
+const secret = "friendinelvish"
 
 function protect(req, res, next) {
     const token = req.headers.authorization;
-
     jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
             res
@@ -25,7 +25,7 @@ function protect(req, res, next) {
     });
 }
 
-function generateToken(){
+function generateToken(user){
     const payload = {
         username: user.username,
     };
@@ -48,7 +48,7 @@ server.post('/api/register', (req, res) =>{
         user.password = bcrypt.hashSync(user.password);
         db('users').insert(user)
         .then( ids => {
-            db('users').where('id',ids[0]).first()
+            db('users').where('id',ids)
             .then(user => {
                 const token = generateToken(user)
                 res
@@ -75,9 +75,9 @@ server.post('/api/login', (req, res) => {
     if(checkUser.username && checkUser.password){
         db('users').where('username', checkUser.username)
         .then(users => {
-            if(users.length && bcrypt.compareSync(checkUser.password, users[0].password)){
-                const token = generateToken(user)
-                res.json({info: "Logged In", id: user.id, token})
+            if(users && bcrypt.compareSync(checkUser.password, users[0].password) ){
+                const token = generateToken(users)
+                res.json({info: "Logged In", token})
             } else {
                 res
                 .status(404)
