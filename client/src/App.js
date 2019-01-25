@@ -14,6 +14,10 @@ const Container = styled.div`
 `;
 
 class App extends Component {
+  signOut = () => {
+    localStorage.removeItem("jwt");
+  };
+
   render() {
     return (
       <Container>
@@ -29,6 +33,9 @@ class App extends Component {
         <NavLink Component={NavLink} to={"/signin"}>
           Signin
         </NavLink>
+        <button onClick={this.signOut} error>
+          Sign Out
+        </button>
         <main>
           <Route exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
