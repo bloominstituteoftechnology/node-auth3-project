@@ -61,6 +61,10 @@ header p {
   margin: 20px 0;
 }
 
+.content img {
+  width: 100%;
+}
+
 .content h1 {
   font-size: 1.5rem;
   margin: 20px 0;
