@@ -46,7 +46,7 @@ server.post('/api/register', (req, res) => {
             const token = createToken(newUser);
             res
                 .status(201)
-                .json(token)
+                .json({id:id,token:token})
         })
         .catch(err => {
             res
