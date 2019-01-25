@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 
 class SignIn extends Component {
     constructor(props) {
@@ -7,15 +8,23 @@ class SignIn extends Component {
         this.state = {
             username: '',
             password: '',
+            loggedIn: false
         };
     };
 
     signInUser = e => {
         e.preventDefault();
         axios
-            .post(`http://localhost:4040/api/login`, this.state)
+            .post(`http://localhost:4040/api/login`, {
+                username: this.state.username,
+                password: this.state.password,
+                department: this.state.department
+            })
             .then(response => {
                 localStorage.setItem('jwt', response.data.token);
+                this.setState({
+                    loggedIn: true
+                });
             })
             .catch(err => console.log(err));
         this.setState({
@@ -29,6 +38,10 @@ class SignIn extends Component {
     };
 
     render() {
+        const redirectToUsers = this.state.loggedIn;
+        if (redirectToUsers === true) {
+            return (<Redirect to='/users'/>)
+        }
         return (
             <div>
                 <h2>Sign in!</h2>

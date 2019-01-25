@@ -25,10 +25,10 @@ class App extends Component {
           <NavLink to='/signin'>
            [ Sign in ] 
           </NavLink>
-          <NavLink to='/users'>
+          <NavLink to='/users' onClick={this.redirectToUsers}>
            [ Users ] 
           </NavLink>
-          <NavLink to='/' onClick={this.signOut}>
+          <NavLink to='/'>
             [ Sign out ]
           </NavLink>
         </nav>
