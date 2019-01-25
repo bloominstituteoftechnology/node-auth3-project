@@ -13,16 +13,6 @@ export default class UserList extends React.Component {
     this.setState({ users: res.data });
   }
 
-  async componentWillUpdate() {
-    const res = await users.get('/users');
-    this.setState({ users: res.data });
-  }
-
-  async componentWillMount() {
-    const res = await users.get('/users');
-    this.setState({ users: res.data });
-  }
-
   onButtonClick = e => {
     e.preventDefault();
     localStorage.removeItem('token');
