@@ -7,18 +7,19 @@ class Signin extends Component {
   state = {
     username: "",
     password: "",
-    loggedIn: false,
+    department: "",
+    SignedUp: false,
   }
 
   render() {
-    const redirectToUsers = this.state.loggedIn;
+    const redirectToUsers = this.state.SignedUp;
     if (redirectToUsers === true) {
       return (<Redirect to='/users' />)
     }
     return (
       <div>
-        <h3>Sign in!</h3>
-        <form onSubmit={this.handleSubmit}>
+        <h3>Create a new user</h3>
+        <form onSubmit={this.createUser}>
           <div>
             <label htmlFor="username">Username</label>
             <input 
@@ -38,6 +39,15 @@ class Signin extends Component {
             />
           </div>
           <div>
+            <label htmlFor="department">Department</label>
+            <input 
+              name="department" 
+              value={this.state.department}
+              onChange={this.handleInputChange}
+              type='text'
+            />
+          </div>
+          <div>
             <Button color='info' type='submit'>Sign In</Button>
           </div>
         </form>
@@ -51,19 +61,23 @@ class Signin extends Component {
     this.setState({ [target.name] : target.value})
   }
 
-  handleSubmit = event => {
+  createUser = event => {
     event.preventDefault();
-    const credentials = this.state;
-    const endpoint = 'http://localhost:1234/api/login';
+    const credentials = {
+      username: this.state.username,
+      password: this.state.password,
+      department: this.state.department,
+    }
+    const endpoint = 'http://localhost:1234/api/register';
     axios.post(endpoint, credentials)
     .then(res => {
       console.log('response data from login', res.data);
       localStorage.setItem('jwt', res.data.token);
-      this.setState({ loggedIn: true });
+      this.setState({ SignedUp: true });
     })
     .catch(err => {
       console.log('response from login', err);
-      this.setState({ username: '', password: '' });
+      this.setState({ username: '', password: '', department: '' });
     });
     // console.log(this.state);
   }
