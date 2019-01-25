@@ -18,10 +18,16 @@ class Navbar extends Component {
           <NavLink to="/register" className="App-link">
             Register
           </NavLink>
+          <button onClick={this.signout}>Log Out</button>
         </nav>
       </div>
     );
   }
+
+  signout = () => {
+    localStorage.removeItem('jwt');
+    // window.location.reload();
+  };
 }
 
 export default Navbar;
