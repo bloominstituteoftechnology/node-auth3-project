@@ -4,6 +4,8 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const db = require('./data/dbHelpers.js');
 const session = require('express-session');
+// use jwt
+const jwt = require('jsonwebtoken');
 
 const server = express();
 
