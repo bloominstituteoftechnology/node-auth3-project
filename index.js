@@ -96,7 +96,6 @@ server.get('/api/users', protected, (req, res)=>{
     .select('id', 'username', 'department')
     .then(users=>{
         const newUsers = users.filter(user=>user.department === req.headers.xdepartment);
-        console.log(req.headers.xdepartment);
         res.json(newUsers);
     })
     .catch(error=>{

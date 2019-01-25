@@ -1,5 +1,53 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const SignUpPage = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1{
+        font-size: 36px;
+    }
+`;
+
+const InputSection = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    margin: 15px 0px;
+    font-size: 18px;
+
+    label{
+        text-align: right;
+        padding-right: 8px;
+        margin: 3px 0px;
+        width: 100px;
+    }
+`;
+
+const SubmitButton = styled.div`
+    font-size: 24px;
+
+    button{
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+
+        &:hover{
+            color: white;
+            background-color: black;
+            cursor: pointer;
+        }
+    }
+`;
+
+const WarningMessage = styled.div`
+    font-size: 26px;
+    margin-top: 20px;
+`;
+
 
 class SignUp extends Component {
     constructor(props){
@@ -21,7 +69,6 @@ class SignUp extends Component {
         }
         axios.post('http://localhost:3300/api/register', body)
         .then(res=>{
-            console.log(this.state);
             localStorage.setItem('jwt', res.data.token);
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('department', this.state.department);
@@ -40,27 +87,27 @@ class SignUp extends Component {
 
     render() {
         return (
-        <form onSubmit={this.submit}>
+        <SignUpPage onSubmit={this.submit}>
             <h1>Sign Up</h1>
-            <div>
+            <InputSection>
                 <label>Username:</label>
                 <input type="text" name="username" onChange={this.handleInput} placeholder="username..." value={this.state.username}></input>
-            </div>
-            <div>
+            </InputSection>
+            <InputSection>
                 <label>Password:</label>
                 <input type="password" name="password" onChange={this.handleInput} placeholder="password..." value={this.state.password}></input>
-            </div>
-            <div>
+            </InputSection>
+            <InputSection>
                 <label>Department:</label>
                 <input type="text" name="department" onChange={this.handleInput} placeholder="department..." value={this.state.department}></input>
-            </div>
-            <div>
+            </InputSection>
+            <SubmitButton>
                 <button type="submit">Sign Up</button>
-            </div>
-            <div>
-                {this.state.failedSignup ? 'Please include a valid username, password and department' : null}
-            </div>
-        </form>
+            </SubmitButton>
+            <WarningMessage>
+                {this.state.failedSignup ? 'Please include a username, password and department' : null}
+            </WarningMessage>
+        </SignUpPage>
         );
     }
 }

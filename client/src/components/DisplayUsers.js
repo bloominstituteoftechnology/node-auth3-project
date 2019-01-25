@@ -1,5 +1,55 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const DisplayPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .buttons{
+    display: flex;
+  }
+
+  h1{
+    font-size: 36px;
+  }
+
+  p{
+    font-size: 26px;
+  }
+`;
+
+const NavButton = styled.div`
+  font-size: 26px;
+  width: 100px
+  margin: 20px;
+  padding: 8px 12px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+
+  &:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+  }
+`;
+
+const User = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 26px;
+  width: 300px;
+
+  div{
+    margin: 10px 10px;
+    text-align: left;
+  }
+`;
+
 
 class DisplayUsers extends Component {
   constructor(props){
@@ -42,25 +92,27 @@ class DisplayUsers extends Component {
   render() {
     if(!this.state.users.length){
       return (
-        <div>
-          <div onClick={this.returnHome}>Home</div>
+        <DisplayPage>
+          <NavButton onClick={this.returnHome}>Home</NavButton>
           <h1>Users</h1>
           <p>You are not authorized to view the users</p>
-        </div>
+        </DisplayPage>
       )
     }
     return (
-      <div>
-        <div onClick={this.returnHome}>Home</div>
-        <div onClick={this.logout}>Logout</div>
+      <DisplayPage>
+        <div className="buttons">
+          <NavButton onClick={this.returnHome}>Home</NavButton>
+          <NavButton onClick={this.logout}>Logout</NavButton>
+        </div>
         <h1>Users</h1>
         {this.state.users.map(user=>(
-          <div key={user.id}>
-            <div>{user.username}</div>
-            <div>{user.department}</div>
-          </div>
+          <User key={user.id}>
+            <div className="name">{user.username}</div>
+            <div className="department">{user.department}</div>
+          </User>
         ))}
-      </div>
+      </DisplayPage>
     );
   }
 }
