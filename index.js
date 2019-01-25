@@ -3,6 +3,7 @@ const knex = require('knex');
 const knexConfig = require('./knexfile');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const db = knex(knexConfig.development);
 
@@ -10,6 +11,7 @@ const server = express();
 const PORT = 5000;
 
 server.use(express.json());
+server.use(cors());
 
 const secret = 'supersecret';
 
@@ -88,6 +90,7 @@ server.get('/api/users', protect, (req, res) => {
     db('users')
     .then(users => {
         res.json(users)
+        console.log('users endpoint')
     })
     .catch(err => {
         res.status(500).json({message: 'error getting users'})
