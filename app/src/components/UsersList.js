@@ -41,9 +41,9 @@ export class UsersList extends Component {
         return (
             <div>
                 <h2 className="title">All Users</h2>
-                <NavLink to='/login'>
+                <NavLink to='/login' style={{color: 'white', textDecoration: 'none' }}>
                     <button onClick={this.handleSignout} className={this.state.authenticated ? 'display' : 'hide' }>Sign Out</button>
-                    <p className={this.state.authenticated ? 'hide' : 'display'} style={{color: 'white', textDecoration: 'none' }}>You are not logged in. Please Login Here.</p>
+                    <p className={this.state.authenticated ? 'hide' : 'display'} >You are not logged in. Please click here to log in.</p>
                 </NavLink>
                 <h3>
                     {this.state.users.map(user => (
