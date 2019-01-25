@@ -11,12 +11,12 @@ const styles = theme => ({
     display: "none"
   }
 });
-class Signin extends Component {
-  state = {
-    username: "",
-    password: ""
-  };
-
+class Signup extends Component {
+    state = {
+        username: "",
+        department: "",
+        password: ""
+    };
   handleInputChange = event => {
     event.preventDefault();
     const target = event.target;
@@ -26,14 +26,16 @@ class Signin extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const credentials = this.state;
-    const endpoint = "http://localhost:4500/api/login";
+    const endpoint = "http://localhost:4500/api/register";
     axios
       .post(endpoint, credentials)
       .then(res => {
-        console.log("reponse data from login", res.data);
-          localStorage.setItem("jwt", res.data.token);
-          this.props.history.push("/users");
-
+        this.setState({
+          username: this.state.username,
+          department: this.state.department,
+          password: this.state.password
+        });
+        this.props.history.push("/signin");
       })
       .catch(err => {
         console.log("err from login", err);
@@ -53,6 +55,15 @@ class Signin extends Component {
           />
         </div>
         <div>
+          <label htmlFor="department">department</label>
+          <input
+            name="department"
+            value={this.state.depeartment}
+            onChange={this.handleInputChange}
+            type="text"
+          />
+        </div>
+        <div>
           <label htmlFor="password">Password</label>
           <input
             name="password"
@@ -62,8 +73,13 @@ class Signin extends Component {
           />
         </div>
         <div>
-        <Button type="submit" variant="contained" color="primary" className={styles.button}>
-            Sign In
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={styles.button}
+          >
+            Sign Up
           </Button>
         </div>
       </form>
@@ -71,4 +87,4 @@ class Signin extends Component {
   }
 }
 
-export default withStyles(styles)(Signin);
+export default withStyles(styles)(Signup);
