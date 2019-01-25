@@ -1,7 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink, Route } from "react-router-dom";
 import "./App.css";
+import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar"
+import { withStyles } from "@material-ui/core/styles";
+import Users from "./Users/Users";
+import Signin from "./Auth/Signin";
+import MenuIcon from '@material-ui/icons/Menu'
 
+const styles = {
+  root: {
+    flexGrow: 1
+  },
+  grow: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20
+  }
+};
 const Home = props => {
   return (
     <div>
@@ -10,31 +29,43 @@ const Home = props => {
   );
 };
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <nav>
-            <NavLink to="/" exact>
-              Home
-            </NavLink>
-            &nbsp;|&nbsp;
-            <NavLink to="/signin" exact>
-              Signin
-            </NavLink>
-            &nbsp;|&nbsp;
-            <NavLink to="/users" exact>
-              Users
-            </NavLink>
-          </nav>
+const App = props => {
+  const { classes } = props;
 
-          <Route path='/' component={Home} exact/>
-          <Route path='/users' component={Users} exact/>
-        </header>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classes.root}>
+      <header className="App-header">
+        <AppBar className="App-Bar" position="static">
+          <Toolbar  variant="dense">
+          <NavLink to="/" className={classes.grow} exact>
+            <Typography
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu">
+              <MenuIcon />
+            </Typography>
+          </NavLink>
+          &nbsp;|&nbsp;
+          <NavLink to="/signin" exact>
+            <Typography variant="h6" color="inherit">
+            Signin
+            </Typography>
+          </NavLink>
+          &nbsp;|&nbsp;
+          <NavLink to="/users" exact>
+            <Typography variant="h6" color="inherit">
+            Users
+            </Typography>
+            </NavLink>
+          </Toolbar>
+        </AppBar>
 
-export default App;
+        <Route path="/" component={Home} exact />
+        <Route path="/users" component={Users} exact />
+        <Route path="/signin" component={Signin} exact />
+      </header>
+    </div>
+  );
+};
+
+export default withStyles(styles)(App);
