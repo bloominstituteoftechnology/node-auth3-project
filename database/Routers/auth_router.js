@@ -59,7 +59,7 @@ router.get('/api/users', protected, (req,res) => {
     .catch(err => {
         res.status(500).json({errorMessage: err});
     })
-})
+});
 
 
 
