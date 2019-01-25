@@ -1,6 +1,8 @@
 require('dotenv').config();
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const jwt = require('jsonwebtoken');
 
@@ -11,6 +13,7 @@ const server = express();
 //this step is critical to post requests
 //the json that is needed to post
 server.use(express.json());
+server.use(cors());
 
 server.get('/', (req, res) => {
     res.send('api working')
@@ -65,39 +68,39 @@ server.post('/api/login', (req, res) => {
     })
 });
 
-function lock(req, res, next) {
-    const token = req.headers.authorization;
+// function lock(req, res, next) {
+//     const token = req.headers.authorization;
+//
+//     if (token) {
+//         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+//             if (err) {
+//                 res.status(401).json({ message: 'invalid token' })
+//             } else {
+//                 req.decodedToken = decodedToken;
+//                 next();
+//             }
+//         });
+//     } else {
+//         res.status(401).json({ message: 'no token provided' });
+//     }
+// }
 
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-            if (err) {
-                res.status(401).json({ message: 'invalid token' })
-            } else {
-                req.decodedToken = decodedToken;
-                next();
-            }
-        });
-    } else {
-        res.status(401).json({ message: 'no token provided' });
-    }
-}
-
-function checkRole(role) {
-    return function(req, res, next) {
-        if (req.decodedToken.roles.includes(role)) {
-            next();
-        } else {
-            res.status(403).json({ message: `you need to be an ${role}` });
-        }
-    }
-}
+// function checkRole(role) {
+//     return function(req, res, next) {
+//         if (req.decodedToken.roles.includes(role)) {
+//             next();
+//         } else {
+//             res.status(403).json({ message: `you need to be an ${role}` });
+//         }
+//     }
+// }
 
 //protect this endpoint so only logged in users can see it
-server.get('/users', lock, checkRole('accountant'), (req, res) => {
+server.get('/users', (req, res) => {
     getUsers()
     .then(u => {
-        res.status(200).json({ 
-            u, 
+        res.status(200).json({
+            u,
             decodedToken: req.decodedToken})
     })
     .catch(err => {
