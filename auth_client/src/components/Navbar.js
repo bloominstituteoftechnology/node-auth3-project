@@ -9,13 +9,13 @@ class Navbar extends Component {
           <NavLink to="/" className="App-link">
             Home
           </NavLink>
-          <NavLink to="/" className="App-link">
+          <NavLink to="/users" className="App-link">
             Users
           </NavLink>
           <NavLink to="/signin" className="App-link">
             Sign In
           </NavLink>
-          <NavLink to="/" className="App-link">
+          <NavLink to="/register" className="App-link">
             Register
           </NavLink>
         </nav>
