@@ -14,7 +14,6 @@ const server = express()
 
 server.use(express.json())
 
-
 function protected(req, res, next){
     const token = req.headers.authorization;
 
