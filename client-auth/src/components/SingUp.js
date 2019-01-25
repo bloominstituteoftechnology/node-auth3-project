@@ -1,6 +1,5 @@
 import React from 'react';
 import auth from '../apis/auth';
-import history from '../history';
 
 export default class SignUp extends React.Component {
   state = {
@@ -13,12 +12,11 @@ export default class SignUp extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onFormSubmit = e => {
+  onFormSubmit = async e => {
     e.preventDefault();
-    auth.post('/register', this.state).then(res => {
-      localStorage.setItem('token', res.data);
-      history.push('/users');
-    });
+    const res = await auth.post('/register', this.state);
+    localStorage.setItem('token', res.data);
+    this.props.history.push('/users');
   };
 
   renderForm = () => {

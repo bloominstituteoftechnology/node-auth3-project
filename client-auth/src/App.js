@@ -9,18 +9,21 @@ class App extends Component {
   render() {
     return (
       <>
-        <NavLink activeClassName='active' to='/signup'>
-          Sign Up
-        </NavLink>
-        <NavLink activeClassName='active' to='/signin'>
-          Log In
-        </NavLink>
-        <NavLink activeClassName='active' to='/users'>
-          Users
-        </NavLink>
-        <Route path='/signup' component={SignUp} />
-        <Route path='/users' component={UserList} />
-        <Route path='/signin' component={LogIn} />
+        <div>
+          <NavLink activeClassName='active' to='/signup'>
+            Sign Up
+          </NavLink>
+          <NavLink activeClassName='active' to='/signin'>
+            Log In
+          </NavLink>
+          <NavLink activeClassName='active' to='/users'>
+            Users
+          </NavLink>
+        </div>
+
+        <Route path='/signup' render={props => <SignUp {...props} />} />
+        <Route path='/users' render={props => <UserList {...props} />} />
+        <Route path='/signin' render={props => <LogIn {...props} />} />
       </>
     );
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import auth from '../apis/auth';
-import history from '../history';
 
 export default class SignUp extends React.Component {
   state = {
@@ -16,7 +15,7 @@ export default class SignUp extends React.Component {
     e.preventDefault();
     auth.post('/login', this.state).then(res => {
       localStorage.setItem('token', res.data);
-      history.push('/users');
+      this.props.history.push('/users');
     });
   };
 
