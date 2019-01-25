@@ -28,6 +28,7 @@ class Login extends React.Component {
         Axios.post(endpoint, loginUser)
             .then(res => {
                 localStorage.setItem('jwt', res.data.token);
+                localStorage.setItem('department', res.data.department);
                 this.props.history.push('/users')
             })
             .catch(err => {
