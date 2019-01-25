@@ -14,6 +14,8 @@ class App extends Component {
           <nav>
             <NavLink to = '/signin'>Sign-In</NavLink>
             <NavLink to = '/users'>Users</NavLink>
+
+            <button onClick={this.signout}>Sign Out</button>
           </nav>
         </header>
         <main>
@@ -25,6 +27,9 @@ class App extends Component {
     );
 }
 
+signout = () => {
+  localStorage.removeItem('jwt');
+}
 
 }
 

@@ -68,22 +68,22 @@ server.post('/api/login', (req, res) => {
     })
 });
 
-// function lock(req, res, next) {
-//     const token = req.headers.authorization;
-//
-//     if (token) {
-//         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-//             if (err) {
-//                 res.status(401).json({ message: 'invalid token' })
-//             } else {
-//                 req.decodedToken = decodedToken;
-//                 next();
-//             }
-//         });
-//     } else {
-//         res.status(401).json({ message: 'no token provided' });
-//     }
-// }
+function lock(req, res, next) {
+    const token = req.headers.authorization;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: 'invalid token' })
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        });
+    } else {
+        res.status(401).json({ message: 'no token provided' });
+    }
+}
 
 // function checkRole(role) {
 //     return function(req, res, next) {
@@ -96,7 +96,7 @@ server.post('/api/login', (req, res) => {
 // }
 
 //protect this endpoint so only logged in users can see it
-server.get('/users', (req, res) => {
+server.get('/users', lock, (req, res) => {
     getUsers()
     .then(u => {
         res.status(200).json({

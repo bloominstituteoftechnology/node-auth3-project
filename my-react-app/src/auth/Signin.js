@@ -3,8 +3,8 @@ import axios from 'axios';
 
 class Signin extends React.Component {
     state = {
-        username: 'jerome',
-        password: '123456k'
+        username: '',
+        password: ''
     }
 
     render() {
@@ -49,7 +49,7 @@ class Signin extends React.Component {
             .post(endpoint, this.state)
             .then(res => {
                 console.log('response', res.data.token)
-                // localStorage.setItem('jwt', res.data.token);
+                localStorage.setItem('jwt', res.data.token);
             })
             .catch(err => console.log(err))
     }
