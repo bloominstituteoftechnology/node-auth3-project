@@ -28,6 +28,9 @@ class App extends Component {
               Users
             </NavLink>
           </nav>
+
+          <Route path='/' component={Home} exact/>
+          <Route path='/users' component={Users} exact/>
         </header>
       </div>
     );
