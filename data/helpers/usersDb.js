@@ -17,7 +17,7 @@ module.exports = {
       .insert(user)
       .then(ids => ({ id: ids[0] }));
   },
-  remove: function(id) {
+  delete: function(id) {
     if(id) {
       return db("users")
       .where("id", id)

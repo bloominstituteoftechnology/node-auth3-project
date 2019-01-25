@@ -13,14 +13,15 @@ import {
   Jumbotron
 } from "reactstrap";
 
-export default class SignIn extends React.Component {
+export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
       info: {
         username: "",
-        password: ""
+        password: "",
+        department: ""
       },
       toUsers: false,
       error: false,
@@ -54,6 +55,7 @@ export default class SignIn extends React.Component {
       info: {
         username: "",
         password: "",
+        department: ""
       },
       toUsers: false,
       error: false,
@@ -61,17 +63,17 @@ export default class SignIn extends React.Component {
     })
   }
 
-  signIn = e => {
+  register = e => {
     e.preventDefault();
     const creds = this.state.info;
-    const endpoint = "http://localhost:4200/api/login";
+    const endpoint = "http://localhost:4200/api/register";
     axios
       .post(endpoint, creds)
       .then(res => {
         localStorage.setItem("jwt", res.data.token);
         this.setState({
           ...this.state,
-          info: { username: "", password: "" },
+          info: { username: "", password: "", department: "" },
           toUsers: true,
           error: false,
           errorMessage: ""
@@ -89,13 +91,13 @@ export default class SignIn extends React.Component {
       return (
       <div>
         <Jumbotron className="homeDiv">
-          <h1 className="display-3">Login Error</h1>
+          <h1 className="display-3">Registration Error</h1>
           {/* <p className="lead borderP">
             {this.state.errorMessage}
           </p> */}
           <hr className="my-2" />
           <p>
-            {`${this.state.errorMessage}`}
+            {this.state.errorMessage}
           </p>
         </Jumbotron>
       </div>
@@ -105,18 +107,18 @@ export default class SignIn extends React.Component {
       <div>
         <Jumbotron className="homeDiv">
         <Button className="button" color="danger" onClick={this.toggle}>
-          Log In
+          Register
         </Button>
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}
             className={this.props.className}
           >
-            <ModalHeader toggle={this.toggle}>Sign In</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Register</ModalHeader>
             <ModalBody>
               <Form
                 onSubmit={e => {
-                  this.signIn(e);
+                  this.register(e);
                   this.toggle(e);
                 }}
               >
@@ -136,6 +138,15 @@ export default class SignIn extends React.Component {
                     name="password"
                     onChange={this.inputChange}
                     value={this.state.info.password}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="department">Department</Label>
+                  <Input
+                    type="text"
+                    name="department"
+                    onChange={this.inputChange}
+                    value={this.state.info.department}
                   />
                 </FormGroup>
                 <Button type="submit">Submit</Button>

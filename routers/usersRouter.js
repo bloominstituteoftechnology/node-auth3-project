@@ -149,9 +149,9 @@ router.delete("/users/:id", async (req, res) => {
   usersDb
     .get(id)
     .then(user => {
-      if (user[0]) {
+      if (user) {
         usersDb
-          .remove(id)
+          .delete(id)
           .then(rows => res.status(201).json(deleted))
           .catch(err =>
             res.status(500).json({ error: "trouble deleting user" })
