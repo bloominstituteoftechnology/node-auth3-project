@@ -96,7 +96,7 @@ router.post("/login", (req, res) => {
       .get(user.username)
       .then(users => {
         if (users[0] && bcrypt.compareSync(user.password, users[0].password)) {
-          usersDb
+          usersDb;
           const token = generateToken(users[0]);
           res.status(200).json({ message: "Logged In", token });
         } else {
@@ -132,16 +132,15 @@ router.get("/users/:id", protect, (req, res) => {
     });
 });
 
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) {
-      res.status(500).send('failed to logout');
+      res.status(500).send("failed to logout");
     } else {
-      res.send('logout successful');
+      res.send("logout successful");
     }
   });
 });
-
 
 router.delete("/users/:id", async (req, res) => {
   const { id } = req.params;

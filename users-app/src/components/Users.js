@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardSubtitle,
   Button,
-  CardColumns,
+  CardColumns
 } from "reactstrap";
 
 const jwt = require("jsonwebtoken");
@@ -29,7 +29,9 @@ export default class Users extends React.Component {
     axios
       .get(endpoint, options)
       .then(res => {
-        const filtered = res.data.filter(user => user.department === department)
+        const filtered = res.data.filter(
+          user => user.department === department
+        );
         this.setState({ users: filtered });
       })
       .catch(err => {
@@ -37,7 +39,7 @@ export default class Users extends React.Component {
       });
   }
 
-  deleteUser = (user) => {
+  deleteUser = user => {
     const token = localStorage.getItem("jwt");
     const endpoint = "http://localhost:4200/api/users";
     const options = {
@@ -59,27 +61,26 @@ export default class Users extends React.Component {
   render() {
     return (
       <div className="listDiv">
-      <div className="padding">
-        <CardColumns>
-          {this.state.users.map(user => (
-            <div key={user.id}>
-              <Card sm="6">
-                <CardBody>
-                  <CardTitle>{user.username}</CardTitle>
-                  <CardSubtitle>{`Id: ${user.id}`}</CardSubtitle>
-                  <CardSubtitle>{`Department: ${
-                    user.department
-                  }`}</CardSubtitle>
-                  <Button onClick={() => this.deleteUser(user)}>{`Delete ${
-                    user.username
-                  }`}</Button>
-                </CardBody>
-              </Card>
-            </div>
-          ))}
-        </CardColumns>
-      </div>
-        
+        <div className="padding">
+          <CardColumns>
+            {this.state.users.map(user => (
+              <div key={user.id}>
+                <Card sm="6">
+                  <CardBody>
+                    <CardTitle>{user.username}</CardTitle>
+                    <CardSubtitle>{`Id: ${user.id}`}</CardSubtitle>
+                    <CardSubtitle>{`Department: ${
+                      user.department
+                    }`}</CardSubtitle>
+                    <Button onClick={() => this.deleteUser(user)}>{`Delete ${
+                      user.username
+                    }`}</Button>
+                  </CardBody>
+                </Card>
+              </div>
+            ))}
+          </CardColumns>
+        </div>
       </div>
     );
   }

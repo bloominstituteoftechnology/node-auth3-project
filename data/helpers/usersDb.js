@@ -19,14 +19,12 @@ module.exports = {
       .then(ids => ({ id: ids[0] }));
   },
   delete: function(id) {
-    if(id) {
+    if (id) {
       return db("users")
-      .where("id", id)
-      .del();
+        .where("id", id)
+        .del();
     } else {
-      return db('users')
-      .del();
+      return db("users").del();
     }
-    
   }
 };

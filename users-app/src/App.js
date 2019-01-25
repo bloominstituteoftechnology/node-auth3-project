@@ -5,10 +5,9 @@ import NavBar from "./components/NavBar";
 import Users from "./components/Users";
 import SignIn from "./components/SignIn";
 import Home from "./components/Home";
-import Register from "./components/Register"
+import Register from "./components/Register";
 
 class App extends Component {
-  
   render() {
     return (
       <div className="App">

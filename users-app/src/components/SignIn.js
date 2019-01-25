@@ -53,12 +53,12 @@ export default class SignIn extends React.Component {
       modal: false,
       info: {
         username: "",
-        password: "",
+        password: ""
       },
       toUsers: false,
       error: false,
       errorMessage: ""
-    })
+    });
   }
 
   signIn = e => {
@@ -78,35 +78,33 @@ export default class SignIn extends React.Component {
         });
       })
       .catch(err => {
-        this.setState({...this.state, error: true, errorMessage: err})
+        this.setState({ ...this.state, error: true, errorMessage: err });
       });
   };
 
   render() {
     if (this.state.toUsers) {
-      return <Redirect to='/users'/>
+      return <Redirect to="/users" />;
     } else if (this.state.error) {
       return (
-      <div>
-        <Jumbotron className="homeDiv">
-          <h1 className="display-3">Login Error</h1>
-          {/* <p className="lead borderP">
+        <div>
+          <Jumbotron className="homeDiv">
+            <h1 className="display-3">Login Error</h1>
+            {/* <p className="lead borderP">
             {this.state.errorMessage}
           </p> */}
-          <hr className="my-2" />
-          <p>
-            {`${this.state.errorMessage}`}
-          </p>
-        </Jumbotron>
-      </div>
-    );
+            <hr className="my-2" />
+            <p>{`${this.state.errorMessage}`}</p>
+          </Jumbotron>
+        </div>
+      );
     }
     return (
       <div>
         <Jumbotron className="homeDiv">
-        <Button className="button" color="danger" onClick={this.toggle}>
-          Log In
-        </Button>
+          <Button className="button" color="danger" onClick={this.toggle}>
+            Log In
+          </Button>
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}
