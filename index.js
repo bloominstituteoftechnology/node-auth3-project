@@ -11,8 +11,18 @@ const db = knex(dbConfig.development);
 const PORT = 1234;
 const secret = 'something hidden and not really here in this file';
 
+// Middleware requirements
+const morgan = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+
 /* ---------- Middleware ---------- */
-server.use(express.json());
+server.use(
+  express.json(),
+  morgan('dev'),
+  helmet(),
+  cors()
+);
 
 const generateToken = (user) => {
   console.log(user.user);
@@ -69,6 +79,7 @@ server.post('/api/register', (req,res) => {
 // - If login fails, respond with the correct status code and the message: 'You shall not pass!'
 server.post('/api/login', (req,res) => {
   const login = req.body;
+  console.log( "/api/login" );
 
   db('users').where('user', login.user).limit(1)
     .then( (user) => {
