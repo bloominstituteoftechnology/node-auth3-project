@@ -65,13 +65,13 @@ server.post("/api/login", (req, res) => {
         }
     });
     
-    server.get("/api/users", (req, res) => {
-        console.log("handling request...");
-        const token = req.headers.authorization;
-        if (token) {
-            jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
-                if (error) {
-                    res.status(401).json({ message: "Invalid token", error: error });
+server.get("/api/users", (req, res) => {
+    console.log("handling request...");
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
+            if (error) {
+                res.status(401).json({ message: "Invalid token", error: error });
             } else {
                 console.log(decodedToken);
                 db("users").then(dbUsers => {
