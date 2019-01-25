@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const knex = require('knex');
@@ -15,6 +16,8 @@ const PORT = 5112;
 const secret = 'secretsecret';
 
 server.use(express.json());
+server.use(cors());
+
 
 function generateToken(username) {
     const payload = {
