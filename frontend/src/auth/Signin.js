@@ -51,8 +51,8 @@ class Signin extends Component {
         const endpoint = 'http://localhost:3500/api/login';
         axios.post(endpoint, credentials)
         .then(res => {
-            console.log('response data from login', res.data);
-            localStorage.setItem('jwt', res.data.token);
+            console.log('response data from login', res.data);  // Token data
+            localStorage.setItem('jwt', res.data.token);        // Token on localStorage
         })
         .catch(err => {
             console.log('err from login', err);

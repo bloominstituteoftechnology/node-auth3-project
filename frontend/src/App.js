@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Signin from './auth/Signin';
+import Users from './users/Users';
 
 const Home = props => {
   return (
@@ -38,8 +39,8 @@ class App extends Component {
             <main>
               <Route path='/' component={Home} exact></Route>
               <Route path='/signin' component={Signin} exact></Route>
-              {/* <Route path='/' component={Home} exact></Route>
-              <Route path='/' component={Home} exact></Route> */}
+              <Route path='/users' component={Users} exact></Route>
+              {/* <Route path='/' component={Home} exact></Route> */}
             </main>
         </header>
       </div>
