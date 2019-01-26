@@ -1,5 +1,5 @@
 const express = require('express');
-const knex = require('knex');
+const cors = require('cors');
 require('dotenv').config();
 
 const logger = require('morgan');
@@ -19,6 +19,7 @@ const jwtSecret = process.env.JWT_KEY ;
 server.use(
     express.json(),
     logger('dev'),
+    cors()
 );
 
 function generateToken(user) {
@@ -63,10 +64,10 @@ server.post('/api/register', (req, res) => {
     } else {
         const hash = bcrypt.hashSync(user.password);
         user.password = hash;
-        db.addUser()
+        db.addUser(user)
             .then(ids => {
                 const id = ids[0];
-                db.userById().then(user => {
+                db.userById(id).then(user => {
                     const token = generateToken(user);
                     res.status(201).json({
                         id: user.id,
@@ -78,7 +79,7 @@ server.post('/api/register', (req, res) => {
                 })
             }).catch(err => {
                 res.status(500).json({
-                    message: 'username is taken please select another'
+                    message: 'issues'
                 })
             })
     }
@@ -86,8 +87,7 @@ server.post('/api/register', (req, res) => {
 
 server.post('/api/login', (req, res)=>{
     const creds = req.body;
-    db('users').where({username: creds.username})
-    .first().then(user=>{
+    db.login(creds).then(user=>{
         if(user && bcrypt.compareSync(creds.password, user.password)){
             const token = generateToken(user);
             res.json({token, message: 'access granted'})
@@ -100,7 +100,7 @@ server.post('/api/login', (req, res)=>{
 })
 
 server.get('/api/users', gateKeeper, (req, res)=>{
-    db('users').select('id', 'username', 'department').then(users=>{
+    db.grabUserInfo().then(users=>{
         res.json(users)
     }).catch(err=>{
         res.status(500).send(err);
