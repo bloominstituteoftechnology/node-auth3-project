@@ -12,7 +12,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-
+// the secret is typically on another file (ENV)
 const secret = 'seecreeettt';
 
 // use jwts instead of sessions
@@ -21,7 +21,6 @@ function generateToken(user) {
     username: user.username,
     department: user.department
   };
-  // the secret is typically on another file (ENV)
   
 
   const options = {
