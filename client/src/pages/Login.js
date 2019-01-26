@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 class Login extends Component {
-    state = {};
+    state = {
+        loggedIn: false
+    };
 
     updateFormInfo = event => {
         this.setState({
@@ -23,10 +25,16 @@ class Login extends Component {
             method: "post"
         }).then(res => {
             localStorage.setItem("token", res.data.token);
+            this.setState({
+                loggedIn: true
+            });
         });
     }
 
     render() {
+        if (this.state.loggedIn)
+            return <Redirect to="/users" />
+
         return (
             <div>
                 <form>
