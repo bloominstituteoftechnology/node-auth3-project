@@ -6,31 +6,8 @@ import styled from 'styled-components';
 import Login from './Components/login';
 import Register from './Components/register';
 import Users from './Components/users';
+import Home from './Components/home';
 
-const HeaderDiv = styled.div `
-position:relative;
-z-index:4;
-background:white;
-top:3;
-padding-top:5px;
-padding-bottom:20px;
-text-align: center;
-`
-
-const Home = props =>{
-  return(
-    <HeaderDiv>
-      <h1>
-        Welcome to Client Authentication.
-      </h1>
-      <NavLink to='/login'>Login</NavLink>
-      &nbsp;&nbsp;
-      <NavLink to='/register' >Register</NavLink>
-      &nbsp;&nbsp;
-      <NavLink to='/users'>Users</NavLink>
-    </HeaderDiv>
-  )
-}
 class App extends Component {
   render() {
     return (
