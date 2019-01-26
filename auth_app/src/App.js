@@ -4,7 +4,7 @@ import './App.css';
 
 import  Users from './components/Users';
 import  Home from './components/Home';
-// import Signin from './components/Signin';
+import Sign from './components/Signin';
 
 class App extends Component {
   render() {
@@ -13,12 +13,12 @@ class App extends Component {
         <header className="App-header">
           <nav>
             <NavLink to="/" exact>Home</NavLink>&nbsp;|&nbsp;
-            {/* <NavLink to='/signing'>Sign in</NavLink>&nbsp;|&nbsp; */}
+            <NavLink to='/Sign-in'>Sign in</NavLink>&nbsp;|&nbsp;
             <NavLink to='/users'>Users</NavLink>
           </nav>  
           <main>
             <Route path='/' component={Home} exact></Route>
-            {/* <Route path='/sign-in' component={Signin} exact></Route> */}
+            <Route path='/sign-in' component={Sign} exact></Route>
             <Route path='/users' component={Users} exact></Route>
           </main>
         </header>

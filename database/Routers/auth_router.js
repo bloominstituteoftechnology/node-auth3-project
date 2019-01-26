@@ -8,18 +8,20 @@ const {protected, newToken} = require('../Middleware/custom_middleware');
 // Post - Register
 router.post('/api/register', (req,res) => {
   const user = req.body;
-  console.log(user);
+  
 //   if(!user) res.status(404).json({Message:`There is no user now`});
   if(!user.username) res.status(400).json({Message: `Username required!`});
   if(!user.password) res.status(400).json({Message: `Password required!`});
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
+  console.log('line17',user);
   db.insertUser(user)
     .then( ids => {
        const id = ids[0];
        console.log(id);
        db.findById(id)
          .then( user => {
+             console.log('line23', user);
             if(!user) res.status(404).json({Message: `There is no user with this ID`});
             const token = newToken(user);
             res.status(201).json({token: token, id: user.id});
