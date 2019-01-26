@@ -4,7 +4,8 @@ import {Route, withRouter, NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 
 import Login from './Components/login';
-import Register from './Components/register'
+import Register from './Components/register';
+import Users from './Components/users';
 
 const HeaderDiv = styled.div `
 position:relative;
@@ -23,8 +24,10 @@ const Home = props =>{
         Welcome to Client Authentication.
       </h1>
       <NavLink to='/login'>Login</NavLink>
-      &nbsp; | &nbsp;
+      &nbsp;&nbsp;
       <NavLink to='/register' >Register</NavLink>
+      &nbsp;&nbsp;
+      <NavLink to='/users'>Users</NavLink>
     </HeaderDiv>
   )
 }
@@ -36,6 +39,7 @@ class App extends Component {
         <Route exact path='/' component={Home}/>
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register} />
+        <Route path='/users' component={Users} />
       </div>
     );
   }

@@ -59,7 +59,7 @@ handleInputChange = e =>{
            </FormGroup>
             {' '}
            <FormGroup>
-               <input type="text" name="Department" placeholder="department" value={this.state.department} onChange={this.handleInputChange}/>
+               <input type="text" name="department" placeholder="Department" value={this.state.department} onChange={this.handleInputChange}/>
            </FormGroup>
            <button type='submit' >Add User</button>
           

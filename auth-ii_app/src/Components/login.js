@@ -85,6 +85,7 @@ class Login extends React.Component{
         .then(res=>{
             localStorage.setItem('jwtToken', res.data.token);
             console.log(res.data.token, this.state.username);
+            this.props.history.push('/users');
         }).catch(err=>{
         console.log('ERROR', err);
         })
