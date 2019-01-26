@@ -15,7 +15,6 @@ class SignUp extends Component {
 
 
     registerNewUser = e => {
-        var self = this;
         e.preventDefault();
         axios
             .post(`http://localhost:4040/api/register`, {
@@ -50,25 +49,25 @@ class SignUp extends Component {
             <div>
                 <h2>Sign up a new user!</h2>
                 <form onSubmit={this.registerNewUser}>
-                <input
-                    onChange={this.handleInput}
-                    placeholder='Username'
-                    value={this.state.username}
-                    name='username'
-                />
-                <input
-                    onChange={this.handleInput}
-                    placeholder='Password'
-                    value={this.state.password}
-                    name='password'
-                />
-                <input
-                    onChange={this.handleInput}
-                    placeholder='Department'
-                    value={this.state.department}
-                    name='department'
-                />
-                <button type='submit'>Sign up!</button>
+                    <input
+                        onChange={this.handleInput}
+                        placeholder='Username'
+                        value={this.state.username}
+                        name='username'
+                    />
+                    <input
+                        onChange={this.handleInput}
+                        placeholder='Password'
+                        value={this.state.password}
+                        name='password'
+                    />
+                    <input
+                        onChange={this.handleInput}
+                        placeholder='Department'
+                        value={this.state.department}
+                        name='department'
+                    />
+                    <button type='submit'>Sign up!</button>
                 </form>
             </div>
             

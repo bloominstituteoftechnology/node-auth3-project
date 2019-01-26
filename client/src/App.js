@@ -10,7 +10,7 @@ import Users from './components/Users.js';
 class App extends Component {
   signOut() {
     localStorage.removeItem('jwt');
-  } ;
+  }
 
   render() {
     return (
@@ -28,7 +28,7 @@ class App extends Component {
           <NavLink to='/users' onClick={this.redirectToUsers}>
            [ Users ] 
           </NavLink>
-          <NavLink to='/'>
+          <NavLink to='/' onClick={this.signOut}>
             [ Sign out ]
           </NavLink>
         </nav>

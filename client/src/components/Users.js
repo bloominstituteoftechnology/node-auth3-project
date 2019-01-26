@@ -3,19 +3,15 @@ import axios from 'axios';
 
 
 function RenderIfSignedIn(props) {
-    if (props.users) {
+    if (props.users.length > 0) {
         return props.users.map(user => {
             return (
-                <ul>
                     <li key={user.id}>{user.username}</li>
-                </ul>
             )})
     }
-    else {
-        return (
-            <h2>You shall not see the current users!</h2>
-        )
-    }
+    return (
+        <li>You shall not see the current users!</li>
+    )
 }
 
 class Users extends Component {
@@ -48,7 +44,9 @@ class Users extends Component {
         return(
             <div>
                 <h1>Current users</h1>
-                <RenderIfSignedIn users={this.state.users}/>
+                <ul>
+                    <RenderIfSignedIn users={this.state.users}/>    
+                </ul>
             </div>
         )
     }
