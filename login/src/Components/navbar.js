@@ -12,15 +12,15 @@ class NavBar extends Component {
     return (
     <header className="App-header">
         <nav>
-          <NavLink exact to='/' >Home</NavLink>
+          <NavLink exact to='/' className="navlink" activeClassName="current">Home</NavLink>
           &nbsp; | &nbsp;
-          <NavLink to='/register' >Register</NavLink>
+          <NavLink to='/register' className="navlink" activeClassName="current">Register</NavLink>
           &nbsp; | &nbsp;
-          <NavLink to='/login' >Login</NavLink>
+          <NavLink to='/login' className="navlink" activeClassName="current">Login</NavLink>
           &nbsp; | &nbsp;
-          <NavLink to='/users' >Users</NavLink>
+          <NavLink to='/users' className="navlink" activeClassName="current">Users</NavLink>
           &nbsp; | &nbsp;
-          <button onClick={this.signout}>Logout</button>
+          <NavLink to='/' onClick={this.signout} className="navlink" >Logout</NavLink>
         </nav>
 
         <Route exact path='/' component={Home} />

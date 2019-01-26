@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import Axios from 'axios';
+import { Button, Input } from './styledComponents';
 
 
 class Register extends React.Component {
@@ -44,37 +45,37 @@ class Register extends React.Component {
             <h1>Register for the Authenticator!</h1>
             <form onSubmit={this.register}>
                 <div>
-                    <input 
+                    <Input 
                         onChange={this.inputHandler}
                         type ="text" 
                         placeholder="username"
                         value={this.state.username}
                         name="username"
-                    ></input>
+                    ></Input>
                 </div>
 
                 <div>
-                    <input 
+                    <Input 
                         onChange={this.inputHandler}
                         type ="password" 
                         placeholder="password"
                         value={this.state.password}
                         name="password"
-                    ></input>
+                    ></Input>
                 </div>
 
                 <div>
-                    <input 
+                    <Input 
                         onChange={this.inputHandler}
                         type ="department" 
                         placeholder="department"
                         value={this.state.department}
                         name="department"
-                    ></input>
+                    ></Input>
                 </div>
 
                 <div className="button">
-                    <button type="submit">Submit</button>
+                    <Button type="submit">Submit</Button>
                 </div>
             </form>
         </div>

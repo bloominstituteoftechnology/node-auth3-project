@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import Axios from 'axios';
+import { Input, Button } from './styledComponents';
 
 
 class Login extends React.Component {
@@ -44,27 +45,27 @@ class Login extends React.Component {
             <h1>Login to the Authenticator!</h1>
             <form onSubmit={this.login}>
                 <div>
-                    <input 
+                    <Input 
                         onChange={this.inputHandler}
                         type ="text" 
                         placeholder="username"
                         value={this.state.username}
                         name="username"
-                    ></input>
+                    ></Input>
                 </div>
 
                 <div>
-                    <input 
+                    <Input 
                         onChange={this.inputHandler}
                         type ="password" 
                         placeholder="password"
                         value={this.state.password}
                         name="password"
-                    ></input>
+                    ></Input>
                 </div>
 
                 <div className="button">
-                    <button type="submit">Login</button>
+                    <Button type="submit">Login</Button>
                 </div>
             </form>
         </div>
