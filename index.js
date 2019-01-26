@@ -30,35 +30,43 @@ function generateToken(user) {
 // Use Middleware //
 function protect(req, res, next){
  // Use JWT instead of Sessions
-    if(req.session && req.session.userId){
-        //next(); OLD
-	
-    } else {
-        res.status(500).send("Invalid Credentials");
-    }
- 
+	const token = req.headers.authorization;
+	jwt.verify(token, secret, (err, decodedToken) => {
+		if(err){
+			res.status(401).json({message: "You shouldn't be here"});
+		} else {
+			next();
+		}
+	});
+
 }  
 
 // Register Endpoint //
 server.post('/api/register',(req,res) => {
 	const deets = req.body;
-	const hash = bcrypt.hashSync(deets.password, 10);
-	deets.password = hash;
+	const hash = bcrypt.hashSync(deets.password,10);
+	const password = hash;
 	
 	db('users')
 		.insert(deets)
 		.then(ids => {
 			const id = ids[0];
-			// Find user by ID
-			db('users').where(id).first().then(user => {
-				const token = 
-			}).catch();
 			
-			// Generate Token //
-			generateToken(deets.username);
-			res.status(201).json(id);
+			db('users')
+				.where({ id })
+				.first()
+				.then(user => {
+				
+				const token = generateToken(user);
+				res.status(201).json({ id: user.id, token });
+			})
+			.catch(err => 
+				res.status(500).send(err))
 		})
-		.catch(err => res.status(500).send(err));
+		.catch(err => 
+			res.status(500).send(err)
+		);	
+		
 });
 
 // Login Endpoint // 
@@ -80,18 +88,13 @@ server.post('/api/login',(req,res) => {
 
 // Users Endpoint //
 server.get('/api/users', protect, (req, res) => {
-    console.log('session', req.session);
-    if(req.session && req.session.userId){
-        db.findUsers()
-            .then(users => {
-                res.json(users);
-        })
-        .catch(err => {
-            res.status(500).send(err);
-        })
-    } else {
-        res.status(400).send('ACCESS DENIED');
-    }
+	db.findUsers()
+	.then(users => {
+		res.json(users);
+	})
+	.catch(err => {
+		res.status(500).send(err);
+	})
 });
 
 
