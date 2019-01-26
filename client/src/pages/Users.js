@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import axios from "axios";
+import {Redirect} from "react-router-dom";
 
 class Users extends Component {
     state = {
         authorized: false,
-        users: []
+        users: [],
+        loggedOut: false
     };
 
     componentDidMount() {
@@ -20,9 +22,22 @@ class Users extends Component {
         });
     };
 
+    logOut = event => {
+        localStorage.setItem("token", "");
+        this.setState({
+            loggedOut: true
+        });
+    }
+
     render() {
+        if (this.state.loggedOut)
+            return <Redirect to="/login" />
+
         return (
             <div>
+                <button onClick={this.logOut}>{
+                    this.state.authorized ? "Log Out" : "Log In"
+                }</button>
                 {this.state.authorized ? (
                     this.state.users.map(user => (
                         <div>
