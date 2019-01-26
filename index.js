@@ -30,7 +30,7 @@ function protect(req, res, next) {
 
 function makeToken(user) {
     const payload = {
-        username: user.username
+        user,
     };
     const options = {
         expiresIn: "42mins",
@@ -94,7 +94,7 @@ server.post('/api/login', (req, res) => {
         });
 })
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', protect, (req, res) => {
     db("users")
         .select("id", "username")
         .then(users => {
