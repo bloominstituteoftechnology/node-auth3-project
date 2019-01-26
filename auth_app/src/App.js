@@ -14,7 +14,8 @@ class App extends Component {
           <nav>
             <NavLink to="/" exact>Home</NavLink>&nbsp;|&nbsp;
             <NavLink to='/Sign-in'>Sign in</NavLink>&nbsp;|&nbsp;
-            <NavLink to='/users'>Users</NavLink>
+            <NavLink to='/users'>Users</NavLink>&nbsp;|&nbsp;
+            <button onClick={this.signout}>Sign Out</button>
           </nav>  
           <main>
             <Route path='/' component={Home} exact></Route>
@@ -24,6 +25,10 @@ class App extends Component {
         </header>
       </div>
     );
+  }
+
+  signout = () => {
+     localStorage.removeItem('jwt');
   }
 }
 

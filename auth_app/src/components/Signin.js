@@ -26,6 +26,10 @@ class Signin extends Component {
     }).catch(err => {
       console.log('err from login', err);
     });
+    this.setState({
+        username:'',
+        password:''
+    });
   }
 
   render() {
