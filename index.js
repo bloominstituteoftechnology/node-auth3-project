@@ -13,8 +13,6 @@ const PORT = process.env.PORT || 9500;
 server.use(express.json());
 server.use(cors());
 
-//MIDDLEWARE
-
 const secret = process.env.JWT_SECRET || 'add a secret to your .env file';
 
 generateToken = (user, id) => {
