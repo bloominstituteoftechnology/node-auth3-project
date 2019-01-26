@@ -15,8 +15,9 @@ module.exports = {
   findUserByName: username => {
     return db("users").where("username", username).first();
   },
-
+  
   findUserByID: id => {
+    console.log('finding users')
     return db('users').where('id', id).first();
   }
 };

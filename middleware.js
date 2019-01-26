@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
 
+const secret = "thissecretisunbreakable!";
+
 module.exports = {
   passCheck: user => {
     let worthy = true;
     const pwArr = user.password.split("").filter(item => {
-      item === "!" ||
+      return item === "!" ||
         item === "@" ||
         item === "#" ||
         item === "$" ||
@@ -27,7 +29,6 @@ module.exports = {
     const payload = {
       userID: user.id
     };
-    const secret = "thissecretisunbreakable!";
     const options = {
       expiresIn: "3h",
       jwtid: "12345"
