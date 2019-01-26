@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import {Redirect} from "react-router-dom";
 
 class Register extends Component {
-    state = {};
+    state = {
+        registered: false
+    };
 
     updateFormInfo = event => {
         this.setState({
@@ -21,10 +24,17 @@ class Register extends Component {
                 department: this.state.department
             },
             method: "post"
-        }).then(res => {});
+        }).then(() => {
+            this.setState({
+                registered: true
+            });
+        });
     }
 
     render() {
+        if (this.state.registered)
+            return <Redirect to="/login" />
+
         return (
             <div>
                 <form>
