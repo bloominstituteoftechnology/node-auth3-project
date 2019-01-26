@@ -6,14 +6,16 @@ module.exports = {
   passCheck: user => {
     let worthy = true;
     const pwArr = user.password.split("").filter(item => {
-      return item === "!" ||
+      return (
+        item === "!" ||
         item === "@" ||
         item === "#" ||
         item === "$" ||
         item === "%" ||
         item === "^" ||
         item === "&" ||
-        item === "*";
+        item === "*"
+      );
     });
     if (
       user.password.length < 8 ||

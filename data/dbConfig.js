@@ -1,6 +1,6 @@
 const knex = require("knex");
 
-const knexConfig = require('../knexfile');
+const knexConfig = require("../knexfile");
 const db = knex(knexConfig.development);
 
 module.exports = {
@@ -13,11 +13,15 @@ module.exports = {
   },
 
   findUserByName: username => {
-    return db("users").where("username", username).first();
+    return db("users")
+      .where("username", username)
+      .first();
   },
-  
+
   findUserByID: id => {
-    console.log('finding users')
-    return db('users').where('id', id).first();
+    console.log("finding users");
+    return db("users")
+      .where("id", id)
+      .first();
   }
 };

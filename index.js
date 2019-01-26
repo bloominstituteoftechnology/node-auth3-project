@@ -47,7 +47,7 @@ server.post("/api/login", (req, res) => {
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = mw.generateToken(creds);
-        res.status(200).json({message: `Welcome ${user.username}`, token });
+        res.status(200).json({ message: `Welcome ${user.username}`, token });
       } else {
         res.status(401).send("You shall not pass!");
       }
