@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bcryptjs = require('bcryptjs');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
 
 const db = require('./database/dbHelpers.js');
 
