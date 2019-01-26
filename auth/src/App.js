@@ -111,9 +111,18 @@ class App extends Component {
       .get('http://localhost:3300/api/users/', options)
       //.then(res => {
         .then(response => {
-           let tmpArray = [];
+          console.log("reponse.data", response.data)
+          let tmpArray2 = []; 
+          let tmpArray = [];
            for (let x = 0; x < response.data.length; x++) {
-             tmpArray.push(response.data[x].username)
+             tmpArray2 = [
+               response.data[x].department,
+                response.data[x].username
+              
+              ]
+             //tmpArray.push(response.data[x].username)
+             tmpArray.push(tmpArray2[0])
+         
           }
            this.setState(() => ({ userList: tmpArray }));
          })

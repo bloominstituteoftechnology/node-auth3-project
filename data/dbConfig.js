@@ -65,7 +65,7 @@ const db = knex(knexConfig.development);
     },
   
     findUsers: () => {
-      return db('users').select('id', 'username');
+      return db('users').select('id', 'username', 'department');
     },
     
     find: () => {
