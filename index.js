@@ -4,27 +4,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('./database/dbHelpers');
 const {protect} = require('./database/middleware')
-
+const {tokenGenerator} = require('./database/middleware')
 const server = express();
+
 
 server.use(express.json());
 server.use(cors())
 const PORT = 3300;
-
-
-tokenGenerator = (user) => {
-    const payload = {
-        user: user.username,
-    }
-
-    const secret = "shh don\'t tell noOne";
-
-    const options = {
-        expiresIn: '1h',
-    }
-
-    return jwt.sign(payload, secret, options);
-}
 
 
 
@@ -44,38 +30,21 @@ server.post('/api/register', (req, res) => {
     })
 })
 
-server.post('/api/login', (req, res) => {
-    const user = req.body;
-    console.log(user)
-    db.findUserById(user.username)
-        .then(users => {
-            if (user.password && bcrypt.compareSync(user.password, users[0].password, 10)) {
-                const userId = tokenGenerator(user.username);
-                res.json({ creds: 'correct', userId })
-            } else {
-                res.status(404).json({message: 'Username or Password incorrect'})
-          }
-            
-        })
-    })
-    
-
 
 server.post('/api/login', (req, res) => {
     const user = req.body;
+    console.log(user);
     db.findByUserId(user.username)
     .then(users => {
         //username validation, client password validation from db
-        if(user && bcrypt.compareSync(user.password, users[0].password, 10)) {
+        if(users && bcrypt.compareSync(user.password, users.password, 10)) {
             const token = tokenGenerator(user)
                 res.json({ info: "Logged in", token})
         }
         else {
           res.status(404).json({message: "You shall not pass!"})
         }
-      })
-   
-
+    })
 })
 
 server.get('/api/users', protect,  (req, res) => {
