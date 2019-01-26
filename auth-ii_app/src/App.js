@@ -24,6 +24,7 @@ const Home = props =>{
       </h1>
       <NavLink to='/login'>Login</NavLink>
       &nbsp; | &nbsp;
+      <NavLink to='/register' >Register</NavLink>
     </HeaderDiv>
   )
 }

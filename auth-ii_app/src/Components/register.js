@@ -18,6 +18,7 @@ const FormContainer = styled.form `
     padding-top:20%;
 `
 
+
 class Register extends React.Component{
     constructor(props){
         super(props);
@@ -27,10 +28,27 @@ class Register extends React.Component{
             department:''
         })
     }
+handleRegisterSubmit = e =>{
+    e.preventDefault();
+    const endPoint = 'http://localhost:5555/api/register';
+    axios.post(endPoint, this.state)
+    .then(res=>{
+        this.setState({username:'',password:'', department:''})
+        this.props.history.push('/login');
+        alert('user created');
+
+    }).catch(err=>{
+        console.log('The Error', err);
+    })
+}
+handleInputChange = e =>{
+    this.setState({[e.target.name]:e.target.value});
+    console.log(this.state)
+}
         render(){
             return(
                 <RegiContainer>
-                  <form onSubmit={this.handleLoginSubmit}>
+                  <form onSubmit={this.handleRegisterSubmit}>
            
            <FormGroup>
              <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.handleInputChange}/>
@@ -41,9 +59,8 @@ class Register extends React.Component{
            </FormGroup>
             {' '}
            <FormGroup>
-               <input type="text" name="department" placeholder="department" value={this.state.department} onChange={this.handleInputChange}/>
+               <input type="text" name="Department" placeholder="department" value={this.state.department} onChange={this.handleInputChange}/>
            </FormGroup>
-           {' '}
            <button type='submit' >Add User</button>
           
        </form>
