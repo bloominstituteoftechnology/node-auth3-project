@@ -13,7 +13,6 @@ class Login extends Component {
 
     logIn = event => {
         event.preventDefault();
-        console.log("in function");
 
         axios({
             url: "http://localhost:3300/api/login",
@@ -23,7 +22,6 @@ class Login extends Component {
             },
             method: "post"
         }).then(res => {
-            console.log(res.data.token);
             localStorage.setItem("token", res.data.token);
         });
     }

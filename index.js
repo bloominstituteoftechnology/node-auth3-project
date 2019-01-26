@@ -27,7 +27,6 @@ function generateToken(username) {
 }
 
 server.post("/api/register", (req, res) => {
-    console.log("handling request...");
     if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
         let user = req.body;
         user.password = bcrypt.hashSync(user.password);
@@ -44,7 +43,6 @@ server.post("/api/register", (req, res) => {
 });
 
 server.post("/api/login", (req, res) => {
-    console.log("handling request...");
     if (req.body.username && req.body.password && typeof req.body.username === "string" && typeof req.body.password === "string") {
         let user = req.body;
         db("users")
@@ -66,14 +64,12 @@ server.post("/api/login", (req, res) => {
     });
     
 server.get("/api/users", (req, res) => {
-    console.log("handling request...");
     const token = req.headers.authorization;
     if (token) {
         jwt.verify(token, "reallysecuresecret", (error, decodedToken) => {
             if (error) {
                 res.status(401).json({ message: "Invalid token", error: error });
             } else {
-                console.log(decodedToken);
                 db("users").then(dbUsers => {
                     res.status(200).json(dbUsers);
                 }).catch(error => {

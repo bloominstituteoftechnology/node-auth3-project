@@ -13,8 +13,6 @@ class Users extends Component {
             headers: {"Authorization": localStorage.getItem("token")},
             method: "get"
         }).then(res => {
-            console.log("then");
-            console.log(res);
             this.setState({
                 authorized: true,
                 users: res.data

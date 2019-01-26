@@ -12,7 +12,6 @@ class Register extends Component {
 
     registerUser = event => {
         event.preventDefault();
-        console.log("in function");
 
         axios({
             url: "http://localhost:3300/api/register",
@@ -22,9 +21,7 @@ class Register extends Component {
                 department: this.state.department
             },
             method: "post"
-        }).then(res => {
-            console.log(res);
-        });
+        }).then(res => {});
     }
 
     render() {
