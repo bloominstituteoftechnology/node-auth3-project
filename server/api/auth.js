@@ -19,7 +19,7 @@ router
 
         req.body.password = await bcrypt.hash(password, saltRounds).then(hash => hash);
         db.insert(req.body).then(users => {
-            res.cookie('token', req.token, { httpOnly: true, signed: true });
+            res.cookie('token', req.token, { httpOnly: true });
             res.status(201).json({ users });
         }).catch(err => {
             console.log(err);
