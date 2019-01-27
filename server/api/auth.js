@@ -20,7 +20,7 @@ router
         req.body.password = await bcrypt.hash(password, saltRounds).then(hash => hash);
         db.insert(req.body).then(users => {
             res.cookie('token', req.token, { httpOnly: true, signed: true });
-            res.status(201).json({ users: users });
+            res.status(201).json({ users });
         }).catch(err => {
             console.log(err);
             res.status(500).json({
@@ -45,7 +45,7 @@ router
                     if (eq) {
                         console.log('Passwords match');
                         res.cookie('token', req.token, { httpOnly: true });
-                        res.json({ user: user });
+                        res.json({ user });
                     } else {
                         console.log('Passwords do not match');
                         throw 'Passwords do not match';
