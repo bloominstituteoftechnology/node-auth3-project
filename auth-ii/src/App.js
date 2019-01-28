@@ -5,6 +5,7 @@ import {NavLink, Route} from "react-router-dom";
 import Home from "./components/home";
 import Login from "./components/login";
 import Users from "./components/users";
+import SignUp from "./components/signup";
 
 class App extends Component {
   render() {
@@ -24,9 +25,9 @@ class App extends Component {
           </nav>
           <main>
             <Route path="/" component={Home} exact></Route>
-            {/* <Route path="/signup" component={SignUp} exact></Route> */}
-            <Route path="/login" component={Login} exact></Route>
-            <Route path="/users" component={Users} exact></Route>
+            <Route path="/signup" component={SignUp}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/users" component={Users}></Route>
           </main>
         </header>
       </div>
