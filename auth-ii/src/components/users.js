@@ -37,10 +37,11 @@ class Users extends Component {
       //authorize access using token
       axios.get(endpoint, options)
          .then(res => {
-            console.log("users", res.data)
             this.setState({users: res.data})
          }).catch(err => {
             console.log("user error", err)
          })
    }
 }
+
+export default Users;

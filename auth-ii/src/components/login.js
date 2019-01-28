@@ -51,8 +51,6 @@ class Login extends Component {
       const endpoint = "http://localhost:9000/api/login";
       axios.post(endpoint, creds)
          .then(res => {
-            console.log("response", res.data);
-            console.log(res.data.token)
             localStorage.setItem("jwt", res.data.token);
          }).catch(err => {
             console.log("error", err)
