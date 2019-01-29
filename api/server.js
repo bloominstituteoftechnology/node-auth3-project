@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const helmet = require("helmet");
 const knex = require("knex");
@@ -19,4 +21,104 @@ server.get("/", (req, res) => {
   res.send("sanity check");
 });
 
+server.post("/register", (req, res) => {
+  const userInfo = req.body;
+
+  const hash = bcrypt.hashSync(userInfo.password, 12);
+
+  userInfo.password = hash;
+
+  db("users")
+    .insert(userInfo)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+function generateToken(user) {
+  const payload = {
+    username: user.username,
+    name: user.name,
+    roles: ["admin", "sales"]
+  };
+
+  const secret = process.env.JWT_SECRET;
+
+  const options = {
+    expiresIn: "10m"
+  };
+
+  return jwt.sign(payload, secret, options);
+}
+
+server.post("/login", (req, res) => {
+  const creds = req.body;
+
+  db("users")
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        //login is successful, create the token.
+        const token = generateToken(user);
+
+        res.status(200).json({ message: `welcome ${user.name}`, token });
+      } else {
+        res.status(401).json({ you: "shall not pass!!" });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+function lock(req, res, next) {
+  //auth token is normally sent in the Authorization header.
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "invalid token" });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "no token provided" });
+  }
+}
+
+function checkRole(role) {
+  return function(req, res, next) {
+    if (req.decodedToken.roles.includes(role)) {
+      next();
+    } else {
+      res.status(403).json({ message: `Must be in the ${role} group` });
+    }
+  };
+}
+
+// protect this endpoint so only logged in users can see it
+server.get("/users", lock, checkRole("admin"), async (req, res) => {
+  const users = await db("users").select("id", "username", "name");
+
+  res.status(200).json({ users, decodedToken: req.decodedToken });
+});
+
+server.get("/users/me", lock, checkRole("accountant"), async (req, res) => {
+  const user = await db("users")
+    .where({ username: req.decodedToken.username })
+    .first();
+
+  res.status(200).json(user);
+});
+
+server.get("/api/users/:id", lock, async (req, res) => {
+  const user = await db("users")
+    .where({ id: req.params.id })
+    .first();
+
+  res.status(200).json(user);
+});
 module.exports = server;
