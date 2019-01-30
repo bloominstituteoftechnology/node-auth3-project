@@ -46,10 +46,13 @@ server.post('/api/register', (req, res)=>{
     const creds = req.body;
     const hash = bcrypt.hashSync(creds.password, 14);
     creds.password = hash;
-    db('users').insert(creds)
+    db.insert(creds)
     .then(ids =>{
-        const id = ids[0]
-        res.json({newUserId: id})
+       db.findById(ids[0])
+       .then( user =>{
+           const token = generateToken(user)
+           res.status(201).json({id:user.id, token})
+       })
     }).catch(err =>{
         res.status(500).send(err)
     })
@@ -57,7 +60,7 @@ server.post('/api/register', (req, res)=>{
 
 server.post('/api/login', (req, res) =>{
     const creds = req.body;
-    db('users').where({username:creds.username}).first()
+    db.findByUsername(creds.username)
     .then(user =>{
         if(user && bcrypt.compareSync(creds.password, user.password)){
            const token = generateToken(user)
@@ -69,9 +72,8 @@ server.post('/api/login', (req, res) =>{
         res.status(500).send(err);
     })
 })
-server.get('/api/users', (req,res)=>{
-    db('users')
-    .select('username', 'department','password')
+server.get('/api/users', protected, (req,res)=>{
+    db.findUsers()
     .then(users =>{
         res.json(users)
     })
