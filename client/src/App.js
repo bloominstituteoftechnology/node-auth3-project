@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import Users from "./components/Users";
+import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import { NavLink, Route } from "react-router-dom";
 
 import "./App.css";
 
-const home = props => {
+const Home = props => {
   return (
     <div>
       <h1>Home Page</h1>
@@ -17,11 +18,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>
+        <header className="App-header">
           <nav>
             <NavLink to="/" exact>
               Home
             </NavLink>
+            &nbsp; | &nbsp;
+            <NavLink to="/signup">Sign up</NavLink>
             &nbsp; | &nbsp;
             <NavLink to="/signin">Sign in</NavLink>
             &nbsp; | &nbsp;
@@ -31,9 +34,10 @@ class App extends Component {
           </nav>
         </header>
         <main>
-          <Route path="/" component={home} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/users" component={Users} />
+          <Route path="/" component={Home} exact />
+          <Route path="/signup" component={SignUp} exact />
+          <Route path="/signin" component={SignIn} exact />
+          <Route path="/users" component={Users} exact />
         </main>
       </div>
     );
@@ -41,6 +45,7 @@ class App extends Component {
 
   signOut = () => {
     localStorage.removeItem("jwt");
+    console.log("signed out successfully");
   };
 }
 
