@@ -22,7 +22,6 @@ class Users extends Component {
     axios
       .get(endpoint, options)
       .then(res => {
-        console.log(res.data);
         this.setState({
             users:res.data
         })

@@ -22,7 +22,6 @@ class Signin extends Component {
     axios
       .post(endpoint, login)
       .then(res => {
-        console.log(res.data);
         localStorage.setItem("jwt", res.data.token);
         this.props.history.push('/users')
         this.setState({

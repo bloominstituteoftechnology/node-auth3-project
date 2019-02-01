@@ -14,11 +14,9 @@ class Signup extends Component {
     event.preventDefault();
     const endpoint = "http://localhost:3300/api/register";
 
-    console.log(this.state)
     axios
       .post(endpoint, this.state)
       .then(res => {
-          console.log(res.data)
         localStorage.setItem("jwt",res.data.token)
         this.props.history.push("/users");
         alert("Congrats You Signed Up");
