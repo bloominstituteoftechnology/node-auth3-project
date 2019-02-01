@@ -11,11 +11,11 @@ insert: (user) =>{
 },
 
 findByUsername: (username) =>{
-    return db('users').where('username', username).first();
+    return db('users').where({username}).first();
 },
 
 findById: (id) =>{
-    return db('users').where('id', id).first();
+    return db('users').where({id}).first();
 },
 
 findUsers: ()=>{

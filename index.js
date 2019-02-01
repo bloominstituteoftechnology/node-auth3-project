@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const db = require('./database/dbConfig.js');
 
 const server = express();
-const PORT = 3300;
-const secret = "This is the secret that no one knows!"
+
+const secret = process.env.JWT_SECRET || 'add a secret to your .env file with this key';
 
 server.use(express.json());
 server.use(cors());
@@ -16,8 +16,8 @@ server.use(cors());
 function generateToken(user){
     const payload = {
         ...user,
-        hello:user,
-        roles:['admin', 'student']
+        username:user.username,
+        password:user.password
     };
     const options = {
         expiresIn: '30m'
@@ -50,6 +50,7 @@ server.post('/api/register', (req, res)=>{
     .then(ids =>{
        db.findById(ids[0])
        .then( user =>{
+           console.log(user)
            const token = generateToken(user)
            res.status(201).json({id:user.id, token})
        })
@@ -62,6 +63,7 @@ server.post('/api/login', (req, res) =>{
     const creds = req.body;
     db.findByUsername(creds.username)
     .then(user =>{
+        console.log(user)
         if(user && bcrypt.compareSync(creds.password, user.password)){
            const token = generateToken(user)
             res.json({welcome:user.username, token})
@@ -80,7 +82,7 @@ server.get('/api/users', protected, (req,res)=>{
     .catch(err => res.status(500).send(err))
 })
 
-
+const PORT = process.env.PORT || 3300;
 server.listen(PORT, ()=>{
     console.log(`Listening on port ${PORT}!`)
 })
