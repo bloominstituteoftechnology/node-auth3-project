@@ -2,7 +2,8 @@ const express = require('express');
 const server = express();
 const cors = require('cors');
 const session = require('express-session');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const PORT = 9876;
 
 const db = require('./database/dbHelpers');
 
@@ -23,4 +24,4 @@ server.post('/api/register', (req, res) => {
 
 })
 
-server.listen(9876, () => {console.log(`Hello, world!`)})
+server.listen(PORT, () => {console.log(`Hello, world from port ${PORT}!`)})
