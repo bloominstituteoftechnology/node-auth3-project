@@ -55,7 +55,7 @@ server.post('/api/register', (req, res)=>{
            res.status(201).json({id:user.id, token})
        })
     }).catch(err =>{
-        res.status(500).send(err)
+        res.status(500).send('database',err)
     })
 })
 

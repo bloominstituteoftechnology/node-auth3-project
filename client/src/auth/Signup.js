@@ -14,19 +14,13 @@ class Signup extends Component {
     event.preventDefault();
     const endpoint = "http://localhost:3300/api/register";
 
-    // const { username, password, department } = this.state;
-    // const register = {
-    //   username: username,
-    //   password: password,
-    //   department: department
-    // };
-
+    console.log(this.state)
     axios
       .post(endpoint, this.state)
       .then(res => {
           console.log(res.data)
-        this.setState({ username: "", password: "", department: "" });
-        this.props.history.push("/signin");
+        localStorage.setItem("jwt",res.data.token)
+        this.props.history.push("/users");
         alert("Congrats You Signed Up");
       })
       .catch(err => {
@@ -40,7 +34,7 @@ class Signup extends Component {
   };
 
   render() {
-    const { username, password, deparment } = this.state;
+    const { username, password, department } = this.state;
     return (
       <form onSubmit={this.handleRegister}>
         <div>
@@ -66,8 +60,8 @@ class Signup extends Component {
           <input
             type="text"
             onChange={this.handleInput}
-            name="deparment"
-            value={deparment}
+            name="department"
+            value={department}
           />
         </div>
         <div>
