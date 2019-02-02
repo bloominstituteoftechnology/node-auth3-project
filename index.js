@@ -43,15 +43,35 @@ server.post('/api/login', (req, res) => {
     db.findByUsername(userBody.username)
     .then(users => {
         if(users.length && bcrypt.compareSync(userBody.password, users[0].password)){
-            res.session.userId = users[0].id;
+            req.session.userId = users[0].id
             res.json(`Correct`)
         } else {
-            res.status(404).json(`You shall not pass`)
+            res.status(404).json(`You shall not pass!`)
         }
     })
     .catch(err => {res.status(500).send(err)})
 })
 
+server.get('/api/users', (req, res) => {
+    if(req.session && req.session.userId){
+        db.get()
+        .then(users => {
+            res.json(users)
+        })
+        .catch(err => res.send(`You shall not pass!`))
+    } else {
+        res.status(400).send(`access denied`)
+    }
+})
 
+server.post('/api/logout', (req, res) => {
+    req.session.destroy(err => {
+        if(err){
+            res.status(500).send('failed to log you out')
+        } else {
+            res.status(201).send('logged you out. be seeing ya!')
+        }
+    })
+})
 
 server.listen(PORT, () => {console.log(`Hello, world from port ${PORT}!`)})
