@@ -6,14 +6,14 @@ const db = knex(knexConfig.development)
 
 module.exports = {
     get: (users) => {
-        return db('users').select('id', 'username')
+        return db('usersWithDepartment').select('id', 'username', 'department')
     },
 
     insert: (user) => {
-        return db('users').insert(user)
+        return db('usersWithDepartment').insert(user)
     },
 
     findByUsername: (username) => {
-        return db('users').where('username', username);
+        return db('usersWithDepartment').where('username', username);
     }
 }
