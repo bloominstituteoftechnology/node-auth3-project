@@ -18,6 +18,20 @@ server.use(cors())
 // server verifies that cookie is valid.
 // server provides access to resource.
 
+server.post('/api/register', (req, res) => {
+    const creds = req.body
+    const hash = bcrypt.hashSync(creds.password, 14)
+    creds.password = hash
+    db('users')
+    .insert(creds)
+    .then(ids => {
+        res.status(201).json(ids)
+    })
+    .catch(() => {
+        res.status(500).json({ error: 'Unable to register user.'})
+    })
+})
+
 server.get('/api/users', (req, res) => {
     db('users')
       .select('id', 'username', 'password') 
