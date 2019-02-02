@@ -42,6 +42,7 @@ server.post('/api/login', (req, res) => {
     const userBody = req.body;
     db.findByUsername(userBody.username)
     .then(users => {
+        console.log(`just logged in:`, users)
         if(users.length && bcrypt.compareSync(userBody.password, users[0].password)){
             req.session.userId = users[0].id
             res.json(`Correct`)
