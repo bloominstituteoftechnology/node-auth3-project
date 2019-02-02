@@ -19,9 +19,10 @@ class App extends Component {
           </a>
           <p>Some text goes here.</p>
           {/* client side routes for
-          - signup -- form gathering username, password, department
-          - sign in
-          - show list of users */}
+          - signup -- form gathering username, password, department -- post request to /api/register
+          - sign in -- post request to login
+          - show list of users 
+          - button to sign out*/}
         </header>
       </div>
     );
