@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
+import { Route, NavLink} from 'react-router-dom';
 import './App.css';
+import Signin from './authStuff/signin';
+// import Home from './authStuff/home';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>Some text goes here.</p>
+      <nav>
+      <NavLink exact to="/">Home | </NavLink>
+      <NavLink to="/users">See users | </NavLink>
+      <NavLink to="/signin">Sign in</NavLink>
+      </nav>
+
+        <p>Some text goes here.</p>
+        <Route path="/signin" component={Signin} />
           {/* client side routes for
           - signup -- form gathering username, password, department -- post request to /api/register
           - sign in -- post request to login
           - show list of users 
           - button to sign out*/}
-        </header>
+
+           {/* <Route path="/" Component={Home} /> */}
+           {/* <Route path="/users" Component={Users} /> */}
       </div>
     );
   }
