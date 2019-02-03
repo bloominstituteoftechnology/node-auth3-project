@@ -22,14 +22,19 @@ class Users extends Component {
     }
 
     componentDidMount(){
+        const token = localStorage.getItem('jwt');
+        const endpoint = 'http://localhost:9876/api/users';
+        const options = {
+         headers: {
+             Authorization: token
+         }
+     }
 
-        const endpoint = 'http://localhost:9876/api/users'
-
-        axios.get('http://localhost:9876/api/users')
-        .then(response => {
-            this.setState({users: response.data})
+        axios.get(endpoint, options)
+        .then(res=>{
+            console.log(res.data);
+            this.setState({ users: res.data})
         })
-        .catch(err => console.log(err))
     }
 }
 

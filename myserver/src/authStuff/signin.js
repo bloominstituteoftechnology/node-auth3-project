@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-
 class Signin extends Component {
     constructor(props){
         super(props)
@@ -40,23 +39,10 @@ class Signin extends Component {
         )}
 
         handleSubmit = (e) => {
+         
             e.preventDefault();
-            const token = localStorage.getItem('jwt');
             const endpoint = 'http://localhost:9876/api/login';
-            const options = {
-                headers: {
-                    Authorization: token
-                }
-            }
-
-            axios.get(endpoint, options)
-            .then(res=>{
-                console.log(res.data);
-            })
-            // .catch(err => {
-            //     console.log('ERROR', err)
-            // })
-
+  
             axios.post(endpoint, this.state)
             .then(res=>{
                 console.log(res.data);
@@ -68,7 +54,6 @@ class Signin extends Component {
          }
          
          inputHandler = (e) => {
-            console.log(`hello Slack walkthrough folks!`)
             console.log(e.target.usernamename)
             this.setState({
                 [e.target.name]: e.target.value})
