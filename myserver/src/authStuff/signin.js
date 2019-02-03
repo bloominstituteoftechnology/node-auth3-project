@@ -41,21 +41,29 @@ class Signin extends Component {
 
         handleSubmit = (e) => {
             e.preventDefault();
-            const token = localStorage.getItem('jwt')
+            const token = localStorage.getItem('jwt');
             const endpoint = 'http://localhost:9876/api/login';
             const options = {
                 headers: {
                     Authorization: token
                 }
             }
-         
-            axios.post(endpoint, options)
+
+            axios.get(endpoint, options)
             .then(res=>{
                 console.log(res.data);
-                localStorage.setItem(`${res.data.username}`, res.data.token)
+            })
+            // .catch(err => {
+            //     console.log('ERROR', err)
+            // })
+
+            axios.post(endpoint, this.state)
+            .then(res=>{
+                console.log(res.data);
+                localStorage.setItem('jwt', res.data.token);
             })
             .catch(err => {
-                console.log('ERROR: foo', err)
+                console.log('ERROR, l52, signin', err)
             })
          }
          
