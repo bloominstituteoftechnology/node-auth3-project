@@ -10,6 +10,11 @@ class Signin extends Component {
             department: ''
         }
     }
+
+    fooFunction = (e) => {
+        console.log(`hi`)
+     }
+
     render() {
 
         return (
@@ -35,8 +40,11 @@ class Signin extends Component {
                     <button type="submit">Sign In</button>
                 </div>
             </form>
+
+            <button type="submit" onSubmit={this.fooFunction}>Sign out</button>
             </div>
         )}
+
 
         handleSubmit = (e) => {
          
@@ -53,11 +61,9 @@ class Signin extends Component {
             })
          }
          
-         inputHandler = (e) => {
-            console.log(e.target.usernamename)
+        inputHandler = (e) => {
             this.setState({
                 [e.target.name]: e.target.value})
-            console.log(this.state)
          }
          
 }
