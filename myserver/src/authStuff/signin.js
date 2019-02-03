@@ -41,11 +41,18 @@ class Signin extends Component {
 
         handleSubmit = (e) => {
             e.preventDefault();
-            const endpoint = 'http://localhost:9876/api/login'
+            const token = localStorage.getItem('jwt')
+            const endpoint = 'http://localhost:9876/api/login';
+            const options = {
+                headers: {
+                    Authorization: token
+                }
+            }
          
-            axios.post(endpoint, this.state)
+            axios.post(endpoint, options)
             .then(res=>{
                 console.log(res.data);
+                localStorage.setItem(`${res.data.username}`, res.data.token)
             })
             .catch(err => {
                 console.log('ERROR: foo', err)
@@ -53,6 +60,7 @@ class Signin extends Component {
          }
          
          inputHandler = (e) => {
+            console.log(`hello Slack walkthrough folks!`)
             console.log(e.target.usernamename)
             this.setState({
                 [e.target.name]: e.target.value})
