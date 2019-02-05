@@ -1,8 +1,8 @@
 const express = require('express');
 const server = express();
-const cors = require('cors');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const PORT = 9876;
@@ -29,27 +29,49 @@ server.get('/', (req, res) => {
     res.send(`Hello, world!!`);
 })
 
+function protected() {
+
+}
+
+function generateToken() {
+    const payload = {
+        username: user.username,
+    }
+    const secret = 'seeeeecret!';
+    const options = {
+        expiresIn: '1h',
+        jwtid: '12345' // aka jti
+    }
+    return jwt.sign(payload, secret, options)
+}
+
 server.post('/api/register', (req, res) => {
     const user = req.body;
-    console.log(`session`, req.session)
-    user.password = bcrypt.hashSync(user.password, 14)
+    const hash = bcrypt.hashSync(user.password, 10)
+    user.password = hash;
+    
     db.insert(user)
     .then(ids => {
-        res.status(201).json({id: ids[0]})
+        const id = ids[0];
+        // generate a token
+        generateToken(user);
+
+        //attach that token to the response
+        res.json(201).json(id)
     })
-    .catch(error => {
-        res.status(500).send(`Nope, wrong`)
-    })
+    .catch(error => {res.status(500).send(err)})
 })
 
 server.post('/api/login', (req, res) => {
     const userBody = req.body;
     db.findByUsername(userBody.username)
+    .first()
     .then(users => {
-        console.log(`just logged in:`, users)
-        if(users.length && bcrypt.compareSync(userBody.password, users[0].password)){
-            req.session.userId = users[0].id
-            res.json(`Correct`)
+        if(user && bcrypt.compareSync(userBody.password, user.password)){
+            // generate a token
+
+            // attach that token to the response
+            res.status(200).send(`Welcome, ${user.username}`)
         } else {
             res.status(404).json(`You shall not pass!`)
         }
@@ -57,19 +79,24 @@ server.post('/api/login', (req, res) => {
     .catch(err => {res.status(500).send(err)})
 })
 
-server.get('/api/users', (req, res) => {
-    // protected middleware function before req, res
-    if(req.session && req.session.userId){
-        db.get()
-        .then(users => {
-            res.json(users)
-        })
-        .catch(err => res.send(`You shall not pass!`))
-    } else {
-        res.status(400).send(`access denied`)
-        // source of error code
-    }
+server.get('/api/users', protected, (req, res) => {
+
 })
+
+
+// server.get('/api/users', (req, res) => {
+//     // protected middleware function before req, res
+//     if(req.session && req.session.userId){
+//         db.get()
+//         .then(users => {
+//             res.json(users)
+//         })
+//         .catch(err => res.send(`You shall not pass!`))
+//     } else {
+//         res.status(400).send(`access denied`)
+//         // source of error code
+//     }
+// })
 
 server.post('/api/logout', (req, res) => {
     req.session.destroy(err => {
