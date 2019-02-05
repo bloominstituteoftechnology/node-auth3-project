@@ -50,11 +50,15 @@ class Signin extends Component {
          
             e.preventDefault();
             const endpoint = 'http://localhost:9876/api/login';
+
+            const login = {
+                username: this.state.username,
+                password: this.state.password
+            }
   
-            axios.post(endpoint, this.state)
+            axios.post(endpoint, login)
             .then(res=>{
                 console.log(res.data);
-                localStorage.setItem('jwt', res.data.token);
             })
             .catch(err => {
                 console.log('ERROR, l52, signin', err)
@@ -62,9 +66,16 @@ class Signin extends Component {
          }
          
         inputHandler = (e) => {
-            this.setState({
-                [e.target.name]: e.target.value})
+            this.setState({[e.target.name]: e.target.value})
+            console.log(this.state)
          }
+
+
+         // function protected === middleware that checks auth
+         // gets passed in on the axios.post in signin
+
+         // function generateToken
+         // gets passed in 
          
 }
 

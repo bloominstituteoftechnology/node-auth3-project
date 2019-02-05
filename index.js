@@ -3,9 +3,13 @@ const server = express();
 const cors = require('cors');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const PORT = 9876;
 
 const db = require('./database/dbHelpers');
+
+// middleware goes here
 
 server.use(express.json());
 server.use(cors());
@@ -54,6 +58,7 @@ server.post('/api/login', (req, res) => {
 })
 
 server.get('/api/users', (req, res) => {
+    // protected middleware function before req, res
     if(req.session && req.session.userId){
         db.get()
         .then(users => {
@@ -62,6 +67,7 @@ server.get('/api/users', (req, res) => {
         .catch(err => res.send(`You shall not pass!`))
     } else {
         res.status(400).send(`access denied`)
+        // source of error code
     }
 })
 
