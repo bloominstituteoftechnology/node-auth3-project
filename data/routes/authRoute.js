@@ -5,10 +5,10 @@ const bcrypt = require('bcryptjs')
 const db = require('../helpers/authDb')
 
 // endpoints
-router.post('resgister', (req, res) => {
+router.post('/register', (req, res) => {
   const creds = req.body;
   const hash = bcrypt.hashSync(creds.password, 12)
-  creds.password = hash
+  creds.password = hash;
   (creds.username && creds.password && creds.department) ? 
     db.register(creds)
       .then(id => {
@@ -26,8 +26,8 @@ router.post('resgister', (req, res) => {
           .json({message: 'Missing username/password/department'})
 })
 
-router.post('login', (req, res) => {
-  const creds = req.body
+router.post('/login', (req, res) => {
+  const creds = req.body;
   (creds.username && creds.password) ? 
     db.login(creds)
     .then(user => {
