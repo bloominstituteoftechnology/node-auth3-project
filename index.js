@@ -66,15 +66,15 @@ function generateToken(user){
   return jwt.sign(payload, secret, options);
 }
 
-server.post('/api/register/', (req, res) => {
-  const user = req.body;
-  console.log(`Tommy's session:`, req.session)
+server.post('/api/register', (req, res) => {
+  const creds = req.body;
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
 
-  user.password = bcrypt.hashSync(user.password, 14)
-  db('users').insert(user)
+  db('users')
+  .insert(creds)
   .then(ids => {
     const id = ids[0];
-    // find the user using the ID
     db('users')
     .where({ id })
     .first()
@@ -84,9 +84,32 @@ server.post('/api/register/', (req, res) => {
     })
     .catch(err => res.status(500).send(err))
   })
-  .catch(err => {res.status(500).send(err);
-  })
+  .catch(err => res.status(500).send(err))
 })
+
+
+
+// server.post('/api/register/', (req, res) => {
+//   const user = req.body;
+//   console.log(`Tommy's session:`, req.session)
+
+//   user.password = bcrypt.hashSync(user.password, 14)
+//   db('users').insert(user)
+//   .then(ids => {
+//     const id = ids[0];
+//     // find the user using the ID
+//     db('users')
+//     .where({ id })
+//     .first()
+//     .then(user => {
+//       const token = generateToken(user);
+//       res.status(201).json({id: user.id, token})
+//     })
+//     .catch(err => res.status(500).send(err))
+//   })
+//   .catch(err => {res.status(500).send(err);
+//   })
+// })
 
 server.post('/api/login', (req, res) => {
   // checking that username and password matches
@@ -147,7 +170,5 @@ server.post('/api/logout', (req, res) => {
     }
   })
 })
-
-
 
 server.listen(PORT, () => console.log(`running on port ${PORT}`));
