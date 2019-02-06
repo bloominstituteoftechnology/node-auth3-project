@@ -30,9 +30,10 @@ const protected = (req, res, next) => {
 router.get('/', protected, (req, res) => {
   db.getUser()
     .then(users => {
+      console.log(users)
       res
         .status(200)
-        .json(users)
+        .json({users, decodedToken: req.decodedToken})
     })
     .catch(() => {
       res

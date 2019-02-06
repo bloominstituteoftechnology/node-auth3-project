@@ -9,6 +9,6 @@ module.exports = {
   },
 
   login: (username) => {
-    return db('users').where('usernsme', username).first()
+    return db('users').where('username', username).first()
   }
 }

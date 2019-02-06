@@ -5,8 +5,11 @@ const db = knex(dbConfig.development)
 
 module.exports = {
   getUser: (id) => {
-    id ? 
-      db('users').where('id', id).first(): 
-        db('users').select('id', 'username', 'department')
+    if(id) {
+      return db('users').where('id', id).first()
+    } else {
+      return db('users').select('id', 'username', 'department')
+    }
+
   }
 }
