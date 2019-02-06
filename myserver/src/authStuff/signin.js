@@ -62,6 +62,8 @@ class Signin extends Component {
             // the get req for users retrieves the token from localStorage
             .then(res=>{
                 console.log(res.data);
+                // localStorage.setItem('jwt', res.data.token);
+                localStorage.setItem('jwt', res.data.token)
             })
             .catch(err => {
                 console.log('ERROR, l52, signin', err)
