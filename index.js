@@ -33,7 +33,7 @@ function protected() {
 
 }
 
-function generateToken() {
+function generateToken(username) {
     const payload = {
         username: user.username,
     }
@@ -53,11 +53,11 @@ server.post('/api/register', (req, res) => {
     db.insert(user)
     .then(ids => {
         const id = ids[0];
-        // generate a token
-        generateToken(user);
-
-        //attach that token to the response
-        res.json(201).json(id)
+        db.where({id}).first()
+        .then(user => {
+            const user = generateToken(user);
+            res.json(201).json({id: user.id, token})
+        })
     })
     .catch(error => {res.status(500).send(err)})
 })

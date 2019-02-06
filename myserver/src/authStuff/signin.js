@@ -11,12 +11,9 @@ class Signin extends Component {
         }
     }
 
-    fooFunction = (e) => {
-        console.log(`hi`)
-     }
-
+    
     render() {
-
+        
         return (
             <div className="signin">
             <p>hello world</p>
@@ -41,13 +38,17 @@ class Signin extends Component {
                 </div>
             </form>
 
-            <button type="submit" onSubmit={this.fooFunction}>Sign out</button>
+            <button type="submit" onClick={this.fooFunction}>Sign out</button>
             </div>
         )}
-
+        
+        
+        fooFunction = (e) => {
+            console.log(`hi`)
+         }
 
         handleSubmit = (e) => {
-         
+            
             e.preventDefault();
             const endpoint = 'http://localhost:9876/api/login';
 
@@ -57,6 +58,8 @@ class Signin extends Component {
             }
   
             axios.post(endpoint, login)
+            // using local storage -- onSubmit puts token in localStorage
+            // the get req for users retrieves the token from localStorage
             .then(res=>{
                 console.log(res.data);
             })
