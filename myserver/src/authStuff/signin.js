@@ -38,13 +38,14 @@ class Signin extends Component {
                 </div>
             </form>
 
-            <button type="submit" onClick={this.fooFunction}>Sign out</button>
+            <button type="submit" onClick={this.signout}>Sign out</button>
             </div>
         )}
         
         
-        fooFunction = (e) => {
-            console.log(`hi`)
+        signout = (e) => {
+            console.log(`hi`);
+            localStorage.removeItem('jwt')
          }
 
         handleSubmit = (e) => {
