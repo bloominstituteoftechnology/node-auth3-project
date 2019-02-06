@@ -1,7 +1,8 @@
 const express = require('express')
 
-const server = express
-server.request(express.json)
+const server = express()
+
+server.use(express.json())
 
 //Routes
 const authRoute = require('./data/routes/authRoute')
@@ -12,7 +13,7 @@ server.use('/api/users', usersRoute)
 
 //Listening
 const PORT = 3300
-server.listen(port, () => {
+server.listen(PORT, () => {
   console.log(`\n=== Web API Listening on http://localhost:${PORT} ===\n`)
 })
 

@@ -5,6 +5,9 @@
   "repository": "https://github.com/Marguelgtz/auth-ii.git",
   "author": "<marguel.gtz@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
