@@ -27,7 +27,8 @@ server.post('/register', (req, res) => {
 
 function generateToken(user) {
     const payload = {
-        userId: user.id
+        userId: user.id,
+        username: user.username
     }
 
     const secret = process.env.JWT_SECRET
@@ -47,7 +48,7 @@ server.post('/login', (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
           //login is successful
           //create token
-          const token = generateToken(user.id)
+          const token = generateToken(user)
         res.status(200).json({ message: `${user.username} is logged in`, token })
       } else {
         res.status(401).json({ message: 'You shall not pass!' })
