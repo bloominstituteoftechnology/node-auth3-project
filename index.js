@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config() //reads from the .env file and places them below //add .env file to gitignore
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -27,10 +27,14 @@ server.post('/register', (req, res) => {
 
 function generateToken(user) {
     const payload = {
-        username: user.username,
+        userId: user.id
     }
 
-    const secret = ''
+    const secret = process.env.JWT_SECRET
+
+    const options = {
+        expiresIn: '10m'
+    }
     return jwt.sign(payload, secret, options)
 }
 
@@ -43,8 +47,8 @@ server.post('/login', (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
           //login is successful
           //create token
-          const token = generateToken(user)
-        res.status(200).json({ message: `${user.username} is logged in` })
+          const token = generateToken(user.id)
+        res.status(200).json({ message: `${user.username} is logged in`, token })
       } else {
         res.status(401).json({ message: 'You shall not pass!' })
       }
