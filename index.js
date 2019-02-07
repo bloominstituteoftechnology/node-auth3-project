@@ -85,6 +85,21 @@ server.get('/users', protected, (req, res) => {
     })
 })
 
+server.get('/users/:id', protected, (req, res) => {
+    //  add : async -----if uncomment the below code
+    // const users = await db('users')
+    db('users')
+    .where({ id: req.params.id })
+    .first()
+    //   .select('id', 'username', 'password') //<----NEVER EVER SEND THE PASSWORD BACK TO THE CLIENT, THIS IS WHAT NOT TO DO!!!
+      .then(users => {
+        res.json(users)
+      })
+      .catch(() => {
+        res.status(500).json({ message: 'You shall not pass!' })
+      })
+  })
+
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
