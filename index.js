@@ -26,17 +26,17 @@ server.post('/register', (req, res) => {
 })
 
 function generateToken(user) {
-    const payload = {
-        userId: user.id,
-        username: user.username
-    }
+  const payload = {
+    userId: user.id,
+    username: user.username
+  }
 
-    const secret = process.env.JWT_SECRET
+  const secret = process.env.JWT_SECRET
 
-    const options = {
-        expiresIn: '10m'
-    }
-    return jwt.sign(payload, secret, options)
+  const options = {
+    expiresIn: '10m'
+  }
+  return jwt.sign(payload, secret, options)
 }
 
 server.post('/login', (req, res) => {
@@ -46,10 +46,12 @@ server.post('/login', (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
-          //login is successful
-          //create token
-          const token = generateToken(user)
-        res.status(200).json({ message: `${user.username} is logged in`, token })
+        //login is successful
+        //create token
+        const token = generateToken(user)
+        res
+          .status(200)
+          .json({ message: `${user.username} is logged in`, token })
       } else {
         res.status(401).json({ message: 'You shall not pass!' })
       }
@@ -60,7 +62,13 @@ server.post('/login', (req, res) => {
 })
 
 function protected(req, res, next) {
-  next()
+  //the auth token is normally sent in the Authorization header
+  const token = req.headers.authorization
+  if (token) {
+    next()
+  } else {
+    res.status(401).json({ message: 'no token provided' })
+  }
 }
 
 //protect this endpoint so only logged in users can see the data
