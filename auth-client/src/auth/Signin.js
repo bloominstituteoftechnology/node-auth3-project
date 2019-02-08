@@ -11,16 +11,17 @@ class Signin extends React.Component {
   }
 
   handleInputChange = e => {
-    const {name, value} = e.target
-    this.setState({[name]: value})
+    e.preventDefault()
+    this.setState({[e.target.name]: e.target.value})
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    const endpoint = `${process.env.API_URL}/api/login`
+    const endpoint = `http://localhost:3300/api/login`
     axios.post(endpoint, this.state) 
       .then(res => {
         localStorage.setItem('jwt', res.data.token)
+        this.props.history.push('/users')
       })
       .catch(err => {
         console.log(err)
@@ -33,14 +34,16 @@ class Signin extends React.Component {
         <div>
           <label htmlFor="">Username</label>
           <input 
-            type="username"
+            name='username'
+            type="text"
             value={this.state.username}
             onChange={this.handleInputChange}/>
         </div>
         <div>
           <label htmlFor="">Password</label>
           <input 
-            type="password"
+            name='password'
+            type="text"
             value={this.state.password}
             onChange={this.handleInputChange}/>
         </div>

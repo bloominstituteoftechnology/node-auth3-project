@@ -10,7 +10,7 @@ class Users extends React.Component {
   }
 
   async componentDidMount() {
-    const endpoint = `${process.env.API_URL}/api/users`
+    const endpoint = `http://localhost:3300/api/users`
     try {
       const token = localStorage.getItem('jwt')
       const requestOptions = {
@@ -18,10 +18,10 @@ class Users extends React.Component {
           authorization: token
         }
       }
-      const response = axios.get(endpoint, requestOptions)
+      const response = await axios.get(endpoint, requestOptions)
       this.setState({users: response.data.users})
     } catch (error) {
-      console.log('Coulnd\'t get users')
+      console.log('Couldn\'t get users')
     }
   }
   
@@ -29,13 +29,12 @@ class Users extends React.Component {
   render() { 
     return (
       <div>
-        <h2>
-          <ul>
-            {this.state.users.map(user => (
-              <li key={user.id}>{user.username} - {user.department}</li>
-            ))}
-          </ul>
-        </h2>
+        <h2>List of Users</h2>
+        <ul>
+          {this.state.users.map(user => (
+            <li key={user.id}>{user.username} -{user.department}</li>
+          ))}
+        </ul>
       </div>
     );
   }
