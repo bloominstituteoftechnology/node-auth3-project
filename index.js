@@ -65,7 +65,14 @@ function protected(req, res, next) {
   //the auth token is normally sent in the Authorization header
   const token = req.headers.authorization
   if (token) {
-    next()
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: 'invalid token' })
+      } else {
+        req.decodedToken = decodedToken
+        next()
+      }
+    })
   } else {
     res.status(401).json({ message: 'no token provided' })
   }
@@ -76,9 +83,9 @@ server.get('/users', protected, (req, res) => {
   //  add : async -----if uncomment the below code
   // const users = await db('users')
   db('users')
-    .select('id', 'username', 'password') //<----NEVER EVER SEND THE PASSWORD BACK TO THE CLIENT, THIS IS WHAT NOT TO DO!!!
+    .select('id', 'username') //<----NEVER EVER SEND THE PASSWORD BACK TO THE CLIENT, THIS IS WHAT NOT TO DO!!!
     .then(users => {
-      res.json(users)
+      res.json({ users, decodedToken: req.decodedToken })
     })
     .catch(() => {
       res.status(500).json({ message: 'You shall not pass!' })
@@ -86,19 +93,19 @@ server.get('/users', protected, (req, res) => {
 })
 
 server.get('/users/:id', protected, (req, res) => {
-    //  add : async -----if uncomment the below code
-    // const users = await db('users')
-    db('users')
+  //  add : async -----if uncomment the below code
+  // const users = await db('users')
+  db('users')
     .where({ id: req.params.id })
     .first()
     //   .select('id', 'username', 'password') //<----NEVER EVER SEND THE PASSWORD BACK TO THE CLIENT, THIS IS WHAT NOT TO DO!!!
-      .then(users => {
-        res.json(users)
-      })
-      .catch(() => {
-        res.status(500).json({ message: 'You shall not pass!' })
-      })
-  })
+    .then(users => {
+      res.json(users)
+    })
+    .catch(() => {
+      res.status(500).json({ message: 'You shall not pass!' })
+    })
+})
 
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
