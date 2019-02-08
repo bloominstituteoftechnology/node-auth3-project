@@ -33,7 +33,7 @@ class Users extends React.Component {
           <ul>
             {this.state.users.map(user => (
               <li key={user.id}>{user.username} - {user.department}</li>
-            )}
+            ))}
           </ul>
         </h2>
       </div>
