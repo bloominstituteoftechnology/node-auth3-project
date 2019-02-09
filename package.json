@@ -2,14 +2,17 @@
   "name": "auth-ii",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+   "start": "node-dev index"
+  },
   "repository": "https://github.com/LorenzoEvans/auth-ii.git",
   "author": "Lorenzo Evans <lorenzo.evans94@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
-    "express-jwt": "^5.3.1",
     "helmet": "^3.15.0",
+    "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
     "morgan": "^1.9.1",
     "node-dev": "^3.1.3",
