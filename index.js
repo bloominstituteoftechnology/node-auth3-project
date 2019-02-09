@@ -1,7 +1,7 @@
 const express = require("express")
 const helmet = require("helmet")
 const logger = require("morgan")
-const hash = require("bcryptjs")
+const bcrypt = require("bcryptjs")
 const knex = require("knex")
 const jwt = require('jsonwebtoken')
 const server = express()
@@ -15,8 +15,16 @@ server.use(
  express.json()
 )
 
-const gatekeeper = () => {
-}
+// const gatekeeper = (req, res, next) => {
+//  if (req.session.id){
+//   next()
+//  }
+//  else {
+//   res
+//    .status(401)
+//    .json({message: "Not authenticated."})
+//  }
+// }
 
 const makeToken = () => {
  const payload = {
@@ -31,11 +39,20 @@ const makeToken = () => {
 }
 
 server.post('/api/register', (req, res) => {
-
+ const user = req.body 
+ user.password = bcrypt.hashSync(user.password, 16)
 })
 
 server.post('/api/login', (req, res) => {
+ const user = req.body
+ db('users')
+   .where('username', user.username)
+   .then((users) => {
 
+   })
+   .catch(() => {
+
+   })
 })
 
 server.get('/api/users', (req, res) => {
