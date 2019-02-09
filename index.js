@@ -26,6 +26,8 @@ server.use(
 //  }
 // }
 
+const 
+
 const makeToken = () => {
  const payload = {
   username: user.username
@@ -40,7 +42,29 @@ const makeToken = () => {
 
 server.post('/api/register', (req, res) => {
  const user = req.body 
+ const id, token ;
  user.password = bcrypt.hashSync(user.password, 16)
+ db('users')
+   .insert(user)
+   .then(ids => {
+    id = ids[0]
+    db('users')
+      .where({id: id})
+      .first()
+      .then((user) => {
+       token = makeToken(user.username)
+      })
+      .catch(() => {
+       res
+        .status(500)
+        .json({error: `Error generating token for ${user.username}`})
+      })
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "Error registering user."})
+   })
 })
 
 server.post('/api/login', (req, res) => {
