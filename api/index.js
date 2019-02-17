@@ -46,10 +46,12 @@ function protected(req,res,next){
 }
 
   server.post('/api/register', (req, res) => {
+ 
     const creds=req.body;
     const hash=bcrypt.hashSync(creds.Password, 14);
     creds.Password=hash;
-    dbr.registerUser(creds).then(id=>res.status(201).json(id)).catch(err=>res.status(500).json(err))
+    const registerToken=generateToken(creds);
+    dbr.registerUser(creds).then(id=>res.status(201).json(registerToken)).catch(err=>res.status(500).json(err))
 
 });
 
