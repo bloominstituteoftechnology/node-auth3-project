@@ -13,6 +13,7 @@ function NavBar(props) {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/signup">Sign Up</NavLink>
         <NavLink to="/users">Users</NavLink>
+        <NavLink to="/signin">Login</NavLink>
         <button onClick={signout}>Sign Out</button>
       </nav>
     );

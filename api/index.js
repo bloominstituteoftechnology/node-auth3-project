@@ -58,13 +58,16 @@ function protected(req,res,next){
 
 server.post('/api/login', (req, res) => {
     const creds=req.body;
+    console.log('creds'+JSON.stringify(creds));
     dbr.getUser(creds.userName).then(user=>{
+      console.log('got user:'+JSON.stringify(user))
+      console.log('user:'+user+'creds.Password:'+creds.Password+ 'user.Password'+user.Password)
 if(user && bcrypt.compareSync(creds.Password, user.Password)){
     //generate token
   const token=generateToken(user);
     //attach token to response
     
-    res.status(200).json({[user.id]:token})
+    res.status(200).json({token:token})
 }else{
     //either username is not found or password is wrong
     res.status(401).json({message:'you shall not pass'})
