@@ -75,6 +75,47 @@ server.post("/api/login", async (req, res) => {
   }
 });
 
+function restricted(req, res, next) {
+  const { username, password } = req.headers;
+
+  if (username && password) {
+    db("users")
+      .where({ username })
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(password, user.password)) {
+          next();
+        } else {
+          res.status(401).json({ message: "Invalid Credentials" });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ message: "Ran into an unexpected error" });
+      });
+  } else {
+    res.status(400).json({ message: "No credentials provided" });
+  }
+}
+
+function protected(req, res, next) {
+  // The auth token is normally sent in the Authorization header
+  const token = req.headers.authorization;
+  console.log(req.headers);
+
+  if (token) {
+    // Verification process for logging in
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "You're not authorized." });
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "You're not authorized." });
+  }
+}
+
 server.get("/users", protected, async (req, res) => {
   const users = await db("users").select("id", "username");
   res.status(200).json(users);
