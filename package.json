@@ -1,0 +1,35 @@
+{
+  "name": "auth-ii",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannafaith/auth-ii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yannafaith/auth-ii/issues"
+  },
+  "homepage": "https://github.com/yannafaith/auth-ii#readme",
+  "dependencies": {
+    "add": "^2.0.6",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "helmet": "^3.15.1",
+    "jsonwebtoken": "^8.5.0",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.6",
+    "yarn": "^1.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
