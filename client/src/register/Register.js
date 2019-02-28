@@ -46,6 +46,7 @@ class Register extends React.Component {
             />
           </div>
           <br/>
+          <br/>
           <div>
             <button type="submit">Login</button>
           </div>
