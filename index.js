@@ -41,7 +41,7 @@ server.post('/api/register', (req, res) => {
     const payload = {
       subject: user.id, 
       username: user.username,
-      department: ['Accounting'],
+      department: user.department,
     };
   
     const options = {
@@ -64,7 +64,7 @@ server.post('/api/register', (req, res) => {
           res.status(200).json({
             message: `Welcome ${user.username}!, have a token...`,
             token,
-            department: token.department,
+            department: user.department,
           });
         } else {
           res.status(401).json({ message: 'Invalid Credentials' });
@@ -96,7 +96,7 @@ server.post('/api/register', (req, res) => {
   
   function checkDept(department) {
     return function(req, res, next) {
-      if (req.decodedJwt.roles && req.decodedJwt.roles.includes(department)) {
+      if (req.decodedJwt.department && req.decodedJwt.roles.includes(department)) {
         next();
       } else {
         res.status(403).json({ you: 'you have no power here!' });
@@ -104,7 +104,7 @@ server.post('/api/register', (req, res) => {
     };
   }
   
-  server.get('/api/users', restricted, checkDept('Finance'), (req, res) => {
+  server.get('/api/users', restricted, checkDept('sales'), (req, res) => {
     Users.find()
       .then(users => {
         res.json({ users, decodedToken: req.decodedJwt });
