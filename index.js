@@ -96,23 +96,24 @@ server.post('/api/register', (req, res) => {
   
   function checkDept(department) {
     return function(req, res, next) {
-      if (req.decodedJwt.department && req.decodedJwt.roles.includes(department)) {
+      if (req.decodedJwt.department && req.decodedJwt.department.includes(department)) {
         next();
       } else {
-        res.status(403).json({ you: 'you have no power here!' });
+        res.status(403).json({ you: ' have no power here!' });
       }
     };
   }
   
-  server.get('/api/users', restricted, checkDept('sales'), (req, res) => {
-    Users.find()
+  server.get('/api/users', restricted, (req, res) => {
+      const department = req.decodedJwt.department
+    Users.findBy({department})
       .then(users => {
         res.json({ users, decodedToken: req.decodedJwt });
       })
       .catch(err => res.send(err));
   });
   
-  server.get('/users', restricted, async (req, res) => {
+  server.get('/users', async (req, res) => {
     try {
       const users = await Users.find();
   

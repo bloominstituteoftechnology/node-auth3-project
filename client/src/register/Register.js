@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 
-class Login extends React.Component {
+class Register extends React.Component {
   state = {
     username: '',
     password: '',
+    department: ''
   };
 
   render() {
@@ -22,7 +23,7 @@ class Login extends React.Component {
               type="text"
             />
           </div>
-          <br/>
+          <br/> 
           <div>
             <label htmlFor="password" />
             <input
@@ -31,6 +32,17 @@ class Login extends React.Component {
               value={this.state.password}
               onChange={this.handleInputChange}
               type="password"
+            />
+          </div>
+          <br/>
+          <div>
+            <label htmlFor="department" />
+            <input
+              name="department"
+              id="department"
+              value={this.state.department}
+              onChange={this.handleInputChange}
+              type="department"
             />
           </div>
           <br/>
@@ -51,17 +63,17 @@ class Login extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const endpoint = 'http://localhost:4000/api/login';
+    const endpoint = 'http://localhost:4000/api/register';
 
     axios
       .post(endpoint, this.state)
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
 
-        this.props.history.push('/users');
+        this.props.history.push('/login');
       })
       .catch(error => console.error(error));
   };
 }
 
-export default Login;
+export default Register;
