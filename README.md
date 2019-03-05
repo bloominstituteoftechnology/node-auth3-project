@@ -19,6 +19,8 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 ## Assignment
 
+This project has two parts, you will work on it over two days in the full time class. Ask your instructor if you're in the part time class.
+
 **Part one**
 
 - Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information. **The user schema should include: username, password and department**. The department should be a string used to group the users. No need for a _departments_ table or setting up relationships.
