@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
             .notNullable()
             .unique()
         table
-            .string('password, 128')
+            .string('password', 128)
             .notNullable()  
         table
             .string('department', 128)
