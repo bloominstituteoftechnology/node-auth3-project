@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const secrets = require('../secrets/secrets.js');
 
-
 const Users = require('../users/user-model');
 
 
