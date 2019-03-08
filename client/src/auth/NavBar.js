@@ -1,14 +1,15 @@
 import React from  'react';
 import {NavLink} from 'react-router-dom';
 
+
 function NavBar(props) {
 
    const logout = () => {
       localStorage.removeItem('jwt');
     }
    return(
-       <div>
-   
+       
+      <div>
         <NavLink 
         to='/login' 
         style={{ color: 'black', textDecoration: 'none', padding: '10px' }}>
@@ -16,7 +17,7 @@ function NavBar(props) {
         </NavLink>
 
         <NavLink  
-        to='/signup' 
+        to='/register' 
         style={{ color: 'black', textDecoration: 'none', padding: '10px' }}>
         Sign Up
         </NavLink>

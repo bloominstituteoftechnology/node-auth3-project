@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, {Component} from 'react'
 
-export default class Login extends Component {
+export default class Register extends Component {
     state ={
         username: '',
         password: ''
@@ -13,12 +13,11 @@ export default class Login extends Component {
     }
     handleSubmit = e => {
         e.preventDefault()
-        const endpoint = 'http://localhost:5000/api/login';
+        const endpoint = 'http://localhost:5000/api/register';
 
         axios.post(endpoint, this.state)
         .then(res => {
-            localStorage.setItem('jwt', res.data.token);
-            this.props.history.push('/users');
+            this.props.history.push('/login');
         })
         .catch(error => console.log(error))
     }
@@ -26,7 +25,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <h2>Login</h2>
+                <h2>Sign Up</h2>
                 <form onSubmit={this.handleSubmit} autoComplete="off">
 
                     <label htmlFor='username' />
@@ -47,7 +46,7 @@ export default class Login extends Component {
                         type='password'
                         onChange={this.handleInput} />
 
-                        <button type='submit'>Login</button>
+                        <button type='submit'>Sign Up</button>
                     
                 </form>
             </div>
