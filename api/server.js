@@ -1,9 +1,11 @@
 //require("dotenv").config();
 const express = require('express');
+const cors = require('cors');
 const helmet = require('helmet');
 const knex = require('knex');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const secret = 'testlll';
 
 const knexConfig = require('../knexfile.js');
 
@@ -13,19 +15,19 @@ const db = knex(knexConfig.development);
 
 server.use(helmet());
 server.use(express.json());
+server.use(cors({origin: true, credentials: true}));
 
 function generateToken(user){
     const payload = {
-        username: user.username,
-        name: user.name,
-        roles: ["test"]
+        name: user.username,
+        roles: "test",
+        id: user.id
     }
 
 
- const secret = process.env.JWT_SECRET;
 
  const options = {
-    expiersIn: '60m'
+    expiresIn: '60m'
  }
 
  return jwt.sign(payload, secret, options)
@@ -35,7 +37,7 @@ function restricted(req, res, next) {
     const token = req.headers.authorization;
   
     if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
           res.status(401).json({ message: "Invalid token" });
         } else {
@@ -68,12 +70,14 @@ server.post("/api/register", (req, res) => {
   });
 
   server.post("/api/login", (req, res) => {
-    const userInfo = req.body;
+    const {username, password} = req.body;
   
     db("users")
-      .where({ userInfo }, console.log(req.body))
+      .where({ username })
+      
       .first()
       .then(user => {
+        console.log(user, password)
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = generateToken(user);
           res.status(200).json({ message: `Welcome ${user.username}`, token });

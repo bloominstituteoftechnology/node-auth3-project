@@ -1,5 +1,6 @@
-.App {
+App {
   text-align: center;
+ 
 }
 
 .App-logo {
@@ -9,7 +10,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(216, 213, 213);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,15 +20,36 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.navbar {
+  background-color: #6278a3;
+  color: white;
+  font-size: 22px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar a {
+  text-decoration: none;
+  color: white;
+  padding: 20px;
+  transition: 0.15s ease-in-out
+}
+
+.navbar a:hover {
+  color: rgb(194, 198, 212);
+}
+
+.active {
+  color: rgb(194, 198, 212);
+}
+
+button {
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+  padding: 0 30px;
+  font-size: 20px;
 }

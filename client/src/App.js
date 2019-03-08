@@ -1,28 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import {Route, NavLink, withRouter} from 'react-router-dom';
+import Login from './components/Login'
+import Users from './components/Users'
+import Signup from './components/Signup';
+axios.defaults.withCredentials = true; 
 
 class App extends Component {
+  logout = () => {
+    localStorage.removeItem('token');
+    this.props.history.push('/signin');
+  };
   render() {
     return (
       <div className="App">
+          <nav class="navbar">
+            <NavLink to="/signin">Login</NavLink>
+            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/users">Users</NavLink>
+            <button onClick={this.logout}>Logout</button>
+          </nav>
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <Route path="/users" render={(props) => <Users {...props}/>}/>
+        <Route path="/signin" render={(props) => <Login {...props}/>}/>
+        <Route path="/signup" render = {(props) => <Signup {...props}/>}/>
         </header>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
