@@ -7,10 +7,10 @@ class Users extends React.Component {
     users: [],
   };
   componentDidMount() {
-      const token = localStorage.getItem('token')
-      const options = {headers:{authorization:token}}
+    //   const token = localStorage.getItem('token')
+    //   const options = {headers:{authorization:token}}
 
-    axios.get('/users', options).then(res => {
+    axios.get('/users').then(res => {
       this.setState({ users: res.data });
     });
   }
