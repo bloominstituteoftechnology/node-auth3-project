@@ -1,6 +1,6 @@
 const express = require('express');
 
-const helmet = reqiure('helmet');
+const helmet = require('helmet');
 const logger = require('morgan');
 const cors = require('cors');
 
