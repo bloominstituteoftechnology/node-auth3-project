@@ -20,5 +20,9 @@ module.exports = {
                  .catch(err => {
                      return err;
                  });
+    },
+
+    findBy: filter => {
+         return db('users').where(filter);   
     }
 }
