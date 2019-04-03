@@ -1,9 +1,12 @@
 const express = require('express');
 const users = require('../helpers/usersDB.js');
 const router = express.Router();
+const restrict = require('../../auth/restricted.js');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../../config/secrets.js');
 
-router.get('/', async (req, res) => {
+router.get('/', restrict, async (req, res) => {
   try {
     const user = await users.getUsers();
     res.status(200).json(user);
@@ -38,9 +41,8 @@ router.post('/login', async (req, res) => {
 
     if (user || bcrypt.compareSync(body.password, user.password)) {
       try {
-        req.session.user = user;
-        const user = await users.getUsers();
-        res.status(200).json(user);
+        const token = generateToken(user);
+        res.status(200).json({ token, message: 'Welcome' });
       } catch (err) {
         res.status(500).json({ err });
       }
@@ -50,3 +52,18 @@ router.post('/login', async (req, res) => {
   } else
     res.status(500).json({ error: 'Provide a username and password' });
 });
+
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username
+  }
+  
+  const options = {
+    expiresIn: '1d'
+  }
+
+  return jwt.sign(payload, jwtSecret, options);
+}
+
+module.exports = router;
