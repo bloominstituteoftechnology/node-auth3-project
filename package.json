@@ -2,6 +2,10 @@
   "name": "webauth-iii-challenge",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "start": "node index.js"
+  },
   "repository": "https://github.com/theiseja/webauth-iii-challenge",
   "author": "Jesse Theisen <theiseja@gmail.com>",
   "license": "MIT",
