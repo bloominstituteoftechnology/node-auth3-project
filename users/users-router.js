@@ -3,7 +3,7 @@ const router = require("express").Router();
 const Users = require("./users-model");
 const restricted = require("../auth/restricted-middleware");
 
-router.get("/", restricted, withDepartment("staff"), (req, res) => {
+router.get("/", restricted, withDepartment("instructors"), (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -13,6 +13,7 @@ router.get("/", restricted, withDepartment("staff"), (req, res) => {
 
 function withDepartment(department) {
   return function(req, res, next) {
+    // console.log(req.decodedJwt);
     if (
       req.decodedJwt &&
       req.decodedJwt.department &&
