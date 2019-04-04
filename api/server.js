@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('./secrets.js');
 const Users = require('../api/users-model.js');
+const db = require("../database/dbConfig.js");
 
 const server = express();
 
@@ -14,9 +15,10 @@ server.use(cors({origin: true, credentials: true}));
 
 // Function that generates token
 function generateToken(user) {
-  const payload = {
+  const payload = { 
     subject: user.id,
     username: user.username,
+    roles: ["IT"]
   };
   const secret = 'the secret';
   const options = {
@@ -24,6 +26,7 @@ function generateToken(user) {
   };
   return jwt.sign(payload, secret, options)
 }
+
 
 // Middleware to restrict access
 function restricted(req, res, next) {
@@ -34,7 +37,7 @@ function restricted(req, res, next) {
         if (err) {
           res.status(401).json({ message: "Invalid token" });
         } else {
-          //req.decodedToken = decodedToken;
+          req.decodedJwt = decodedToken;
           next();
         }
       });
@@ -42,12 +45,26 @@ function restricted(req, res, next) {
       res.status(401).json({ message: "No token provided" });
     }
   }
+
+  // Allow access to the specific group 
+function checkRole(role) {
+  // Middleware to check if user is a certain type
+  return function(req, res, next) {
+    if (req.decodedJwt.roles && req.decodedJwt.roles.includes(role)) {
+      next();
+    } else {
+      res.status(403).json({ message: "You do not have access to this data." });
+    }
+  };
+} 
+
+
 // *** End Poiints ***
   server.post('/api/register', (req, res) => {
     let user = req.body;
     const hash = bcrypt.hashSync(user.password, 4); // 2 ^ n
     user.password = hash;
-    console.log(user)
+   // console.log(user)
     Users.add(user)
       .then(saved => {
         res.status(201).json(saved);
@@ -78,20 +95,26 @@ function restricted(req, res, next) {
       });
   });
 
-  server.get('/api/users', restricted, (req, res) => {
-    Users.find()
-      .then(users => {
-        if (users) {
-          res.status(200).json(users);
-        } else {
-          res.status(401).json({ message: 'You shall not pass!' });
-        }
-      })
-      .catch(err =>
-        res
-          .status(500)
-          .json({ error: 'User information could not be retrieved.' })
-      );
-  });
+  server.get("/api/users", restricted, checkRole("IT"), async (req, res) => {
+    const creds = req.body;
+    const user = await db("users")
+      .where({ username: creds.username })
+      .first();
+    if (user) {
+      const users = await db("users")
+        .where({ department: user.department })
+        .select("id", "username");
+      res
+        .status(200)
+        .json({
+          message: "Users retrived successfully from the database.",
+          users
+        });
+    } else {
+      res
+        .status(404)
+        .json({ message: "There are no other users in that department." });
+    }
+  }); 
 
 module.exports = server;

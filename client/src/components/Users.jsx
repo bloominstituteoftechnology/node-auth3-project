@@ -6,14 +6,7 @@ class Users extends React.Component {
   state = {
     users: [],
   };
-  componentDidMount() {
-    //   const token = localStorage.getItem('token')
-    //   const options = {headers:{authorization:token}}
-
-    axios.get('/users').then(res => {
-      this.setState({ users: res.data });
-    });
-  }
+ 
   render() {
     return (
       <>
@@ -25,6 +18,18 @@ class Users extends React.Component {
         </ul>
       </>
     );
+  }
+
+  componentDidMount() {
+    const endpoint = `/users`;
+    axios
+    .get(endpoint)
+    .then(res => {
+      this.setState({ users: res.data });
+    })
+    .catch(error => {
+      console.error('USERS ERROR', error)
+    });
   }
 }
 export default Interceptor(Users);
