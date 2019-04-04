@@ -5,6 +5,8 @@ import Register from './registration/Register';
 import Login from './login/Login';
 import Users from './users/Users';
 
+import { Button } from 'reactstrap';
+
 import './App.css';
 
 
@@ -22,7 +24,7 @@ class App extends Component {
           <NavLink to='/register'>Register</NavLink>
           <NavLink to='/users'>Users</NavLink>
 
-          <button onClick={this.logout}>Logout</button>
+          <Button onClick={this.logout}>Logout</Button>
         </nav>
 
         <main>

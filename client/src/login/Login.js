@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
+import { Jumbotron, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -36,35 +38,48 @@ class Login extends React.Component {
 
     render() {
         return(
-            <>
+            <Jumbotron>
                 <h2>Login</h2>
                 <form onSubmit={this.handleSubmit}>
                 <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        name="username"
-                        id="username"
-                        value={this.state.username}
-                        onChange={this.handleInputChange}
-                        type="text"
-                        />
+                    <InputGroup>
+                        <InputGroupAddon size='md' addonType='prepend'>
+                            Username
+                        </InputGroupAddon>
 
-                    <label htmlFor="password">Password</label>            
-                    <input
-                        name="password"
-                        id="password"
-                        value={this.state.password}
-                        onChange={this.handleInputChange}
-                        type="text"
-                        />
+                        <Input
+                            name="username"
+                            id="username"
+                            value={this.state.username}
+                            onChange={this.handleInputChange}
+                            placeholder='username...'
+                            type="text"
+                            />                    
+                    </InputGroup>
+
+
+                    <InputGroup>
+                        <InputGroupAddon size='md' addonType='prepend'>
+                            Password
+                        </InputGroupAddon>
+
+                        <Input
+                            name="password"
+                            id="password"
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
+                            placeholder='password...'
+                            type="text"
+                            />
+                    </InputGroup>         
                 </div>
                 
                 <div>
-                    <button type="submit">Login</button>
+                    <Button color='warning' type="submit">Login</Button>
                 </div>   
 
                 </form>
-            </>
+            </Jumbotron>
         )
     }
 }

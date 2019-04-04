@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import requireAuth from '../auth/requireAuth';
 
+import UserCard from  './UserCard';
+import { Jumbotron } from 'reactstrap';
+
 class Users extends React.Component {
     state = {
         users: []
@@ -19,12 +22,10 @@ class Users extends React.Component {
 
     render() {
         return(
-            <>
+            <Jumbotron>
                 <h2>Users</h2>
-                <ul>
-                    { this.state.users.map(u => <li key={u.id}>{ u.username }</li>) }
-                </ul>  
-            </>
+                { this.state.users.map(u => <UserCard key={u.id} u={u} >{ u.username }</UserCard>) }
+            </Jumbotron>
         )
     }
 }

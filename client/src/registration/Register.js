@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+
 import { withRouter } from 'react-router-dom';
+import { Jumbotron, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 
 class Register extends React.Component {
     constructor(props) {
@@ -37,44 +39,57 @@ class Register extends React.Component {
 
     render() {
         return(
-            <>
+            <Jumbotron>
                 <h2>Register</h2>
                 <form onSubmit={this.handleSubmit}>
+
                 <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        name="username"
-                        id="username"
-                        value={this.state.username}
-                        onChange={this.handleInputChange}
-                        type="text"
-                        />
+              
+                    <InputGroup>
+                        <InputGroupAddon addonType='prepend'>Username</InputGroupAddon>
 
-                    <label htmlFor="password">Password</label>            
-                    <input
-                        name="password"
-                        id="password"
-                        value={this.state.password}
-                        onChange={this.handleInputChange}
-                        type="text"
-                        />
+                        <Input
+                            name="username"
+                            id="username"
+                            value={this.state.username}
+                            onChange={this.handleInputChange}
+                            placeholder='username'
+                            type="text"
+                            />
+                    </InputGroup>
+         
+                    <InputGroup>
+                        <InputGroupAddon addonType='prepend'>Password</InputGroupAddon>
+                        <Input
+                            name="password"
+                            id="password"
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
+                            placeholder='Password...'
+                            type="text"
+                            /> 
+                    </InputGroup>
+           
+                    <InputGroup>
+                        <InputGroupAddon addonType='prepend'>Dept</InputGroupAddon>
 
-                    <label htmlFor="dept">Department</label>            
-                    <input
-                        name="dept"
-                        id="dept"
-                        value={this.state.dept}
-                        onChange={this.handleInputChange}
-                        type="text"
-                        />
+                        <Input
+                            name="dept"
+                            id="dept"
+                            value={this.state.dept}
+                            onChange={this.handleInputChange}
+                            placeholder='Department...'
+                            type="text"
+                            />
+                    </InputGroup>
                 </div>
                 
                 <div>
-                    <button type="submit">Sign Up</button>
+                    <Button color='warning' type="submit">Sign Up</Button>
                 </div>   
 
                 </form>
-            </>
+            </Jumbotron>
         )
     }
 }
