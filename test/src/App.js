@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import {withRouter, Route, NavLink, Switch, } from 'react-router-dom';
 import axios from 'axios';
-import Login from './components/login/Login.js'
+import Login from './components/login/Login.js';
+import Users from './components/users/Users.js';
 import Registration from './components/registration/Registration.js'
 class App extends Component {
   constructor(props){
@@ -38,6 +39,7 @@ class App extends Component {
         &nbsp;|&nbsp;
         <NavLink to ='/login'> Login </NavLink>
         &nbsp;|&nbsp;
+        <NavLink to='/users'> Users </NavLink>
         <button onClick={this.logout}> Logout </button>
       </header>
 
@@ -45,6 +47,7 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Registration} />
+          <Route path="/users" render = { (props) => <Users users = {this.state.users} {...props} />} />
           
       </Switch>
       
@@ -60,8 +63,8 @@ class App extends Component {
   };
   
 }
-function Home(props) {
-  return <h1> </h1>;
+function Home() {
+  return <h1> Welcome to The New World </h1>;
 }
 
 
