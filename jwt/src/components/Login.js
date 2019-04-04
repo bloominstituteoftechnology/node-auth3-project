@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: "",
       password: ""
@@ -30,14 +30,16 @@ class Login extends React.Component {
           name="username"
           onChange={this.changeHandler}
           placeholder="username"
+          required
         />
         <input
           type="password"
           name="password"
           onChange={this.changeHandler}
           placeholder="password"
+          required
         />
-        <button onClick={e => this.handleSignin(e)}>Sign in</button>
+        <button onClick={e => this.handleLogin(e)}>Sign in</button>
       </form>
     );
   }
