@@ -24,13 +24,14 @@ const genToken = user => {
 //register
 router.post('/register', (req, res) => {
     let user = req.body;
+    console.log(user);
     const hash = bcrypt.hashSync(user.password, 7);
 
     user.password = hash;
 
     Users.add(user)
          .then(id => {
-             res.status(201).json({ status: 201, message: success });
+             res.status(201).json({ status: 201, message: id });
          })
          .catch(err => {
              res.status(500).json({ error: err, message: 'Registration Failed' });
@@ -40,7 +41,7 @@ router.post('/register', (req, res) => {
 //Login
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
-    console.log(username, password)
+
 Users.findBy({ username })
     .first()
     .then(user => {

@@ -12,6 +12,7 @@ module.exports = {
     },
 
     add: user => {
+        console.log(user)
         return db('users')
                  .insert(user)
                  .then(id =>{
