@@ -19,10 +19,12 @@ export default (Component)  => {
     return class Authenticated extends React.Component {
         render() {
             const token = localStorage.getItem('token');
-
-            if(!token) { this.props.history.push('/login') }
-
-            return <></>
+            const fail = <h1>Please Login</h1>;
+            console.log(token)
+            return <>
+                        { token ? <Component { ...this.props } /> 
+                                : this.props.history.push('/login') }
+                   </>
         }
     }
 }
