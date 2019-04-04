@@ -4,40 +4,43 @@ import { Button, Form } from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
+const initialUser ={
+    username: '',
+    password: '',
+    department: '',
+}
 class Login extends React.Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
       this.state = {
-          username: '',
-          password: '', 
-          message : ' ',
+          user: {...initialUser},
+          message: '', 
       };
   }
+  
   handleInput = event => {
-    this.setState({ [event.target.name]: event.target.value })
+      const {name, value} =event.target;
+    this.setState({ user: {...this.state.user, [name]: value} })
   };
   handleSubmit = e => { 
      e.preventDefault();
-     const url = 'http://localhost:5000/api/login';
+     const url = 'http://localhost:5000/api/registration';
       axios
-          .post(url, this.state)
+          .post(url, this.state.user)
           .then(res => { 
-               if(res.status === 200 && res.data){
-                    localStorage.setItem("token", res.data.token);
-                    this.setState({ message : 'Login Successfull',})
-                    this.props.history.push(`/`);
-                    console.log(this.state.message);
-               } else{
-                   throw new Error();
-               }
+            if(res.status === 201){
+                this.setState({ message : 'Registration Successfull', user: {...initialUser}, })
+                this.props.history.push(`/login`);
+                console.log(this.state.message);
+            }
          })
          .catch(err => {
-             this.setState({ message: 'Login Failed, Try with valid login information'});
-             console.log(this.state.message);
-        });
+            this.setState({ message : 'Registration failed', user : {...initialUser}, });
+            console.log('Registration Failed', err)
+         });
     }
-  refRegistration = e =>{
-      this.props.history.push('/signup')
+    refLogin = e =>{
+      this.props.history.push('/login')
   }
 
   render(){
@@ -50,7 +53,7 @@ class Login extends React.Component {
                   type="text"
                   placeholder="username or email"
                   name="username"
-                  value={this.state.username}
+                  value={this.state.user.username}
                   onChange={this.handleInput}
               />
               <input
@@ -58,13 +61,22 @@ class Login extends React.Component {
                   type= 'password'
                   placeholder= 'Password'
                   name='password'
-                  value={this.state.password}
+                  value={this.state.user.password}
+                  onChange={this.handleInput} 
+              />
+              <input
+                  className ='input-form'
+                  type= 'text'
+                  id='department'
+                  placeholder= 'Department'
+                  name='department'
+                  value={this.state.user.department}
                   onChange={this.handleInput} 
               />
               
-              <Button color = 'success' type ='submit'>Log in</Button>
+              <Button color = 'success' type ='submit'>Sign up</Button>
               
-              <span className= 'textp'> <p> Don't have an account ? <button onClick= {this.refRegistration} >Register</button></p></span> 
+              <span className= 'textp'> <p> Already have an account ? <button onClick= {this.refLogin} >Log in</button></p></span> 
 
           </Form>
       </LoginBar>

@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
-import {withRouter, Route, NavLink} from 'react-router-dom';
+import {withRouter, Route, NavLink, Switch, } from 'react-router-dom';
+import axios from 'axios';
 import Login from './components/login/Login.js'
+import Registration from './components/registration/Registration.js'
 class App extends Component {
   constructor(props){
-    super();
+    super(props);
     this.state={
-      username: '',
-      password: ''
-
+      users: [],
+      loggedIn: false,
     };
+  }
+  componentDidMount(){
+    var token = localStorage.getItem(`token`)
+    var request = {
+      headers: { authorization : token }
+    }
+    if(token){
+    const url = 'http://localhost:5000/api/users';
+    axios
+      .get(url, request)
+      .then(response => {
+        this.setState({ users: response.data })
+      })
+      .catch(err => console.log(err));
+      this.props.history.push('/login');
+    }else{
+      this.props.history.push('/login');
+    }
   }
   render() {
     return (
@@ -22,11 +41,12 @@ class App extends Component {
         <button onClick={this.logout}> Logout </button>
       </header>
 
-      <main>
+      <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" component={Login} />
-          <Route path="/logout" component={Login} />
-      </main>
+          <Route path="/signup" component={Registration} />
+          
+      </Switch>
       
     </>
     );
@@ -34,7 +54,9 @@ class App extends Component {
 
   logout = e => {
     window.localStorage.removeItem('token');
+    this.setState({loggedIn:false});
     this.props.history.push('/login');
+    
   };
   
 }
