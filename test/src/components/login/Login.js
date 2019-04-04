@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Form } from 'reactstrap';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
 class Login extends React.Component {
@@ -61,7 +62,7 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+export default withRouter(Login);
 
 const LoginBar = styled.div`
       display : flex;
