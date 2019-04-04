@@ -7,21 +7,17 @@
     "start": "npm index.js",
     "server": "nodemon index.js"
   },
-  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Trip4077/webauth-iii-challenge.git"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Trip4077/webauth-iii-challenge/issues"
   },
-  
   "homepage": "https://github.com/Trip4077/webauth-iii-challenge#readme",
-
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
