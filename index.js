@@ -69,7 +69,7 @@ function checkRole(role) {
     } else {
       res
         .status(403)
-        .json({ message: `I know who you are, but you need to be an ${role}` }); //403 i know who you are, but you don't have access
+        .json({ message: `I know who you are, but you need to be a ${role}` });
     }
   };
 }
