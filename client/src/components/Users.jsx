@@ -25,7 +25,8 @@ class Users extends React.Component {
     axios
     .get(endpoint)
     .then(res => {
-      this.setState({ users: res.data });
+      console.log(res)
+      this.setState({ users: res.data.users });
     })
     .catch(error => {
       console.error('USERS ERROR', error)

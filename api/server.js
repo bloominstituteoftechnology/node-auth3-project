@@ -96,14 +96,19 @@ function checkRole(role) {
   });
 
   server.get("/api/users", restricted, checkRole("IT"), async (req, res) => {
-    const creds = req.body;
+    const creds = req.decodedJwt;
+    //console.log('First console!:',req.decodedJwt)
+    //console.log('My creds are currently:', creds)
     const user = await db("users")
       .where({ username: creds.username })
       .first();
+    //console.log("I finished getting users from the database", user)
     if (user) {
+      console.log("I've made it into the ad block")
       const users = await db("users")
-        .where({ department: user.department })
+        //.where({ department: user.department})
         .select("id", "username");
+       //console.log("I got users back from the database here:", users);
       res
         .status(200)
         .json({
@@ -115,6 +120,6 @@ function checkRole(role) {
         .status(404)
         .json({ message: "There are no other users in that department." });
     }
-  }); 
+  });  
 
 module.exports = server;
