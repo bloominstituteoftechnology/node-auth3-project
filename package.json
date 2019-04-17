@@ -1,0 +1,23 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "description": "Auth III challenge",
+  "main": "index.js",
+  "repository": "https://github.com/marcthuo/webauth-iii-challenge.git",
+  "author": "Marc Thiongo",
+  "scripts": {
+    "server": "nodemon",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-sessions": "^1.0.6",
+    "helmet": "^3.16.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.16.5",
+    "nodemon": "^1.18.11",
+    "sqlite3": "^4.0.6"
+  }
+}
