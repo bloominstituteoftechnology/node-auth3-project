@@ -6,6 +6,7 @@
   "author": "thomasutsey <tomutsey@yahoo.com>",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
     "knex": "^0.16.5",
