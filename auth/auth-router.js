@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
 
-const Users = require('../users/users-model.js');
+const Users = require('../users/user-model.js');
 
 router.post('/register', (req, res) => {
     let user = req.body;
@@ -23,9 +23,9 @@ router.post('/login', (req, res) => {
     let { username, password } = req.body;
 
     Users.findBy({ username })
-    .first()
-    .then(user => {
-        if (user && bcrypt.compareSyn(password, user.password)) {
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(password, user.password)) {
             const token = generateToken(user);
 
             res.status(200).json({
