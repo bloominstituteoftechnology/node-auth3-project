@@ -9,7 +9,8 @@ router.get('/', restricted, checkRole('Authorized User'), (req, res) => {
     .then(users => {
         res.json(users);
     })
-    .catch(err => res.send(err));
+    .catch(err => 
+        res.status(500).json({ message: 'You shall not pass!' }));
 });
 
 module.exports = router;
