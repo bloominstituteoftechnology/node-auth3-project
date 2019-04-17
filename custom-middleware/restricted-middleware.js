@@ -1,5 +1,6 @@
 
 const users = require ("../data/model");
+const crypt = require("bcryptjs");
 module.exports=(req,res,next) => {
   
   const {user,password}=req.headers;

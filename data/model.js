@@ -1,4 +1,4 @@
-const db = require('../data/knexfile');
+const db = require('./dbConfig.js');
 
 module.exports = {
   add,

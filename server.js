@@ -1,13 +1,15 @@
 
 const express = require('express');
 
-// const user = require('./routes/user')
+const cors = require('cors')
+
+const user = require('./routes/user')
 
 const helmet = require('helmet');
 
-const logger = require('./custom-middleware/logger')
+// const logger = require('./custom-middleware/logger')
 
-const cors = require('cors')
+
 
 const morgan = require ('morgan')
 
@@ -19,7 +21,7 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 server.use(morgan('dev'));
-server.use(logger);
+// server.use(logger());
 
 
 server.get('/', async (req, res) => {
@@ -28,6 +30,6 @@ server.get('/', async (req, res) => {
     <p>Welcome to the Lambda Project API</p>
     `);
 });
-// server.use('/api/user', user);
+server.use('/api/user', user);
 
 module.exports = server;

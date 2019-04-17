@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const crypt = require('bcryptjs')
 const restricted = require('../custom-middleware/restricted-middleware');
+
+const db = require('../data/dbConfig.js');
 const Users = require('../data/model')
 
 const errors = { 
@@ -20,14 +23,16 @@ router.post('/register',(req,res)=>{
 
 router.post('/login', (req, res) => {
   let { user, password } = req.body;
-
+console.log (password)
   Users.findBy({ user })
     .first()
     .then(user => {  
+      if (user && crypt.compareSync(password,user.password)) {
+        req.session.user = user;
         res.status(200).json({ message: `Welcome ${user.user}!, have a cookie` });
-      // } else {
-      //   res.status(401).json({ message: 'Invalid Credentials' });
-      // }
+      } else {
+        res.status(401).json({ message: 'Invalid Credentials' });
+      }
     })
     .catch(error => {
       res.status(500).json(error);
@@ -42,5 +47,6 @@ router.get('/', restricted, (req, res) => {
     })
     .catch(err => res.send(err));
 });
+
 
 module.exports = router;
