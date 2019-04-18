@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:7000/api';
+axios.defaults.baseURL = 'http://localhost:7000/';
 
 axios.interceptors.request.use(
   function(options) {

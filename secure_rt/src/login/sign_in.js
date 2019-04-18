@@ -4,9 +4,9 @@ import axios from 'axios';
 
 class Login extends Component {
     state = {
-        username: 'simon',
-        password: 'marc',
-        // department: 'student'
+        username: '',
+        password: '',
+        department: ''
     };
 
 
@@ -39,7 +39,17 @@ class Login extends Component {
                         onChange={this.handleInputChange}
                     />
                 </div>
-               
+                <div>
+                <label htmlFor="department" />
+                    <input 
+                        type='text'
+                        id='department'
+                        placeholder='department'
+                        name='department'
+                        value={this.state.department}
+                        onChange={this.handleInputChange}
+                    /> 
+                </div>
                 <div>
                 <button type='submit'>
                     <Loader type="ThreeDots" color="green" height='12' width='37' /> Login
