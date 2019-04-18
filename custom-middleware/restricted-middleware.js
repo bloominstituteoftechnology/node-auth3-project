@@ -1,10 +1,21 @@
 
 const users = require ("../data/model");
 const crypt = require("bcryptjs");
+const {jwtSecret} = require('../custom-middleware/secret')
+const jwt = require("jsonwebtoken")
 module.exports=(req,res,next) => {
-  
-  const {user,password}=req.headers;
-
-   req.session && req.session.user?next():res.status(401).json({message:'You Shall Not Pass.'});
-
+  const token = req.headers.authorization;
+    
+  if(token){
+    jwt.verify(token,jwtSecret,(err,decodedToken)=>{
+      if(err){res.status(401).json({message:'You Shall not pass'})}else{req.decodedJwt=decodedToken;
+       next();}
+    })
+  }else{
+    res.status(401).json({message:'You Shall not pass'})
   }
+}
+
+   
+
+  

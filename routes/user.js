@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const crypt = require('bcryptjs')
 const restricted = require('../custom-middleware/restricted-middleware');
+const jwt = require("jsonwebtoken")
 
 const db = require('../data/dbConfig.js');
 const Users = require('../data/model')
-
+const {jwtSecret} = require('../custom-middleware/secret')
 const errors = { 
   '19':'Another entree has the same value no duplicates'
 }
@@ -28,8 +29,8 @@ console.log (password)
     .first()
     .then(user => {  
       if (user && crypt.compareSync(password,user.password)) {
-        req.session.user = user;
-        res.status(200).json({ message: `Welcome ${user.user}!, have a cookie` });
+        const token = generateToken(user);
+        res.status(200).json({ message: `Welcome ${user.user}!, have a token`,token});
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });
       }
@@ -47,6 +48,18 @@ router.get('/', restricted, (req, res) => {
     })
     .catch(err => res.send(err));
 });
+
+function generateToken(user){
+  const payload = {
+    subject: user.id,
+    user:user.user,
+    roles:['student'],
+  }
+  const options = {
+    expiresIn:'1d'
+  }
+  return jwt.sign(payload,jwtSecret,options);
+}
 
 
 module.exports = router;
