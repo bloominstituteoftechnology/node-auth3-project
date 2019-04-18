@@ -19,7 +19,7 @@ export default function(Component) {
       const token = localStorage.getItem('jwt');
 
       const notLoggedIn = <div>Please login to see the users</div>;
-      return <> {token ? <Component {...this.props} /> : notLoggedIn} </>;
+      return <div> {token ? <Component {...this.props} /> : notLoggedIn} </div>;
     }
   };
 }

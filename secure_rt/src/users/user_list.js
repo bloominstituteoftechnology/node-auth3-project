@@ -21,7 +21,7 @@ class Users extends Component {
         )
     }
  componentDidMount() {
-      axios.get('/users').then(res => {
+      axios.get('/api/users').then(res => {
             this.setState({ users: res.data })
         })   
     }    

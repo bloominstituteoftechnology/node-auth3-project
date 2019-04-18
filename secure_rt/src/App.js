@@ -8,7 +8,7 @@ import Users from './users/user_list';
 class App extends Component {
   render() {
     return (
-      <>
+      <div>
       <div className="App">
         <header> 
           <nav>
@@ -23,7 +23,7 @@ class App extends Component {
           <Route path="/users" component={Users} />
         </main>
       </div>
-      </>
+      </div>
     );
   }
 

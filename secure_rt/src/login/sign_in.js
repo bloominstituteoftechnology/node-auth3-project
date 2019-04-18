@@ -6,14 +6,14 @@ class Login extends Component {
     state = {
         username: '',
         password: '',
-        department: ''
+        users: ''
     };
 
 
     render() {
         console.log('You are in the Signin page!');
         return (
-        <>
+        <div>
         <h2>Login</h2>
             <form onSubmit={this.signin}>
                 <h3>Welcome Back!<br/>Please Sign into your Account!</h3>
@@ -56,7 +56,7 @@ class Login extends Component {
                 </button> 
                 </div> 
             </form>
-        </>
+        </div>
         )
     }
 
@@ -69,7 +69,7 @@ class Login extends Component {
     signin = e => {
         e.preventDefault();
         //const endpoint = `${process.env.API_URL}/api/auth/login`;
-        const endpoint = 'https://localhost:7000/api/auth/login';
+        const endpoint = 'http://localhost:7000/api/auth/login';
 
         axios
             .post(endpoint, this.state)
