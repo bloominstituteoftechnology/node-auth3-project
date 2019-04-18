@@ -30,7 +30,8 @@ router.post('/login', (req, res) => {
 
             res.status(200).json({
                 message: `Welcome ${user.username}!, we have been waiting for you here\'s your token...`,
-                token
+                token,
+                roles: token.roles,
             });
         } else {
             res.status(401).json({ message: 'You shall not pass!'});
@@ -45,7 +46,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: ['Authorized User']
+        roles: ['Student']
     }
     const options = {
         expiresIn: '1d'
