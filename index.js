@@ -20,7 +20,7 @@ const usersRoutes = require("./Routers/usersRouter");
 server.use("/api/", usersRoutes);
 
 //Listener
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log(`Server up and running on port ${PORT}`);
 });
