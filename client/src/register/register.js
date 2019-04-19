@@ -2,15 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from'react-router-dom';
 
-class Login extends React.Component{
+class Register extends React.Component{
   state = {
     user:"",
-    password:""
+    password:"",
+    department:""
   }
   render(){
     return(
       <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={this.handleSubmit}>
       <div>
         <div>
@@ -35,8 +36,19 @@ class Login extends React.Component{
             placeholder="Password"
             />
           </div>
+          <div>
+          <label htmlFor="department"/>
+          <input
+            name="department"
+            id="department"
+            value={this.state.department}
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder="department"
+            />
+          </div>
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">Sign Up</button>
       </form>
       </div>
     )
@@ -48,16 +60,16 @@ class Login extends React.Component{
 
   handleSubmit = e =>{
     e.preventDefault();
-    const endpoint = 'http://localhost:8000/api/user/login'
+    const endpoint = 'http://localhost:8000/api/user/register'
     axios
       .post(endpoint, this.state)
       .then(res =>{
         console.log('response data',res.data)
         localStorage.setItem('jwt', res.data.token)
-        this.props.history.push('/users')
+        this.props.history.push('/login')
       }).catch(e =>{
         console.log(e)
       })
   }
 }
-export default withRouter(Login);
+export default withRouter(Register);

@@ -13,8 +13,9 @@ const errors = {
 
 router.post('/register',(req,res)=>{
   let user = req.body;
-  const hash = crypt.hashSync( req.body.password);
+  const hash = crypt.hashSync( user.password,10);
   user.password=hash;
+  console.log(user.password)
   Users.add(user)
     .then(saved => {
       res.status(201).json(saved);
@@ -24,7 +25,7 @@ router.post('/register',(req,res)=>{
 
 router.post('/login', (req, res) => {
   let { user, password } = req.body;
-console.log (password)
+
   Users.findBy({ user })
     .first()
     .then(user => {  
@@ -32,6 +33,7 @@ console.log (password)
         const token = generateToken(user);
         res.status(200).json({ message: `Welcome ${user.user}!, have a token`,token});
       } else {
+        console.log (password)
         res.status(401).json({ message: 'Invalid Credentials' });
       }
     })
