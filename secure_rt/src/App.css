@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  padding: 2rem;
+  background: url(https://images.pexels.com/photos/1227520/pexels-photo-1227520.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center fixed;
+  background-size: cover;
+  height: 599px;
 }
 
 .App-logo {
@@ -30,4 +34,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.link {
+  text-decoration: none;
+  color: blue;
 }

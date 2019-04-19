@@ -12,13 +12,13 @@ class App extends Component {
       <div className="App">
         <header> 
           <nav>
-            <NavLink to="/Register">Register</NavLink>
+            <button><NavLink className='link' to="/Register">Register</NavLink></button>
             &nbsp;|&nbsp;
-            <NavLink to="/login">Login</NavLink>
+            <button><NavLink className='link' to="/login">Login</NavLink></button>
             &nbsp;|&nbsp;
-            <button onClick={this.logout}>Logout</button>
+            <button className='link' onClick={this.logout}>Logout</button>
             &nbsp;|&nbsp;
-            <NavLink to="/users">Users</NavLink>
+            <button><NavLink className='link' to="/users">Users</NavLink></button>
           </nav>
         </header>
         <main>
