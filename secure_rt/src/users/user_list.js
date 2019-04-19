@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
 import Auth from '../auth/Auth';
 
 class Users extends Component {

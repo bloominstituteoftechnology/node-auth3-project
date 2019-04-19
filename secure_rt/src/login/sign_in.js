@@ -6,7 +6,7 @@ class Login extends Component {
     state = {
         username: '',
         password: '',
-        users: ''
+        department: ''
     };
 
 
