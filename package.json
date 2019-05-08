@@ -1,0 +1,25 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "Back-End Week3 Day3 Project",
+  "repository": "https://github.com/mrsteveson/webauth-iii-challenge.git",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.16.5",
+    "sqlite3": "^4.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
