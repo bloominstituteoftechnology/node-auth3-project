@@ -1,0 +1,26 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "description": "day 2 auth",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": "https://github.com/fixmylifedesigns/webauth-iii-challenge.git",
+  "author": "Irving Duran <ijd.irving@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.16.5",
+    "sqlite3": "^4.0.7"
+  }
+}
