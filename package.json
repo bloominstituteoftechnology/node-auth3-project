@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/hunterraffety/webauth-iii-challenge#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "connect-session-knex": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
