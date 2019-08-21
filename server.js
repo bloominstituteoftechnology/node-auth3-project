@@ -42,7 +42,7 @@ server.post("/api/login", (req, res) => {
   UsersModel.findBy({ username })
     .first()
     .then(user => {
-      if (user && cbrypt.compareSync(password, user.password)) {
+      if (user && bcrypt.compareSync(password, user.password)) {
         const token = getJwt(user);
         res.status(200).json({ message: `Welcome ${user.username}`, token });
       } else {
@@ -67,7 +67,23 @@ server.get("/api/users", restricted, (req, res) => {
     });
 });
 
+// =============== JWT ===============
+function getJwt(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    jwtid: 1
+  };
+  const options = {
+    expiresIn: "8h"
+  };
+
+  return jwt.sign(payload, secret.jwtSecret, options);
+}
+
+// =============== RESTRICTED MIDDLEWARE ===============
 function restricted(req, res, next) {
+  const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secret.jwtSecret, (err, decodedToken) => {
       if (err) {
@@ -80,19 +96,6 @@ function restricted(req, res, next) {
   } else {
     res.status(400).json({ message: "Token doesn't exist." });
   }
-}
-
-// =============== JWT ===============
-function getJwt(user) {
-  const payload = {
-    subject: user.id,
-    username: user.username
-  };
-  const options = {
-    expiresIn: "1d"
-  };
-
-  return jwt.sign(payload, secret.jwtSecret, options);
 }
 
 module.exports = server;
