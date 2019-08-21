@@ -1,10 +1,10 @@
 const express = require("express");
 const UsersModel = require("./users-model");
+const bcrypt = require("bcryptjs");
 
 const server = express();
 
 server.use(express.json());
-server.use("/api", apiRouter);
 
 // =============== TEST ===============
 server.get("/", (req, res) => {
@@ -14,6 +14,8 @@ server.get("/", (req, res) => {
 // =============== REGISTER ===============
 server.post("/api/register", (req, res) => {
   let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
 
   if (!user.username || !user.password) {
     res.status(400).json({ message: "Please provide username and password. " });
