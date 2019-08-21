@@ -1,4 +1,5 @@
 const express = require("express");
+const UsersModel = require("./users-model");
 
 const server = express();
 
@@ -11,7 +12,23 @@ server.get("/", (req, res) => {
 });
 
 // =============== REGISTER ===============
-server.post("/api/register", (req, res) => {});
+server.post("/api/register", (req, res) => {
+  let user = req.body;
+
+  if (!user.username || !user.password) {
+    res.status(400).json({ message: "Please provide username and password. " });
+  } else {
+    UsersModel.add(user)
+      .then(user => {
+        res.status(201).json(user);
+      })
+      .catch(error => {
+        res
+          .status(500)
+          .json({ message: "There was an error registering the user." });
+      });
+  }
+});
 
 // =============== LOGIN ===============
 server.post("/api/login", (req, res) => {});
