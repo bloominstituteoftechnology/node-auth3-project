@@ -55,7 +55,32 @@ server.post("/api/login", (req, res) => {
 });
 
 // =============== GET USERS ===============
-server.get("/api/users", (req, res) => {});
+server.get("/api/users", restricted, (req, res) => {
+  UsersModel.find()
+    .then(user => {
+      res.status(200).json({ loggedInUser: req.user.username, user });
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: "There was an error getting the users." });
+    });
+});
+
+function restricted(req, res, next) {
+  if (token) {
+    jwt.verify(token, secret.jwtSecret, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({ message: "You shall not pass!" });
+      } else {
+        req.user = { username: decodedToken.username };
+        next();
+      }
+    });
+  } else {
+    res.status(400).json({ message: "Token doesn't exist." });
+  }
+}
 
 // =============== JWT ===============
 function getJwt(user) {
