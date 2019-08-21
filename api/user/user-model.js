@@ -17,7 +17,7 @@ function findUserById(id) {
 }
 
 function findUsersByDept(dept) {
-  return db('users').where('department', dept).select('username', 'department');
+  return db('users').where('department', dept).select('id', 'username', 'department');
 }
 
 function findUserByUsername(username) {
