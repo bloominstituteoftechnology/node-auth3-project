@@ -87,3 +87,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# local DB
+data/*.db3
