@@ -43,10 +43,13 @@ router.post('/login', (req,res)=>{
 
 })
 
+ 
+
 function getToken(user){
     const payload ={
       subject: 'user',
-      username: user.username
+      username: user.username,
+      department:user.department
     };
     const secret = secrets.jwtSecret;
     const options = {
