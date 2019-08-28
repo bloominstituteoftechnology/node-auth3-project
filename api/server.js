@@ -17,10 +17,11 @@ server.use(cors());
 
 // ROUTERS
 server.use('/api/auth', authRouter);
-server.use('/api/users', /* authorize, */ usersRouter);
+server.use('/api/users', authorize, usersRouter);
 
 // CUSTOM ERROR-HANDLING MIDDLEWARE
 server.use('/', (err, req, res, next) => {
+  console.error(err);
   res.status(500).json({
     error: err.message
   });
