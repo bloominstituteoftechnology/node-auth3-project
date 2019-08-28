@@ -16,8 +16,8 @@ server.use(morgan('dev'));
 server.use(cors());
 
 // ROUTERS
-server.use('/api/auth', authorize, authRouter);
-server.use('/api/users', usersRouter);
+server.use('/api/auth', authRouter);
+server.use('/api/users', /* authorize, */ usersRouter);
 
 // CUSTOM ERROR-HANDLING MIDDLEWARE
 server.use('/', (err, req, res, next) => {
