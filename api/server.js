@@ -1,8 +1,8 @@
 const express = require('express');
-const authorize = require('./auth/authorize');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
+require('dotenv').config();
 
 const server = express();
 const authorize = require('../auth/authorize');
