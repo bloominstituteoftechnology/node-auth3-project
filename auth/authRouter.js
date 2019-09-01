@@ -15,10 +15,13 @@ router.post('/register', async (req, res, next) => {
     user.password = bcrypt.hashSync(user.password, 10);
     user = await Users.add(user);
 
+    const token = generateToken(user);
+
     res.status(201).json({
       id: user.id,
       username: user.username,
-      department: user.department
+      department: user.department,
+      token
     });
   } catch (err) {
     next(err);
