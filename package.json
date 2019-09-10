@@ -1,0 +1,24 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MelvinPeepers/webauth-iii-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MelvinPeepers/webauth-iii-challenge/issues"
+  },
+  "homepage": "https://github.com/MelvinPeepers/webauth-iii-challenge#readme",
+  "dependencies": {
+    "nodemon": "^1.19.2"
+  }
+}
