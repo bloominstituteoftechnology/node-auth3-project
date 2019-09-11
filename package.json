@@ -1,0 +1,21 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "start" : "node index.js"
+  },
+
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.19.4",
+    "nodemon": "^1.19.2",
+    "node.js": "0.0.0",
+    "sqlite3": "^4.1.0"
+  }
+}
