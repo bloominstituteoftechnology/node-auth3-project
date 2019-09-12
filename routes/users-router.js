@@ -1,8 +1,8 @@
-const userRouter = require('express').Router();
+const usersRouter = require('express').Router();
 const restricted = require('../middleware/restricted-middleware')
 const Users = require('../data/models/user-model');
 
-userRouter.get('/', restricted,  (req, res) => {
+usersRouter.get('/', restricted,  (req, res) => {
   Users.find()
     .then(users => {
       res.status(200).json(users);
@@ -12,4 +12,4 @@ userRouter.get('/', restricted,  (req, res) => {
     });
 });
 
-module.exports = userRouter;
+module.exports = usersRouter;
