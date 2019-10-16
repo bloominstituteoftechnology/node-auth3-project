@@ -1,14 +1,30 @@
-const router = require('express').Router();
-const Users = require('./users-router');
+const db = require('../datebase/config')
 
-router.get('/' , (req,res) => {
- Users.find()
- .then(users => {
- res.json({ users, loggedInuser: req.user.username})
- })
- .catch(err => {
-     res.send(err)
- })
-})
+module.exports = {
+    find,
+    add,
+    findById,
+    findBy
+}
 
-module.exports = router;
+function find() {
+    return db('users')
+    .select('id', 'username', 'department')
+}
+
+function add(user) {
+    const [id] = await db('users').insert(user);
+
+    return findById(id)
+}
+
+function findBy(filter) {
+    return db('users')
+    .where(filter)
+}
+
+function findById(id) {
+    return db('users')
+    .where({ id })
+    .first();
+}
