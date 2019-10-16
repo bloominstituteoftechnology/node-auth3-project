@@ -1,0 +1,23 @@
+{
+  "name": "webauth-iii-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:TamaHills/webauth-iii-challenge.git",
+  "author": "Matt M <matt.d.m@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon",
+    "clean": "rm ./database/auth.db3"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "helmet": "^3.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.19.5",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
