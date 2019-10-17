@@ -12,18 +12,18 @@ function find() {
     .select('id', 'username', 'department')
 }
 
-function add(user) {
+async function add(user) {
     const [id] = await db('users').insert(user);
 
     return findById(id)
 }
 
-function findBy(filter) {
+  function findBy(filter) {
     return db('users')
     .where(filter)
 }
 
-function findById(id) {
+ function findById(id) {
     return db('users')
     .where({ id })
     .first();
