@@ -6,7 +6,7 @@ exports.up = function(knex) {
         tbl.increments();
         tbl.string('username').unique().notNullable();
         tbl.string('password').notNullable();
-        tbl.string('departments');
+        
     })
 };
   

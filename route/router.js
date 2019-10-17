@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const resrict = require('./restrict.js');
 const jwt = require('jsonwebtoken');
 const secret = require('../secrets.js');
+const checkDepartment = require('../auth/departments.js');
 
 
 function generateToken(user){
@@ -11,6 +12,7 @@ function generateToken(user){
     const payload = {
         username: user.username,
         id: user.id,
+        departments: user.departments
     };
 
     const options = {
@@ -24,10 +26,10 @@ function generateToken(user){
 
 
 // get users
-route.get('/', resrict, (req, res) => {
+route.get('/', resrict, checkDepartment('development'), (req, res) => {
     model.find()
     .then(users => {
-        res.json(users)
+        res.json({loggedinUser: req.username, users})
     })
     .catch(err => {
         console.log(err)
@@ -35,6 +37,11 @@ route.get('/', resrict, (req, res) => {
     })
 
 })
+
+
+
+
+
 
 
 // sign up user

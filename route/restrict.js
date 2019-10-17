@@ -12,7 +12,10 @@ module.exports = (req, res, next) => {
                 res.status(401).json({message: 'not authorized'});
 
             } else {
-                req.user = decodedToken;
+                req.user = {
+                    username: decodedToken.username,
+                    departments: decodedToken.departments,
+                  };
                 next();
             }
         })

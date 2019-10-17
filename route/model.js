@@ -21,7 +21,7 @@ function findByUserName(username) {
 };
 
 function find() {
-    return db('users', 'department');
+    return db('users').select('id', 'username', 'departments');
 }
 
 module.exports = {
