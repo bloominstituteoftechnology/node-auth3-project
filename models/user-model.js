@@ -16,11 +16,11 @@ function get(){
 }
 
 function filtering(usingThis) {
-    return db('users').where(usingThis)
+    return db('users').where(usingThis).first()
 }
 
 async function insert(user) {
     const [id] = await db('users').insert(user);
   
     return findById(id);
-  }
+}
