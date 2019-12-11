@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Users = require('./usersModel.js');
 const bcrypt = require('bcryptjs');
+const genToken = require('../../utils/generateToken.js');
 
 // REGISTER A USER
 router.post('/register', async (req, res) => {
@@ -25,7 +26,7 @@ router.post('/login', async (req, res) => {
                 id: _user.id,
                 username: _user.username,
                 department: _user.department,
-                token: 'mytoken'
+                token: genToken(_user)
             }
             res.status(200).json(user);
         } else {
