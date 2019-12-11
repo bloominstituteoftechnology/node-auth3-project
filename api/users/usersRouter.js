@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Users = require('./usersModel.js');
 const bcrypt = require('bcryptjs');
 const genToken = require('../../utils/generateToken.js');
+const restricted = require('../../utils/restricted.js');
 
 // REGISTER A USER
 router.post('/register', async (req, res) => {
@@ -34,6 +35,16 @@ router.post('/login', async (req, res) => {
         }
     } catch(error) {
         res.status(401).json({ message: "You shall not pass!" });
+    }
+});
+
+// GET USERS
+router.get('/users', restricted, async (req, res) => {
+    try {
+        const users = await Users.find();
+        res.status(200).json(users);
+    } catch(error) {
+        res.status(500).json({ message: "Error retrieving users" })
     }
 });
 
