@@ -5,6 +5,7 @@ module.exports = {
 };
 
 function findUser(user) {
+  console.log(user);
   return db("users")
     .where({ username: user.username })
     .first();

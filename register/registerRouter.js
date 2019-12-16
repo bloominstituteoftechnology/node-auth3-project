@@ -9,8 +9,10 @@ router.post("/", (req, res) => {
     finduser.findUser(req.body).then(user => {
       if (!user) {
         Users.addUser(req.body)
-          .then(ids => {
-            res.status(202).json(ids);
+          .then(id => {
+            res
+              .status(202)
+              .json({ id, message: `user Created with id ${id[0]}` });
           })
           .catch(error => {
             res.status(500).json({
