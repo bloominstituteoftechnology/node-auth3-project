@@ -4,7 +4,6 @@ const restriced = require("./restriced-middleware");
 const Users = require("./users-model");
 
 router.get("/", restriced, (req, res) => {
-  console.log(req.session.user);
   Users.getAllUsers()
     .then(users => {
       res.status(200).json(users);
