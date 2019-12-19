@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (authorization) {
-    const secret = process.env.JWT_SECRET || "is it secret, is it safe?";
+    const secret = process.env.JWT_SECRET || "Is iT secRet, iS iT sAfe?";
 
     jwt.verify(authorization, secret, function(err, decodedToken) {
       if (err) {
@@ -19,3 +19,4 @@ module.exports = (req, res, next) => {
     res.status(403).json({ message: "Please login and try again" });
   }
 };
+
