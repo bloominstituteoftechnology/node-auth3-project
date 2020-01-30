@@ -2,7 +2,7 @@ const router = require('express').Router();
 const bc = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/secrets.js');
+const { jwtSecret } = require('../configs/secrets.js');
 
 const Users = require('../users/users-model.js');
 
@@ -31,19 +31,23 @@ router.post('/login', (req, res) => {
 
 	Users.findBy({ username })
 		.first()
-		.then(usr => {
-			if(usr) {
-				bc.compare(password, usr.password).then(match => {
+		.then(user => {
+			if(user) {
+				bc.compare(password, user.password).then(match => {
 					if (match) {
 						const token = signToken(user);
-						req.status(200).json(token);
+						res.status(200).json({ token: token });
 					} else {
 						res.status(401).json({ message: 'Invalid Credentials' });
 					}
-				}).catch(err => {
-					res.status(500).json(err);
 				})
+				.catch(err => {
+					res.status(500).json({ message: `${err}`});
+				})
+			} else {
+				res.status(400).json({ message: 'Could not find user' });
 			}
+
 		})
 		.catch(err => {
 			res.status(500).json({ message: 'Invalid Credentials' });
@@ -70,7 +74,7 @@ function signToken(user) {
 	};
 
 	const options = {
-		expires: '4h'
+		expiresIn: '4h'
 	}
 
 	return jwt.sign(payload, jwtSecret, options);
