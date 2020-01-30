@@ -1,0 +1,30 @@
+{
+  "name": "node-auth3-project",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tclohm/node-auth3-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tclohm/node-auth3-project/issues"
+  },
+  "homepage": "https://github.com/tclohm/node-auth3-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.8",
+    "knex-cleaner": "^1.3.0",
+    "sqlite3": "^4.1.1"
+  }
+}
