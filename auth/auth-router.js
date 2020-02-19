@@ -22,7 +22,7 @@ router.post('/register', (req,res)=> {
 
 router.post('/login', (req,res)=>{
     let {username, password}= req.body;
-    //  console.log(req.headers)
+     console.log(req.headers)
     Users.findBy({username})
     .first()
     .then(user => {
@@ -47,7 +47,7 @@ router.post('/login', (req,res)=>{
 
 function getToken(user){
     const payload ={
-      subject: 'user',
+      subject: user.id,
       username: user.username,
       department:user.department
     };
@@ -61,7 +61,19 @@ function getToken(user){
    
   
   }
-  
+  router.get('/logout', (req,res)=>{
+    if(req.session){
+      req.session.destroy(err => {
+        if(err){
+          res.send(' you can check out any time you like, but you can never leave')
+        }else{
+          res.send('bye, thanks for all the fish.')
+        }
+      })
+    }else{
+      res.status(200).json({message: 'logged out'})
+    }
+  })
 
 
 module.exports = router;
