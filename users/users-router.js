@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Users = require('./users-model.js');
 const restricted = require('../auth/restricted-middleware')
  
-router.get('/' , restricted , (req, res) => {
+router.get('/' , (req, res) => {
     const deps = (Users.findDept())
     console.log(req.body.department, "8888",deps)
     Users.find()

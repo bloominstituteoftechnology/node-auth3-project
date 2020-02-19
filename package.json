@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "Lambda School",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
