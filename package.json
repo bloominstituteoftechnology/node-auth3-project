@@ -1,0 +1,32 @@
+{
+  "name": "node-auth3-project",
+  "version": "1.0.0",
+  "description": "jsonwebtokens",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Toniddarden/node-auth3-project.git"
+  },
+  "author": "Toni Darden",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Toniddarden/node-auth3-project/issues"
+  },
+  "homepage": "https://github.com/Toniddarden/node-auth3-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.10",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
