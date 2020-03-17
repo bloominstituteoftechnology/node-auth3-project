@@ -1,0 +1,30 @@
+{
+  "name": "carlos-banks",
+  "version": "1.0.0",
+  "description": "auth3-project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlostbanks/node-auth3-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlostbanks/node-auth3-project/issues"
+  },
+  "homepage": "https://github.com/carlostbanks/node-auth3-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.3",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.11",
+    "nodemon": "^2.0.2",
+    "sqlite3": "^4.1.1"
+  }
+}
