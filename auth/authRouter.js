@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("./authModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config()
 
 router.post("/register", async (req, res, next) => {
   try {
@@ -34,17 +35,10 @@ router.post("/login", async (req, res, next) => {
 
     const payload = {
       subject: user.id,
-      name: user.name
+      department: user.department
     };
-    const options = {
-      expiresIn: "1d"
-    };
-    const token = jwt.sign(
-      payload,
-      secrets.jwtSecret || "topsecret",
-      options
-    );
-    res.cookie("token", token);
+    const token = jwt.sign(payload, process.env.SECRET);
+    res.status(200).cookie("token",token).json({message:`welcome ${user.name}`, token:token})
   } catch (error) {
     next(error);
   }

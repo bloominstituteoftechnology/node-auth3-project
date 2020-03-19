@@ -1,13 +1,15 @@
 const express = require("express");
 const server = express();
 const cookieParser = require ("cookie-parser")
+require("dotenv").config()
 
 const logger = require("./middleware/Goldberg");
 
 const authRouter = require("./auth/authRouter")
-// const users = require("./users/usersRouter")
+const usersRouter = require("./users/usersRouter")
 
 server.use(express.json());
+server.use(cookieParser())
 server.use(logger);
 
 server.get("/", (req, res) => {
@@ -23,7 +25,7 @@ server.use((err, req, res, next) => {
 
 
 server.use("/auth", authRouter)
-// server.use("/users", usersRouter)
+server.use("/users", usersRouter)
 
 const PORT = 4000
 
